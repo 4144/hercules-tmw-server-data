@@ -1,9 +1,5 @@
-// This file is part of Christmas Event
-// author: Jenalya, Chayenne, cinderweb, wushin
-// please see #XmasConfig
 
-function|script|XmasDebug
-{
+function	script	XmasDebug	{
     if(debug)
         goto L_Debug;
     goto L_Live;
@@ -86,13 +82,13 @@ L_DebugVars:
     goto L_Close;
 
 L_LastReset:
-    set XMASTIME, 255;
-    set XMASYEAR, 2012;
+    XMASTIME = 255;
+    XMASYEAR = 2012;
     goto L_Close;
 
 L_Reset:
-    set XMASTIME, 0;
-    set XMASYEAR, $XMAS_TIME_KEY[5];
+    XMASTIME = 0;
+    XMASYEAR = $XMAS_TIME_KEY[5];
     goto L_Close;
 
 L_XmasTimeKey:
@@ -144,35 +140,34 @@ L_XmasState:
 L_XmasKarma:
     mes "Karma (0-15) 0: Naughty, 15: Good";
     input @xmas_karma;
-    set XMASTIME, (XMASTIME & ~(NIBBLE_1_MASK) | (@xmas_karma << NIBBLE_1_SHIFT));
+    XMASTIME = (XMASTIME & ~(NIBBLE_1_MASK) | (@xmas_karma << NIBBLE_1_SHIFT));
     goto L_Close;
 
 L_SetAllLists:
-    set XMASTIME, XMASTIME | $@xmas_all_lists_bit;
+    XMASTIME = XMASTIME | $@xmas_all_lists_bit;
     goto L_Close;
 
 L_SetAllHelpers:
-    set XMASTIME, XMASTIME | $@xmas_all_helpers_bit;
+    XMASTIME = XMASTIME | $@xmas_all_helpers_bit;
     goto L_Close;
 
 L_SetBossHero:
-    set XMASTIME, XMASTIME | $@xmas_boss_hero_bit;
+    XMASTIME = XMASTIME | $@xmas_boss_hero_bit;
     goto L_Close;
 
 L_Close:
-    set @xmas_state, 0;
-    set @xmas_karma, 0;
-    set @xmas_hard_mode, 0;
-    set @xmas_time_key_smonth, 0;
-    set @xmas_time_key_emonth, 0;
-    set @xmas_time_key_rsday, 0;
-    set @xmas_time_key_reday, 0;
-    set @xmas_time_key_year, 0;
+    @xmas_state = 0;
+    @xmas_karma = 0;
+    @xmas_hard_mode = 0;
+    @xmas_time_key_smonth = 0;
+    @xmas_time_key_emonth = 0;
+    @xmas_time_key_rsday = 0;
+    @xmas_time_key_reday = 0;
+    @xmas_time_key_year = 0;
     close;
 }
 
-030-1.gat,91,48,0|script|XmasDebug#1|105
-{
+030-1.gat,91,48,0	script	XmasDebug#1	105,{
     callfunc "XmasDebug";
     goto L_End;
 
@@ -185,8 +180,7 @@ L_End:
     end;
 }
 
-030-2.gat,193,62,0|script|XmasDebug#2|105
-{
+030-2.gat,193,62,0	script	XmasDebug#2	105,{
     callfunc "XmasDebug";
     goto L_End;
 
@@ -199,8 +193,7 @@ L_End:
     end;
 }
 
-030-3.gat,26,26,0|script|XmasDebug#3|105
-{
+030-3.gat,26,26,0	script	XmasDebug#3	105,{
     callfunc "XmasDebug";
     goto L_End;
 
@@ -213,8 +206,7 @@ L_End:
     end;
 }
 
-030-4.gat,30,30,0|script|XmasDebug#4|111
-{
+030-4.gat,30,30,0	script	XmasDebug#4	111,{
     callfunc "XmasDebug";
     goto L_End;
 
@@ -227,8 +219,7 @@ L_End:
     end;
 }
 
-020-1.gat,86,76,0|script|XmasDebug#5|105
-{
+020-1.gat,86,76,0	script	XmasDebug#5	105,{
     callfunc "XmasDebug";
     goto L_End;
 

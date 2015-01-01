@@ -1,25 +1,5 @@
-//#################################################################################
-//#     Orum/Waric Quest Part 1 - By Liana, reviewed by Stefan Beller             #
-//#     GPL v.2                                                                   #
-//#                                                                               #
-//#     The first quest is to find Waric in the Caves with lots of torches.       #
-//#     These torches must be set in the right color to have access to the next   #
-//#     room, guarded by a magical barrier of other torches.                      #
-//#                                                                               #
-//#     The second quest is an easy, but background-story telling quest.          #
-//#     Just visit the cave again, find what is really in there.                  #
-//#                                                                               #
-//#                                                                               #
-//# Used variables:                                                               #
-//#                                                                               #
-//# OrumQuest       stores the progress of the quest                              #
-//# OrumQuestTorch  In nibble (0,1,2) the color of the torches is stored          #
-//#         In nibble (3,4,5) the intensity of the torches is stored              #
-//# OrumQuestBarrier    nibble (0,1,2) stores the color of the barriers           #
-//#################################################################################
 
-009-4.gat,35,115,0|script|OrumDebug|158
-{
+009-4.gat,35,115,0	script	OrumDebug	158,{
     mes "[Orum Debug]";
     menu
         "Set Quest State", L_SetQuest,
@@ -28,13 +8,13 @@
 
 L_SetQuest:
     input @quest_state;
-    set OrumQuest, @quest_state;
+    OrumQuest = @quest_state;
     goto L_Close;
 
 L_ResetQuest:
-    set OrumQuest, 0;
-    set OrumQuestBarrier, 0;
-    set OrumQuestTorch, 0;
+    OrumQuest = 0;
+    OrumQuestBarrier = 0;
+    OrumQuestTorch = 0;
     goto L_Close;
 
 L_Display:
@@ -49,23 +29,22 @@ OnInit:
         disablenpc "OrumDebug";
     end;
 }
-009-4.gat,37,115,0|script|Orum#barrier|158
-{
+009-4.gat,37,115,0	script	Orum#barrier	158,{
     // needed to pass the very first barrier
-    set @B0_WISPPOWDER, 4;
-    set @B0_POLTERGEISTPOWDER, 2;
-    set @B0_SPECTREPOWDER, 1;
-    set @B0_HARDSPIKES, 1;
+    @B0_WISPPOWDER = 4;
+    @B0_POLTERGEISTPOWDER = 2;
+    @B0_SPECTREPOWDER = 1;
+    @B0_HARDSPIKES = 1;
 
     // needed stuff to get colorful powders
-    set @BT_IRONPOWDER, 10;
-    set @BT_PILESOFASH, 10;
-    set @BT_HERBS, 15;
+    @BT_IRONPOWDER = 10;
+    @BT_PILESOFASH = 10;
+    @BT_HERBS = 15;
 
     // how many colorful powders each do you get as reward?
-    set @BT_REWARDCOUNT, 10;
+    @BT_REWARDCOUNT = 10;
 
-    set @EXP_BREAK_BARRIERS, 5000;
+    @EXP_BREAK_BARRIERS = 5000;
 
     if (OrumQuest > 0) goto L_Started;
 
@@ -170,7 +149,7 @@ L_Next4:
 L_Start_Gathering:
     mes "[Orum]";
     mes "\"That's the spirit! But try not to take too long.\"";
-    set OrumQuest, 1;
+    OrumQuest = 1;
     goto L_Close;
 
 L_Started:
@@ -213,10 +192,10 @@ L_List_Materials:
     goto L_Close;
 
 L_Check_Materials:
-    if (countitem("WispPowder") < @B0_WISPPOWDER ||
-        countitem("PoltergeistPowder") < @B0_POLTERGEISTPOWDER ||
-        countitem("SpectrePowder") < @B0_SPECTREPOWDER ||
-        countitem("HardSpike") < @B0_HARDSPIKES)
+    if (countitemcolor("WispPowder") < @B0_WISPPOWDER ||
+        countitemcolor("PoltergeistPowder") < @B0_POLTERGEISTPOWDER ||
+        countitemcolor("SpectrePowder") < @B0_SPECTREPOWDER ||
+        countitemcolor("HardSpike") < @B0_HARDSPIKES)
             goto L_Missing_Materials;
 
     // check directly before deleting the objects.
@@ -251,7 +230,7 @@ L_Missing_Materials:
     goto L_Close;
 
 L_Setup_Lair:
-    set OrumQuest, 2;
+    OrumQuest = 2;
     callfunc "SetUpOrumQuest";
     goto L_Close;
 
@@ -375,7 +354,7 @@ L_Next7:
     goto L_Close;
 
 L_Gathering_More:
-    set OrumQuest, 7;
+    OrumQuest = 7;
     mes "[Orum]";
     mes "\"Wonderful! Try to make it quick, we must save Waric!\"";
     goto L_Close;
@@ -407,11 +386,11 @@ L_List_Materials_More:
     goto L_Close;
 
 L_Finished_Gathering_More:
-    if (countitem("IronPowder") < @BT_IRONPOWDER ||
-        countitem("PileOfAsh") < @BT_PILESOFASH ||
-        countitem("GambogeHerb") < @BT_HERBS ||
-        countitem("AlizarinHerb") < @BT_HERBS ||
-        countitem("CobaltHerb") < @BT_HERBS)
+    if (countitemcolor("IronPowder") < @BT_IRONPOWDER ||
+        countitemcolor("PileOfAsh") < @BT_PILESOFASH ||
+        countitemcolor("GambogeHerb") < @BT_HERBS ||
+        countitemcolor("AlizarinHerb") < @BT_HERBS ||
+        countitemcolor("CobaltHerb") < @BT_HERBS)
             goto L_Missing_Materials_More;
 
     delitem "IronPowder", @BT_IRONPOWDER;
@@ -437,7 +416,7 @@ L_Finished_Gathering_More:
     getitem "RedPowder", @BT_REWARDCOUNT;
     getitem "YellowPowder", @BT_REWARDCOUNT;
     getitem "BluePowder", @BT_REWARDCOUNT;
-    set OrumQuest, 8;
+    OrumQuest = 8;
     goto L_Close;
 
 L_Missing_Materials_More:
@@ -485,11 +464,11 @@ L_Next10:
     goto L_Close;
 
 L_More_Powder_Make:
-    if (countitem("IronPowder") < @BT_IRONPOWDER ||
-        countitem("PileOfAsh") < @BT_PILESOFASH ||
-        countitem("GambogeHerb") < @BT_HERBS ||
-        countitem("AlizarinHerb") < @BT_HERBS ||
-        countitem("CobaltHerb") < @BT_HERBS)
+    if (countitemcolor("IronPowder") < @BT_IRONPOWDER ||
+        countitemcolor("PileOfAsh") < @BT_PILESOFASH ||
+        countitemcolor("GambogeHerb") < @BT_HERBS ||
+        countitemcolor("AlizarinHerb") < @BT_HERBS ||
+        countitemcolor("CobaltHerb") < @BT_HERBS)
             goto L_Missing_Materials_More;
 
     delitem "IronPowder", @BT_IRONPOWDER;
@@ -551,7 +530,7 @@ L_Ready_Cavern:
         goto L_Inventory;
     getexp @EXP_BREAK_BARRIERS, 0;
     getitem "CandleHelmet", 1;
-    set OrumQuest, 12;
+    OrumQuest = 12;
     mes "You receive the Candle Helmet.";
     next;
     mes "\"You've done enough here to help. I will go the rest of the way alone so that your life is not endangered. You must promise me not to go any further!\"";
@@ -573,56 +552,55 @@ L_Got_Reward:
     goto L_Close;
 
 L_Close:
-    set @B0_WISPPOWDER, 0;
-    set @B0_POLTERGEISTPOWDER, 0;
-    set @B0_SPECTREPOWDER, 0;
-    set @B0_HARDSPIKES, 0;
+    @B0_WISPPOWDER = 0;
+    @B0_POLTERGEISTPOWDER = 0;
+    @B0_SPECTREPOWDER = 0;
+    @B0_HARDSPIKES = 0;
 
-    set @BT_IRONPOWDER, 0;
-    set @BT_PILESOFASH, 0;
-    set @BT_HERBS, 0;
+    @BT_IRONPOWDER = 0;
+    @BT_PILESOFASH = 0;
+    @BT_HERBS = 0;
 
-    set @BT_REWARDCOUNT, 0;
+    @BT_REWARDCOUNT = 0;
 
-    set @EXP_BREAK_BARRIERS, 0;
+    @EXP_BREAK_BARRIERS = 0;
 
-    set @Barrier, 0;
-    set @BarrierColor, 0;
-    set @Torch, 0;
-    set @TorchColor, 0;
+    @Barrier = 0;
+    @BarrierColor = 0;
+    @Torch = 0;
+    @TorchColor = 0;
     close;
 }
-function|script|SetUpOrumQuest
-{
+function	script	SetUpOrumQuest	{
     // Second Barrier
-    set @BarrierColor, 1 + rand(3) * 4;
-    set @Barrier, 0;
+    @BarrierColor = 1 + rand(3) * 4;
+    @Barrier = 0;
     callfunc "SetBarrierColor";
 
-    set @TorchIntensity, 0;
+    @TorchIntensity = 0;
 
-    set @Torch, 0;
-    set @TorchColor, rand(1, 12);
+    @Torch = 0;
+    @TorchColor = rand(1, 12);
     callfunc "SetTorchColor";
     callfunc "SetTorchIntensity";
 
     // Third Barrier
-    set @BarrierColor, 3 + rand(3) * 4;
-    set @Barrier, 1;
+    @BarrierColor = 3 + rand(3) * 4;
+    @Barrier = 1;
     callfunc "SetBarrierColor";
 
-    set @Torch, 1;
-    set @TorchColor, rand(1, 12);
+    @Torch = 1;
+    @TorchColor = rand(1, 12);
     callfunc "SetTorchColor";
     callfunc "SetTorchIntensity";
 
     // End Barrier
-    set @BarrierColor, 2 + rand(6) * 2;
-    set @Barrier, 2;
+    @BarrierColor = 2 + rand(6) * 2;
+    @Barrier = 2;
     callfunc "SetBarrierColor";
 
-    set @Torch, 2;
-    set @TorchColor, rand(1, 12);
+    @Torch = 2;
+    @TorchColor = rand(1, 12);
     callfunc "SetTorchColor";
     callfunc "SetTorchIntensity";
     return;

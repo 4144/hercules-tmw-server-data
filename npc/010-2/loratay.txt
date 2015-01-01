@@ -1,15 +1,14 @@
-010-2.gat,85,85,0|script|Lora Tay|151
-{
+010-2.gat,85,85,0	script	Lora Tay	151,{
     set @ROBE_COCOONS_NR, 150; // must be multiple of ten
-    set @ROBE_ZENY, 10000;
+    @ROBE_ZENY = 10000;
     set @ROBE_SHEETS_NR, 6;      // number of silk sheets required for the silk robe. Must be less than 10.
     set @ROBE_SHEETS_ZENY, 6000; // price of the silk robe when bringing silk sheets.
     set @Robe_with_sheets, 0;    // will be set to 1 if silk robe is made with sheets
-    set @FINEDRESS_COCOONS, 180;
-    set @SORCERER_ROBE_SEW_ZENY, 25000;
-    set @SORCERER_ROBE_NUM_COTTON_CLOTH, 2;
+    @FINEDRESS_COCOONS = 180;
+    @SORCERER_ROBE_SEW_ZENY = 25000;
+    @SORCERER_ROBE_NUM_COTTON_CLOTH = 2;
     setarray @item_colors$, "red", "green", "dark blue", "yellow", "light blue", "pink", "black", "orange", "purple", "dark green", "white";
-    set @wg_state, ((QUEST_WG_state & BYTE_0_MASK) >> BYTE_0_SHIFT);
+    @wg_state = ((QUEST_WG_state & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
     if (@loratay_asking_robe == 1) goto L_ExamineSorcererRobe;
     if (@wg_state == 10) goto L_agostine_menu;
@@ -24,7 +23,7 @@
     if (@wg_state >= 20 && @wg_state < 23) goto L_proposal_deliver_dress;
     if (@wg_state >= 23) goto L_regular_intro;
 
-    set @t, rand(3);
+    @t = rand(3);
     if (@t == 0) goto L_intro_0;
     if (@t == 1) goto L_intro_1;
 
@@ -47,13 +46,13 @@ L_intro_over:
     mes "She squints, pushes her thick spectacles up the bridge of her nose and eyes you suspiciously.";
     next;
 
-    set @agostine_msg0$, "";
-    set @agostine_msg1$, "";
+    @agostine_msg0$ = "";
+    @agostine_msg1$ = "";
 
     if (@wg_state >= 1)
-        set @agostine_msg0$, "Do you know Agostine?";
-    if ((@wg_state >= 9) && (countitem("FurBoots")))
-        set @agostine_msg1$, "Can you make fur boots, like Agostine?";
+        @agostine_msg0$ = "Do you know Agostine?";
+    if ((@wg_state >= 9) && (countitemcolor("FurBoots")))
+        @agostine_msg1$ = "Can you make fur boots, like Agostine?";
 
     menu
         "Hello!  My name is " + strcharinfo(0) + ".", L_hello_0,
@@ -110,7 +109,7 @@ L_agostine_1:
     goto L_Close;
 
 L_Next13:
-    set @wg_state, 10;
+    @wg_state = 10;
     callsub S_Update;
     goto L_Close;
 
@@ -119,7 +118,7 @@ L_agostine_menu:
     mes "The seamstress looks up at you from her work.";
     mes "\"I do hope that you have not had any more dealings with this... this lumberjack of a tailor?\"";
     next;
-    if (countitem("WinterGloves") > 0)
+    if (countitemcolor("WinterGloves") > 0)
         menu
             "You mean Agostine?", L_agostine_3,
             "Actually, he also made me gloves...", L_agostine_2,
@@ -131,7 +130,7 @@ L_agostine_menu:
         "No, none, really.", L_agostine_5;
 
 L_agostine_2:
-    if ((@wg_state < 9) || (countitem("WinterGloves") == 0))
+    if ((@wg_state < 9) || (countitemcolor("WinterGloves") == 0))
         goto L_Close;
     mes "[Lora Tay the Seamstress]";
     mes "Lora inspects your gloves, shock apparent on her face.";
@@ -159,18 +158,18 @@ L_agostine_2:
     mes "\"*cough* ... can't possibly... *cough*...\"";
     mes "Lora sinks back on her chair, trying to control her cough.";
     next;
-    if (countitem("BottleOfWater"))
+    if (countitemcolor("BottleOfWater"))
         menu
-            "(sneak out of the room)", L_end,
+            "(sneak out of the room)", L_End,
             "Are you alright?", L_NextMenu,
             "Here, have a bottle of water...", L_give_water,
             "Can I help you?", L_NextMenu;
     goto L_NextMenu;
 
 L_NextMenu:
-    if (countitem("BottleOfWater") == 0)
+    if (countitemcolor("BottleOfWater") == 0)
         menu
-            "(sneak out of the room)", L_end,
+            "(sneak out of the room)", L_End,
             "Are you alright?", L_Next,
             "Can I help you?", L_Next;
     goto L_Next;
@@ -207,17 +206,17 @@ L_regular_intro:
     mes "\"Ah, you again.  Is there anything in particular you need?\"";
     next;
     if (@wg_state == 12)
-        goto L_main_menu2;
-    goto L_main_menu;
+        goto L_Main_menu2;
+    goto L_Main_menu;
 
 L_give_water:
-    if (countitem("BottleOfWater") == 0)
+    if (countitemcolor("BottleOfWater") == 0)
         goto L_no_water;
     delitem "BottleOfWater", 1;
-    set @wg_state, 11;
+    @wg_state = 11;
     callsub S_Update;
 
-    set @xpval, 50000;
+    @xpval = 50000;
 
     getexp @xpval, 0;
     mes "[Lora Tay the Seamstress]";
@@ -234,10 +233,10 @@ L_give_water:
     next;
 
     if (@wg_state == 12)
-        goto L_main_menu2;
-    goto L_main_menu;
+        goto L_Main_menu2;
+    goto L_Main_menu;
 
-L_main_menu:
+L_Main_menu:
     menu
         "Can you trim something for me?", L_trim,
         "Can you lengthen something for me?", L_lengthen,
@@ -249,15 +248,15 @@ L_main_menu:
         "Can you sew a robe for me?", L_robe,
         "Can you make a desert hat for me?", L_desert_hat,
         "Can you enhance a sorcerer robe with another line color?", L_sorcerer_robe_linecolor,
-        "Goodbye for now.", L_end;
+        "Goodbye for now.", L_End;
 
 L_Fur:
     mes "[Lora Tay the Seamstress]";
     mes "\"From what?  Fluffy fur?  I won't work with such lowly materials.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_main_menu2:
+L_Main_menu2:
     menu
         "Can you trim something for me?", L_trim,
         "Can you lengthen something for me?", L_lengthen,
@@ -269,13 +268,13 @@ L_main_menu2:
         "Can you sew a robe for me?", L_robe,
         "Can you make a desert hat for me?", L_desert_hat,
         "Actually...I have a proposal for you...", L_agostine_proposal,
-        "Goodbye for now.", L_end;
+        "Goodbye for now.", L_End;
 
 L_Fur1:
     mes "[Lora Tay the Seamstress]";
     mes "\"From what?  Fluffy fur?  I won't work with such lowly materials.\"";
     next;
-    goto L_main_menu2;
+    goto L_Main_menu2;
 
 L_agostine_proposal:
     mes "[Lora Tay the Seamstress]";
@@ -284,7 +283,7 @@ L_agostine_proposal:
 
     menu
         "I have talked to Agostine and he needs your help.", L_Next1,
-        "I forgot...", L_main_menu2;
+        "I forgot...", L_Main_menu2;
 
 L_Next1:
     mes "[Lora Tay the Seamstress]";
@@ -294,22 +293,22 @@ L_Next1:
 
     menu
         "It's no joke. He needs your help in creating a new fashion!", L_Next2,
-        "Yeah you're right, he was probably joking.", L_end;
+        "Yeah you're right, he was probably joking.", L_End;
 
 L_Next2:
     mes "[Lora Tay the Seamstress]";
     mes "\"Well it depends what he wants from me.";
     mes "Go see Agostine, ask him what he's planning and I will think about it.\"";
 
-    set @wg_state, 13;
+    @wg_state = 13;
     callsub S_Update;
     goto L_Close;
 
 L_proposal_intro:
     mes "Lora Tay seems lost in her thoughts... ";
     menu
-        "Sorry to disturb you, but...", L_main_menu,
-        "I better go talk to Agostine.", L_end;
+        "Sorry to disturb you, but...", L_Main_menu,
+        "I better go talk to Agostine.", L_End;
 
 L_proposal_show_materials:
     mes "[Lora Tay the Seamstress]";
@@ -317,7 +316,7 @@ L_proposal_show_materials:
     next;
     menu
         "Yes, he explained he saw a dress in a dream and gave me these materials.", L_Next3,
-        "No, that guy is a total wacko.", L_end;
+        "No, that guy is a total wacko.", L_End;
 
 L_Next3:
     mes "[Lora Tay the Seamstress]";
@@ -349,10 +348,10 @@ L_proposal_search_items:
     menu
         "I will go get them right away!", L_Next5,
         "Here you are.", L_proposal_give_items,
-        @FINEDRESS_COCOONS+" silk cocoons for a dress? Find somebody else.", L_end;
+        @FINEDRESS_COCOONS+" silk cocoons for a dress? Find somebody else.", L_End;
 
 L_Next5:
-    set @wg_state, 15;
+    @wg_state = 15;
     callsub S_Update;
     goto L_Close;
 
@@ -365,7 +364,7 @@ L_proposal_give_items:
     if (countitem ("SilkCocoon") < @FINEDRESS_COCOONS)
         goto L_proposal_not_enough_items;
     delitem "SilkCocoon", @FINEDRESS_COCOONS;
-    set @wg_state, 16;
+    @wg_state = 16;
     callsub S_Update;
 
     mes "[Lora Tay the Seamstress]";
@@ -381,7 +380,7 @@ L_proposal_retrieve_design:
     next;
     menu
         "Certainly I'll be back soon!", L_Close,
-        "Actually I want something else...", L_main_menu;
+        "Actually I want something else...", L_Main_menu;
 
 L_proposal_bringing_design:
     mes "[Lora Tay the Seamstress]";
@@ -395,7 +394,7 @@ L_Next6:
     mes "\"Wonderful, this dress design is magnificent!";
     mes "I am done with the threading but I will now need to sew these materials together into the design.\"";
     next;
-    set @wg_state, 18;
+    @wg_state = 18;
     callsub S_Update;
     goto L_proposal_wait_dress_finished;
 
@@ -411,7 +410,7 @@ L_proposal_wait_dress_finished:
     goto L_Close;
 
 L_proposal_dress_finished:
-    set @wg_state, 19;
+    @wg_state = 19;
     callsub S_Update;
     mes "[Lora Tay the Seamstress]";
     mes "\"Well it was difficult seaming with such fragile materials.";
@@ -435,7 +434,7 @@ L_Next7:
         "Okay, can't wait to see the finished product! Thanks for your help!", L_Next8;
 
 L_Next8:
-    set @wg_state, 20;
+    @wg_state = 20;
     callsub S_Update;
     goto L_Close;
 
@@ -444,34 +443,34 @@ L_proposal_deliver_dress:
     mes "\"Please take the unfinished dress to him so he may finish the edges with the cloth.\"";
     menu
         "I'm on my way.", L_Close,
-        "I have a request...", L_main_menu;
+        "I have a request...", L_Main_menu;
 
 L_desert_hat:
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress sighs.";
     mes "\"One of these days it would be nice to have an actual challenge... yes, of course I can make a desert hat.  A Cotton Headband, three pieces of cotton cloth.  Hmm.  And let's add 300 GP to that.\"";
     next;
-    set @default_choice$, "Never mind.";
+    @default_choice$ = "Never mind.";
     setarray @items, 724, 2140, 2141, 2142, 2143, 2144, 2145, 2146, 2147, 2148, 2149;
     setarray @item_names$, "Here is a Cotton Headband.", "Here is a Red Cotton Headband.", "Here is a Green Cotton Headband.", "Here is a Dark Blue Cotton Headband.", "Here is a Yellow Cotton Headband.", "Here is a Light Blue Cotton Headband.", "Here is a Pink Cotton Headband.", "Here is a Black Cotton Headband.", "Here is an Orange Cotton Headband.", "Here is a Puple Cotton Headband.", "Here is a Dark Green Cotton Headband.";
-    set @items_nr, 11;
+    @items_nr = 11;
 
     callsub S_pick_one_of_many_items;
     if (@item == 0)
-        goto L_main_menu;
+        goto L_Main_menu;
     if (@item == 724)
-        set @genitem, 723;
+        @genitem = 723;
     if (@item != 724)
-        set @genitem, @item - 10;
-    if (countitem(@item) < 1)
+        @genitem = @item - 10;
+    if (countitemcolor(@item) < 1)
         goto L_desert_hat_noheadband;
-    if (countitem("CottonCloth") < 3)
+    if (countitemcolor("CottonCloth") < 3)
         goto L_desert_hat_nocotton;
     if (Zeny < 300)
         goto L_desert_hat_nogp;
     delitem @item, 1;
     delitem "CottonCloth", 3;
-    set Zeny, Zeny - 300;
+    Zeny = Zeny - 300;
     getitem @genitem, 1;
     mes "[Lora Tay the Seamstress]";
     mes "\"Now then, this should only take a minute.\"";
@@ -482,25 +481,25 @@ L_desert_hat:
     mes "Lora picks two ends and pulls, hard-- to your amazement, the knot unfolds, yielding a Desert Hat.";
     mes "\"Here you are.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_desert_hat_nocotton:
     mes "[Lora Tay the Seamstress]";
     mes "\"You're asking me to make a desert hat without enough cloth?  Here, have your headband back-- see, that's how much I can do without cloth!  And since I'm generous today, you can even keep your GP...\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_desert_hat_nogp:
     mes "[Lora Tay the Seamstress]";
     mes "\"No, no, no.  300 GP.  That's not that much, I've been told.  I can't just work for free, now can I?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_desert_hat_noheadband:
     mes "[Lora Tay the Seamstress]";
     mes "\"Now that is odd.  Where did your headband vanish to?  Well, I'm not going to make you something as silly as a headband, so get one from elsewhere.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_trim:
     mes "[Lora Tay the Seamstress]";
@@ -508,58 +507,58 @@ L_trim:
     mes "\"Alright.  What is it that you want trimmed?\"";
     next;
 
-    set @default_choice$, "Never mind.";
+    @default_choice$ = "Never mind.";
     setarray @items, 1202, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 688, 2090, 2091, 2092, 2093, 2094, 2095, 2096, 2097, 2098, 2099, 632, 2100, 2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108, 2109, 648, 2180, 2181, 2182, 2183, 2184, 2185, 2186, 2187, 2188, 2189;
     setarray @item_names$, "Cotton Shirt", "Red Cotton Shirt", "Green Cotton Shirt", "Dark Blue Cotton Shirt", "Yellow Cotton Shirt", "Light Blue Cotton Shirt", "Pink Cotton Shirt", "Black Cotton Shirt", "Orange Cotton Shirt", "Purple Cotton Shirt", "Dark Green Cotton Shirt", "Tank Top", "Red Tank Top", "Green Tank Top", "Dark Blue Tank Top", "Yellow Tank Top", "Light Blue Tank Top", "Pink Tank Top", "Black Tank Top", "Orange Tank Top", "Purple Tank Top", "Dark Green Tank Top", "Cotton Skirt", "Red Cotton Skirt", "Green Cotton Skirt", "Dark Blue Cotton Skirt", "Yellow Cotton Skirt", "Light Blue Cotton Skirt", "Pink Cotton Skirt", "Black Cotton Skirt", "Orange Cotton Skirt", "Purple Cotton Skirt", "Dark Green Cotton Skirt", "Cotton Trousers", "Red Cotton Trousers", "Green Cotton Trousers", "Dark Blue Cotton Trousers", "Yellow Cotton Trousers", "Light Blue Cotton Trousers", "Pink Cotton Trousers", "Black Cotton Trousers", "Orange Cotton Trousers", "Purple Cotton Trousers", "Dark Green Cotton Trousers";
-    set @items_nr, 44;
+    @items_nr = 44;
     callsub S_pick_one_of_many_items;
     if (@item == 0)
-        goto L_main_menu;
-    set @delitem, @item;
-    set @genitem, 0;
+        goto L_Main_menu;
+    @delitem = @item;
+    @genitem = 0;
     if (@item == 1202)
-        set @genitem, 688;
+        @genitem = 688;
     if (@item == 688)
-        set @genitem, 689;
+        @genitem = 689;
     if (@item == 632)
-        set @genitem, 771;
+        @genitem = 771;
     if (@item == 648)
-        set @genitem, 586;
+        @genitem = 586;
     if (@item >= 2090 && @item <= 2099)
-        set @genitem, @item + 30;
+        @genitem = @item + 30;
     if (@item >= 2050 && @item <= 2059)
-        set @genitem, @item + 40;
+        @genitem = @item + 40;
     if (@item >= 2100 && @item <= 2109)
-        set @genitem, @item + 70;
+        @genitem = @item + 70;
     if (@item >= 2180 && @item <= 2189)
-        set @genitem, @item - 70;
+        @genitem = @item - 70;
     if (@genitem == 0)
         goto L_trim_impossible;
     if (Zeny < 100)
-        goto L_trim_nozeny;
-    if (countitem(@delitem) < 1)
-        goto L_main_menu;
+        goto L_trim_noZeny;
+    if (countitemcolor(@delitem) < 1)
+        goto L_Main_menu;
 
     delitem @delitem, 1;
     getitem @genitem, 1;
-    set Zeny, Zeny - 100;
+    Zeny = Zeny - 100;
     mes "[Lora Tay the Seamstress]";
     mes "";
     mes "\"There you are, dear.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_trim_impossible:
     mes "[Lora Tay the Seamstress]"; // INTERNAL ERROR
     mes "\"I don't really want to shorten this any more.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_trim_nozeny:
+L_trim_noZeny:
     mes "[Lora Tay the Seamstress]";
     mes "\"Not enough GP?  Well, just do it yourself-- trimming really is trivial.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_lengthen:
     mes "[Lora Tay the Seamstress]";
@@ -567,77 +566,77 @@ L_lengthen:
     mes "\"Now, let me see.  What is it that you want lengthened?\"";
     next;
 
-    set @default_choice$, "Never mind.";
+    @default_choice$ = "Never mind.";
     setarray @items, 688, 2090, 2091, 2092, 2093, 2094, 2095, 2096, 2097, 2098, 2099, 689, 2120, 2121, 2122, 2123, 2124, 2125, 2126, 2127, 2128, 2129, 771, 2170, 2171, 2172, 2173, 2174, 2175, 2176, 2177, 2178, 2179, 586, 2110, 2111, 2112, 2113, 2114, 2115, 2116, 2117, 2118, 2119;
     setarray @item_names$, "Tank Top", "Red Tank Top", "Green Tank Top", "Dark Blue Tank Top", "Yellow Tank Top", "Light Blue Tank Top", "Pink Tank Top", "Black Tank Top", "Orange Tank Top", "Purple Tank Top", "Dark Green Tank Top", "Short Tank Top", "Red Short Tank Top", "Green Short Tank Top", "Dark Blue Short Tank Top", "Yellow Short Tank Top", "Light Blue Short Tank Top", "Pink Short Tank Top", "Black Short Tank Top", "Orange Short Tank Top", "Purple Short Tank Top", "Dark Green Short Tank Top", "Miniskirt", "Red Miniskirt", "Green Miniskirt", "Dark Blue Miniskirt", "Yellow Miniskirt", "Light Blue Miniskirt", "Pink Miniskirt", "Black Miniskirt", "Orange Miniskirt", "Purple Miniskirt", "Dark Green Miniskirt", "Cotton Shorts", "Red Cotton Shorts", "Green Cotton Shorts", "Dark Blue Cotton Shorts", "Yellow Cotton Shorts", "Light Blue Cotton Shorts", "Pink Cotton Shorts", "Black Cotton Shorts", "Orange Cotton Shorts", "Purple Cotton Shorts", "Dark Green Cotton Shorts";
 
-    set @items_nr, 44;
+    @items_nr = 44;
     callsub S_pick_one_of_many_items;
     if (@item == 0)
-        goto L_main_menu;
+        goto L_Main_menu;
 
-    set @delitem, @item;
-    set @genitem, 0;
+    @delitem = @item;
+    @genitem = 0;
     if (@item == 688)
-        set @genitem, 1202;
+        @genitem = 1202;
     if (@item == 689)
-        set @genitem, 688;
+        @genitem = 688;
     if (@item == 771)
-        set @genitem, 632;
+        @genitem = 632;
     if (@item == 586)
-        set @genitem, 648;
+        @genitem = 648;
     if (@item >= 2120 && @item <= 2129)
-        set @genitem, @item - 30;
+        @genitem = @item - 30;
     if (@item >= 2090 && @item <= 2099)
-        set @genitem, @item - 40;
+        @genitem = @item - 40;
     if (@item >= 2170 && @item <= 2179)
-        set @genitem, @item - 70;
+        @genitem = @item - 70;
     if (@item >= 2110 && @item <= 2119)
-        set @genitem, @item + 70;
+        @genitem = @item + 70;
     if (@genitem == 0)
         goto L_lengthen_impossible;
     if (Zeny < 500)
-        goto L_lengthen_nozeny;
+        goto L_lengthen_noZeny;
     if (countitem ("CottonCloth") < 1)
         goto L_lengthen_nocotton;
-    if (countitem(@delitem) < 1)
-        goto L_main_menu;
+    if (countitemcolor(@delitem) < 1)
+        goto L_Main_menu;
 
     delitem @delitem, 1;
     delitem "CottonCloth", 1;
     getitem @genitem, 1;
-    set Zeny, Zeny - 500;
+    Zeny = Zeny - 500;
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress cuts your piece of cotton cloth into stripes and sews them on.  Using some odd liquid, she flattens the seams and borders.";
     if (@delitem > 2000) // dyed
         mes "She then applies another liquid-- smelling strangely of fermented apples-- to the result, wraps it up, and wrings it tightly.  As she unwraps it, you observe to your amazement that the dye has spread to the newly attached area.";
     mes "\"There you are, dear.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_lengthen_nocotton:
     mes "[Lora Tay the Seamstress]";
     mes "\"Who do you think I am?  The cotton fairy?  Get yourself some cloth before you ask me to sew it on.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_lengthen_nozeny:
+L_lengthen_noZeny:
     mes "[Lora Tay the Seamstress]";
     mes "\"No gold, no sewing.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_lengthen_impossible:
     mes "[Lora Tay the Seamstress]"; // INTERNAL ERROR
     mes "\"I really can't lengthen that any more.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_shirt:
     mes "[Lora Tay the Seamstress]";
     mes "\"Oh, how silly.  You can buy those everywhere.  Please don't bore me with such trifles, dear.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_tanktop:
     mes "[Lora Tay the Seamstress]";
@@ -648,10 +647,10 @@ L_tanktop:
 
 L_tanktop_menu:
     menu
-        "I think I would like something else.", L_main_menu,
+        "I think I would like something else.", L_Main_menu,
         "A tank top, please (6 Cotton Cloth)", L_tanktop_long,
         "A short tank top, please (5 Cotton Cloth)", L_tanktop_short,
-        "Goodbye for now.", L_end;
+        "Goodbye for now.", L_End;
 
 L_tanktop_short:
     if (countitem ("CottonCloth") < 5)
@@ -659,9 +658,9 @@ L_tanktop_short:
     if (Zeny < 1000)
         goto L_tanktop_insufficient_Zeny;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("CottonCloth") > 5)
+    if (@inventorylist_count == 100 && countitemcolor("CottonCloth") > 5)
         goto L_TooMany;
-    set Zeny, Zeny - 1000;
+    Zeny = Zeny - 1000;
     delitem "CottonCloth", 5;
     getitem "ShortTankTop", 1;
     mes "[Lora Tay the Seamstress]";
@@ -678,9 +677,9 @@ L_tanktop_long:
     if (Zeny < 1000)
         goto L_tanktop_insufficient_Zeny;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("CottonCloth") > 6)
+    if (@inventorylist_count == 100 && countitemcolor("CottonCloth") > 6)
         goto L_TooMany;
-    set Zeny, Zeny - 1000;
+    Zeny = Zeny - 1000;
     delitem "CottonCloth", 6;
     getitem "TankTop", 1;
     mes "[Lora Tay the Seamstress]";
@@ -700,20 +699,20 @@ L_tanktop_insufficient_Zeny:
     mes "As you note that you don't have enough GP on you, Lora rolls her eyes.";
     mes "\"I don't work for free, you know.  I already gave you a discounted peasant price.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_cape:
     mes "[Lora Tay the Seamstress]";
     mes "She shakes her head.";
     mes "\"No capes.  You're an adventurer, right? Do you want to get caught by a closing portcullis?  Or strangled when your cape gets tangled in a tree?  Or brought down by a mushroom stomping on your cape while you're trying to run away?  No capes.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe:
     mes "[Lora Tay the Seamstress]";
     mes "\"A robe?  Well, as long as you're not asking me to make it out of cotton...\"";
     next;
-    if (countitem("SilkCocoon")== 0 && countitem("SilkSheet")== 0)
+    if (countitemcolor("SilkCocoon")== 0 && countitemcolor("SilkSheet")== 0)
         goto L_robe_nosilk;
     goto L_robe_menu;
 
@@ -723,7 +722,7 @@ L_robe_menu:
         "Here, I have some silk sheets!", L_robe_sheets,
         "Where can I find silk?", L_where_silk,
         "How much silk do you need?", L_how_much_silk,
-        "Oh, never mind.", L_main_menu;
+        "Oh, never mind.", L_Main_menu;
 
 L_Next9:
     mes "[Lora Tay the Seamstress]";
@@ -732,7 +731,7 @@ L_Next9:
     next;
     menu
         "Will you trade cocoons for sheets?", L_Next10,
-        "Never mind.", L_main_menu;
+        "Never mind.", L_Main_menu;
 
 L_Next10:
     mes "[Lora Tay the Seamstress]";
@@ -747,18 +746,18 @@ L_Next10:
     mes "\"Let's see... " + @ROBE_COCOONS_NR + " silk cocoons and " + @ROBE_ZENY + " GP should just about cover that.\"";
     next;
     menu
-        "I'm not interested.", L_main_menu,
+        "I'm not interested.", L_Main_menu,
         "Very well then, here you are.", L_Next11;
 
 L_Next11:
-    if (countitem("SilkCocoon") < @ROBE_COCOONS_NR)
+    if (countitemcolor("SilkCocoon") < @ROBE_COCOONS_NR)
         goto L_robe_missing_cocoons;
     if (Zeny < @ROBE_ZENY)
         goto L_robe_missing_Zeny;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("SilkCocoon") > @ROBE_COCOONS_NR)
+    if (@inventorylist_count == 100 && countitemcolor("SilkCocoon") > @ROBE_COCOONS_NR)
         goto L_TooMany;
-    set Zeny, Zeny - @ROBE_ZENY;
+    Zeny = Zeny - @ROBE_ZENY;
     delitem "SilkCocoon", @ROBE_COCOONS_NR;
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress puts your cocoons and GP away, takes your measurements and pulls out several silk sheets.  She asks you to stretch out your arms, then pins the silk sheets in place all over your body.";
@@ -766,23 +765,23 @@ L_Next11:
     goto L_get_robe;
 
 L_robe_sheets:
-    set @Robe_with_sheets, 1;
+    @Robe_with_sheets = 1;
     mes "[Lora Tay the Seamstress]";
     mes "\"Let's see... " + @ROBE_SHEETS_NR + " silk sheets and " + @ROBE_SHEETS_ZENY + " GP should just about cover that.\"";
     next;
     menu
-        "I'm not interested.", L_main_menu,
+        "I'm not interested.", L_Main_menu,
         "Very well then, here you are.", L_Next12;
 
 L_Next12:
-    if (countitem("SilkSheet") < @ROBE_SHEETS_NR)
+    if (countitemcolor("SilkSheet") < @ROBE_SHEETS_NR)
         goto L_robe_missing_sheets;
     if (Zeny < @ROBE_SHEETS_ZENY)
         goto L_robe_sheet_missing_Zeny;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("SilkSheet") > @ROBE_SHEETS_NR)
+    if (@inventorylist_count == 100 && countitemcolor("SilkSheet") > @ROBE_SHEETS_NR)
         goto L_TooMany;
-    set Zeny, Zeny - @ROBE_SHEETS_ZENY;
+    Zeny = Zeny - @ROBE_SHEETS_ZENY;
     delitem "SilkSheet", @ROBE_SHEETS_NR;
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress puts your GP away, takes your measurements and puts the silk sheets on the table.  She asks you to stretch out your arms, then pins the silk sheets in place all over your body.";
@@ -804,38 +803,38 @@ L_get_robe:
         goto L_robe_sheet_end;
     mes "\"Here you are now, this will fit.  And don't you dare tell anyone that I did this!  I'm not about to start a silk cocoon collection!\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe_sheet_end:
     mes "\"Here you are now, this will fit. Thank you for bringing the sheets. People are so lazy nowadays! \"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe_missing_cocoons:
     mes "[Lora Tay the Seamstress]";
-    mes "\"" + @ROBE_COCOONS_NR + " cocoons is what I said, not " + countitem("SilkCocoon") + ".";
+    mes "\"" + @ROBE_COCOONS_NR + " cocoons is what I said, not " + countitemcolor("SilkCocoon") + ".";
     mes @ROBE_COCOONS_NR + " is " + (@ROBE_COCOONS_NR / 10) + " as many times as you have fingers, in case that helps.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe_missing_Zeny:
     mes "[Lora Tay the Seamstress]";
     mes "\"No, no no.  The way this works is that you give me the GP first and I give you the robe afterwards.  You're " + (@ROBE_ZENY - Zeny) + " GP short, so come back when you can afford the robe!\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe_missing_sheets:
     mes "[Lora Tay the Seamstress]";
-    mes "\"" + @ROBE_SHEETS_NR + " silk sheets is what I said, not " + countitem("SilkSheet") + ".";
+    mes "\"" + @ROBE_SHEETS_NR + " silk sheets is what I said, not " + countitemcolor("SilkSheet") + ".";
     mes @ROBE_SHEETS_NR + " is " + (10-@ROBE_SHEETS_NR) + " less than you have fingers, in case that helps.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_robe_sheet_missing_Zeny:
     mes "[Lora Tay the Seamstress]";
     mes "\"No, no no.  The way this works is that you give me the GP first and I give you the robe afterwards.  You're " + (@ROBE_SHEETS_ZENY - Zeny) + " GP short, so come back when you can afford the robe!\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_where_silk:
     mes "[Lora Tay the Seamstress]";
@@ -857,24 +856,19 @@ L_robe_nosilk:
     mes "[Lora Tay the Seamstress]";
     mes "\"What is that?  You don't have any silk?  Well, you're out of luck, I would say.  I shan't make one out of those cotton rags; you might as well be wearing an apple sack.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_end:
-    set @ROBE_COCOONS_NR, 0;
-    set @ROBE_ZENY, 0;
-    set @ROBE_SHEETS_NR, 0;
-    set @ROBE_SHEETS_ZENY, 0;
-    set @Robe_with_sheets, 0;
+L_End:
+    @ROBE_COCOONS_NR = 0;
+    @ROBE_ZENY = 0;
+    @ROBE_SHEETS_NR = 0;
+    @ROBE_SHEETS_ZENY = 0;
+    @Robe_with_sheets = 0;
     goto L_Close;
 
-// Input: @items (array of items you want to choose from)
-//        @item_names (names of the items in @items)
-//        @items_nr (number of entries in @items)
-//        @default_choice$ (default option)
-// Return:  @item (The selected item, or 0 if the default/something invalid was chosen)
 S_pick_one_of_many_items:
-    set @c, 0;
-    set @i, 0;
+    @c = 0;
+    @i = 0;
 
     setarray @choice_n$, "", "", "", "", "", "", "", "",
                              "", "", "", "", "", "", "", "",
@@ -885,21 +879,21 @@ S_pick_one_of_many_items:
 S_SUB_pick_choice_loop:
     if (@i >= @items_nr)
         goto S_SUB_choice_init_done;
-    set @current, @items[@i];
-    set @current_name$, @item_names$[@i];
-    set @i, @i + 1;
+    @current = @items[@i];
+    @current_name$ = @item_names$[@i];
+    @i = @i + 1;
 
-    if (countitem(@current) == 0)
+    if (countitemcolor(@current) == 0)
         goto S_SUB_pick_choice_loop;
-    set @choice_v[@c], @current;
-    set @choice_n$[@c], @current_name$;
-    set @c, @c + 1;
+    @choice_v[@c] = @current;
+    @choice_n$[@c] = @current_name$;
+    @c = @c + 1;
     goto S_SUB_pick_choice_loop;
 
 S_SUB_choice_init_done:
-    set @choice_v[@c], 0;
-    set @choice_n$[@c], @default_choice$;
-    set @c, @c + 1;
+    @choice_v[@c] = 0;
+    @choice_n$[@c] = @default_choice$;
+    @c = @c + 1;
 
     if (@c < 10)
         menu
@@ -982,10 +976,10 @@ L_MenuItems1:
         @choice_n$[31], L_SUB_choice_join;
 
 L_SUB_choice_join:
-    set @menu, @menu - 1;
-    set @item, @choice_v[@menu];
+    @menu = @menu - 1;
+    @item = @choice_v[@menu];
     if (@menu >= @c)
-        set @item, 0;
+        @item = 0;
     return;
 
 L_TooMany:
@@ -1002,15 +996,15 @@ L_sorcerer_robe_linecolor:
     mes "Also, I will need " + @SORCERER_ROBE_NUM_COTTON_CLOTH + " sheets of Cotton Cloth of the color you want.\"";
     next;
     mes "\"Ok. Now please wear the robe you want me to change.\"";
-    set @loratay_asking_robe, 1;
+    @loratay_asking_robe = 1;
     goto L_Close;
 
 L_ExamineSorcererRobe:
-    set @loratay_asking_robe, 0;
+    @loratay_asking_robe = 0;
     mes "[Lora Tay the Seamstress]";
     mes "\"Let's see...\"";
     next;
-    set @chest_equip_id, getequipid(equip_torso);
+    @chest_equip_id = getequipid(equip_torso);
     callsub S_Get_SorcererRobeColors;
     mes "Lora Tay takes a closer look at what you are wearing.";
     next;
@@ -1043,32 +1037,32 @@ L_ChooseSorcererLineColor:
         "A " + @item_colors$[8] + " one.", L_ItemMenus2,
         "A " + @item_colors$[9] + " one.", L_ItemMenus2,
         "A " + @item_colors$[10] + " one.", L_ItemMenus2,
-        "Hum. I changed my mind. Later maybe.", L_end;
+        "Hum. I changed my mind. Later maybe.", L_End;
 
 L_ItemMenus2:
-    set @chosen_color, @menu - 1;
-    set @cotton_cloth_id, 2250 + @chosen_color;
+    @chosen_color = @menu - 1;
+    @cotton_cloth_id = 2250 + @chosen_color;
     // The White Cotton Cloth is in fact the undyed one.
     if (@cotton_cloth_id == 2260)
-        set @cotton_cloth_id, 660;
-    if (countitem(@cotton_cloth_id) < 2)
+        @cotton_cloth_id = 660;
+    if (countitemcolor(@cotton_cloth_id) < 2)
         goto L_NoColoredCottonCloth;
     if (@current_linecolor == @chosen_color)
         goto L_SorcererRobe_SameColor;
     callsub S_Get_NewSorcererRobeId;
     // Should not happen since it has been checked the player submitted a sorcerer robe
     if (@new_sorcerer_robe_id == 0)
-        goto L_end;
+        goto L_End;
 
     if (Zeny < @SORCERER_ROBE_SEW_ZENY)
         goto L_SorcererRobe_NoZeny;
-    if (countitem(@chest_equip_id) == 0)
+    if (countitemcolor(@chest_equip_id) == 0)
         goto L_SorcererRobe_Vanished;
     delitem @cotton_cloth_id, @SORCERER_ROBE_NUM_COTTON_CLOTH;
     // Since we delete an unstackable item, we don't need to check
     // for an available inventory slot.
     delitem @chest_equip_id, 1;
-    set Zeny, Zeny - @SORCERER_ROBE_SEW_ZENY;
+    Zeny = Zeny - @SORCERER_ROBE_SEW_ZENY;
     getitem @new_sorcerer_robe_id, 1;
     mes "Lora Tay adjusts her glasses and removes carefully the " + @item_colors$[@current_linecolor] + " string of the robe.";
     mes "Then she grabs the " + @item_colors$[@chosen_color] + " cotton cloth, unfolds it and pins her needle in it.";
@@ -1098,11 +1092,11 @@ L_SorcererRobe_Vanished:
 
 S_Get_NewSorcererRobeId:
     if (@chosen_color == 0 && @current_maincolor == 10)
-        set @new_sorcerer_robe_id, 798;
+        @new_sorcerer_robe_id = 798;
     if (@chosen_color == 0 && @current_maincolor < 10)
-        set @new_sorcerer_robe_id, 2220 + @current_maincolor;
+        @new_sorcerer_robe_id = 2220 + @current_maincolor;
     if (@chosen_color > 0)
-        set @new_sorcerer_robe_id, 5000 + @current_maincolor + (@chosen_color-1)*11;
+        @new_sorcerer_robe_id = 5000 + @current_maincolor + (@chosen_color-1)*11;
     return;
 
 L_NoColoredCottonCloth:
@@ -1116,36 +1110,36 @@ L_SorcererRobe_NoZeny:
     goto L_CleanSorcererRobe;
 
 S_Get_SorcererRobeColors:
-    set @current_maincolor, -1;
-    set @current_linecolor, -1;
+    @current_maincolor = -1;
+    @current_linecolor = -1;
     // Line color
     if (@chest_equip_id == 798 || (@chest_equip_id >= 2220 && @chest_equip_id <= 2229))
-        set @current_linecolor, 0;
+        @current_linecolor = 0;
     if (@chest_equip_id >= 5000 && @chest_equip_id <= 5109)
-        set @current_linecolor, 1 + (@chest_equip_id-5000)/11;
+        @current_linecolor = 1 + (@chest_equip_id-5000)/11;
     // Main color
     if (@chest_equip_id == 798)
-        set @current_maincolor, 10;
+        @current_maincolor = 10;
     if (@chest_equip_id >= 2220 && @chest_equip_id <= 2229)
-        set @current_maincolor, @chest_equip_id - (@chest_equip_id/10)*10;
+        @current_maincolor = @chest_equip_id - (@chest_equip_id/10)*10;
     if (@chest_equip_id >= 5000 && @chest_equip_id <= 5109)
-        set @current_maincolor, @chest_equip_id - 5000 - (@current_linecolor-1)*11;
+        @current_maincolor = @chest_equip_id - 5000 - (@current_linecolor-1)*11;
     return;
 
 L_CleanSorcererRobe:
-    set @current_maincolor, 0;
-    set @current_linecolor, 0;
-    set @chest_equip_id, 0;
-    set @new_sorcerer_robe_id, 0;
-    set @chosen_color, 0;
-    set @cotton_cloth_id, 0;
+    @current_maincolor = 0;
+    @current_linecolor = 0;
+    @chest_equip_id = 0;
+    @new_sorcerer_robe_id = 0;
+    @chosen_color = 0;
+    @cotton_cloth_id = 0;
     goto L_Close;
 
 S_Update:
-    set QUEST_WG_state, (QUEST_WG_state & ~(BYTE_0_MASK) | (@wg_state << BYTE_0_SHIFT));
+    QUEST_WG_state = (QUEST_WG_state & ~(BYTE_0_MASK) | (@wg_state << BYTE_0_SHIFT));
     return;
 
 L_Close:
-    set @wg_state, 0;
+    @wg_state = 0;
     close;
 }

@@ -1,14 +1,7 @@
-// KPS (Killian Parcel Service)
-// Author: Wushin
-// Kylian_Timer denotes current quest time & holds last completed.
-// reuse the 4 bits
-// To Mark 4 Different NPCs.
-// setarray $@kps_npc_bits, $@knowYanisNT, $@knowLatoyNT, $@knowWeellosNT, $@knowCasinoNT;
-021-2.gat,27,124,0|script|KPS Manager|191
-{
-    set @state, ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
-    set @run, ((QUEST_NorthTulimshar & TWOBIT_8_MASK) >> TWOBIT_8_SHIFT);
-    set @run_cnt, ((QUEST_NorthTulimshar & TWOBIT_9_MASK) >> TWOBIT_9_SHIFT);
+021-2.gat,27,124,0	script	KPS Manager	191,{
+    @state = ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
+    @run = ((QUEST_NorthTulimshar & TWOBIT_8_MASK) >> TWOBIT_8_SHIFT);
+    @run_cnt = ((QUEST_NorthTulimshar & TWOBIT_9_MASK) >> TWOBIT_9_SHIFT);
     if (@state == 15)
         goto L_SeeKylian;
     if (@state == 14)
@@ -39,7 +32,7 @@ L_OfferJob:
         "Nothing.", L_Close;
 
 L_MyName:
-    set @state, 11;
+    @state = 11;
     callfunc "SetKylianQuest";
     mes "\"Ahhh, Kylian said you would be dropping by.\"";
     next;
@@ -56,18 +49,18 @@ L_AcceptJob:
         "No.", L_Close;
 
 L_StartJob:
-    set @run, 0;
+    @run = 0;
     callfunc "SetKylianRun";
-    set @run_cnt, 0;
+    @run_cnt = 0;
     callfunc "SetKylianRunCnt";
-    set @state, 12;
+    @state = 12;
     callfunc "SetKylianQuest";
     goto L_JobSelect;
 
 L_StartJobAgain:
-    set @run, 0;
+    @run = 0;
     callfunc "SetKylianRun";
-    set @state, 12;
+    @state = 12;
     callfunc "SetKylianQuest";
     goto L_JobSelect;
 
@@ -80,7 +73,7 @@ L_JobSelect:
     goto L_RandJob;
 
 L_RandJob:
-    set @rand_quest, rand(1,3);
+    @rand_quest = rand(1,3);
     goto L_JobInfo;
 
 L_JobInfo:
@@ -91,11 +84,11 @@ L_JobInfo:
         "I need a break.", L_Close;
 
 L_StartRun:
-    set @state, 13;
+    @state = 13;
     callfunc "SetKylianQuest";
-    set @run, @rand_quest;
+    @run = @rand_quest;
     callfunc "SetKylianRun";
-    set Kylian_Timer, gettimetick(2);
+    Kylian_Timer = gettimetick(2);
     goto L_Close;
 
 L_RunStarted:
@@ -103,10 +96,10 @@ L_RunStarted:
     goto L_Close;
 
 L_RunComplete:
-    set @elapsed_time, (gettimetick(2) - Kylian_Timer);
+    @elapsed_time = (gettimetick(2) - Kylian_Timer);
     if (@elapsed_time > 600)
         goto L_Failed;
-    set @run_cnt, (@run_cnt + 1);
+    @run_cnt = (@run_cnt + 1);
     callfunc "SetKylianRunCnt";
     // Set Kylian wants to see you reward state
     if (@run_cnt > 3)
@@ -123,10 +116,10 @@ L_Failed:
     goto L_RunAgain;
 
 L_KylianReward:
-    set Zeny, Zeny + $@delivery_money;
+    Zeny = Zeny + $@delivery_money;
     getexp ($@delivery_exp_mod * BaseLevel), 0;
     callfunc "SetKylianRun";
-    set @state, 15;
+    @state = 15;
     callfunc "SetKylianQuest";
     mes "[" + $@delivery_money + " money]";
     mes "[" + ($@delivery_exp_mod * BaseLevel) + " experience points]";
@@ -135,7 +128,7 @@ L_KylianReward:
     goto L_Close;
 
 L_RunAgain:
-    set Zeny, Zeny + $@delivery_money;
+    Zeny = Zeny + $@delivery_money;
     getexp ($@delivery_exp_mod * BaseLevel), 0;
     callfunc "SetKylianRun";
     mes "[" + $@delivery_money + " money]";
@@ -152,13 +145,11 @@ L_NoPackages:
 L_Close:
     close;
 }
-function|script|SetKylianRun
-{
-    set QUEST_NorthTulimshar, (QUEST_NorthTulimshar & ~(TWOBIT_8_MASK)) | (@run << TWOBIT_8_SHIFT);
+function	script	SetKylianRun	{
+    QUEST_NorthTulimshar = (QUEST_NorthTulimshar & ~(TWOBIT_8_MASK)) | (@run << TWOBIT_8_SHIFT);
     return;
 }
-function|script|SetKylianRunCnt
-{
-    set QUEST_NorthTulimshar, (QUEST_NorthTulimshar & ~(TWOBIT_9_MASK)) | (@run_cnt << TWOBIT_9_SHIFT);
+function	script	SetKylianRunCnt	{
+    QUEST_NorthTulimshar = (QUEST_NorthTulimshar & ~(TWOBIT_9_MASK)) | (@run_cnt << TWOBIT_9_SHIFT);
     return;
 }

@@ -1,7 +1,6 @@
-051-1.gat,52,32,10,8|monster|GreenSlime|1005,20,100000ms,30000ms,IlliaFMobs051-1::On1005
+051-1,52,32,10,8	monster	GreenSlime	1005,20,100000,30000,IlliaFMobs051-1::On1005
 
-051-1.gat,0,0,0|script|IlliaFMobs051-1|-1
-{
+051-1.gat,0,0,0	script	IlliaFMobs051-1	-1,{
     end;
 
 On1005:
@@ -10,14 +9,14 @@ On1005:
     end;
 
 L_RockFinding:
-    set $@illia_level_1_num_deaths, $@illia_level_1_num_deaths + 1;
-    set @p, 50 - $@illia_level_1_num_deaths;
+    $@illia_level_1_num_deaths = $@illia_level_1_num_deaths + 1;
+    @p = 50 - $@illia_level_1_num_deaths;
     if (@p < 0)
-        set @p, 0;
+        @p = 0;
     if ($@illia_progress != 1 || $@ILLIA_STATUS != 4 || rand(@p) != 0)
         end;
     message strcharinfo(0), "This slime released a rock with a weird shape, that seems to fit in the mechanism!";
-    set $@illia_level_1_progress, 2;
+    $@illia_level_1_progress = 2;
     end;
 
 }

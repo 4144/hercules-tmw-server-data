@@ -1,24 +1,6 @@
-// Katze doesn't like the player at first, needs following:
-//
-// 1. Some milk
-// 2. Some steak or chicken leg
-// 3. Some fur
-//
-// Now the cat starts to speak, still needs:
-//
-// 4. Some wood for scratching
-// 5. Some stuff for making somethings nice for the player:
-//
-//    * 2 Snake skins
-//    * 2 Snake tongues
-//    * 2 Maggot slimes
-//    * 2 White furs
-//    * 2 Hard spikes
-//    * 2 Tiny potions
 
-015-3.gat,32,25,0|script|Katze|172
-{
-    set @cat, ((Katze & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
+015-3.gat,32,25,0	script	Katze	172,{
+    @cat = ((Katze & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
 
     if (@cat == 1 && @catNeedsAlone == 0) goto L_NeedsFood;
     if (@cat == 1) goto L_NeedsFood;
@@ -41,10 +23,10 @@ L_NeedsMilk:
          "Leave the cat alone.", L_Close;
 
 L_ThrowStone:
-    set @cat, 0;
+    @cat = 0;
     callsub S_Update_Katze;
     percentheal -30, 0;
-    warp "015-1.gat", 60, 32;
+    warp "015-1", 60, 32;
     mes "\"GRAAUWL! Hissss...\"";
     mes "Yikes, the cat attacked you! Your whole body is scratched. Maybe throwing a stone wasn't such a great idea...";
     goto L_Close;
@@ -61,12 +43,12 @@ L_NeedsFur:
     mes "[Katze]";
     mes "\"Prrr. Meow, prrr...\"";
     next;
-    if (countitem("WhiteFur") > 0)
+    if (countitemcolor("WhiteFur") > 0)
         menu
             "Make funny movements with the fur near the ground.", L_MoveFur,
             "Throw a stone at the cat.", L_ThrowStone,
             "Leave the cat alone.", L_Close;
-    if (countitem("WhiteFur") == 0)
+    if (countitemcolor("WhiteFur") == 0)
         menu
             "Throw a stone at the cat.", L_ThrowStone,
             "Leave the cat alone.", L_Close;
@@ -74,7 +56,7 @@ L_NeedsFur:
 
 L_MoveFur:
     delitem "WhiteFur", 1;
-    set @cat, 3;
+    @cat = 3;
     callsub S_Update_Katze;
     mes "The cat jumps at the fur! You quickly let go of it. The cat happily returns to its spot, carrying the fur in its mouth.";
     next;
@@ -86,7 +68,7 @@ L_NeedsWood:
     mes "\"Prrrr, now I'd like something to sharpen my claws on.\"";
     next;
 
-    if (countitem("RawLog") > 0)
+    if (countitemcolor("RawLog") > 0)
         menu
             "Want this piece of wood?", L_GiveWood,
             "Ok, see you later.", L_Close;
@@ -102,7 +84,7 @@ L_PreNeedsStuff:
     goto L_Close;
 
 L_NeedsStuff:
-    set @cat, 5;
+    @cat = 5;
     callsub S_Update_Katze;
     mes "[Katze]";
     mes "\"You've been really kind to me. I can make you something nice, but I will need";
@@ -143,12 +125,12 @@ L_Please:
     goto L_Close;
 
 L_CatChecksStuff:
-    if (countitem("SnakeSkin") > 1
-        && countitem("SnakeTongue") > 1
-        && countitem("MaggotSlime") > 1
-        && countitem("WhiteFur") > 1
-        && countitem("HardSpike") > 1
-        && countitem("TinyHealingPotion") > 1)
+    if (countitemcolor("SnakeSkin") > 1
+        && countitemcolor("SnakeTongue") > 1
+        && countitemcolor("MaggotSlime") > 1
+        && countitemcolor("WhiteFur") > 1
+        && countitemcolor("HardSpike") > 1
+        && countitemcolor("TinyHealingPotion") > 1)
             goto L_GiveStuff;
     mes "[Katze]";
     mes "\"You don't seem to have everything yet. Come back later when you do.\"";
@@ -161,9 +143,9 @@ L_GiveStuff:
     delitem "WhiteFur", 2;
     delitem "HardSpike", 2;
     delitem "TinyHealingPotion", 2;
-    set @cat, 6;
+    @cat = 6;
     callsub S_Update_Katze;
-    set @catNeedsAlone, 1;
+    @catNeedsAlone = 1;
     mes "[Katze]";
     mes "\"Nicely done! Now leave me alone for a while, I need some time to prepare your present.\"";
     goto L_Close;
@@ -175,9 +157,9 @@ L_PreGainEars:
 
 L_GainEars:
     getitem "CatEars", 1;
-    set @xpval, 5000;
+    @xpval = 5000;
     getexp @xpval, 0;
-    set @cat, 7;
+    @cat = 7;
     callsub S_Update_Katze;
     mes "[Katze]";
     mes "\"Look what I made for you! It makes you look a bit like me! Maybe it will give you a feeling of what it is like to be a cat.\"";
@@ -194,10 +176,10 @@ L_Finished:
     goto L_Close;
 
 L_Close:
-    set @cat, 0;
+    @cat = 0;
     close;
 
 S_Update_Katze:
-    set Katze, (Katze & ~(NIBBLE_0_MASK)) | (@cat << NIBBLE_0_SHIFT);
+    Katze = (Katze & ~(NIBBLE_0_MASK)) | (@cat << NIBBLE_0_SHIFT);
     return;
 }

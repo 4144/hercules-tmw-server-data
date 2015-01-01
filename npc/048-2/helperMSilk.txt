@@ -1,14 +1,8 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Janika asks for Silk Cocoons for repairing the books
-// can give second hint about visitor in investigation subquest
 
-048-2.gat,104,103,0|script|Janika|363
-{
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @silk_amount, 80;
-    set @silk_exp, 10000;
+048-2.gat,104,103,0	script	Janika	363,{
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @silk_amount = 80;
+    @silk_exp = 10000;
 
     if (QUEST_BlueSage & $@Q_BlueSageMaterialSilk) goto L_Done;
     if (BaseLevel >= $@Q_BlueSageMinimumLevel) goto L_Quest;
@@ -27,11 +21,11 @@ L_Quest:
         "No.",L_Investigate;
 
 L_TurnIn:
-    if(countitem("SilkCocoon") < @silk_amount)
+    if(countitemcolor("SilkCocoon") < @silk_amount)
         goto L_NoItem;
     delitem "SilkCocoon", @silk_amount;
     getexp @silk_exp, 0;
-    set QUEST_BlueSage, (QUEST_BlueSage | $@Q_BlueSageMaterialSilk);
+    QUEST_BlueSage = (QUEST_BlueSage | $@Q_BlueSageMaterialSilk);
     mes "[Janika]";
     mes "\"Excellent! This is exactly what I need. Thanks a lot. I'll tell Nikolai about your generosity.\"";
     goto L_Investigate;
@@ -76,7 +70,7 @@ L_Visitor:
     mes "\"Sometimes I think it'd be better not to allow visitors here. But the sages set a high value on keeping contact with the population. Politics.\"";
     if ((@investigate != 3) && (@investigate != 6) && (@investigate != 9))
         goto L_Close;
-    set @investigate, @investigate + 1;
+    @investigate = @investigate + 1;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
@@ -86,8 +80,8 @@ L_Helper:
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @silk_amount, 0;
-    set @silk_exp, 0;
+    @investigate = 0;
+    @silk_amount = 0;
+    @silk_exp = 0;
     close;
 }

@@ -1,17 +1,13 @@
-// author: Jenalya, wushin
-// Based off Cindy Fight
-// General Krukan Fight
 
-027-6.gat,39,25,0|script|General Krukan|400
-{
+027-6.gat,39,25,0	script	General Krukan	400,{
     if ($@CRYPT_FIGHT1 != 0)
         end;
 
-    set @KRUKAN_SOUL_REQ, 1;
-    set @KRUKAN_SKULL_REQ, 5;
-    set @KRUKAN_DARK_CRYSTAL_REQ, 5;
-    set @KRUKAN_BONE_REQ, 5;
-    set @minlevel, 60;
+    @KRUKAN_SOUL_REQ = 1;
+    @KRUKAN_SKULL_REQ = 5;
+    @KRUKAN_DARK_CRYSTAL_REQ = 5;
+    @KRUKAN_BONE_REQ = 5;
+    @minlevel = 60;
 
     mes "[Tome]";
     mes "The Tome is open to a page about a summon ritual that can be performed in this chamber.";
@@ -38,10 +34,10 @@ L_MissingReagents:
 L_Ritual:
     if (BaseLevel < @minlevel)
         goto L_ToWeak;
-    if ( (countitem("Soul") < @KRUKAN_SOUL_REQ)
-        || (countitem("Skull") < @KRUKAN_SKULL_REQ)
-        || (countitem("DarkCrystal") < @KRUKAN_DARK_CRYSTAL_REQ)
-        || (countitem("Bone") < @KRUKAN_BONE_REQ) )
+    if ( (countitemcolor("Soul") < @KRUKAN_SOUL_REQ)
+        || (countitemcolor("Skull") < @KRUKAN_SKULL_REQ)
+        || (countitemcolor("DarkCrystal") < @KRUKAN_DARK_CRYSTAL_REQ)
+        || (countitemcolor("Bone") < @KRUKAN_BONE_REQ) )
         goto L_MissingReagents;
     delitem "Soul", @KRUKAN_SOUL_REQ;
     delitem "Skull", @KRUKAN_SKULL_REQ;
@@ -54,12 +50,12 @@ L_Ritual:
         goto L_Close;
 
     // initialize fight
-    set $@CRYPT_FIGHT1, 1;
-    set $@CRYPT_FIGHT1_WAVE, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, 2;
-    set $@CRYPT_FIGHT1_PLAYER_COUNT, getmapusers("027-6.gat");
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1043, 1, "General Krukan::OnPetDeath";
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1044, 1, "General Krukan::OnPetDeath";
+    $@CRYPT_FIGHT1 = 1;
+    $@CRYPT_FIGHT1_WAVE = 0;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = 2;
+    $@CRYPT_FIGHT1_PLAYER_COUNT = getmapusers("027-6");
+    areamonster "027-6", 0, 0, 79, 84, "", 1043, 1, "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1044, 1, "General Krukan::OnPetDeath";
 
     initnpctimer;
     goto L_Announce;
@@ -69,15 +65,14 @@ L_ToWeak:
     goto L_Close;
 
 L_Close:
-    set @bonus, 0;
-    set @minlevel, 0;
-    set @KRUKAN_SOUL_REQ, 0;
-    set @KRUKAN_SKULL_REQ, 0;
-    set @KRUKAN_DARK_CRYSTAL_REQ, 0;
-    set @KRUKAN_BONE_REQ, 0;
+    @bonus = 0;
+    @minlevel = 0;
+    @KRUKAN_SOUL_REQ = 0;
+    @KRUKAN_SKULL_REQ = 0;
+    @KRUKAN_DARK_CRYSTAL_REQ = 0;
+    @KRUKAN_BONE_REQ = 0;
     close;
 
-// Fight logic attached to npc
 OnTimer5000:
     setnpctimer 0;
     if ($@CRYPT_FIGHT1 != 0)
@@ -85,26 +80,26 @@ OnTimer5000:
     goto L_Return_1;
 
 L_Return_1:
-    set $@CRYPT_FIGHT1_PLAYER_COUNT, 0;
-    areatimer "027-6.gat", 0, 0, 79, 84, 10, "General Krukan::OnTick";
+    $@CRYPT_FIGHT1_PLAYER_COUNT = 0;
+    areatimer "027-6", 0, 0, 79, 84, 10, "General Krukan::OnTick";
     end;
 
 L_CryptLogic:
-    set $@CRYPT_FIGHT1_ROUND_PEN, $@CRYPT_FIGHT1_PLAYER_COUNT;
+    $@CRYPT_FIGHT1_ROUND_PEN = $@CRYPT_FIGHT1_PLAYER_COUNT;
     if ($@CRYPT_FIGHT1_ROUND_PEN > 60)
-        set $@CRYPT_FIGHT1_ROUND_PEN, 60;
+        $@CRYPT_FIGHT1_ROUND_PEN = 60;
     if ($@CRYPT_FIGHT1_PLAYER_COUNT <= 0)
         goto L_CleanUpLosers;
     set $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER, $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER + 5; // Advance 5 seconds
-    if (mobcount("027-6.gat", "General Krukan::OnPetDeath") < 0)
+    if (mobcount("027-6", "General Krukan::OnPetDeath") < 0)
         goto L_NextWave;
     if ($@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER + $@CRYPT_FIGHT1_ROUND_PEN >= 120)
         goto L_NextWave;
     goto L_Return_1;
 
 L_NextWave:
-    set $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT1_WAVE, $@CRYPT_FIGHT1_WAVE + 1;
+    $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT1_WAVE = $@CRYPT_FIGHT1_WAVE + 1;
     if ( ($@CRYPT_FIGHT1_WAVE > 10) && ($@CRYPT_FIGHT1_SUMMONS_COUNT == 0) )
         goto L_CleanUp;
     if ( ($@CRYPT_FIGHT1_WAVE > 10) && ($@CRYPT_FIGHT1_WAVE < 22) )
@@ -120,97 +115,96 @@ L_NextWave:
     goto L_SummonNuke;
 
 L_SummonNuke:
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT + $@CRYPT_FIGHT1_WAVE*2 + $@CRYPT_FIGHT1_PLAYER_COUNT*4;
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1043, $@CRYPT_FIGHT1_WAVE*2 + $@CRYPT_FIGHT1_PLAYER_COUNT*4, "General Krukan::OnPetDeath";
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT + $@CRYPT_FIGHT1_WAVE*2 + $@CRYPT_FIGHT1_PLAYER_COUNT*4;
+    areamonster "027-6", 0, 0, 79, 84, "", 1043, $@CRYPT_FIGHT1_WAVE*2 + $@CRYPT_FIGHT1_PLAYER_COUNT*4, "General Krukan::OnPetDeath";
     goto L_Announce;
 
 L_WeakSummons:
-    set $@CRYPT_FIGHT1_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
+    $@CRYPT_FIGHT1_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
 
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1043, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1044, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1043, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1044, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
     goto L_Announce;
 
 L_StrongSummons:
-    set $@CRYPT_FIGHT1_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
+    $@CRYPT_FIGHT1_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
 
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
     goto L_Announce;
 
 L_BossSummons:
-    set $@CRYPT_FIGHT1_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
-    areamonster "027-6.gat", 0, 0, 79, 84, "", 1127, 1, "General Krukan::OnPetDeath";
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT + 1;
+    $@CRYPT_FIGHT1_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT1_WAVE) + (2 * $@CRYPT_FIGHT1_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2);
+    areamonster "027-6", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT1_SUMMONS_NUMBER/2), "General Krukan::OnPetDeath";
+    areamonster "027-6", 0, 0, 79, 84, "", 1127, 1, "General Krukan::OnPetDeath";
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT + 1;
     goto L_Announce;
 
 L_Announce:
-    set $@msg$, $@CRYPT_FIGHT1_MESSAGES$[$@CRYPT_FIGHT1_WAVE];
+    $@msg$ = $@CRYPT_FIGHT1_MESSAGES$[$@CRYPT_FIGHT1_WAVE];
     if ($@msg$ == "")
         goto L_Return_1;
-    mapannounce "027-6.gat", $@msg$, 0;
-    mapannounce "027-3.gat", $@msg$, 0;
-    set $@msg$, "";
+    mapannounce "027-6", $@msg$, 0;
+    mapannounce "027-3", $@msg$, 0;
+    $@msg$ = "";
     goto L_Return_1;
 
-// Called on each player once every 5 seconds
 OnTick:
     if (isdead()) end;
-    set $@CRYPT_FIGHT1_PLAYER_COUNT, $@CRYPT_FIGHT1_PLAYER_COUNT + 1;
+    $@CRYPT_FIGHT1_PLAYER_COUNT = $@CRYPT_FIGHT1_PLAYER_COUNT + 1;
     end;
 
 OnPetDeath:
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, $@CRYPT_FIGHT1_SUMMONS_COUNT - 1;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = $@CRYPT_FIGHT1_SUMMONS_COUNT - 1;
     end;
 
 L_CleanUpLosers:
-    set $@CRYPT_FIGHT1, 0;
-    set $@CRYPT_FIGHT1_PLAYER_COUNT, 0;
-    set $@CRYPT_FIGHT1_WAVE, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, 0;
-    set $@CRYPT_FIGHT1_ROUND_PEN, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_NUMBER, 0;
-    killmonster "027-6.gat", "General Krukan::OnPetDeath";
+    $@CRYPT_FIGHT1 = 0;
+    $@CRYPT_FIGHT1_PLAYER_COUNT = 0;
+    $@CRYPT_FIGHT1_WAVE = 0;
+    $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = 0;
+    $@CRYPT_FIGHT1_ROUND_PEN = 0;
+    $@CRYPT_FIGHT1_SUMMONS_NUMBER = 0;
+    killmonster "027-6", "General Krukan::OnPetDeath";
     stopnpctimer;
     setnpctimer 0;
     end;
 
 L_CleanUp:
-    areatimer "027-6.gat", 0, 0, 79, 84, 10, "General Krukan::OnReward";
-    set $@CRYPT_FIGHT1, 0;
-    set $@CRYPT_FIGHT1_PLAYER_COUNT, 0;
-    set $@CRYPT_FIGHT1_WAVE, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_COUNT, 0;
-    set $@CRYPT_FIGHT1_ROUND_PEN, 0;
-    set $@CRYPT_FIGHT1_SUMMONS_NUMBER, 0;
-    killmonster "027-6.gat", "General Krukan::OnPetDeath";
+    areatimer "027-6", 0, 0, 79, 84, 10, "General Krukan::OnReward";
+    $@CRYPT_FIGHT1 = 0;
+    $@CRYPT_FIGHT1_PLAYER_COUNT = 0;
+    $@CRYPT_FIGHT1_WAVE = 0;
+    $@CRYPT_FIGHT1_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT1_SUMMONS_COUNT = 0;
+    $@CRYPT_FIGHT1_ROUND_PEN = 0;
+    $@CRYPT_FIGHT1_SUMMONS_NUMBER = 0;
+    killmonster "027-6", "General Krukan::OnPetDeath";
     stopnpctimer;
     setnpctimer 0;
     end;
 
 OnReward:
     if (isdead()) end;
-    set @bonus, (BaseLevel/4);
-    set DailyQuestBonus, DailyQuestBonus + @bonus;
+    @bonus = (BaseLevel/4);
+    DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action. " + @bonus + " daily bonus gained." ;
-    set BOSS_POINTS, BOSS_POINTS + 25;
+    BOSS_POINTS = BOSS_POINTS + 25;
     message strcharinfo(0), "You gain 25 Boss Points giving you a total of " + BOSS_POINTS + ".";
     goto L_End;
 
 L_End:
-    set @bonus, 0;
-    set @minlevel, 0;
-    set @KRUKAN_SOUL_REQ, 0;
-    set @KRUKAN_SKULL_REQ, 0;
-    set @KRUKAN_DARK_CRYSTAL_REQ, 0;
-    set @KRUKAN_BONE_REQ, 0;
+    @bonus = 0;
+    @minlevel = 0;
+    @KRUKAN_SOUL_REQ = 0;
+    @KRUKAN_SKULL_REQ = 0;
+    @KRUKAN_DARK_CRYSTAL_REQ = 0;
+    @KRUKAN_BONE_REQ = 0;
     end;
 
 OnInit:

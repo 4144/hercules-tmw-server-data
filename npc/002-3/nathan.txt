@@ -1,11 +1,9 @@
-// Variables used: nibble 4 and 5 of QUEST_SouthTulimshar
 
-002-3.gat,42,45,6|script|Nathan|109
-{
+002-3.gat,42,45,6	script	Nathan	109,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (@state >= 20) goto L_Nathan_Complete;
     if (@state == 19) goto L_Nathan_UGQ_Naem;
@@ -25,7 +23,7 @@
     goto L_Close;
 
 L_Nathan_Okay:
-    set @state, 9;
+    @state = 9;
     callsub S_Update_Var;
     mes "[Nathan]";
     mes "\"Hey there!  Just mining away down here. You say Nickos was worried about us?  Nothing down here we can't handle, but you should try to be safe down here yourself. The monsters can be rather aggressive. Come to think of it, you might want to check on Naem to make sure he's okay. You can find him in the southeast parts of the mine.\"";
@@ -37,7 +35,7 @@ L_Nathan_Cool:
     goto L_Close;
 
 L_Nathan_Help_1:
-    set @state, 12;
+    @state = 12;
     callsub S_Update_Var;
     mes "[Nathan]";
     mes "\"Oh, hey again!  Nickos told you we need some help down here too?  Yeah, Naem could use a spare pair of hands moving his bags of ore to me. He's got a lot of work built up. Just go talk to him and he'll give you the bags. You might have to make a few trips, but I'll make it worth your troubles.\"";
@@ -49,7 +47,7 @@ L_Nathan_Waits_1:
     goto L_Close;
 
 L_Nathan_Help_2:
-    set @state, 14;
+    @state = 14;
     callsub S_Update_Var;
     mes "You give the bag of ore to Nathan";
     next;
@@ -63,7 +61,7 @@ L_Nathan_Waits_2:
     goto L_Close;
 
 L_Nathan_Help_3:
-    set @state, 16;
+    @state = 16;
     callsub S_Update_Var;
     mes "You hand the bag of ore to Nathan.";
     next;
@@ -80,7 +78,7 @@ L_Nathan_Help_Done:
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_Nathan_TooMany;
-    set @state, 18;
+    @state = 18;
     callsub S_Update_Var;
     getitem "MinersHat", 1;
     mes "[Nathan]";
@@ -112,10 +110,10 @@ L_Nathan_Complete:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

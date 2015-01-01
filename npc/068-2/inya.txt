@@ -1,10 +1,7 @@
-//Gemstones: Diamond (white) , Ruby (red), Emerald (green), Sapphire (blue), Topaz (yellow), Amethyst (purple)
-//The power of the gems is important to future balance of these rings. Are they related to stats, tiers of power, schools of magic?
 
-068-2.gat,29,56,0|shop|#InyaShop|127,SimpleRing:*100000
+068-2,29,56,0	shop	#InyaShop	127,4014:100000
 
-068-2.gat,29,56,0|script|Inya|106
-{
+068-2.gat,29,56,0	script	Inya	106,{
     mes "[Inya]";
     mes "\"I am Inya, a jeweler of fine rings. I sell and make rings.\"";
     next; 
@@ -57,7 +54,7 @@ L_Inya_Remove_Diamond:
     if ( (Zeny < 50000)
         | (countitem ("DiamondRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "DiamondRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -68,7 +65,7 @@ L_Inya_Remove_Ruby:
     if ( (Zeny < 50000)
         | (countitem ("RubyRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "RubyRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -79,7 +76,7 @@ L_Inya_Remove_Emerald:
     if ( (Zeny < 50000)
         | (countitem ("EmeraldRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "EmeraldRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -90,7 +87,7 @@ L_Inya_Remove_Sapphire:
     if ( (Zeny < 50000)
         | (countitem ("SapphireRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "SapphireRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -101,7 +98,7 @@ L_Inya_Remove_Topaz:
     if ( (Zeny < 50000)
         | (countitem ("TopazRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "TopazRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -112,7 +109,7 @@ L_Inya_Remove_Amethyst:
     if ( (Zeny < 50000)
         | (countitem ("AmethystRing") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "AmethystRing", 1;
     getitem "SimpleRing", 1;
     mes "[Inya]";
@@ -124,7 +121,7 @@ L_Inya_Add_Diamond:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Diamond") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Diamond", 1;
     getitem "DiamondRing", 1;
@@ -137,7 +134,7 @@ L_Inya_Add_Ruby:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Ruby") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Ruby", 1;
     getitem "RubyRing", 1;
@@ -150,7 +147,7 @@ L_Inya_Add_Emerald:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Emerald") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Emerald", 1;
     getitem "EmeraldRing", 1;
@@ -163,7 +160,7 @@ L_Inya_Add_Sapphire:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Sapphire") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Sapphire", 1;
     getitem "SapphireRing", 1;
@@ -176,7 +173,7 @@ L_Inya_Add_Topaz:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Topaz") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Topaz", 1;
     getitem "TopazRing", 1;
@@ -189,7 +186,7 @@ L_Inya_Add_Amethyst:
         | (countitem ("SimpleRing") < 1)
         | (countitem ("Amethyst") < 1) )
             goto L_Inya_Not_Enough;
-    set Zeny, Zeny - 100000;
+    Zeny = Zeny - 100000;
     delitem "SimpleRing", 1;
     delitem "Amethyst", 1;
     getitem "AmethystRing", 1;

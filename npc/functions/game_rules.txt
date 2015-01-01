@@ -1,8 +1,6 @@
-//
 
-function|script|GameRules
-{
-    set @read, 0;
+function	script	GameRules	{
+    @read = 0;
     menu
         "English", L_English,
         "Deutsch (German)", L_German,
@@ -155,9 +153,9 @@ L_Italian:
     goto L_End;
 
 L_End:
-    set @read, 1;
+    @read = 1;
     if (TUT_var == 0)
-        set TUT_var, gettimetick(2);
+        TUT_var = gettimetick(2);
     goto L_Return;
 
 L_Return:

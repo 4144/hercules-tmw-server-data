@@ -1,43 +1,37 @@
-// Airlia, daughter of the cemetary caretaker
-
-// Future extensions:
-//   * Add banter and random replies for the unlimited subquests
-//   * Airlia quest = 2 unlocks options with Fighters of the Undead NPCs (in Cemetery), such as the 'Kill Sir Truk' quest
-//   * Airlia quest = 2 unlocks other options, perhaps with future Warrior Guild prospects (this is long term)
 
 
-009-2.gat,123,71,0|script|Airlia|108
-{
+
+009-2.gat,123,71,0	script	Airlia	108,{
     // Subquest 1a: Caretaker's daughter (initial, once)
-    set @LETTER_REWARD_GOLD_INITIAL, 1000;
-    set @LETTER_REWARD_EXP_INITIAL, 2000;
+    @LETTER_REWARD_GOLD_INITIAL = 1000;
+    @LETTER_REWARD_EXP_INITIAL = 2000;
 
-    set @Q_STATUS_RECIEVED_FIRST_LETTER, 2;
-    set @Q_STATUS_DELIVERED_FIRST_LETTER, 3;
+    @Q_STATUS_RECIEVED_FIRST_LETTER = 2;
+    @Q_STATUS_DELIVERED_FIRST_LETTER = 3;
 
     // Subquest 1b: Continued delivery of letters (unlimited)
-    set @LETTER_REWARD_GOLD, 42;
-    set @LETTER_REWARD_EXP, 500;
+    @LETTER_REWARD_GOLD = 42;
+    @LETTER_REWARD_EXP = 500;
 
-    set @Q_STATUS_HAS_NO_NEW_LETTER, 4;
-    set @Q_STATUS_HAS_NEW_LETTER, 5;
+    @Q_STATUS_HAS_NO_NEW_LETTER = 4;
+    @Q_STATUS_HAS_NEW_LETTER = 5;
 
     // Subquest 2a: Fetch those undead drops (initial, once)
     // TODO: Set sane values below
-    set @FETCH_AMOUNT_INITIAL, 50;
-    set @FETCH_LABEL_INITIAL$, "Bone";
-    set @FETCH_REWARD_GOLD_INITIAL, 5000;
-    set @FETCH_REWARD_EXP_INITIAL, 50000;
+    @FETCH_AMOUNT_INITIAL = 50;
+    @FETCH_LABEL_INITIAL$ = "Bone";
+    @FETCH_REWARD_GOLD_INITIAL = 5000;
+    @FETCH_REWARD_EXP_INITIAL = 50000;
 
-    set @Q_STATUS_HELP_AIRLIA, 1;
-    set @Q_STATUS_INITIAL_FETCH_REWARDED, 2;
+    @Q_STATUS_HELP_AIRLIA = 1;
+    @Q_STATUS_INITIAL_FETCH_REWARDED = 2;
 
     // Subquest 2b: Fetch those undead drops (unlimited)
     // TODO: Set sane values below
-    set @FETCH_AMOUNT, 10;
-    set @FETCH_LABEL$, "DiseasedHeart";
-    set @FETCH_REWARD_GOLD, 6000;
-    set @FETCH_REWARD_EXP, 40000;
+    @FETCH_AMOUNT = 10;
+    @FETCH_LABEL$ = "DiseasedHeart";
+    @FETCH_REWARD_GOLD = 6000;
+    @FETCH_REWARD_EXP = 40000;
 
 
     if (QUEST_Airlia == @Q_STATUS_INITIAL_FETCH_REWARDED) goto L_Rewarded;
@@ -77,9 +71,9 @@ L_Caretaker_first_reward:
         mes "[" + @LETTER_REWARD_GOLD_INITIAL + " GP]";
     if (@LETTER_REWARD_EXP_INITIAL > 0)
         mes "[" + @LETTER_REWARD_EXP_INITIAL + " experience points]";
-    set Zeny, Zeny + @LETTER_REWARD_GOLD_INITIAL;
+    Zeny = Zeny + @LETTER_REWARD_GOLD_INITIAL;
     getexp @LETTER_REWARD_EXP_INITIAL, 0;
-    set QUEST_Graveyard_Caretaker, @Q_STATUS_DELIVERED_FIRST_LETTER;
+    QUEST_Graveyard_Caretaker = @Q_STATUS_DELIVERED_FIRST_LETTER;
     close;
 
 L_Caretaker_later_rewards:
@@ -89,9 +83,9 @@ L_Caretaker_later_rewards:
         mes "[" + @LETTER_REWARD_GOLD + " GP]";
     if (@LETTER_REWARD_EXP > 0)
         mes "[" + @LETTER_REWARD_EXP + " experience points]";
-    set Zeny, Zeny + @LETTER_REWARD_GOLD;
+    Zeny = Zeny + @LETTER_REWARD_GOLD;
     getexp @LETTER_REWARD_EXP, 0;
-    set QUEST_Graveyard_Caretaker, @Q_STATUS_HAS_NO_NEW_LETTER;
+    QUEST_Graveyard_Caretaker = @Q_STATUS_HAS_NO_NEW_LETTER;
     close;
 
 L_Airlia_intro:
@@ -158,13 +152,13 @@ L_Airlia_intro_fight:
         "What sort of proof?", L_Airlia_intro_proof;
 
 L_Next2:
-    set QUEST_Airlia, @Q_STATUS_HELP_AIRLIA;
+    QUEST_Airlia = @Q_STATUS_HELP_AIRLIA;
     goto L_Close;
 
 L_Airlia_intro_proof:
     mes "[Airlia]";
     mes "\"Let's say " + @FETCH_AMOUNT_INITIAL + " " + getitemname(@FETCH_LABEL_INITIAL$) + "s. You don't know how much this means to me, thank you.\"";
-    set QUEST_Airlia, @Q_STATUS_HELP_AIRLIA;
+    QUEST_Airlia = @Q_STATUS_HELP_AIRLIA;
     close;
 
 L_Fetch:
@@ -189,7 +183,7 @@ L_Fetch:
     goto L_Close;
 
 L_Fetch_initial_reward:
-    if (countitem(@FETCH_LABEL_INITIAL$) < @FETCH_AMOUNT_INITIAL) goto L_Fetch_not_enough;
+    if (countitemcolor(@FETCH_LABEL_INITIAL$) < @FETCH_AMOUNT_INITIAL) goto L_Fetch_not_enough;
     mes "[Airlia]";
     mes "\"Excellent work. You are definitely a great warrior. I will tell the guild of your deeds.\"";
     if (@FETCH_REWARD_GOLD_INITIAL > 0)
@@ -197,9 +191,9 @@ L_Fetch_initial_reward:
     if (@FETCH_REWARD_EXP_INITIAL > 0)
         mes "[" + @FETCH_REWARD_EXP_INITIAL + " experience points]";
     delitem @FETCH_LABEL_INITIAL$, @FETCH_AMOUNT_INITIAL;
-    set Zeny, Zeny + @FETCH_REWARD_GOLD_INITIAL;
+    Zeny = Zeny + @FETCH_REWARD_GOLD_INITIAL;
     getexp @FETCH_REWARD_EXP_INITIAL, 0;
-    set QUEST_Airlia, @Q_STATUS_INITIAL_FETCH_REWARDED;
+    QUEST_Airlia = @Q_STATUS_INITIAL_FETCH_REWARDED;
     next;
     mes "[Airlia]";
     // TODO: Write the dialogue when I'm not tired...
@@ -208,7 +202,7 @@ L_Fetch_initial_reward:
     close;
 
 L_Fetch_later_rewards:
-    if (countitem(@FETCH_LABEL$) < @FETCH_AMOUNT)
+    if (countitemcolor(@FETCH_LABEL$) < @FETCH_AMOUNT)
         goto L_Fetch_not_enough;
     mes "[Airlia]";
     mes "\"Excellent work. You are definitely a great warrior.\"";
@@ -217,7 +211,7 @@ L_Fetch_later_rewards:
     if (@FETCH_REWARD_EXP > 0)
         mes "[" + @FETCH_REWARD_EXP + " experience points]";
     delitem @FETCH_LABEL$, @FETCH_AMOUNT;
-    set Zeny, Zeny + @FETCH_REWARD_GOLD;
+    Zeny = Zeny + @FETCH_REWARD_GOLD;
     getexp @FETCH_REWARD_EXP, 0;
     close;
 

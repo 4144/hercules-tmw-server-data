@@ -1,10 +1,8 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Woodland Hills warps
 
-055-1.gat,100,83|warp|To Cave|-1,-1,055-3.gat,30,27
-055-1.gat,100,89|warp|To Cave|-1,-1,055-3.gat,50,42
-055-1.gat,22,52|warp|To Woodland Hills|-1,2,013-1.gat,135,51
-055-1.gat,137,96|warp|To Cave|-1,-1,055-3.gat,76,39
-055-1.gat,60,93|warp|To Cave|-1,-1,055-3.gat,96,70
-055-1.gat,75,20|warp|To Woods|0,-1,056-1.gat,74,75
-055-1.gat,149,63|warp|To Woodland|-1,1,057-1.gat,20,63
+055-1,100,83,0	warp	To Cave	0,0,055-3,30,27
+055-1,100,89,0	warp	To Cave	0,0,055-3,50,42
+055-1,22,52,0	warp	To Woodland Hills	0,2,013-1,135,51
+055-1,137,96,0	warp	To Cave	0,0,055-3,76,39
+055-1,60,93,0	warp	To Cave	0,0,055-3,96,70
+055-1,75,20,0	warp	To Woods	0,0,056-1,74,75
+055-1,149,63,0	warp	To Woodland	0,1,057-1,20,63

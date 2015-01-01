@@ -1,8 +1,5 @@
-// Annual Xmas
-// author: Jenalya, wushin
 
-030-2.gat,89,23,0|script|Verneri|334
-{
+030-2.gat,89,23,0	script	Verneri	334,{
     callfunc "XmasStates";
 
     if((@xmas_state >= $@xmas_helpers_start_state) && ($@xmas_time))
@@ -35,7 +32,7 @@ L_LetsRoast:
         "I need to get the ingredients.", L_Close;
 
 L_Roast:
-    if (countitem("Acorn") < $@xmas_acorn_amount || countitem("IronPotion") < $@xmas_iron_potion_amount)
+    if (countitemcolor("Acorn") < $@xmas_acorn_amount || countitemcolor("IronPotion") < $@xmas_iron_potion_amount)
         goto L_NoItems;
 
     getinventorylist;
@@ -54,8 +51,8 @@ L_Roast:
 
     mes "[Verneri]";
     mes "\"Ouch, hot. But tasty! Some of them might be burnt, I'll throw those away.\"";
-    set XMASTIME, XMASTIME | $@xmas_helper_bit_acorns;
-    set @karma_bonus, $@xmas_karma_bonus;
+    XMASTIME = XMASTIME | $@xmas_helper_bit_acorns;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNice";
     getitem "RoastedAcorn", rand(($@xmas_acorn_amount / 2), $@xmas_acorn_amount);
     menu

@@ -1,7 +1,5 @@
-// Waitress
 
-009-2.gat,60,52,0|script|Melinda|140
-{
+009-2.gat,60,52,0	script	Melinda	140,{
     mes "[Melinda]";
     mes "\"Hi, sweetie! Want a fresh beer for 170 GP?\"";
     next;
@@ -16,9 +14,9 @@ L_NoTip:
     if (Zeny < 170)
         goto L_NoMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("Beer") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("Beer") == 0)
         goto L_TooMany;
-    set Zeny, Zeny - 170;
+    Zeny = Zeny - 170;
     getitem "Beer", 1;
     mes "[Melinda]";
     mes "Pff... nickel nurser!";
@@ -28,9 +26,9 @@ L_5Tip:
     if (Zeny < 175)
         goto L_NoMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("Beer") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("Beer") == 0)
         goto L_TooMany;
-    set Zeny, Zeny - 175;
+    Zeny = Zeny - 175;
     getitem "Beer", 1;
     mes "[Melinda]";
     mes "\"Here you go, sweetheart!\"";
@@ -40,9 +38,9 @@ L_10Tip:
     if (Zeny < 180)
         goto L_NoMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("Beer") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("Beer") == 0)
         goto L_TooMany;
-    set Zeny, Zeny - 180;
+    Zeny = Zeny - 180;
     getitem "Beer", 1;
     mes "[Melinda]";
     mes "\"Thank you, sweetie! Want to hear a secret?\"";

@@ -1,13 +1,7 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Pyry works on cleaning the library, can start the slime subquest
-// can give second hint about helper in investigation subquest
 
-048-2.gat,117,106,0|script|Pyry|365
-{
-    set @slimes, ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+048-2.gat,117,106,0	script	Pyry	365,{
+    @slimes = ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
 
     if (@slimes == 255) goto L_Thank;
     if (@slimes > 0) goto L_Progress;
@@ -30,7 +24,7 @@ L_Next:
     mes "\"The Blue ones are able to generate smaller slimes which show a self-destructive behaviour to protect their... parent slime if you want to call it that. You have to kill the big one, but be careful of the smaller ones while trying that.\"";
     next;
     mes "\"The White Slimes appear in groups and when you attack one of them, they also show some self-destructive behaviour to protect their group as a whole. You have to defeat the entire group, otherwise the remaining slimes will breed new slimes to replace their lost.\"";
-    set QUEST_BlueSage, QUEST_BlueSage | $@Q_BlueSageSlimesStart;
+    QUEST_BlueSage = QUEST_BlueSage | $@Q_BlueSageSlimesStart;
     goto L_Investigate;
 
 L_Progress:
@@ -96,12 +90,12 @@ L_Helper:
     mes "\"I was very surprised when I heard that he's responsible for the failed sealing spell. I'd never have expected that from him.\"";
     if ((@investigate != 5) && (@investigate != 6) && (@investigate != 7))
         goto L_Close;
-    set @investigate, @investigate + 3;
+    @investigate = @investigate + 3;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @slimes, 0;
+    @investigate = 0;
+    @slimes = 0;
     close;
 }

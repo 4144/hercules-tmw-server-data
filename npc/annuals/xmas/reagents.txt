@@ -1,10 +1,6 @@
-// This file is part of Christmas Event
-// author: Jenalya, Chayenne, cinderweb, wushin
-// please see #XmasConfig
 
-function|script|CheckReagents
-{
-    set @xmas_reagent_loop, 0;
+function	script	CheckReagents	{
+    @xmas_reagent_loop = 0;
     if((@xmas_reagent_done_state) || !(@xmas_reagent_start_state))
         goto L_Return;
     if(@xmas_side)
@@ -12,29 +8,29 @@ function|script|CheckReagents
     goto L_ZeroLoop;
 
 L_ZeroLoop:
-    if(countitem($@xmas_zero_reagents$[@xmas_reagent_loop]) >= $@xmas_zero_reagents_amounts[@xmas_reagent_loop])
+    if(countitemcolor($@xmas_zero_reagents$[@xmas_reagent_loop]) >= $@xmas_zero_reagents_amounts[@xmas_reagent_loop])
         goto L_ZeroLoopAgain;
     goto L_Return;
 
 L_ZeroLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_zero_reagents$))
         goto L_AllReagents;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_ZeroLoop;
 
 L_OneLoop:
-    if(countitem($@xmas_one_reagents$[@xmas_reagent_loop]) >= $@xmas_one_reagents_amounts[@xmas_reagent_loop])
+    if(countitemcolor($@xmas_one_reagents$[@xmas_reagent_loop]) >= $@xmas_one_reagents_amounts[@xmas_reagent_loop])
         goto L_OneLoopAgain;
     goto L_Return;
 
 L_OneLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_one_reagents$))
         goto L_AllReagents;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_OneLoop;
 
 L_AllReagents:
-    set @xmas_state, $@xmas_reagents_done;
+    @xmas_state = $@xmas_reagents_done;
     callfunc "XmasSetState";
     goto L_Return;
 
@@ -42,9 +38,8 @@ L_Return:
     return;
 }
 
-function|script|DeleteReagents
-{
-    set @xmas_reagent_loop, 0;
+function	script	DeleteReagents	{
+    @xmas_reagent_loop = 0;
     if(@xmas_side)
         goto L_OneLoop;
     goto L_ZeroLoop;
@@ -56,7 +51,7 @@ L_ZeroLoop:
 L_ZeroLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_zero_reagents$))
         goto L_Return;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_ZeroLoop;
 
 L_OneLoop:
@@ -66,16 +61,15 @@ L_OneLoop:
 L_OneLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_one_reagents$))
         goto L_Return;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_OneLoop;
 
 L_Return:
     return;
 }
 
-function|script|ListReagents
-{
-    set @xmas_reagent_loop, 0;
+function	script	ListReagents	{
+    @xmas_reagent_loop = 0;
     mes "\"I'm going to need \"";
     next;
 
@@ -91,7 +85,7 @@ L_ZeroLoop:
 L_ZeroLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_zero_reagents$))
         goto L_AllReagents;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_ZeroLoop;
 
 L_OneLoop:
@@ -102,20 +96,19 @@ L_OneLoop:
 L_OneLoopAgain:
     if((@xmas_reagent_loop + 1) == getarraysize($@xmas_one_reagents$))
         goto L_AllReagents;
-    set @xmas_reagent_loop, (@xmas_reagent_loop + 1);
+    @xmas_reagent_loop = (@xmas_reagent_loop + 1);
     goto L_OneLoop;
 
 L_AllReagents:
     return;
 }
 
-function|script|BadPowderMake
-{
-    if(countitem("PileOfAsh") < ($@xmas_red_amount + $@xmas_yellow_amount))
+function	script	BadPowderMake	{
+    if(countitemcolor("PileOfAsh") < ($@xmas_red_amount + $@xmas_yellow_amount))
         goto L_NotEnough;
-    if(countitem("RedDye") < $@xmas_red_amount)
+    if(countitemcolor("RedDye") < $@xmas_red_amount)
         goto L_NotEnough;
-    if(countitem("YellowDye") < $@xmas_yellow_amount)
+    if(countitemcolor("YellowDye") < $@xmas_yellow_amount)
         goto L_NotEnough;
     getinventorylist;
     if (@inventorylist_count > 100)

@@ -1,8 +1,6 @@
-// Talk NPCs to help make trek interesting between Tutorial and Bazaar.
 
-022-1.gat,35,36,0|script|Marikel|211
-{
-    set @npcname$, "Marikel";
+022-1.gat,35,36,0	script	Marikel	211,{
+    @npcname$ = "Marikel";
 
     mes "[" + @npcname$ + "]";
     mes "\"Working on the docks can be hard nowadays.\"";
@@ -27,9 +25,8 @@ L_Marikel_2:
     close;
 }
 
-022-1.gat,65,46,0|script|Joelin|212
-{
-    set @npcname$, "Joelin";
+022-1.gat,65,46,0	script	Joelin	212,{
+    @npcname$ = "Joelin";
 
     mes "[" + @npcname$ + "]";
     mes "\"My ship's to set sail soon. We'll tour around the Acean Isles, then back around to Argaes, then here in Tonori.\"";
@@ -38,18 +35,16 @@ L_Marikel_2:
     close;
 }
 
-022-1.gat,67,46,0|script|Harper|213
-{
-    set @npcname$, "Harper";
+022-1.gat,67,46,0	script	Harper	213,{
+    @npcname$ = "Harper";
 
     mes "[" + @npcname$ + "]";
     mes "\"My captain knows an awlful lot about the world's continents.\"";
     close;
 }
 
-022-1.gat,75,99,0|script|Swezanne|206
-{
-    set @npcname$, "Swezanne";
+022-1.gat,75,99,0	script	Swezanne	206,{
+    @npcname$ = "Swezanne";
 
     mes "[" + @npcname$ + "]";
     mes "\"Just through those gates is Northern Tulimshar. In Southern Tulimshar I go to the Bazaar and talk with Aidan about monster points.\"";

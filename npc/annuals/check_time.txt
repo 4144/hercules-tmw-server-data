@@ -1,16 +1,7 @@
-// check a date
-// Wushin
-// $@start_month
-// $@end_month
-// $@start_day
-// $@end_day
-// $@reward_start_month
-// $@reward_start_day 
 
-function|script|GetEventTime
-{
-    set $@month, gettime(6);
-    set $@day, gettime(5);
+function	script	GetEventTime	{
+    $@month = gettime(6);
+    $@day = gettime(5);
 
     if ($@start_month > $@end_month)
         goto L_YearWrap;
@@ -42,14 +33,14 @@ L_YearWrap:
     goto L_NoEventTime;
 
 L_NoEventTime:
-    set $@event_time, 0;
+    $@event_time = 0;
     return;
 
 L_EventTime:
-    set $@event_time, 1;
+    $@event_time = 1;
     return;
 
 L_RewardTime:
-    set $@event_time, 2;
+    $@event_time = 2;
     return;
 }

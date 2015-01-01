@@ -1,39 +1,36 @@
-// Auldsbel the Wizard
-// Transmutation Magic expert
 
-011-1.gat,50,68,0|script|Auldsbel#_M|168
-{
-    set @mexp, MAGIC_EXPERIENCE & 65535;
+011-1.gat,50,68,0	script	Auldsbel#_M	168,{
+    @mexp = MAGIC_EXPERIENCE & 65535;
 
-    set @Q_STATUS_INITIAL, 0;
-    set @Q_STATUS_POSTINTRO, 1;
+    @Q_STATUS_INITIAL = 0;
+    @Q_STATUS_POSTINTRO = 1;
     set @Q_STATUS_INITIATION, 2; // quest for being able to cast `create mouboo figurine'
     set @Q_STATUS_STUDENT, 3; // accepted as student
     set @Q_STATUS_STUDENT0, 4; // accepted as student
-    set @Q_STATUS_STUDENT1, 5;
-    set @Q_STATUS_STUDENT2, 6;
-    set @Q_STATUS_STUDENT3, 7;
-    set @Q_STATUS_STUDENT4, 8;
-    set @Q_STATUS_STUDENT5, 9;
+    @Q_STATUS_STUDENT1 = 5;
+    @Q_STATUS_STUDENT2 = 6;
+    @Q_STATUS_STUDENT3 = 7;
+    @Q_STATUS_STUDENT4 = 8;
+    @Q_STATUS_STUDENT5 = 9;
 
 
     set @wants_sulphur, (QUEST_MAGIC & (NIBBLE_6_MASK | NIBBLE_7_MASK)) // war quest
         || (((QUEST_MAGIC2 & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT) >= 4); // Elanore's heal-Kadiya quest
-    set @wants_ironpowder, (((QUEST_MAGIC & (NIBBLE_6_MASK | NIBBLE_7_MASK)) >> NIBBLE_6_SHIFT) >= 7);
+    @wants_ironpowder = (((QUEST_MAGIC & (NIBBLE_6_MASK | NIBBLE_7_MASK)) >> NIBBLE_6_SHIFT) >= 7);
 
-    set @Q_MASK, NIBBLE_0_MASK | NIBBLE_1_MASK;
-    set @Q_SHIFT, NIBBLE_0_SHIFT;
+    @Q_MASK = NIBBLE_0_MASK | NIBBLE_1_MASK;
+    @Q_SHIFT = NIBBLE_0_SHIFT;
 
-    set @Q_status, (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
+    @Q_status = (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
 
-    set @Q_main_status, @Q_status & 31;
-    set @Q_component_quest, @Q_status >> 5;
+    @Q_main_status = @Q_status & 31;
+    @Q_component_quest = @Q_status >> 5;
 
-    set @has_magic, getskilllv(SKILL_MAGIC);
+    @has_magic = getskilllv(SKILL_MAGIC);
 
-    set @address$, "chap";
+    @address$ = "chap";
     if (Sex == 0)
-        set @address$, "girl";
+        @address$ = "girl";
 
     if (@Q_main_status >= @Q_STATUS_POSTINTRO)
         goto L_short_intro;
@@ -74,9 +71,9 @@ L_intro_identity:
         mes "\"How odd. I could have sworn that you were a man the last time we met. Not that I mind...\"";
     mes "\"Wait. You're not Padric.\"";
     next;
-    set @xmsg$, "Right... my name is " + strcharinfo(0) + ".";
+    @xmsg$ = "Right... my name is " + strcharinfo(0) + ".";
     if (strcharinfo(0) == "Padric")
-        set @xmsg$, "Actually, I am, but I don't know you...?";
+        @xmsg$ = "Actually, I am, but I don't know you...?";
     menu
         @xmsg$, L_intro_wrongperson,
         "You're not very good with faces, are you?", L_intro_nogood,
@@ -118,24 +115,24 @@ L_intro_who_are_you:
     mes "\"Well, my young friend, I am none other than Auldsbel the Graying, of the Council of Transmuters!\"";
     next;
 
-    set @Q_main_status, @Q_STATUS_POSTINTRO;
-    callsub S_update_var;
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_AULDSBEL;
+    @Q_main_status = @Q_STATUS_POSTINTRO;
+    callsub S_Update_Var;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_AULDSBEL;
 
     mes "[Auldsbel the Wizard]";
     mes "\"That means that I'm a wizard, in case you were wondering.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_short_intro:
     mes "[Auldsbel the Wizard]";
     mes "\"Welcome back, Padric!\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_main_menu:
+L_Main_menu:
     if (@has_magic)
-        goto L_main_menu_magic;
+        goto L_Main_menu_magic;
 
     menu
         "How does this 'magic' work?", L_about_magic,
@@ -145,7 +142,7 @@ L_main_menu:
         "What do you know about...", L_question,
         "Goodbye.", L_Close;
 
-L_main_menu_magic:
+L_Main_menu_magic:
     if (@wants_sulphur && @wants_ironpowder)
         menu
             "How does magic work?", L_about_magic,
@@ -180,11 +177,11 @@ L_ironpowder:
     mes "[Auldsbel the Wizard]";
     mes "\"I know that they used to make iron ore around here, though, many years ago. Perhaps the secret is still hidden somewhere?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_sulphur:
     mes "[Auldsbel the Wizard]";
-    set @cost, 400 - (@Q_component_quest * 30);
+    @cost = 400 - (@Q_component_quest * 30);
     mes "\"Sulphur powder?  Ah, so we have picked up a little offensive magic, haven't we?  Good thinking, good thinking. And yes, of course I can transmute volcanic ashes into sulphur powder at a ratio of 1:5, for " + @cost + " GP.\"";
     next;
     if (@Q_main_status >= @Q_STATUS_STUDENT)
@@ -200,40 +197,40 @@ L_sulphur:
 
 L_sulphur_buy:
     if (Zeny < @cost)
-        goto L_sulphur_nozeny;
-    if (countitem("PileOfAsh") < 1)
+        goto L_sulphur_noZeny;
+    if (countitemcolor("PileOfAsh") < 1)
         goto L_sulphur_noash;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("SulphurPowder") > 1
-        && countitem("PileOfAsh") == 0)
+        && countitemcolor("SulphurPowder") > 1
+        && countitemcolor("PileOfAsh") == 0)
             goto L_sulphur_noroom;
 
-    set Zeny, Zeny - @cost;
+    Zeny = Zeny - @cost;
     delitem "PileOfAsh", 1;
     getitem "SulphurPowder", 5;
     mes "[Auldsbel the Wizard]";
     mes "\"I shall transmute it later. Here, have five half-ounces from my own stock.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_sulphur_nozeny:
+L_sulphur_noZeny:
     mes "[Auldsbel the Wizard]";
     mes "\"No GP, no service.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_sulphur_noash:
     mes "[Auldsbel the Wizard]";
     mes "\"Without volcanic ash, I can't give you any sulphur powder. Try hunting some fire goblins, or somesuch.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_sulphur_noroom:
     mes "[Auldsbel the Wizard]";
     mes "\"Hmm, you really managed to squeeze something into every little place you had that we could have stored the powder in... you might want to return once you have resolved this matter.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_sulphur_teach_spell:
     if (@Q_component_quest <= 4)
@@ -247,7 +244,7 @@ L_sulphur_teach_spell:
     mes "[Auldsbel the Wizard]";
     mes "\"You may find that you can transmute the powder more effectively after a while; that is perfectly natural.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_sulphur_teach_spell_no:
     mes "[Auldsbel the Wizard]";
@@ -261,7 +258,7 @@ L_Next:
     mes "[Auldsbel the Wizard]";
     mes "\"Then I fear that I shall not reveal the spell to you either.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_about_magic:
     mes "[Auldsbel the Wizard]";
@@ -278,7 +275,7 @@ L_about_magic_minimenu:
         "How can I advance in magic?", L_about_magic_advance,
         "How do spells work?", L_about_magic_spells,
         "Where can I learn spells?", L_about_magic_learn,
-        "Never mind.", L_main_menu;
+        "Never mind.", L_Main_menu;
 
 L_about_magic_schools:
     mes "[Auldsbel the Wizard]";
@@ -460,13 +457,13 @@ L_about_auldsbel:
     next;
     menu
         "All right, but what about you?.", L_about_auldsbel_2,
-        "Never mind.", L_main_menu;
+        "Never mind.", L_Main_menu;
 
 L_about_auldsbel_2:
     mes "[Auldsbel the Wizard]";
     mes "\"Oh, myself?  I am just vacationing in the area. Very relaxed and peaceful place, the Hurnscald area. And plenty of splendid specimens for experimentation.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_learn_magic:
     mes "[Auldsbel the Wizard]";
@@ -476,15 +473,15 @@ L_learn_magic:
     mes "[Auldsbel the Wizard]";
     mes "\"Sure, there are a few entities that may grant you magic – Ether Spirits or Mana Seeds or Great Dragons – but those are the stuff of legends, so I suggest that you don't waste your life trying to find one of them.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_question:
     callfunc "MagicTalkOptionsSetup";
-    set @ignore, @QQ_AULDSBEL;
+    @ignore = @QQ_AULDSBEL;
     callfunc "MagicTalkMenu";
 
     if (@c == 0)
-        goto L_main_menu;
+        goto L_Main_menu;
     if (@c == @QQ_ELANORE)
         goto L_Q_elanore;
     if (@c == @QQ_MANASEED)
@@ -505,7 +502,7 @@ L_question:
     mes "[Auldsbel the Wizard]";
     mes "\"Let us talk about something else.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_astralsoul:
     if (!(getskilllv(SKILL_ASTRAL_SOUL)))
@@ -517,7 +514,7 @@ L_Q_astralsoul:
     mes "\"...uhm...\"";
     next;
     mes "\"Didn't I teach you the ability to focus on magic, did I?\"";
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_astralsoul_L:
     mes "[Auldsbel the Wizard]";
@@ -530,12 +527,12 @@ L_Q_astralsoul_L:
     mes "\"It is about... erm, 11300 GP. Do you have so much money?\"";
     menu
         "Here you are", L_Q_astralsoul_L1,
-        "I will get it.", L_main_menu;
+        "I will get it.", L_Main_menu;
 
 L_Q_astralsoul_L1:
     if (Zeny < 11300)
         goto L_Q_astralsoul_nz;
-    set Zeny, Zeny - 11300;
+    Zeny = Zeny - 11300;
     mes "[Auldsbel the Wizard]";
     mes "\"Okay, listen:\"";
     next;
@@ -545,24 +542,24 @@ L_Q_astralsoul_L1:
     next;
     mes "Auldsbel mumbles some invocations";
     next;
-    set @SUP_lvl, 1;
-    set @SUP_id, SKILL_ASTRAL_SOUL;
-    set @SUP_name$, "Astral Soul";
-    set @SUP_xp, 2500;
+    @SUP_lvl = 1;
+    @SUP_id = SKILL_ASTRAL_SOUL;
+    @SUP_name$ = "Astral Soul";
+    @SUP_xp = 2500;
     callfunc "SkillUp";
     next;
     mes "[Auldsbel the Wizard]";
     mes "\"Now go and try to find someone who can actually activate that focus.\"";
     next;
     mes "\"You have the powers to focus on magic, but you need to get magic focused now.\"";
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_astralsoul_nz:
     mes "[Auldsbel the Wizard]";
     mes "\"When learning powerful stuff, you should try not to make so many jokes.\"";
     next;
     mes "\"Come back when you have the money.\"";
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_old_wizard:
     mes "[Auldsbel the Wizard]";
@@ -571,25 +568,25 @@ L_Q_old_wizard:
     mes "[Auldsbel the Wizard]";
     mes "\"I have not had the opportunity to talk to him too much, though.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_imp:
     mes "[Auldsbel the Wizard]";
     mes "\"There are many different kinds of spirits in the world. Some are good-natured, others evil; some are weak, others very powerful. I don't know the particular one you have encountered, though I urge caution.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_elanore:
     mes "[Auldsbel the Wizard]";
     mes "\"Ah, Elanore. A kind little woman. Also a very proficient healer, from what I have been told, though we have interacted little. If you are interested in Life magic, you might want to talk to her.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_wyara:
     mes "[Auldsbel the Wizard]";
     mes "\"The village witch?  Not exactly the brightest person, but she has managed to figure out how to brew potions. I doubt that she can do any real magic, though.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_sagatha:
     mes "[Auldsbel the Wizard]";
@@ -599,12 +596,12 @@ L_Q_sagatha:
     mes "[Auldsbel the Wizard]";
     mes "\"That woman has spent too much time alone in the forests... I have the strong suspicion that she is more loyal towards her animals than towards us humans!  I recommend that you stay away from her, if you value your well-being.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed_rumour:
     mes "\"A mana seed?  Around here?  Nah, they've been pulling your leg. Those things are extremely rare, after all.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed:
     mes "[Auldsbel the Wizard]";
@@ -621,7 +618,7 @@ L_Q_manaseed:
     mes "[Auldsbel the Wizard]";
     mes "\"Well, if it's true, then try touching it. That should do you no harm, but if you are very, very lucky, it just might grant you some minuscule amount of magical power.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed_touched:
     if (MAGIC_FLAGS & MFLAG_DRANK_POTION)
@@ -633,14 +630,14 @@ L_Q_manaseed_touched:
     mes "[Auldsbel the Wizard]";
     mes "\"Legend has it that you can substitute for such control by imbibing a Mana Potion. I am not sure whether that legend is true, but for you it might be worth trying it out.\"";
     next;
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_MANAPOTION;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_MANAPOTION;
     goto L_Q_manaseed_touched_short;
 
 L_Q_manaseed_touched_short:
     menu
         "Where can I get a Mana Potion?", L_where_mana_potion,
         "Can you make a Mana Potion?", L_make_mana_potion,
-        "Thank you.", L_main_menu;
+        "Thank you.", L_Main_menu;
 
 L_where_mana_potion:
     mes "[Auldsbel the Wizard]";
@@ -654,29 +651,29 @@ L_make_mana_potion:
     next;
     menu
         "Here you are.", L_Next1,
-        "I will look for those items.", L_main_menu,
+        "I will look for those items.", L_Main_menu,
         "I'm not interested.", L_Q_manaseed_touched_short;
 
 L_Next1:
     if (Zeny < 10000)
         goto L_make_mana_potion_missing;
-    if (countitem("GambogeHerb") < 10)
+    if (countitemcolor("GambogeHerb") < 10)
         goto L_make_mana_potion_missing;
-    if (countitem("MauveHerb") < 20)
+    if (countitemcolor("MauveHerb") < 20)
         goto L_make_mana_potion_missing;
-    if (countitem("Pearl") < 1)
+    if (countitemcolor("Pearl") < 1)
         goto L_make_mana_potion_missing;
-    if (countitem("BottleOfWater") < 1)
+    if (countitemcolor("BottleOfWater") < 1)
         goto L_make_mana_potion_missing;
     getinventorylist;
     if (@inventorylist_count == 100
-            && countitem("GambogeHerb") > 10
-            && countitem("MauveHerb") > 20
-            && countitem("Pearl") > 1
-            && countitem("BottleOfWater") > 1
-            && countitem("ManaPotion") < 1)
+            && countitemcolor("GambogeHerb") > 10
+            && countitemcolor("MauveHerb") > 20
+            && countitemcolor("Pearl") > 1
+            && countitemcolor("BottleOfWater") > 1
+            && countitemcolor("ManaPotion") < 1)
                 goto L_mana_potion_toomuch;
-    set Zeny, Zeny - 10000;
+    Zeny = Zeny - 10000;
     delitem "GambogeHerb", 10;
     delitem "MauveHerb", 20;
     delitem "Pearl", 1;
@@ -691,7 +688,7 @@ L_Next1:
     mes "He hands you the final result, which feels surprisingly heavy.";
     next;
     menu
-        "Thank you!", L_main_menu,
+        "Thank you!", L_Main_menu,
         "What about the pearl and GP?", L_Next2;
 
 L_Next2:
@@ -699,36 +696,36 @@ L_Next2:
     mes "Auldsbel raises his eyebrows in surprise.";
     mes "\"Those were payment. You don't expect me to work for free, now do you?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_mana_potion_toomuch:
     mes "[Auldsbel the Wizard]";
     mes "\"Burdened as you are, I doubt you could carry it. Get rid of some of your old things first, will you?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_make_mana_potion_missing:
     mes "[Auldsbel the Wizard]";
     mes "\"No, I need one pearl, 10,000 GP, 20 Mauve leaves, 10 Gamboge leaves, and one bottle of water.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed_prepared:
     mes "\"So you found a Mana Seed and prepared yourself by drinking a mana potion?  I recommend that you visit the seed again and see if that actually works...\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed_withmagic:
     if (MAGIC_FLAGS & MFLAG_MANASEED_MAXEDOUT)
         goto L_Q_manaseed_maxedout;
     mes "\"I still find it hard to believe that you have found an actual Mana Seed here, in the middle of nowhere... Well, I suggest that you keep visiting it. As your control over magic grows, it may grant you additional power.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Q_manaseed_maxedout:
     mes "\"So the mana seed isn't giving you any more power?  You might want to try again later; normally those seeds grow in power, over time.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_quest:
     if (@Q_component_quest == 0)
@@ -746,7 +743,7 @@ L_quest:
     mes "[Auldsbel the Wizard]";
     mes "\"You have been very helpful, but at this point I have everything I need. Except perhaps for a Wumpus Egg, though I have no idea where you could find one... If you ever come across one, I will give you a special reward for it, though.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_0:
     mes "[Auldsbel the Wizard]";
@@ -762,21 +759,21 @@ L_component_quest_0:
     next;
     menu
         "I have them here.", L_Next3,
-        "Sure, I will look for them.", L_main_menu;
+        "Sure, I will look for them.", L_Main_menu;
 
 L_Next3:
     if (countitem ("MauveHerb") < 20)
         goto L_component_quest_missing;
     delitem "MauveHerb", 20;
-    set Zeny, Zeny + 2500;
+    Zeny = Zeny + 2500;
     mes "[Auldsbel the Wizard]";
     mes "\"Well done, my young friend!  Here is 2,500 GP to compensate you for your efforts.\"";
     mes "[You gain 250 experience points]";
     getexp 250, 0;
-    set @Q_component_quest, 1;
-    callsub S_update_var;
+    @Q_component_quest = 1;
+    callsub S_Update_Var;
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_1:
     mes "[Auldsbel the Wizard]";
@@ -787,8 +784,8 @@ L_component_quest_1:
     next;
     menu
         "Here you are.", L_Next4,
-        "I'm not your 'good " + @address$ + "'!", L_main_menu,
-        "I'll see what I can do.", L_main_menu;
+        "I'm not your 'good " + @address$ + "'!", L_Main_menu,
+        "I'll see what I can do.", L_Main_menu;
 
 L_Next4:
     if (countitem ("SmallHealingPotion") < 3)
@@ -803,15 +800,15 @@ L_Next4:
     delitem "MediumHealingPotion", 3;
     delitem "IronPotion", 1;
     delitem "ConcentrationPotion", 1;
-    set Zeny, Zeny + 2500;
+    Zeny = Zeny + 2500;
     mes "[Auldsbel the Wizard]";
     mes "\"Ah, excellent, excellent!  These are precisely what I needed. Here is another 2,500 GP to compensate you for your efforts.\"";
     mes "[You gain 500 experience points]";
     getexp 500, 0;
-    set @Q_component_quest, 2;
-    callsub S_update_var;
+    @Q_component_quest = 2;
+    callsub S_Update_Var;
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_2:
     mes "[Auldsbel the Wizard]";
@@ -822,22 +819,22 @@ L_component_quest_2:
     next;
     menu
         "One hundred cocoons, here you are.", L_Next5,
-        "That's a lot; I'll see what I can do.", L_main_menu;
+        "That's a lot; I'll see what I can do.", L_Main_menu;
 
 L_Next5:
     if (countitem ("SilkCocoon") < 100)
         goto L_component_quest_missing;
     delitem "SilkCocoon", 100;
-    set Zeny, Zeny + 5000;
+    Zeny = Zeny + 5000;
     mes "[Auldsbel the Wizard]";
     mes "\"Splendid, splendid!  Here is 5,000 GP for you.\"";
     mes "Auldsbel attempts to cram the cocoons into his pockets, with little success. Finally he gives up and takes them into his hut.";
     mes "[You gain 2,000 experience points]";
     getexp 2000, 0;
-    set @Q_component_quest, 3;
-    callsub S_update_var;
+    @Q_component_quest = 3;
+    callsub S_Update_Var;
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_3:
     mes "[Auldsbel the Wizard]";
@@ -848,7 +845,7 @@ L_component_quest_3:
     next;
     menu
         "Here are your stingers and slimes.", L_Next6,
-        "I will get back to you once I have them.", L_main_menu;
+        "I will get back to you once I have them.", L_Main_menu;
 
 L_Next6:
     if (countitem ("RedScorpionStinger") < 25)
@@ -857,16 +854,16 @@ L_Next6:
         goto L_component_quest_missing;
     delitem "RedScorpionStinger", 25;
     delitem "MaggotSlime", 25;
-    set Zeny, Zeny + 5000;
+    Zeny = Zeny + 5000;
     mes "[Auldsbel the Wizard]";
     mes "\"Good " + @address$ + "!  Another 5,000 GP for you.\"";
     mes "\"I believe that I have figured out one possible way to integrate the tincture into the spell... I will let you know how that goes.\"";
     mes "[You gain 10,000 experience points]";
     getexp 10000, 0;
-    set @Q_component_quest, 4;
-    callsub S_update_var;
+    @Q_component_quest = 4;
+    callsub S_Update_Var;
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_4:
     mes "[Auldsbel the Wizard]";
@@ -883,7 +880,7 @@ L_component_quest_4:
     next;
     menu
         "Here are your tongues.", L_Next7,
-        "I will hunt some snakes for you.", L_main_menu;
+        "I will hunt some snakes for you.", L_Main_menu;
 
 L_Next7:
     if (countitem ("SnakeTongue") < 20)
@@ -895,14 +892,14 @@ L_Next7:
     delitem "SnakeTongue", 20;
     delitem "CaveSnakeTongue", 20;
     delitem "MountainSnakeTongue", 20;
-    set Zeny, Zeny + 8000;
+    Zeny = Zeny + 8000;
     mes "[Auldsbel the Wizard]";
     mes "\"8,000 GP should cover your efforts, I think.\"";
     mes "\"Now let's see if this works...\"";
     mes "[You gain 40,000 experience points]";
     getexp 40000, 0;
-    set @Q_component_quest, 5;
-    callsub S_update_var;
+    @Q_component_quest = 5;
+    callsub S_Update_Var;
     next;
     mes "[Auldsbel the Wizard]";
     mes "Auldsbel focuses on the bundle of snake tongues, which begins to assume a bright red colour, then start to glow. Yellow sparks drop to the ground, as Auldsbel rolls the tongues into a ball.";
@@ -916,7 +913,7 @@ L_Next7:
     mes "[Auldsbel the Wizard]";
     mes "He frowns. \"Their life force was still not strong enough. Hmm.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_component_quest_5:
     mes "[Auldsbel the Wizard]";
@@ -924,19 +921,19 @@ L_component_quest_5:
     next;
     menu
         "Here they are.", L_Next8,
-        "That's quite a challenge.", L_main_menu;
+        "That's quite a challenge.", L_Main_menu;
 
 L_Next8:
     if (countitem ("GrassSnakeTongue") < 50)
         goto L_component_quest_missing;
     delitem "GrassSnakeTongue", 50;
-    set Zeny, Zeny + 10000;
+    Zeny = Zeny + 10000;
     mes "[Auldsbel the Wizard]";
     mes "\"Excellent!  Here is 10,000 GP for you, and now let's see how this goes.\"";
     mes "[You gain 100,000 experience points]";
     getexp 100000, 0;
-    set @Q_component_quest, 6;
-    callsub S_update_var;
+    @Q_component_quest = 6;
+    callsub S_Update_Var;
     next;
     mes "[Auldsbel the Wizard]";
     mes "Auldsbel rolls the snake tongues into a ball again, whilst chanting some words that you fail to discern. As the ball begins to glow, he tosses in a silkworm cocoon.";
@@ -953,7 +950,7 @@ L_Next8:
     close;
 
 OnSnakeDeath:
-    set BOSS_POINTS, BOSS_POINTS + 5;
+    BOSS_POINTS = BOSS_POINTS + 5;
     message strcharinfo(0), "You gain 5 Boss Points giving you a total of " + BOSS_POINTS + ".";
     end;
 
@@ -961,7 +958,7 @@ L_component_quest_missing:
     mes "[Auldsbel the Wizard]";
     mes "\"No, you are missing some items. Come back later when you have everything!\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_learn_spell:
     if (@Q_main_status == @Q_STATUS_INITIATION)
@@ -1001,9 +998,9 @@ L_learn_spell:
     mes "[Auldsbel the Wizard]";
     mes "\"Oh, actually, make sure to write that down. You should keep track of all spells and spell fragments, really. I always keep a notebook handy, in fact.\"";
     next;
-    set @Q_main_status, @Q_STATUS_INITIATION;
-    callsub S_update_var;
-    goto L_main_menu;
+    @Q_main_status = @Q_STATUS_INITIATION;
+    callsub S_Update_Var;
+    goto L_Main_menu;
 
 L_repeat_spell:
     mes "[Auldsbel the Wizard]";
@@ -1015,18 +1012,18 @@ L_repeat_spell:
     mes "[Auldsbel the Wizard]";
     mes "\"And make sure to keep notes of your spells!  In the future, I will only tell you once.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_initiation:
     mes "[Auldsbel the Wizard]";
     mes "\"So, have you managed to transmute something?\"";
     next;
-    if (countitem("MoubooFigurine"))
+    if (countitemcolor("MoubooFigurine"))
         menu
-            "Not yet.", L_main_menu,
+            "Not yet.", L_Main_menu,
             "How about this mouboo figurine?", L_initiation_check;
     menu
-        "Not yet.", L_main_menu,
+        "Not yet.", L_Main_menu,
         "What was the spell again?", L_repeat_spell;
 
 L_initiation_fail:
@@ -1035,11 +1032,11 @@ L_initiation_fail:
     mes "He throws it away.";
     mes "\"Keep practicing – and make sure to vary the spells you cast a little; that will make it easier to learn.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_initiation_check:
-    if (!(countitem("MoubooFigurine")))
-        goto L_main_menu;
+    if (!(countitemcolor("MoubooFigurine")))
+        goto L_Main_menu;
     delitem "MoubooFigurine", 1;
     mes "[Auldsbel the Wizard]";
     mes "Auldsbel inspects your figurine.";
@@ -1060,15 +1057,15 @@ L_initiation_check:
     next;
     mes "[Auldsbel the Wizard]";
     mes "You feel new powers flowing into your body!";
-    set @Q_main_status, @Q_STATUS_STUDENT;
-    callsub S_update_var;
-    set @SUP_id, SKILL_MAGIC_TRANSMUTE;
-    set @SUP_name$, "Transmutation Magic";
-    set @SUP_xp, 5000;
-    set @SUP_lvl, 2;
+    @Q_main_status = @Q_STATUS_STUDENT;
+    callsub S_Update_Var;
+    @SUP_id = SKILL_MAGIC_TRANSMUTE;
+    @SUP_name$ = "Transmutation Magic";
+    @SUP_xp = 5000;
+    @SUP_lvl = 2;
     callfunc "SkillUp";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_start:
     if (@mexp < 200) goto L_notready;
@@ -1082,15 +1079,15 @@ L_student_start:
     next;
     menu
         "Here you are.", L_Next9,
-        "I'll be back with them.", L_main_menu;
+        "I'll be back with them.", L_Main_menu;
 
 L_Next9:
-    if (countitem("BugLeg") < 10)
+    if (countitemcolor("BugLeg") < 10)
         goto L_component_quest_missing;
     delitem "BugLeg", 10;
     getexp 1000, 0;
-    set @Q_main_status, @Q_STATUS_STUDENT0;
-    callsub S_update_var;
+    @Q_main_status = @Q_STATUS_STUDENT0;
+    callsub S_Update_Var;
     mes "[Auldsbel the Wizard]";
     mes "He picks up the bug legs.";
     mes "\"Good. These will come in handy later...\"";
@@ -1103,13 +1100,13 @@ L_Next9:
     mes "[Auldsbel the Wizard]";
     mes "\"But be careful; transmutations can go wrong, and that can injure you. When you have more overall spellcasting practice, come back to me.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_notready:
     mes "[Auldsbel the Wizard]";
     mes "\"You still need more practice with spellcasting; I won't give you another spell until you are ready.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_0:
     if (@mexp < 350)
@@ -1122,15 +1119,15 @@ L_student_0:
     next;
     menu
         "Here you are.", L_Next10,
-        "I'll be back with them.", L_main_menu;
+        "I'll be back with them.", L_Main_menu;
 
 L_Next10:
-    if (countitem("MauveHerb") < 20)
+    if (countitemcolor("MauveHerb") < 20)
         goto L_component_quest_missing;
     delitem "MauveHerb", 20;
     getexp 1000, 0;
-    set @Q_main_status, @Q_STATUS_STUDENT1;
-    callsub S_update_var;
+    @Q_main_status = @Q_STATUS_STUDENT1;
+    callsub S_Update_Var;
     mes "[Auldsbel the Wizard]";
     mes "He pockets your mauve leaves.";
     mes "\"Those should go very well with the salmon.\"";
@@ -1139,7 +1136,7 @@ L_Next10:
     mes "[Auldsbel the Wizard]";
     mes "\"The next spell I have will make a normal tank top out of four pieces of cloth. The invocation is '" + getspellinvocation("make-tanktop") + "', make sure to write this down.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_1:
     if (@mexp < 425)
@@ -1152,15 +1149,15 @@ L_student_1:
     next;
     menu
         "Here you are.", L_Next11,
-        "I'll be back with them.", L_main_menu;
+        "I'll be back with them.", L_Main_menu;
 
 L_Next11:
-    if (countitem("ScorpionStinger") < 10)
+    if (countitemcolor("ScorpionStinger") < 10)
             goto L_component_quest_missing;
     delitem "ScorpionStinger", 10;
     getexp 1000, 0;
-    set @Q_main_status, @Q_STATUS_STUDENT2;
-    callsub S_update_var;
+    @Q_main_status = @Q_STATUS_STUDENT2;
+    callsub S_Update_Var;
     mes "[Auldsbel the Wizard]";
     mes "He carefully takes the stingers.";
     mes "\"You are being quite helpful. If my experiments go well, I will make sure to acknowledge you in a footnote somewhere.\"";
@@ -1169,7 +1166,7 @@ L_Next11:
     mes "[Auldsbel the Wizard]";
     mes "\"To make a shirt, use the invocation '" + getspellinvocation("make-shirt") + "'. This will require five pieces of cloth.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_2:
     if (@mexp < 500)
@@ -1182,15 +1179,15 @@ L_student_2:
     next;
     menu
         "Here you are.", L_Next12,
-        "I'll be back with them.", L_main_menu;
+        "I'll be back with them.", L_Main_menu;
 
 L_Next12:
-    if (countitem("RawLog") < 20)
+    if (countitemcolor("RawLog") < 20)
             goto L_component_quest_missing;
     delitem "RawLog", 20;
     getexp 1000, 0;
-    set @Q_main_status, @Q_STATUS_STUDENT3;
-    callsub S_update_var;
+    @Q_main_status = @Q_STATUS_STUDENT3;
+    callsub S_Update_Var;
     mes "[Auldsbel the Wizard]";
     mes "Auldsbel places the logs next to his hut.";
     mes "\"I'm hoping to animate them into the shape of one of those odd log heads.\"";
@@ -1199,7 +1196,7 @@ L_Next12:
     mes "[Auldsbel the Wizard]";
     mes "\"This spell makes arrows out of a single wooden log. Its invocation is '" + getspellinvocation("make-arrows") + "'.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_3:
     if (getskilllv(SKILL_MAGIC) < 3)
@@ -1219,9 +1216,9 @@ L_student_3_repeat:
     mes "[Auldsbel the Wizard]";
     mes "\"Hmm. That reminds me – there was a similar spell, but I forgot what it was... anyway, try using this, and bring me the potion when you are done.\"";
     next;
-    set @Q_main_status, @Q_STATUS_STUDENT4;
-    callsub S_update_var;
-    goto L_main_menu;
+    @Q_main_status = @Q_STATUS_STUDENT4;
+    callsub S_Update_Var;
+    goto L_Main_menu;
 
 L_student_4:
     mes "[Auldsbel the Wizard]";
@@ -1229,11 +1226,11 @@ L_student_4:
     next;
     menu
         "What was the invocation again?", L_student_3_repeat,
-        "No, still working on it...", L_main_menu,
+        "No, still working on it...", L_Main_menu,
         "Yes.", L_Next13;
 
 L_Next13:
-    if (countitem("ConcentrationPotion") < 1)
+    if (countitemcolor("ConcentrationPotion") < 1)
         goto L_student_4_no_potion;
     if (!(MAGIC_FLAGS & MFLAG_MADE_CONC_POTION))
         goto L_student_4_wrong_potion;
@@ -1245,30 +1242,30 @@ L_Next13:
     mes "Auldsbel presses his index and middle finger against your forehead.";
     mes "\"Accept my blessing!\"";
     next;
-    set @Q_main_status, @Q_STATUS_STUDENT5;
-    callsub S_update_var;
+    @Q_main_status = @Q_STATUS_STUDENT5;
+    callsub S_Update_Var;
     mes "[Auldsbel the Wizard]";
     mes "You feel new powers flowing into your body!";
-    set @SUP_id, SKILL_MAGIC_TRANSMUTE;
-    set @SUP_name$, "Transmutation Magic";
-    set @SUP_xp, 30000;
-    set @SUP_lvl, 3;
+    @SUP_id = SKILL_MAGIC_TRANSMUTE;
+    @SUP_name$ = "Transmutation Magic";
+    @SUP_xp = 30000;
+    @SUP_lvl = 3;
     callfunc "SkillUp";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_4_wrong_potion:
     mes "[Auldsbel the Wizard]";
     mes "Auldsbell examines your potion, then shakes his head.";
     mes "\"This doesn't look quite right, though I can't quite point at what the problem is. You will have to continue trying.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_4_no_potion:
     mes "[Auldsbel the Wizard]";
     mes "\"You seem to be rather lacking the concentration potion you need to justify your claim, my dear fellow.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_student_5:
     mes "[Auldsbel the Wizard]";
@@ -1279,13 +1276,13 @@ L_magic_skill_insufficient:
     mes "[Auldsbel the Wizard]";
     mes "\"No, not at this time. You will have to advance in your overall magic skill before I can teach you more.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_Close:
     close;
 
-S_update_var:
-    set @Q_status, @Q_main_status | (@Q_component_quest << 5);
+S_Update_Var:
+    @Q_status = @Q_main_status | (@Q_component_quest << 5);
     set QUEST_MAGIC,
         (QUEST_MAGIC & ~(@Q_MASK)
         | (@Q_status << @Q_SHIFT));

@@ -1,19 +1,16 @@
-//
 
-018-3.gat,67,28,0|script|Evil Obelisk|185
-{
+018-3.gat,67,28,0	script	Evil Obelisk	185,{
     callfunc "ClearVariables";
-    set @map$, "018-3.gat";
-    set @x0, 56;
-    set @y0, 22;
-    set @x1, 77;
-    set @y1, 37;
+    @map$ = "018-3";
+    @x0 = 56;
+    @y0 = 22;
+    @x1 = 77;
+    @y1 = 37;
     callfunc "EvilObelisk";
-//clearing vars
-    set @map$, "";
-    set @x0, 0;
-    set @y0, 0;
-    set @x1, 0;
-    set @y1, 0;
+    @map$ = "";
+    @x0 = 0;
+    @y0 = 0;
+    @x1 = 0;
+    @y1 = 0;
     close;
 }

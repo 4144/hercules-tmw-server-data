@@ -1,5 +1,3 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Swamp warps
 
-026-1.gat,63,16|warp|To Graveyard|-1,-1,027-1.gat,63,105
-026-1.gat,129,66|warp|To Woodland Swamp|-1,-1,025-1.gat,20,66
+026-1,63,16,0	warp	To Graveyard	0,0,027-1,63,105
+026-1,129,66,0	warp	To Woodland Swamp	0,0,025-1,20,66

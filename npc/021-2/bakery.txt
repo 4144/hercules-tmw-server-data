@@ -1,8 +1,5 @@
-// The bakery
 
-// The chef
-021-2.gat,95,21,0|script|Riskim|148
-{
+021-2.gat,95,21,0	script	Riskim	148,{
     mes "[Riskim]";
     mes "";
     mes "\"Welcome to our bakery!\"";
@@ -22,13 +19,13 @@
     emotion EMOTE_BLUSH;
     next;
 
-    set @dq_level, 15;
-    set @dq_cost, 3;
-    set @dq_count, 6;
-    set @dq_name$, "Acorn";
-    set @dq_friendly_name$, "acorns";
-    set @dq_money, 250;
-    set @dq_exp, 50;
+    @dq_level = 15;
+    @dq_cost = 3;
+    @dq_count = 6;
+    @dq_name$ = "Acorn";
+    @dq_friendly_name$ = "acorns";
+    @dq_money = 250;
+    @dq_exp = 50;
 
     callfunc "DailyQuest";
 
@@ -62,16 +59,16 @@ L_Next:
         "Maybe later.", L_End;
 
 L_Continue:
-    if (countitem("ChocolateBar") < 10)
+    if (countitemcolor("ChocolateBar") < 10)
         goto L_lacking_ingredients;
-    if (countitem("MopoxCurePotion") < 1)
+    if (countitemcolor("MopoxCurePotion") < 1)
         goto L_lacking_ingredients;
     if (Zeny < 400)
         goto L_lacking_Zeny;
     delitem "MopoxCurePotion", 1;
     delitem "ChocolateBar", 10;
     getitem "LacedChocolateCake", 1;
-    set Zeny, Zeny - 400;
+    Zeny = Zeny - 400;
 
     mes "[Riskim]";
     mes "";
@@ -119,38 +116,30 @@ L_End:
     close;
 }
 
-// Server
-021-2.gat,82,23,0|script|Sara|108
-{
+021-2.gat,82,23,0	script	Sara	108,{
     mes "[Sara]";
     mes "";
     mes "\"Hello!\"";
     close;
 }
 
-// The cashier
-021-2.gat,89,21,0|shop|Drabur|112,WhiteCake:*500,ChocolateCake:*550,OrangeCake:*600,AppleCake:*600,Cake:*30,CherryCake:*100,OrangeCupcake:*270,Milk:*1500,XmasCake:*70
+021-2,89,21,0	shop	Drabur	112,736:500,737:550,738:600,739:600,513:30,519:100,534:270,527:1500,508:70
 
-// Stockroom boy
-021-2.gat,133,21,0|script|Iormo|160
-{
+021-2.gat,133,21,0	script	Iormo	160,{
     mes "[Iormo]";
     mes "";
     mes "\"This stock room can get messy.\"";
     close;
 }
 
-// An old couple eating at the bakery
-021-2.gat,71,22,0|script|Rynoh|159
-{
+021-2.gat,71,22,0	script	Rynoh	159,{
     mes "[Rynoh]";
     mes "";
     mes "\"The cakes may be expensive, but they sure are delicious!\"";
     close;
 }
 
-021-2.gat,73,22,0|script|Ontas|154
-{
+021-2.gat,73,22,0	script	Ontas	154,{
     mes "[Ontas]";
     mes "";
     mes "\"We come here every week. This place has some of the best bread I've ever eaten!\"";

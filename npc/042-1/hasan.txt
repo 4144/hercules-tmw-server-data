@@ -1,13 +1,5 @@
-// This file is part of the Tutorial
-// Authors: Jenalya, alastrim
-// Hasan should be threatening someone else you come to help
-// Going to throw someone off a cliff
-// npctalk 2 NPCs Hasan talks about giving someone a short trip to Docks
-// They respond by asking play for help
-// Hasan tells them to but out of it.
 
-042-1.gat,104,49,0|script|Scared Man|160
-{
+042-1.gat,104,49,0	script	Scared Man	160,{
     setarray @npc_loc, 104, 49, 4;
     callfunc "PCtoNPCRange";
     if (@npc_check)
@@ -24,8 +16,7 @@ L_TutDone:
 L_End:
     end;
 }
-042-1.gat,102,49,0|script|Hasan|189,2,2
-{
+042-1.gat,102,49,0	script	Hasan	189,2,2,{
     setarray @npc_loc, 102, 49, 4;
     callfunc "PCtoNPCRange";
     if (@npc_check)
@@ -68,7 +59,7 @@ L_Main:
     next;
     mes "Sounds like this person is in trouble.\"";
     next;
-    set @tutorial_tmp, 9;
+    @tutorial_tmp = 9;
     callfunc "SetTutorialMask";
     mes "[Unfriendly Guy]";
     mes "\"What are you looking at?\"";
@@ -87,7 +78,7 @@ L_Fight:
     mes "[Hasan]";
     mes "\"Do you really think you can beat me?\"";
     mes "He pulls out a nasty looking dagger and stabs it in your direction.";
-    set Hp, 1;
+    Hp = 1;
     next;
     mes "That hurt! You begin to think searching for a different solution might be healthier.";
     mes "Maybe Kaan can help?";
@@ -103,11 +94,11 @@ L_Trick:
 L_ScratchHead:
     if ($@ScorpionFighter)
         goto L_Wait;
-    set @tutorial_tmp, 14;
+    @tutorial_tmp = 14;
     callfunc "SetTutorialMask";
-    set $@ScorpionTimer, 0;
-    set $@ScorpionFighter, getcharid(3);
-    set $@ScorpDeath, PC_DIE_COUNTER;
+    $@ScorpionTimer = 0;
+    $@ScorpionFighter = getcharid(3);
+    $@ScorpDeath = PC_DIE_COUNTER;
     cmdothernpc "#ScorpionTrigger", "HasanSpawn";
     mes "While you're scratching your head, you see Kaan approaching the fence.";
     close;
@@ -124,7 +115,7 @@ L_Thank:
     mes "\"Let me tell you something, I will no longer bully people.";
     mes "And you can have my Sharp Knife.\"";
     getitem "SharpKnife", 1;
-    set @tutorial_tmp, 14;
+    @tutorial_tmp = 14;
     callfunc "SetTutorialMask";
     next;
     mes "\"You want to go to the bazaar, right? Shall I tell you how to get there?\"";
@@ -172,15 +163,14 @@ OnTouch:
         end;
     goto L_Main;
 }
-042-1.gat,0,0,0|script|#ScorpionTrigger|35
-{
+042-1.gat,0,0,0	script	#ScorpionTrigger	35,{
     end;
 
 OnCommandHasanSpawn:
     goto L_Summon;
 
 L_Summon:
-    monster "042-1.gat",102,49,"WeakScorpion",1046,1, "#ScorpionTrigger::OnScorpionDeath";
+    monster "042-1",102,49,"WeakScorpion",1046,1, "#ScorpionTrigger::OnScorpionDeath";
     initnpctimer;
     end;
 
@@ -192,7 +182,7 @@ L_SummonAgain:
 OnTimer5000:
     if (attachrid($@ScorpionFighter) == 0)
         goto L_Clean;
-    set $@ScorpionTimer, $@ScorpionTimer + 5;
+    $@ScorpionTimer = $@ScorpionTimer + 5;
     if ($@ScorpionTimer >= 300)
         goto L_TimeOut;
     if (PC_DIE_COUNTER > $@ScorpDeath)
@@ -205,7 +195,7 @@ OnScorpionDeath:
         goto L_SummonAgain;
     if (@tutorial != 12)
         goto L_Clean;
-    set @tutorial_tmp, 13;
+    @tutorial_tmp = 13;
     callfunc "SetTutorialMask";
     message strcharinfo(0), "You saved Hasan.";
     goto L_Clean;
@@ -219,10 +209,10 @@ L_MessageDeath:
     goto L_Clean;
 
 L_Clean:
-    killmonster "042-1.gat", "#ScorpionTrigger::OnScorpionDeath";
-    set $@ScorpionFighter, 0;
-    set $@ScorpionTimer, 0;
-    set $@ScorpDeath, 0;
+    killmonster "042-1", "#ScorpionTrigger::OnScorpionDeath";
+    $@ScorpionFighter = 0;
+    $@ScorpionTimer = 0;
+    $@ScorpDeath = 0;
     stopnpctimer;
     end;
 }

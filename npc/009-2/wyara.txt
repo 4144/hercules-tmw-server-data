@@ -1,31 +1,27 @@
-// ----------------------------------------
-// Wyara the Hurnscald witch
-// ----------------------------------------
-009-2.gat,121,26,0|script|Wyara#_M|103
-{
-    set @Q_MASK, NIBBLE_2_MASK;
-    set @Q_SHIFT, NIBBLE_2_SHIFT;
-    set @Q_status, (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
+009-2.gat,121,26,0	script	Wyara#_M	103,{
+    @Q_MASK = NIBBLE_2_MASK;
+    @Q_SHIFT = NIBBLE_2_SHIFT;
+    @Q_status = (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
 
     // Set up SkillUp function
-    set @SUP_id, SKILL_MAGIC_NATURE;
-    set @SUP_name$, "Nature Magic";
+    @SUP_id = SKILL_MAGIC_NATURE;
+    @SUP_name$ = "Nature Magic";
 
-    set @STATUS_INITIAL, 0;
-    set @STATUS_PURIFY_EXPLAINED, 1;
-    set @STATUS_PURIFY_ONCE, 2;
-    set @STATUS_PURIFY_TWICE, 3;
-    set @STATUS_PURIFY_OVER, 4;
-    set @STATUS_MAX, @STATUS_PURIFY_OVER;
+    @STATUS_INITIAL = 0;
+    @STATUS_PURIFY_EXPLAINED = 1;
+    @STATUS_PURIFY_ONCE = 2;
+    @STATUS_PURIFY_TWICE = 3;
+    @STATUS_PURIFY_OVER = 4;
+    @STATUS_MAX = @STATUS_PURIFY_OVER;
 
     // This operation works around an earlier possible corruption of this state
     if (@Q_status > @STATUS_MAX)
-        set @Q_status, @STATUS_INITIAL;
+        @Q_status = @STATUS_INITIAL;
     if ((@Q_status == @STATUS_PURIFY_OVER) && (getskilllv(SKILL_MAGIC_NATURE) < 2))
-        set @Q_status, @STATUS_INITIAL;
-    callsub S_update_var;
+        @Q_status = @STATUS_INITIAL;
+    callsub S_Update_Var;
 
-    set @has_magic, getskilllv(SKILL_MAGIC);
+    @has_magic = getskilllv(SKILL_MAGIC);
 
     if (@Q_status == @STATUS_PURIFY_ONCE) goto L_Magic_purify_once;
     if (@Q_status == @STATUS_PURIFY_TWICE) goto L_Magic_purify_done;
@@ -36,7 +32,7 @@
     if (Sex)
         mes "\"Hello! What brings you here?\"";
     next;
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_WYARA;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_WYARA;
     goto L_Main;
 
 L_Main:
@@ -62,7 +58,7 @@ L_Shop:
 
 L_Question:
     callfunc "MagicTalkOptionsSetup";
-    set @ignore, @QQ_WYARA;
+    @ignore = @QQ_WYARA;
     callfunc "MagicTalkMenu";
 
     if (@c == 0) goto L_Main;
@@ -119,7 +115,7 @@ L_Q_manaseed_unabsorbed:
     next;
     mes "[Wyara the Witch]";
     mes "\"If you drink a mana potion, you should be able to retain this magical power and slowly build up a magical skill.\"";
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_MANAPOTION;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_MANAPOTION;
     next;
     goto L_Main;
 
@@ -138,15 +134,15 @@ L_manapotion_toomany:
     goto L_Main;
 
 L_make_manapotion:
-    if(countitem("MauveHerb") < 40)
+    if(countitemcolor("MauveHerb") < 40)
         goto L_make_manapotion_lack;
-    if(countitem("BottleOfWater") < 1)
+    if(countitemcolor("BottleOfWater") < 1)
         goto L_make_manapotion_lack;
     getinventorylist;
     if ((@inventorylist_count == 100)
-        && (countitem("MauveHerb") > 40)
-        && (countitem("BottleOfWater") > 100)
-        && (countitem("ManaPotion") < 1))
+        && (countitemcolor("MauveHerb") > 40)
+        && (countitemcolor("BottleOfWater") > 100)
+        && (countitemcolor("ManaPotion") < 1))
             goto L_manapotion_toomany;
 
     delitem "MauveHerb", 40;
@@ -304,12 +300,12 @@ L_Magic_train_dispatch:
     mes "[Wyara the Witch]";
     mes "\"I want to save it; for that, someone will have to pour a purification potion into it.\"";
     next;
-    set @Q_status, @STATUS_PURIFY_EXPLAINED;
-    callsub S_update_var;
+    @Q_status = @STATUS_PURIFY_EXPLAINED;
+    callsub S_Update_Var;
     goto L_Magic_purify_explained;
 
 L_Magic_purify_explained:
-    if (countitem("PurificationPotion"))
+    if (countitemcolor("PurificationPotion"))
         goto L_Magic_purify_doit;
 
     mes "[Wyara the Witch]";
@@ -322,11 +318,11 @@ L_Magic_purify_explained:
 
 L_Next:
     getinventorylist;
-    if ((@inventorylist_count == 100) && (countitem("MauveHerb") > 20) && (countitem("MaggotSlime") > 20))
+    if ((@inventorylist_count == 100) && (countitemcolor("MauveHerb") > 20) && (countitemcolor("MaggotSlime") > 20))
         goto L_Magic_purify_nospace;
-    if (countitem("MauveHerb") < 20)
+    if (countitemcolor("MauveHerb") < 20)
         goto L_Magic_purify_lacking;
-    if (countitem("MaggotSlime") < 20)
+    if (countitemcolor("MaggotSlime") < 20)
         goto L_Magic_purify_lacking;
     delitem "MauveHerb", 20;
     delitem "MaggotSlime", 20;
@@ -358,7 +354,7 @@ L_Magic_purify_once:
     mes "Wyara nods.";
     mes "\"You have purified the pond a little, but not enough, I think. We'll need another potion.\"";
     next;
-    if (countitem("PurificationPotion"))
+    if (countitemcolor("PurificationPotion"))
         goto L_Magic_purify_doit2;
     mes "[Wyara the Witch]";
     mes "\"I'll need twenty more maggot slimes and leaves of mauve.\"";
@@ -370,11 +366,11 @@ L_Magic_purify_once:
 
 L_Next1:
     getinventorylist;
-    if ((@inventorylist_count == 100) && (countitem("MauveHerb") > 20) && (countitem("MaggotSlime") > 20))
+    if ((@inventorylist_count == 100) && (countitemcolor("MauveHerb") > 20) && (countitemcolor("MaggotSlime") > 20))
         goto L_Magic_purify_nospace;
-    if (countitem("MauveHerb") < 20)
+    if (countitemcolor("MauveHerb") < 20)
         goto L_Magic_purify_lacking;
-    if (countitem("MaggotSlime") < 20)
+    if (countitemcolor("MaggotSlime") < 20)
         goto L_Magic_purify_lacking;
     delitem "MauveHerb", 20;
     delitem "MaggotSlime", 20;
@@ -416,11 +412,11 @@ L_Next2:
     next;
     mes "[Wyara the Witch]";
     mes "Slowly, the sensation recedes, but you feel changed.";
-    set @SUP_xp, 5000;
-    set @SUP_lvl, 2;
+    @SUP_xp = 5000;
+    @SUP_lvl = 2;
     callfunc "SkillUp";
-    set @Q_status, @STATUS_PURIFY_OVER;
-    callsub S_update_var;
+    @Q_status = @STATUS_PURIFY_OVER;
+    callsub S_Update_Var;
     close;
 
 L_Magic_purify_abort:
@@ -462,7 +458,7 @@ L_Next3:
     mes "[Wyara the Witch]";
     mes "\"The tree is slowly dying – and has been for a long time – but it is there because of a wonderful thing that happened long ago. Tend to it, and I am sure that she will learn about this.\"";
     next;
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_DRUIDTREE;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_DRUIDTREE;
     menu
         "What is that tree?", L_Magic_train_tree_backgd,
         "How should I tend to it?", L_Next4,
@@ -547,7 +543,7 @@ L_Magic_train_sagatha_lvl1:
 L_Close:
     close;
 
-S_update_var:
-    set QUEST_MAGIC2, (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
+S_Update_Var:
+    QUEST_MAGIC2 = (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
     return;
 }

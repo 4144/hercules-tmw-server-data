@@ -1,13 +1,9 @@
-// Variables used:
-// - nibble 4 and 5 of QUEST_SouthTulimshar
-// - in FLAGS, bits FLAG_GOT_NAEM_GLOVES and FLAG_OPENED_UNDERGROUND
 
-002-4.gat,91,96,6|script|Naem|109
-{
+002-4.gat,91,96,6	script	Naem	109,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (FLAGS & FLAG_GOT_NAEM_GLOVES) goto L_Naem_Complete;
     if (FLAGS & FLAG_OPENED_UNDERGROUND) goto L_Naem_Gloves;
@@ -30,7 +26,7 @@
     goto L_Close;
 
 L_Naem_Okay:
-    set @state, 10;
+    @state = 10;
     callsub S_Update_Var;
     mes "[Naem]";
     mes "\"Oh, hello there. Nickos wanted you to check on me? Yeah, you can tell him I'm okay.\"";
@@ -42,7 +38,7 @@ L_Naem_Cool:
     goto L_Close;
 
 L_Naem_Help_1:
-    set @state, 13;
+    @state = 13;
     callsub S_Update_Var;
     mes "[Naem]";
     mes "\"Oh, you are here to help move my bags?  Cool, I've got a few ready to go. Go ahead and take this one!\"";
@@ -59,7 +55,7 @@ L_Naem_Waits_1:
     goto L_Close;
 
 L_Naem_Help_2:
-    set @state, 15;
+    @state = 15;
     callsub S_Update_Var;
     mes "Naem gives you a bag of ore.";
     next;
@@ -73,7 +69,7 @@ L_Naem_Waits_2:
     goto L_Close;
 
 L_Naem_Help_3:
-    set @state, 17;
+    @state = 17;
     callsub S_Update_Var;
     mes "[Naem]";
     mes "Hands a bag of ore to you.";
@@ -106,7 +102,7 @@ L_Naem_Duh:
     goto L_Close;
 
 L_Naem_Palace_No:
-    set @state, 21;
+    @state = 21;
     callsub S_Update_Var;
     mes "[Naem]";
     mes "\"Oh no!  I lost the key!  Don't worry though, talk to Lieutenant Dausen about getting the spare key.\"";
@@ -126,7 +122,7 @@ L_Naem_Gloves:
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_Naem_TooMany;
-    set FLAGS, FLAGS | FLAG_GOT_NAEM_GLOVES;
+    FLAGS = FLAGS | FLAG_GOT_NAEM_GLOVES;
     getitem "MinerGloves", 1;
     mes "[Naem]";
     mes "\"Hey, good job on getting that together!  Take these gloves, they might prove useful in the underground palace.\"";
@@ -143,10 +139,10 @@ L_Naem_TooMany:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

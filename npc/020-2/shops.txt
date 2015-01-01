@@ -1,8 +1,5 @@
-// Snow town shops
 
-// About the Area NPC
-020-2.gat,75,28,0|script|Taylor|137
-{
+020-2.gat,75,28,0	script	Taylor	137,{
     mes "[Taylor]";
     mes "\"While it can be dangerous up here in Kaizei, I take comfort that Nivalis is not surrounded by the Yeti like Thermin is. What a weird town.\"";
     next;
@@ -13,16 +10,12 @@
     mes "\"Well, pleasant journeys and I hope I haven't been too much of a bother. Good chatting with you.\"";
     close;
 }
-// Weapons shop
-020-2.gat,25,65,0|shop|Bracco|135,IronArrow:*4,ShortBow:*8000,Dagger:*1000,LeatherShield:*2000
-// Potions shop
-020-2.gat,75,24,0|shop|Mede|103,CactusDrink:*50,CactusPotion:*70,IronPotion:*500,ConcentrationPotion:*500
+020-2,25,65,0	shop	Bracco	135,529:4,530:8000,521:1000,603:2000
+020-2,75,24,0	shop	Mede	103,501:50,502:70,567:500,568:500
 
-// INN
-020-2.gat,111,23,0|script|Kane|120
-{
-    set @npcname$, "Kane the Inn Keeper";
-    set @cost, 100;
+020-2.gat,111,23,0	script	Kane	120,{
+    @npcname$ = "Kane the Inn Keeper";
+    @cost = 100;
 
     mes "[" + @npcname$ + "]";
     mes "\"Welcome stranger!\"";

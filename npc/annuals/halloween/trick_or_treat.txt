@@ -1,8 +1,4 @@
-// Halloween Annual
-// Authors: alastrim, enchilado, o11c, wushin
-// See config
-function|script|TrickOrTreat
-{
+function	script	TrickOrTreat	{
     callfunc "HalloweenCheckOld";
     if ($@halloween_time)
         goto L_Halloween;
@@ -16,42 +12,42 @@ L_Halloween:
         "[Go to normal NPC dialog]", L_QuickReturn;
 
 L_HWQuest:
-    set @mask, getequipid(equip_head);
+    @mask = getequipid(equip_head);
     goto L_Begin;
 
 L_Begin:
-    set @karma, (HALLOWEENTIME & 65535);
+    @karma = (HALLOWEENTIME & 65535);
     if (@mask > 0)
         goto L_WearingMask;
     goto L_NoMask;
 
 L_WearingMask:
     // set the scare factor of the equipped mask
-    set @mask_index, 0;
-    set @scare_factor, 1;
+    @mask_index = 0;
+    @scare_factor = 1;
     goto L_MaskLoop;
 
 L_MaskLoop:
     if ($@halloween_mask_IDs[@mask_index] == @mask)
         goto L_FoundMask;
-    set @mask_index, @mask_index + 1;
+    @mask_index = @mask_index + 1;
     if ($@halloween_mask_IDs[@mask_index])
         goto L_MaskLoop;
     // not a mask in the list
-    set @mask, 0;
+    @mask = 0;
     goto L_MaskDone;
 
 L_FoundMask:
-    set @scare_factor, $@halloween_scare_factors[@mask_index];
+    @scare_factor = $@halloween_scare_factors[@mask_index];
     if (@mask != 616)
         goto L_MaskDone;
     mes "\"Aaargh... Gross! This is sick! I can't even look at your face...\"";
     goto L_MaskDone;
 
 L_MaskDone:
-    set @mask_index, 0;
+    @mask_index = 0;
     // check if the mask is in the memory
-    set @loop, 0;
+    @loop = 0;
     // Note: we don't handle remembered faces until they get their candy
     if (!@mask)
         goto L_MaskMemoryNo;
@@ -59,12 +55,12 @@ L_MaskDone:
     goto L_MaskMemoryCheck;
 
 L_MaskMemoryCheck:
-    set @tmp, $@halloween_maskmemory[8 * @halloween_npc_id + @loop];
+    @tmp = $@halloween_maskmemory[8 * @halloween_npc_id + @loop];
     if (!@tmp)
         goto L_MaskMemoryNo;
     if (@tmp == @mask)
         goto L_MaskMemoryYes;
-    set @loop, @loop + 1;
+    @loop = @loop + 1;
     if (@loop != $@halloween_memory_count)
         goto L_MaskMemoryCheck;
     goto L_MaskMemoryNo;
@@ -76,16 +72,16 @@ L_MaskMemoryYes:
 
 L_MaskMemoryNo:
     // player will probably get treats
-    set @loop, 0;
-    set @sweets_types, 0;
+    @loop = 0;
+    @sweets_types = 0;
     goto L_Count_Sweets;
 
 L_Count_Sweets:
     if ($@halloween_sweets[@loop] == 0)
         goto L_Check_Inventory;
-    if (countitem($@halloween_sweets[@loop]))
-        set @sweets_types, @sweets_types + 1;
-    set @loop, @loop + 1;
+    if (countitemcolor($@halloween_sweets[@loop]))
+        @sweets_types = @sweets_types + 1;
+    @loop = @loop + 1;
     goto L_Count_Sweets;
 
 L_Check_Inventory:
@@ -113,7 +109,7 @@ L_Check_Karma:
         goto L_Tricking_Trick_or_Treat;
     mes "\"All this candy isn't healthy, here take this to have a break from it.\"";
     getitem $@halloween_big_reward[rand(getarraysize($@halloween_big_reward))], 1;
-    set HALLOWEENTIME, HALLOWEENTIME | $@halloween_got_big_reward;
+    HALLOWEENTIME = HALLOWEENTIME | $@halloween_got_big_reward;
     // you get the big reward first, then the main treats
     // otherwise it would be too complicated, and/or possibly unfair
     goto L_Tricking_Trick_or_Treat;
@@ -121,7 +117,7 @@ L_Check_Karma:
 L_Cheater:
     mes "\"I recognize you despite your mask, you have been taking sweets you do not deserve.\"";
     if (@karma != 65535)
-        set HALLOWEENTIME, HALLOWEENTIME + 1;
+        HALLOWEENTIME = HALLOWEENTIME + 1;
     goto L_Close;
 
 L_Remember_Face:
@@ -148,41 +144,41 @@ L_Tricking_Notscary:
 L_Tricking_Scary:
     mes $@halloween_npc_names$[@halloween_npc_id];
     mes $@halloween_react_scary$[@halloween_npc_id];
-    set @scare_factor, @scare_factor * 2;
+    @scare_factor = @scare_factor * 2;
     goto L_Tricking_Reward;
 
 L_Tricking_Veryscary:
     mes $@halloween_npc_names$[@halloween_npc_id];
     mes $@halloween_react_veryscary$[@halloween_npc_id];
-    set @scare_factor, @scare_factor * 3;
+    @scare_factor = @scare_factor * 3;
     goto L_Tricking_Reward;
 
 L_Tricking_Reward:
     next;
     if (@karma >= 16)
-        set @scare_factor, rand(@scare_factor / 2, @scare_factor);
+        @scare_factor = rand(@scare_factor / 2, @scare_factor);
     if (@karma >= 24)
-        set @scare_factor, rand(@scare_factor / 3, @scare_factor);
+        @scare_factor = rand(@scare_factor / 3, @scare_factor);
     if (@scare_factor < 1)
-        set @scare_factor, 1;
+        @scare_factor = 1;
     goto L_Tricking_Reward_Loop;
 
 L_Tricking_Reward_Loop:
-    set @random, rand($@halloween_sweets_num);
+    @random = rand($@halloween_sweets_num);
     setarray @getitem_ids, $@halloween_sweets[@random];
     setarray @getitem_counts, 1;
     callfunc "CheckInventory";
     if (@check_fail)
-        set @scare_factor, 0;
+        @scare_factor = 0;
     if (!@scare_factor)
         goto L_Tricking_End;
     // NOTE: it gives out one piece at a time, but can loop several times
     getitem $@halloween_sweets[@random], 1;
-    set @scare_factor, @scare_factor - 1;
+    @scare_factor = @scare_factor - 1;
     goto L_Tricking_Reward_Loop;
 
 L_SetRememberFace:
-    set HALLOWEENTIME, HALLOWEENTIME | (1 << (31 - @halloween_npc_id));
+    HALLOWEENTIME = HALLOWEENTIME | (1 << (31 - @halloween_npc_id));
     goto L_Close;
 
 L_Tricking_End:
@@ -191,16 +187,16 @@ L_Tricking_End:
     if (!@mask)
         goto L_SetRememberFace;
     // add the player's mask to the list
-    set @loop, 7;
+    @loop = 7;
     goto L_SetRememberMask;
 
 L_SetRememberMask:
-    set $@halloween_maskmemory[8 * @halloween_npc_id + @loop], $@halloween_maskmemory[8 * @halloween_npc_id + @loop - 1];
-    set @loop, @loop - 1;
+    $@halloween_maskmemory[8 * @halloween_npc_id + @loop] = $@halloween_maskmemory[8 * @halloween_npc_id + @loop - 1];
+    @loop = @loop - 1;
     if (@loop)
         goto L_SetRememberMask;
-    set $@halloween_maskmemory[8 * @halloween_npc_id], @mask;
-    set HALLOWEENTIME, HALLOWEENTIME + 1;
+    $@halloween_maskmemory[8 * @halloween_npc_id] = @mask;
+    HALLOWEENTIME = HALLOWEENTIME + 1;
     goto L_Close;
 
 L_Full_Inventory:
@@ -214,31 +210,30 @@ L_NoMask:
     goto L_Close;
 
 L_Close:
-    set @tmp, 0;
-    set @mask, 0;
-    set @karma, 0;
-    set @loop, 0;
-    set @menu, 0;
-    set @halloween_npc_id, 0;
+    @tmp = 0;
+    @mask = 0;
+    @karma = 0;
+    @loop = 0;
+    @menu = 0;
+    @halloween_npc_id = 0;
     return;
 
 L_QuickReturn:
-    set @halloween_npc_id, 0;
+    @halloween_npc_id = 0;
     return;
 }
-function|script|TrickOrTreatTally
-{
-    set @npc_loop, 0;
-    set @npc_tally, 0;
+function	script	TrickOrTreatTally	{
+    @npc_loop = 0;
+    @npc_tally = 0;
     goto L_LoopCheck;
 
 L_LoopCheck:
     if (HALLOWEENTIME & (1 << (31 - @npc_loop)))
-        set @npc_tally, (@npc_tally + 1);
+        @npc_tally = (@npc_tally + 1);
     goto L_IncLoop;
 
 L_IncLoop:
-    set @npc_loop, (@npc_loop + 1);
+    @npc_loop = (@npc_loop + 1);
     if (@npc_loop >= 15)
         goto L_Return;
     goto L_LoopCheck;
@@ -246,25 +241,20 @@ L_IncLoop:
 L_Return:
     return;
 }
-// Checks for an expired event key
-// Each new annual event needs a new key
-// or it will allow completion from last year
-function|script|HalloweenCheckOld
-{
+function	script	HalloweenCheckOld	{
     if(HALLOWEENYEAR == $HALLOWEEN_TIME_KEY[5])
         goto L_Return;
     goto L_OldMatch;
 
 L_OldMatch:
-    set HALLOWEENTIME, 0;
-    set HALLOWEENYEAR, $HALLOWEEN_TIME_KEY[5];
+    HALLOWEENTIME = 0;
+    HALLOWEENYEAR = $HALLOWEEN_TIME_KEY[5];
     goto L_Return;
 
 L_Return:
     return;
 }
-function|script|HalloweenTree
-{
+function	script	HalloweenTree	{
     mes "[Confused Tree]";
     if ((HALLOWEENTIME & 65535) > ($@halloween_num_npcs * 3))
         mes "\"Whoa slow down greedy, leave some candy for the reset of us!\"";
@@ -283,7 +273,7 @@ L_StartMenu:
 L_Explain:
     mes "\"I've convinced some people throughout the world to help with trick or treating.\"";
     next;
-    set @npc_check_loop, 0;
+    @npc_check_loop = 0;
     goto L_NpcCheckLoop;
     
 L_NpcCheckLoop:
@@ -292,7 +282,7 @@ L_NpcCheckLoop:
     goto L_NpcCheckInc;
 
 L_NpcCheckInc:
-    set @npc_check_loop, (@npc_check_loop + 1);
+    @npc_check_loop = (@npc_check_loop + 1);
     if (@npc_check_loop >= getarraysize($@halloween_npc_names$))
         goto L_ContinueExplain;
     goto L_NpcCheckLoop;
@@ -307,18 +297,18 @@ L_ContinueExplain:
     goto L_StartMenu;
 
 L_CheckDressed:
-    set @head, getequipid(equip_head);
-    set @chest, getequipid(equip_torso);
-    set @leg, getequipid(equip_legs);
-    set @random_mes$, "\" I like your costume.\"";
+    @head = getequipid(equip_head);
+    @chest = getequipid(equip_torso);
+    @leg = getequipid(equip_legs);
+    @random_mes$ = "\" I like your costume.\"";
     if ((@head <= 0) && (@chest <= 0) && (@leg <= 0))
-        set @random_mes$, "\"Birthday Suit, always a classic.\"";
+        @random_mes$ = "\"Birthday Suit, always a classic.\"";
     if ((@head == 615) && (@chest == 870))
-        set @random_mes$, "\"How embrassing... we are wearing the same costume.\"";
+        @random_mes$ = "\"How embrassing... we are wearing the same costume.\"";
     if ((@head == 617) || (@head == 622) || (@head == 621))
-        set @random_mes$, "\"Yar, matey I see that.\"";
+        @random_mes$ = "\"Yar, matey I see that.\"";
     if ((@head == 633) || (@head == 1205) || (@chest == 1183) || (@chest == 1184) || (@chest == 1185) || (@chest == 1186) || (@chest == 1187))
-        set @random_mes$, "\"Your sense of humor offends me, it's way to early for that.\"";
+        @random_mes$ = "\"Your sense of humor offends me, it's way to early for that.\"";
     mes @random_mes$;
     goto L_Return;
 

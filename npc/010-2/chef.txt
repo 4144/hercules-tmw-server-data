@@ -1,5 +1,4 @@
-010-2.gat,33,25,0|script|Chef#dimond|148
-{
+010-2.gat,33,25,0	script	Chef#dimond	148,{
     mes "[Chef]";
     mes "";
     mes "\"I'm too busy right now to talk.\"";
@@ -68,7 +67,7 @@ L_Next3:
     if (Zeny < 500)
         goto L_no_Zeny;
 
-    set Zeny, Zeny - 500;
+    Zeny = Zeny - 500;
     delitem "GingerBreadMan", 3;
     delitem "Orange", 1;
     delitem "MopoxCurePotion", 1;

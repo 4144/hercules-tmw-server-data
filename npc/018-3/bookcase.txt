@@ -1,10 +1,8 @@
-//
 
-018-3.gat,75,123,0|script|#DemonMineBookcase1|400
-{
+018-3.gat,75,123,0	script	#DemonMineBookcase1	400,{
     callfunc "ClearVariables";
 
-    set @state, ((QUEST_Hurnscald & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
+    @state = ((QUEST_Hurnscald & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
 
     if (@state == 0) goto L_Search;
 
@@ -56,15 +54,15 @@ L_Search:
     next;
     if (@state != 0)
         goto L_Close;
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_Hurnscald, (QUEST_Hurnscald & ~(NIBBLE_2_MASK)) | (@state << NIBBLE_2_SHIFT);
+    QUEST_Hurnscald = (QUEST_Hurnscald & ~(NIBBLE_2_MASK)) | (@state << NIBBLE_2_SHIFT);
     return;
 }

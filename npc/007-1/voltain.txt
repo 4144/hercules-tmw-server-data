@@ -1,71 +1,44 @@
-// # NPC Name: Voltain
-// # LEAD AUTHOR: Pjotr Orial
-// # AUTHORS: MrDudle, tarq, Salmondine, Jenalya, Pjotr Orial
-// # REVIEWERS: Jenalya
-// #
-// # Basic Idea: A Person with lots of dark minds requires different stuff.
-// # Basically he tries to figure out, how to poison moobous, since he doesn't like the nature at all
-// #
-// # The variables are not attached to a player but to an npc variable, so it is more or less random, which
-// # quest comes up, when a player asks him.
-// #
-// # used Variables: global variable $@VOLTAIN_state
-// # 0: bring bottles
-// # 1: bring black scorpion stinger
-// # 2: bring bug legs
-// # 3: bring another black scorpion stinger
-// # 4: bring mauve herbs
-// # 5: bring raw logs
-// # 6: bring red apples
-// # 7: bring cobalt herbs
-// # 8: bring snake tongues
-// # 9: bring alizarin herbs
-// # 10: bring steak
-// # 11: bring arrows
-// # 12: bring gamboge herbs
-// # 13: bring chocolate cake
 
-007-1.gat,37,21,0|script|Voltain|103
-{
-    set @BOTTLE_NEEDED,  3;
-    set @BOTTLE_REWARD_XP,  100;
-    set @BOTTLE_REWARD_GOLD,  450;
+007-1.gat,37,21,0	script	Voltain	103,{
+    @BOTTLE_NEEDED = 3;
+    @BOTTLE_REWARD_XP = 100;
+    @BOTTLE_REWARD_GOLD = 450;
 
-    set @BLACK_SC_ST_NEEDED,  5;
-    set @BLACK_SC_ST_REWARD_XP,  500;
-    set @BLACK_SC_ST_REWARD_GOLD,  250;
+    @BLACK_SC_ST_NEEDED = 5;
+    @BLACK_SC_ST_REWARD_XP = 500;
+    @BLACK_SC_ST_REWARD_GOLD = 250;
 
-    set @BUGLEG_NEEDED,  10;
-    set @BUGLEG_REWARD_XP,  200;
-    set @BUGLEG_REWARD_GOLD,  150;
+    @BUGLEG_NEEDED = 10;
+    @BUGLEG_REWARD_XP = 200;
+    @BUGLEG_REWARD_GOLD = 150;
 
-    set @HERBS_NEEDED,  7;
-    set @HERBS_REWARD_XP,  200;
-    set @HERBS_REWARD_GOLD,  250;
+    @HERBS_NEEDED = 7;
+    @HERBS_REWARD_XP = 200;
+    @HERBS_REWARD_GOLD = 250;
 
-    set @RAWLOG_NEEDED,  5;
-    set @RAWLOG_REWARD_XP,  330;
-    set @RAWLOG_REWARD_GOLD,  300;
+    @RAWLOG_NEEDED = 5;
+    @RAWLOG_REWARD_XP = 330;
+    @RAWLOG_REWARD_GOLD = 300;
 
-    set @REDAPPLE_NEEDED,  7;
-    set @REDAPPLE_REWARD_XP,  330;
-    set @REDAPPLE_REWARD_GOLD,  300;
+    @REDAPPLE_NEEDED = 7;
+    @REDAPPLE_REWARD_XP = 330;
+    @REDAPPLE_REWARD_GOLD = 300;
 
-    set @STEAK_NEEDED,  2;
-    set @STEAK_REWARD_XP,  330;
-    set @STEAK_REWARD_GOLD,  280;
+    @STEAK_NEEDED = 2;
+    @STEAK_REWARD_XP = 330;
+    @STEAK_REWARD_GOLD = 280;
 
-    set @ARROW_NEEDED,  25;
-    set @ARROW_REWARD_XP,  330;
-    set @ARROW_REWARD_GOLD,  100;
+    @ARROW_NEEDED = 25;
+    @ARROW_REWARD_XP = 330;
+    @ARROW_REWARD_GOLD = 100;
 
-    set @SNAKETONGUE_NEEDED,  3;
-    set @SNAKETONGUE_REWARD_XP,  330;
-    set @SNAKETONGUE_REWARD_GOLD,  100;
+    @SNAKETONGUE_NEEDED = 3;
+    @SNAKETONGUE_REWARD_XP = 330;
+    @SNAKETONGUE_REWARD_GOLD = 100;
 
-    set @CHOCOLATECAKE_NEEDED,  3;
-    set @CHOCOLATECAKE_REWARD_XP,  330;
-    set @CHOCOLATECAKE_REWARD_GOLD,  180;
+    @CHOCOLATECAKE_NEEDED = 3;
+    @CHOCOLATECAKE_REWARD_XP = 330;
+    @CHOCOLATECAKE_REWARD_GOLD = 180;
 
     if ($@VOLTAIN_state == 1) goto L_state1;
     if ($@VOLTAIN_state == 2) goto L_state2;
@@ -80,7 +53,6 @@
     if ($@VOLTAIN_state == 11) goto L_state11;
     if ($@VOLTAIN_state == 12) goto L_state12;
     if ($@VOLTAIN_state == 13) goto L_state13;
-//    default: trap through to L_state0!
     goto L_state0;
 
 L_state0:
@@ -100,12 +72,12 @@ L_Next:
         "I don't feel like helping you get garbage...", L_Close;
 
 L_Next1:
-    if (countitem("EmptyBottle") < @BOTTLE_NEEDED)
+    if (countitemcolor("EmptyBottle") < @BOTTLE_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "EmptyBottle", @BOTTLE_NEEDED;
-    set Zeny, Zeny + @BOTTLE_REWARD_GOLD;
+    Zeny = Zeny + @BOTTLE_REWARD_GOLD;
     getexp @BOTTLE_REWARD_XP, 0;
-    set $@VOLTAIN_state, 1;
+    $@VOLTAIN_state = 1;
     mes "\"Thanks for the bottles. Much easier to carry liquid in them.\"";
     goto L_Close;
 
@@ -120,12 +92,12 @@ L_state1:
 
 L_Next2:
     mes "[Voltain]";
-    if (countitem("BlackScorpionStinger") < @BLACK_SC_ST_NEEDED)
+    if (countitemcolor("BlackScorpionStinger") < @BLACK_SC_ST_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "BlackScorpionStinger", @BLACK_SC_ST_NEEDED;
-    set Zeny, Zeny + @BLACK_SC_ST_REWARD_GOLD;
+    Zeny = Zeny + @BLACK_SC_ST_REWARD_GOLD;
     getexp @BLACK_SC_ST_REWARD_XP, 0;
-    set $@VOLTAIN_state, 2;
+    $@VOLTAIN_state = 2;
     mes "\"Well, since you went to the trouble of getting me these here's a little something for your time...\"";
     goto L_Close;
 
@@ -139,12 +111,12 @@ L_state2:
 
 L_Next3:
     mes "[Voltain]";
-    if (countitem("BugLeg") < @BUGLEG_NEEDED)
+    if (countitemcolor("BugLeg") < @BUGLEG_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "BugLeg", @BUGLEG_NEEDED;
-    set Zeny, Zeny + @BUGLEG_REWARD_GOLD;
+    Zeny = Zeny + @BUGLEG_REWARD_GOLD;
     getexp @BUGLEG_REWARD_XP, 0;
-    set $@VOLTAIN_state, 3;
+    $@VOLTAIN_state = 3;
     mes "\"Great! My potion is ready to poison the moub...I mean cure scorpion stings. \"";
     goto L_Close;
 
@@ -158,11 +130,11 @@ L_state3:
 
 L_Next4:
     mes "[Voltain]";
-    if (countitem("BlackScorpionStinger") < 1)
+    if (countitemcolor("BlackScorpionStinger") < 1)
         goto L_NOT_ENOUGH;
     delitem "BlackScorpionStinger", 1;
     getexp @BLACK_SC_ST_REWARD_XP, 0;
-    set $@VOLTAIN_state, 4;
+    $@VOLTAIN_state = 4;
     mes "\"Great! Now I can really kill that monster!\"";
     goto L_Close;
 
@@ -176,12 +148,12 @@ L_state4:
 
 L_Next5:
     mes "[Voltain]";
-    if (countitem("MauveHerb") < @HERBS_NEEDED)
+    if (countitemcolor("MauveHerb") < @HERBS_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "MauveHerb", @HERBS_NEEDED;
     getexp @HERBS_REWARD_XP, 0;
-    set Zeny, Zeny + @HERBS_REWARD_GOLD;
-    set $@VOLTAIN_state, 5;
+    Zeny = Zeny + @HERBS_REWARD_GOLD;
+    $@VOLTAIN_state = 5;
     mes "\"Great! Now I can thicken the potion! I will try directly.\"";
     goto L_Close;
 
@@ -195,12 +167,12 @@ L_state5:
 
 L_Next6:
     mes "[Voltain]";
-    if (countitem("RawLog") < @RAWLOG_NEEDED)
+    if (countitemcolor("RawLog") < @RAWLOG_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "RawLog", @RAWLOG_NEEDED;
     getexp @RAWLOG_REWARD_XP, 0;
-    set Zeny, Zeny + @RAWLOG_REWARD_GOLD;
-    set $@VOLTAIN_state, 6;
+    Zeny = Zeny + @RAWLOG_REWARD_GOLD;
+    $@VOLTAIN_state = 6;
     mes "\"Great! Now I can thicken the potion! I will try directly.\"";
     goto L_Close;
 
@@ -214,12 +186,12 @@ L_state6:
 
 L_Next7:
     mes "[Voltain]";
-    if (countitem("RedApple") < @REDAPPLE_NEEDED)
+    if (countitemcolor("RedApple") < @REDAPPLE_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "RedApple", @REDAPPLE_NEEDED;
     getexp @REDAPPLE_REWARD_XP, 0;
-    set Zeny, Zeny + @REDAPPLE_REWARD_GOLD;
-    set $@VOLTAIN_state,7;
+    Zeny = Zeny + @REDAPPLE_REWARD_GOLD;
+    $@VOLTAIN_state = 7;
     mes "\"Very well, this will be useful.\"";
     goto L_Close;
 
@@ -233,12 +205,12 @@ L_state7:
 
 L_Next8:
     mes "[Voltain]";
-    if (countitem("CobaltHerb") < @HERBS_NEEDED)
+    if (countitemcolor("CobaltHerb") < @HERBS_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "CobaltHerb", @HERBS_NEEDED;
     getexp @HERBS_REWARD_XP, 0;
-    set Zeny, Zeny + @HERBS_REWARD_GOLD;
-    set $@VOLTAIN_state, 8;
+    Zeny = Zeny + @HERBS_REWARD_GOLD;
+    $@VOLTAIN_state = 8;
     mes "\"Great! Now I can go on with the ven-  the experiments for the welfare of humanity, I mean.\"";
     goto L_Close;
 
@@ -252,12 +224,12 @@ L_state8:
 
 L_Next9:
     mes "[Voltain]";
-    if (countitem("SnakeTongue") < @SNAKETONGUE_NEEDED)
+    if (countitemcolor("SnakeTongue") < @SNAKETONGUE_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "SnakeTongue", @SNAKETONGUE_NEEDED;
     getexp @SNAKETONGUE_REWARD_XP, 0;
-    set Zeny, Zeny + @SNAKETONGUE_REWARD_GOLD;
-    set $@VOLTAIN_state, 9;
+    Zeny = Zeny + @SNAKETONGUE_REWARD_GOLD;
+    $@VOLTAIN_state = 9;
     mes "\"Excellent, now I can extract the venom to- uhm, nevermind. Thanks for your help.\"";
     goto L_Close;
 
@@ -271,12 +243,12 @@ L_state9:
 
 L_Next10:
     mes "[Voltain]";
-    if (countitem("AlizarinHerb") < @HERBS_NEEDED)
+    if (countitemcolor("AlizarinHerb") < @HERBS_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "AlizarinHerb", @HERBS_NEEDED;
     getexp @HERBS_REWARD_XP, 0;
-    set Zeny, Zeny + @HERBS_REWARD_GOLD;
-    set $@VOLTAIN_state, 10;
+    Zeny = Zeny + @HERBS_REWARD_GOLD;
+    $@VOLTAIN_state = 10;
     mes "\"Great! Now I can thicken the potion! I will try directly.\"";
     goto L_Close;
 
@@ -292,12 +264,12 @@ L_state10:
 
 L_Next11:
     mes "[Voltain]";
-    if (countitem("Steak") < @STEAK_NEEDED)
+    if (countitemcolor("Steak") < @STEAK_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "Steak", @STEAK_NEEDED;
     getexp @STEAK_REWARD_XP, 0;
-    set Zeny, Zeny + @STEAK_REWARD_GOLD;
-    set $@VOLTAIN_state, 11;
+    Zeny = Zeny + @STEAK_REWARD_GOLD;
+    $@VOLTAIN_state = 11;
     mes "\"Thanks a lot. I will really enjoy my meal.\"";
     goto L_Close;
 
@@ -312,12 +284,12 @@ L_state11:
 
 L_Next12:
     mes "[Voltain]";
-    if (countitem("Arrow") < @ARROW_NEEDED)
+    if (countitemcolor("Arrow") < @ARROW_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "Arrow", @ARROW_NEEDED;
     getexp @ARROW_REWARD_XP, 0;
-    set Zeny, Zeny + @ARROW_REWARD_GOLD;
-    set $@VOLTAIN_state, 12;
+    Zeny = Zeny + @ARROW_REWARD_GOLD;
+    $@VOLTAIN_state = 12;
     mes "\"Thanks a lot. Now I feel more secure here in the outdoors.\"";
     goto L_Close;
 
@@ -331,12 +303,12 @@ L_state12:
 
 L_Next13:
     mes "[Voltain]";
-    if (countitem("GambogeHerb") < @HERBS_NEEDED)
+    if (countitemcolor("GambogeHerb") < @HERBS_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "GambogeHerb", @HERBS_NEEDED;
     getexp @HERBS_REWARD_XP, 0;
-    set Zeny, Zeny + @HERBS_REWARD_GOLD;
-    set $@VOLTAIN_state, 13;
+    Zeny = Zeny + @HERBS_REWARD_GOLD;
+    $@VOLTAIN_state = 13;
     mes "\"Great! Now I can thicken the potion! I will try directly.\"";
     goto L_Close;
 
@@ -350,12 +322,12 @@ L_state13:
 
 L_Next14:
     mes "[Voltain]";
-    if (countitem("ChocolateCake") < @CHOCOLATECAKE_NEEDED)
+    if (countitemcolor("ChocolateCake") < @CHOCOLATECAKE_NEEDED)
         goto L_NOT_ENOUGH;
     delitem "ChocolateCake", @CHOCOLATECAKE_NEEDED;
     getexp @CHOCOLATECAKE_REWARD_XP, 0;
-    set Zeny, Zeny + @CHOCOLATECAKE_REWARD_GOLD;
-    set $@VOLTAIN_state, 0;
+    Zeny = Zeny + @CHOCOLATECAKE_REWARD_GOLD;
+    $@VOLTAIN_state = 0;
     mes "\"I love chocolate cakes. I wonder, if I can use my ven- \"";
     emotion EMOTE_EVIL;
     goto L_Close;
@@ -367,36 +339,36 @@ L_NOHELP:
     goto L_Close;
 
 L_Close:
-    set @BOTTLE_NEEDED,  0;
-    set @BOTTLE_REWARD_XP,  0;
-    set @BOTTLE_REWARD_GOLD,  0;
-    set @BLACK_SC_ST_NEEDED,  0;
-    set @BLACK_SC_ST_REWARD_XP,  0;
-    set @BLACK_SC_ST_REWARD_GOLD,  0;
-    set @BUGLEG_NEEDED,  0;
-    set @BUGLEG_REWARD_XP,  0;
-    set @BUGLEG_REWARD_GOLD,  0;
-    set @HERBS_NEEDED,  0;
-    set @HERBS_REWARD_XP,  0;
-    set @HERBS_REWARD_GOLD,  0;
-    set @RAWLOG_NEEDED,  0;
-    set @RAWLOG_REWARD_XP,  0;
-    set @RAWLOG_REWARD_GOLD,  0;
-    set @REDAPPLE_NEEDED,  0;
-    set @REDAPPLE_REWARD_XP,  0;
-    set @REDAPPLE_REWARD_GOLD,  0;
-    set @STEAK_NEEDED,  0;
-    set @STEAK_REWARD_XP,  0;
-    set @STEAK_REWARD_GOLD,  0;
-    set @ARROW_NEEDED,  0;
-    set @ARROW_REWARD_XP,  0;
-    set @ARROW_REWARD_GOLD,  0;
-    set @SNAKETONGUE_NEEDED,  0;
-    set @SNAKETONGUE_REWARD_XP,  0;
-    set @SNAKETONGUE_REWARD_GOLD,  0;
-    set @CHOCOLATECAKE_NEEDED,  0;
-    set @CHOCOLATECAKE_REWARD_XP,  0;
-    set @CHOCOLATECAKE_REWARD_GOLD,  0;
+    @BOTTLE_NEEDED = 0;
+    @BOTTLE_REWARD_XP = 0;
+    @BOTTLE_REWARD_GOLD = 0;
+    @BLACK_SC_ST_NEEDED = 0;
+    @BLACK_SC_ST_REWARD_XP = 0;
+    @BLACK_SC_ST_REWARD_GOLD = 0;
+    @BUGLEG_NEEDED = 0;
+    @BUGLEG_REWARD_XP = 0;
+    @BUGLEG_REWARD_GOLD = 0;
+    @HERBS_NEEDED = 0;
+    @HERBS_REWARD_XP = 0;
+    @HERBS_REWARD_GOLD = 0;
+    @RAWLOG_NEEDED = 0;
+    @RAWLOG_REWARD_XP = 0;
+    @RAWLOG_REWARD_GOLD = 0;
+    @REDAPPLE_NEEDED = 0;
+    @REDAPPLE_REWARD_XP = 0;
+    @REDAPPLE_REWARD_GOLD = 0;
+    @STEAK_NEEDED = 0;
+    @STEAK_REWARD_XP = 0;
+    @STEAK_REWARD_GOLD = 0;
+    @ARROW_NEEDED = 0;
+    @ARROW_REWARD_XP = 0;
+    @ARROW_REWARD_GOLD = 0;
+    @SNAKETONGUE_NEEDED = 0;
+    @SNAKETONGUE_REWARD_XP = 0;
+    @SNAKETONGUE_REWARD_GOLD = 0;
+    @CHOCOLATECAKE_NEEDED = 0;
+    @CHOCOLATECAKE_REWARD_XP = 0;
+    @CHOCOLATECAKE_REWARD_GOLD = 0;
     close;
 
 L_NOT_ENOUGH:

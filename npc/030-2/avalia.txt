@@ -1,8 +1,5 @@
-// Annual Xmas
-// Author: cinderweb, wushin
 
-030-2.gat,198,61,0|script|Avalia|356
-{
+030-2.gat,198,61,0	script	Avalia	356,{
     callfunc "XmasStates";
 
     if(($@xmas_time) && !(@xmas_side))
@@ -12,7 +9,7 @@
 L_OffSeason:
     mes "[Avalia]";
     mes "\"What are you doing in here? Get out!\"";
-    warp "030-2.gat",88,80;
+    warp "030-2",88,80;
     close;
 
 L_XmasMain:
@@ -58,7 +55,7 @@ L_Next:
 L_Start:
     mes "\"Ok, go check in with Chief Warrick. You might have to persist a bit but he will let you help.\"";
     mes "\"Once you have completed this task come back and talk to me. As he reports to me.\"";
-    set @xmas_state, $@xmas_helpers_start_state;
+    @xmas_state = $@xmas_helpers_start_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -86,7 +83,7 @@ L_ManaBattery:
     next;
     callfunc "ListReagents";
     mes "\"When you have gathered the required materials please come back and see me.\"";
-    set @xmas_state, $@xmas_reagents_start;
+    @xmas_state = $@xmas_reagents_start;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_Close;
@@ -149,7 +146,7 @@ L_CheckReagents:
     mes "\"I'm in no condition to go anywhere.\"";
     mes "\"Take the Mana Battery and install it in the warehouse.\"";
     mes "\"It's found behind Chief Warrick\"";
-    set @xmas_state, $@xmas_boss_door_open_state;
+    @xmas_state = $@xmas_boss_door_open_state;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_Close;
@@ -169,9 +166,9 @@ L_Reward:
     mes "\"Thanks for all the help.\"";
     mes "\"Take this as a token of my gratitude.\"";
     if @xmas_reward2_done_state
-        set @xmas_state, $@xmas_reward_done;
+        @xmas_state = $@xmas_reward_done;
     if @xmas_reward_start_state
-        set @xmas_state, $@xmas_reward1_done;
+        @xmas_state = $@xmas_reward1_done;
     callfunc "XmasSetState";
     callfunc "XmasMainXpBpReward";
     goto L_Close;
@@ -189,8 +186,7 @@ L_Close:
     close;
 }
 
-030-2.gat,190,64,0|script|Milis|330
-{
+030-2.gat,190,64,0	script	Milis	330,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -200,7 +196,7 @@ L_Close:
 L_OffSeason:
     mes "[Milis]";
     mes "\"What are you doing in here, get out!\"";
-    warp "030-2.gat",88,80;
+    warp "030-2",88,80;
     close;
 
 L_XmasMain:

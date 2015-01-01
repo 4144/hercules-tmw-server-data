@@ -1,37 +1,21 @@
-//#################################################################################
-//#                                                                               #
-//# This script file contains the npc scripts for two quests:                     #
-//#                                                                               #
-//# Quest1: Obtaining a Forest bow                                                #
-//# Needed: About 20 Raw logs, 5000gp, some chatting and running                  #
-//# Reward: Forest bow                                                            #
-//#                                                                               #
-//# Quest2: Obtaining a Wooden shield                                             #
-//# Needed: 40 Raw logs, 5000gp                                                   #
-//# Reward: Wooden shield and 2500exp                                             #
-//#                                                                               #
-//# Variables used:  @QUEST_Forestbow_state, nibbles 0 and 1                      #
-//#################################################################################
 
-// Lumberjack
-009-1.gat,40,45,0|script|Jack|141
-{
+009-1.gat,40,45,0	script	Jack	141,{
     callfunc "ClearVariables";
 
-    set @RAWLOGS_AMOUNT, 40;
-    set @SHIELD_COST, 5000;
-    set @QUEST_SHIELD_EXP, 2500;
+    @RAWLOGS_AMOUNT = 40;
+    @SHIELD_COST = 5000;
+    @QUEST_SHIELD_EXP = 2500;
 
-    set @Q_Forestbow_MASK, NIBBLE_0_MASK;
-    set @Q_Forestbow_SHIFT, NIBBLE_0_SHIFT;
+    @Q_Forestbow_MASK = NIBBLE_0_MASK;
+    @Q_Forestbow_SHIFT = NIBBLE_0_SHIFT;
 
-    set @Q_Woodenshield_MASK, NIBBLE_1_MASK;
-    set @Q_Woodenshield_SHIFT, NIBBLE_1_SHIFT;
+    @Q_Woodenshield_MASK = NIBBLE_1_MASK;
+    @Q_Woodenshield_SHIFT = NIBBLE_1_SHIFT;
 
-    set @Q_Forestbow, ((QUEST_Forestbow_state & @Q_Forestbow_MASK) >> @Q_Forestbow_SHIFT);
-    set @Q_Woodenshield, ((QUEST_Forestbow_state & @Q_Woodenshield_MASK) >> @Q_Woodenshield_SHIFT);
+    @Q_Forestbow = ((QUEST_Forestbow_state & @Q_Forestbow_MASK) >> @Q_Forestbow_SHIFT);
+    @Q_Woodenshield = ((QUEST_Forestbow_state & @Q_Woodenshield_MASK) >> @Q_Woodenshield_SHIFT);
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@Q_Woodenshield >= 3) goto L_Shield_state_3;
     if (@Q_Woodenshield == 2) goto L_Shield_state_2;
@@ -110,7 +94,7 @@ L_Next7:
         "Southwest you say? OK, thank you.", L_Next8;
 
 L_Next8:
-    set @Q_Forestbow, 2;
+    @Q_Forestbow = 2;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -148,13 +132,13 @@ L_Bow_state_4_reaffirm:
     goto L_Close;
 
 L_Shield_state_0:
-    set @Q_Woodenshield, 1;
+    @Q_Woodenshield = 1;
     callsub S_Update_Mask;
 
     if (Sex == 0)
-        set @child_of_jack$, "daughter";
+        @child_of_jack$ = "daughter";
     if (Sex == 1)
-        set @child_of_jack$, "son";
+        @child_of_jack$ = "son";
 
     mes "[Jack Lumber]";
     mes "\"You no doubt remember how I struggled with those beasts, fighting for my life. Scared me, those seven-branched little stumps did!  Never since that day have I strayed near them, and yet there you are, cutting them down one by one. I'm proud of you – to dare to fight those trunks is admirable indeed. You're as strong as if you were my own " + @child_of_jack$ + "!\"";
@@ -178,7 +162,7 @@ L_Yes:
     mes "[Jack Lumber]";
     mes "\"All I need is " + @RAWLOGS_AMOUNT + " raw logs. This needn't be high quality wood; pretty much any log you can find should work. Oh, and I'll also need " + @SHIELD_COST + " GP for other materials.\"";
     next;
-    set @Q_Woodenshield, 2;
+    @Q_Woodenshield = 2;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -190,7 +174,7 @@ L_Shield_state_2:
         "I'll come back later.", L_Close;
 
 L_Next10:
-    if (countitem("RawLog") < @RAWLOGS_AMOUNT)
+    if (countitemcolor("RawLog") < @RAWLOGS_AMOUNT)
         goto L_Not_enough_logs;
     if (Zeny < @SHIELD_COST)
         goto L_Not_enough_money;
@@ -198,10 +182,10 @@ L_Next10:
     if (@inventorylist_count == 100)
         goto L_TooMany;
     delitem "RawLog", @RAWLOGS_AMOUNT;
-    set Zeny, Zeny - @SHIELD_COST;
+    Zeny = Zeny - @SHIELD_COST;
     getexp @QUEST_SHIELD_EXP, 0;
     getitem "WoodenShield", 1;
-    set @Q_Woodenshield, 3;
+    @Q_Woodenshield = 3;
     callsub S_Update_Mask;
     mes "[Jack Lumber]";
     mes "\"Have a seat.\"";
@@ -268,13 +252,13 @@ L_Made_Shield:
     goto L_Daily;
 
 L_Daily:
-    set @dq_level, 30;
-    set @dq_cost, 25;
-    set @dq_count, 30;
-    set @dq_name$, "RawLog";
-    set @dq_friendly_name$, "raw logs";
-    set @dq_money, 4000;
-    set @dq_exp, 4000;
+    @dq_level = 30;
+    @dq_cost = 25;
+    @dq_count = 30;
+    @dq_name$ = "RawLog";
+    @dq_friendly_name$ = "raw logs";
+    @dq_money = 4000;
+    @dq_exp = 4000;
 
     callfunc "DailyQuest";
 
@@ -286,10 +270,10 @@ L_Daily:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_Forestbow_state, (QUEST_Forestbow_state & ~(@Q_Forestbow_MASK | @Q_Woodenshield_MASK)) | (@Q_Forestbow << @Q_Forestbow_SHIFT) | (@Q_Woodenshield << @Q_Woodenshield_SHIFT);
+    QUEST_Forestbow_state = (QUEST_Forestbow_state & ~(@Q_Forestbow_MASK | @Q_Woodenshield_MASK)) | (@Q_Forestbow << @Q_Forestbow_SHIFT) | (@Q_Woodenshield << @Q_Woodenshield_SHIFT);
     return;
 }

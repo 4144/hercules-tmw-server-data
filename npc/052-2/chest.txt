@@ -1,25 +1,11 @@
-//-----------------------------------------------------------------------------
-// Illia Forsaken Inn - Chest room
-// $@illia_progress = 8
-//
-// Level progress:
-//     No progress: Players pick the rewards, then leave,
-//                  with the Hero forced to leave last.
-// @illia_got_rewards value:
-//     0: player did not pick his reward yet
-//     1: player picked his common rewards
-//     2: player picked his unique rewards
-//     3: player choosed to leave the room
-//-----------------------------------------------------------------------------
 
-052-2.gat,136,73,0|script|Chest#illia|111
-{
-    set @step, 8;
+052-2.gat,136,73,0	script	Chest#illia	111,{
+    @step = 8;
     if ($@illia_progress < @step) goto L_ShouldNotBeHere;
     if (@illia_got_rewards > 2) end;
     if (@illia_got_rewards == 2) goto L_AlreadyGotReward;
     if (@illia_current_num_rewards > 0) goto L_ResumePick;
-    set @illia_current_num_rewards, 0;
+    @illia_current_num_rewards = 0;
     mes "You find an opened chest which seems full of equipments.";
     next;
     mes "You realize again you were not the first one to visit this place. But where the others failed, you succeeded.";
@@ -58,13 +44,13 @@ L_GetCommonReward:
     if (@illia_current_num_rewards == $@illia_num_common_reward_items)
         goto L_RewardDone;
     getinventorylist;
-    set @reward, $@illia_item_common_rewards[rand(getarraysize($@illia_item_common_rewards))];
+    @reward = $@illia_item_common_rewards[rand(getarraysize($@illia_item_common_rewards))];
     if ((checkweight(@reward, 1) == 0) || (@inventorylist_count == 100))
         goto L_InventoryNoSpace;
-    set @illia_current_num_rewards, @illia_current_num_rewards + 1;
+    @illia_current_num_rewards = @illia_current_num_rewards + 1;
     getitem @reward, 1;
     mes "You found a " + getitemname(@reward) + "!";
-    set @reward, 0;
+    @reward = 0;
     goto L_GetCommonReward;
 
 L_GetUniqueReward:
@@ -73,26 +59,26 @@ L_GetUniqueReward:
     if (Illia_Uniques_Count >= 2)
         goto L_GetUniqueReward2;
     getinventorylist;
-    set @reward, $@illia_item_unique_rewards[rand(getarraysize($@illia_item_unique_rewards))];
+    @reward = $@illia_item_unique_rewards[rand(getarraysize($@illia_item_unique_rewards))];
     if ((checkweight(@reward, 1) == 0) || (@inventorylist_count == 100))
         goto L_InventoryNoSpace;
     next;
     mes "You notice an interesting shape hidden under a cover...";
     next;
-    set @illia_current_num_rewards, @illia_current_num_rewards + 1;
+    @illia_current_num_rewards = @illia_current_num_rewards + 1;
     getitem @reward, 1;
     mes "You found a " + getitemname(@reward) + "!";
-    set Illia_Uniques_Count, Illia_Uniques_Count + 1;
-    set @reward, 0;
+    Illia_Uniques_Count = Illia_Uniques_Count + 1;
+    @reward = 0;
     goto L_GetUniqueReward;
 
 L_GetUniqueReward2:
     next;
     mes "You find a bunch of gold pieces!";
     next;
-    set Zeny, Zeny + 100000*($@illia_num_unique_reward_items - @illia_current_num_rewards);
+    Zeny = Zeny + 100000*($@illia_num_unique_reward_items - @illia_current_num_rewards);
     getexp 200000*($@illia_num_unique_reward_items - @illia_current_num_rewards), 0;
-    set @illia_current_num_rewards, $@illia_num_unique_reward_items;
+    @illia_current_num_rewards = $@illia_num_unique_reward_items;
     goto L_GetUniqueReward;
 
 L_AlreadyGotReward:
@@ -101,8 +87,8 @@ L_AlreadyGotReward:
     goto L_AskLeaving;
 
 L_RewardDone:
-    set @illia_got_rewards, @illia_got_rewards + 1;
-    set @illia_current_num_rewards, 0;
+    @illia_got_rewards = @illia_got_rewards + 1;
+    @illia_current_num_rewards = 0;
     next;
     if (@illia_got_rewards == 1)
         goto L_GetUniqueReward;
@@ -117,7 +103,7 @@ L_AskLeaving:
     next;
     // Force the hero to leave last, as this event triggers the end of the quest
     // as well as some dialogs from Valia, when the hero returns.
-    if (strcharinfo(0) == $@ILLIA_HERO$ && getareausers("052-2.gat", 19, 8, 137, 88) > 1)
+    if (strcharinfo(0) == $@ILLIA_HERO$ && getareausers("052-2", 19, 8, 137, 88) > 1)
         goto L_WaitHelpersLeave;
     goto L_PrepareLeaving;
 
@@ -134,8 +120,8 @@ L_PrepareLeaving:
         "No, I still need to see things here.", L_Close;
 
 L_Leave:
-    set @illia_got_rewards, 3;
-    set @illia_current_num_rewards, 0;
+    @illia_got_rewards = 3;
+    @illia_current_num_rewards = 0;
     addtimer 1000, "Chest#illia::OnMsg1";
     addtimer 4000, "Chest#illia::OnMsg2";
     addtimer 7000, "Chest#illia::OnMsg3";
@@ -160,13 +146,13 @@ OnFx:
     end;
 
 OnRing:
-    warp "007-1.gat", 85 + rand(0,2), 75 + rand(0,2);
+    warp "007-1", 85 + rand(0,2), 75 + rand(0,2);
     if (strcharinfo(0) == $@ILLIA_HERO$)
         goto L_ScheduleEnd;
     end;
 
 L_ScheduleEnd:
-    set $@ILLIA_STATUS, 253;
+    $@ILLIA_STATUS = 253;
     startnpctimer "Valia";
     cmdothernpc "#IlliaDaemon", "Toggle";
     end;

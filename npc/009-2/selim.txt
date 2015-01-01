@@ -1,12 +1,5 @@
-//#################################################################################
-//#                                                                               #
-//# This script file contains the script for the cloth dyer. It has been          #
-//# revised to require dye items; collaborating NPCs are Selim and Angus.         #
-//#                                                                               #
-//#################################################################################
 
-009-2.gat,32,104,0|script|Selim|326
-{
+009-2.gat,32,104,0	script	Selim	326,{
     setarray @all_colours$, "red", "green", "dark blue", "yellow", "light blue", "pink", "black", "orange", "purple", "dark green";
 
     mes "[Selim]";
@@ -15,8 +8,8 @@
     goto L_clothes_choice;
 
 L_clothes_choice:
-    set @pronoun$, "it";
-    set @is_verb$, "is";
+    @pronoun$ = "it";
+    @is_verb$ = "is";
     menu
         "Cotton shirt.", L_cottonshirt,
         "Cotton cloth.", L_cottoncloth,
@@ -44,117 +37,117 @@ L_clothes_choice:
         "I'm fine for now, thanks.", L_Close;
 
 L_contributor:
-    set @del, 1178;
-    set @new, 5131;
-    set @name$, "contributor shirt";
+    @del = 1178;
+    @new = 5131;
+    @name$ = "contributor shirt";
     goto L_picked_item;
 
 L_cottonshirt:
-    set @del, 1202;
-    set @new, 2050;
-    set @name$, "cotton shirt";
+    @del = 1202;
+    @new = 2050;
+    @name$ = "cotton shirt";
     goto L_picked_item;
 
 L_vneck:
-    set @del, 624;
-    set @new, 2060;
-    set @name$, "V-neck sweater";
+    @del = 624;
+    @new = 2060;
+    @name$ = "V-neck sweater";
     goto L_picked_item;
 
 L_tneck:
-    set @del, 564;
-    set @new, 2070;
-    set @name$, "turtleneck sweater";
+    @del = 564;
+    @new = 2070;
+    @name$ = "turtleneck sweater";
     goto L_picked_item;
 
 L_shorts:
-    set @del, 586;
-    set @new, 2110;
-    set @name$, "cotton shorts";
-    set @pronoun$, "them";
-    set @is_verb$, "are";
+    @del = 586;
+    @new = 2110;
+    @name$ = "cotton shorts";
+    @pronoun$ = "them";
+    @is_verb$ = "are";
     goto L_picked_item;
 
 L_trousers:
-    set @del, 648;
-    set @new, 2180;
-    set @name$, "cotton trousers";
-    set @pronoun$, "them";
-    set @is_verb$, "are";
+    @del = 648;
+    @new = 2180;
+    @name$ = "cotton trousers";
+    @pronoun$ = "them";
+    @is_verb$ = "are";
     goto L_picked_item;
 
 L_skirt:
-    set @del, 632;
-    set @new, 2100;
-    set @name$, "cotton skirt";
+    @del = 632;
+    @new = 2100;
+    @name$ = "cotton skirt";
     goto L_picked_item;
 
 L_miniskirt:
-    set @del, 771;
-    set @new, 2170;
-    set @name$, "miniskirt";
+    @del = 771;
+    @new = 2170;
+    @name$ = "miniskirt";
     goto L_picked_item;
 
 L_tanktop:
-    set @del, 688;
-    set @new, 2090;
-    set @name$, "tank top";
+    @del = 688;
+    @new = 2090;
+    @name$ = "tank top";
     goto L_picked_item;
 
 L_tanktop_short:
-    set @del, 689;
-    set @new, 2120;
-    set @name$, "short tank top";
+    @del = 689;
+    @new = 2120;
+    @name$ = "short tank top";
     goto L_picked_item;
 
 L_robe:
-    set @del, 720;
-    set @new, 2080;
-    set @name$, "silk robe";
+    @del = 720;
+    @new = 2080;
+    @name$ = "silk robe";
     goto L_picked_item;
 
 L_headband:
-    set @del, 724;
-    set @new, 2140;
-    set @name$, "cotton headband";
+    @del = 724;
+    @new = 2140;
+    @name$ = "cotton headband";
     goto L_picked_item;
 
 L_desert_hat:
-    set @del, 723;
-    set @new, 2130;
-    set @name$, "desert hat";
+    @del = 723;
+    @new = 2130;
+    @name$ = "desert hat";
     goto L_picked_item;
 
 L_cottonboots:
-    set @del, 735;
-    set @new, 2150;
-    set @name$, "cotton boots";
+    @del = 735;
+    @new = 2150;
+    @name$ = "cotton boots";
     goto L_picked_item;
 
 L_cottongloves:
-    set @del, 741;
-    set @new, 2160;
-    set @name$, "cotton gloves";
+    @del = 741;
+    @new = 2160;
+    @name$ = "cotton gloves";
     goto L_picked_item;
 
 L_rabbitears:
-    set @del, 1255;
-    set @new, 2190;
-    set @name$, "rabbit ears";
-    set @pronoun$, "them";
-    set @is_verb$, "are";
+    @del = 1255;
+    @new = 2190;
+    @name$ = "rabbit ears";
+    @pronoun$ = "them";
+    @is_verb$ = "are";
     goto L_picked_item;
 
 L_wizardhat:
-    set @del, 4028;
-    set @new, 2200;
-    set @name$, "wizard hat";
+    @del = 4028;
+    @new = 2200;
+    @name$ = "wizard hat";
     goto L_picked_item;
 
 L_bowlerhat:
-    set @del, 4030;
-    set @new, 2210;
-    set @name$, "bowler hat";
+    @del = 4030;
+    @new = 2210;
+    @name$ = "bowler hat";
     goto L_picked_item;
 
 L_sorcererrobe:
@@ -176,87 +169,87 @@ L_sorcererrobe:
         "I'm fine for now, thanks.", L_Close;
 
 L_redlinedsorcererrobe:
-    set @del, 798;
-    set @new, 2220;
-    set @name$, "red lined sorcerer robe";
+    @del = 798;
+    @new = 2220;
+    @name$ = "red lined sorcerer robe";
     goto L_picked_item;
 
 L_greenlinedsorcererrobe:
-    set @del, 5010;
-    set @new, 5000;
-    set @name$, "green lined sorcerer robe";
+    @del = 5010;
+    @new = 5000;
+    @name$ = "green lined sorcerer robe";
     goto L_picked_item;
 
 L_darkbluelinedsorcererrobe:
-    set @del, 5021;
-    set @new, 5011;
-    set @name$, "dark blue lined sorcerer robe";
+    @del = 5021;
+    @new = 5011;
+    @name$ = "dark blue lined sorcerer robe";
     goto L_picked_item;
 
 L_yellowlinedsorcererrobe:
-    set @del, 5032;
-    set @new, 5022;
-    set @name$, "yellow lined sorcerer robe";
+    @del = 5032;
+    @new = 5022;
+    @name$ = "yellow lined sorcerer robe";
     goto L_picked_item;
 
 L_lightbluelinedsorcererrobe:
-    set @del, 5043;
-    set @new, 5033;
-    set @name$, "light blue lined sorcerer robe";
+    @del = 5043;
+    @new = 5033;
+    @name$ = "light blue lined sorcerer robe";
     goto L_picked_item;
 
 L_pinklinedsorcererrobe:
-    set @del, 5054;
-    set @new, 5044;
-    set @name$, "pink lined sorcerer robe";
+    @del = 5054;
+    @new = 5044;
+    @name$ = "pink lined sorcerer robe";
     goto L_picked_item;
 
 L_blacklinedsorcererrobe:
-    set @del, 5065;
-    set @new, 5055;
-    set @name$, "black lined sorcerer robe";
+    @del = 5065;
+    @new = 5055;
+    @name$ = "black lined sorcerer robe";
     goto L_picked_item;
 
 L_orangelinedsorcererrobe:
-    set @del, 5076;
-    set @new, 5066;
-    set @name$, "orange lined sorcerer robe";
+    @del = 5076;
+    @new = 5066;
+    @name$ = "orange lined sorcerer robe";
     goto L_picked_item;
 
 L_purplelinedsorcererrobe:
-    set @del, 5087;
-    set @new, 5077;
-    set @name$, "purple lined sorcerer robe";
+    @del = 5087;
+    @new = 5077;
+    @name$ = "purple lined sorcerer robe";
     goto L_picked_item;
 
 L_darkgreenlinedsorcererrobe:
-    set @del, 5098;
-    set @new, 5088;
-    set @name$, "dark green lined sorcerer robe";
+    @del = 5098;
+    @new = 5088;
+    @name$ = "dark green lined sorcerer robe";
     goto L_picked_item;
 
 L_whitelinedsorcererrobe:
-    set @del, 5109;
-    set @new, 5099;
-    set @name$, "white lined sorcerer robe";
+    @del = 5109;
+    @new = 5099;
+    @name$ = "white lined sorcerer robe";
     goto L_picked_item;
 
 L_bowlerhatbrown:
-    set @del, 800;
-    set @new, 2230;
-    set @name$, "bowler hat (brown)";
+    @del = 800;
+    @new = 2230;
+    @name$ = "bowler hat (brown)";
     goto L_picked_item;
 
 L_finedress:
-    set @del, 870;
-    set @new, 2240;
-    set @name$, "fine dress";
+    @del = 870;
+    @new = 2240;
+    @name$ = "fine dress";
     goto L_picked_item;
 
 L_cottoncloth:
-    set @del, 660;
-    set @new, 2250;
-    set @name$, "cotton cloth";
+    @del = 660;
+    @new = 2250;
+    @name$ = "cotton cloth";
     goto L_picked_item;
 
 L_asksorcererrobe:
@@ -283,7 +276,7 @@ L_Next:
         "I have to go pick that.", L_Close;
 
 L_picked_item:
-    if (countitem(@del) == 0) goto L_havenone;
+    if (countitemcolor(@del) == 0) goto L_havenone;
     goto L_colour;
 
 L_colour:
@@ -303,9 +296,9 @@ L_colour:
         "Dark Green.", L_MenuItems;
 
 L_MenuItems:
-    set @colour, @menu - 1;
-    set @vial, 690 + @colour;
-    if (countitem(@vial) == 0) goto L_no_dye;
+    @colour = @menu - 1;
+    @vial = 690 + @colour;
+    if (countitemcolor(@vial) == 0) goto L_no_dye;
     goto L_finish;
 
 L_no_dye:
@@ -322,14 +315,14 @@ L_no_dye:
 
 L_explain_dye:
     if (QUEST_clothdyer_knowsdye < 1)
-        set QUEST_clothdyer_knowsdye, 1;
+        QUEST_clothdyer_knowsdye = 1;
     mes "[Selim]";
     mes "\"Well, dye is very expensive, and since I don't charge adventurers anything, I can't give you any for free.";
     mes "But most alchemists can make dye; perhaps you can find one around here.\"";
     close;
 
 L_finish:
-    if (countitem(@del) == 0)
+    if (countitemcolor(@del) == 0)
         goto L_havenone;
     delitem @vial, 1;
     delitem @del, 1;

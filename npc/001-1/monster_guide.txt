@@ -1,7 +1,5 @@
-//
 
-001-1.gat,49,51,0|script|Aidan|102
-{
+001-1.gat,49,51,0	script	Aidan	102,{
     if (MPQUEST == 0)
         goto L_Register;
     mes "[Aidan the Monster Guide]";
@@ -27,7 +25,7 @@ L_R:
     mes "[Monster Guide]";
     mes "Well, looks like you qualify!";
     mes "Welcome to the questing world!";
-    set MPQUEST,1;
+    MPQUEST = 1;
     close;
 
 L_N:

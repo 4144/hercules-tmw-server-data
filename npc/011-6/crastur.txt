@@ -1,7 +1,6 @@
-011-6.gat,172,250,0|script|Crastur the Ugly|418
-{
-    set @spants_state, ((QUEST_WG_state & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+011-6.gat,172,250,0	script	Crastur the Ugly	418,{
+    @spants_state = ((QUEST_WG_state & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
     if @spants_state < 3 goto L_Regular;
     if @spants_state == 3 goto L_Ask;
     if (@spants_state == 4 || @spants_state == 5 || @spants_state == 6) goto L_Ask_Again;
@@ -53,7 +52,7 @@ L_Jibber:
     mes "[Crastur]";
     mes "";
     mes "\"I do not care about petty problems, get to the point!\"";
-    set @spants_state, 4;
+    @spants_state = 4;
     callsub S_Update_Spants;
     menu
         "\"Hetchel needs the Plans for Cotton Trousers Stolen from Lora Tay\"", L_Jibber_Cont,
@@ -91,7 +90,7 @@ L_Pirate_Proof:
     mes "";
     mes "\"It is for sure the Pirates give their souls for the rescue of their booty.\"";
     mes "\"Bring me something unique from their treasure and I will give you those plans in return.\"";
-    set @spants_state, 5;
+    @spants_state = 5;
     callsub S_Update_Spants;
     menu
         "\"I have it with me.\"", L_Bandana,
@@ -99,7 +98,7 @@ L_Pirate_Proof:
 
 L_Bandana:
     getinventorylist;
-    if (countitem("Bandana") < 1) goto L_No_Item;
+    if (countitemcolor("Bandana") < 1) goto L_No_Item;
     if (@spants_state != 6) goto L_Wrong_Item;
     mes "Crasturs gazes at the bandana in your hand. He scratches his right arm, then he nods";
     mes "[Crastur]";
@@ -113,7 +112,7 @@ L_Bandana:
     mes "\"Crastur hands you a page ripped out of his Almanach that has dotted lines in green and red Ink all over it";
     next;
     mes "You put the plans into a hidden pocket";
-    set @spants_state, 7;
+    @spants_state = 7;
     callsub S_Update_Spants;
     goto L_Close;
 
@@ -212,10 +211,10 @@ L_Hurnscald:
     goto L_Close;
 
 S_Update_Spants:
-    set QUEST_WG_state, (QUEST_WG_state & ~(NIBBLE_2_MASK) | (@spants_state << NIBBLE_2_SHIFT));
+    QUEST_WG_state = (QUEST_WG_state & ~(NIBBLE_2_MASK) | (@spants_state << NIBBLE_2_SHIFT));
     return;
 
 L_Close:
-    set @spants_state, 0;
+    @spants_state = 0;
     close;
 }

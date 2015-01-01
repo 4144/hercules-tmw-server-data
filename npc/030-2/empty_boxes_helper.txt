@@ -1,10 +1,5 @@
-// Annual Xmas
-// author: Jenalya, wushin
-// Urmas asks for raw logs to make empty presents boxes
-// later he can be asked for those boxes to put toys in
 
-030-2.gat,140,41,0|script|Urmas|328
-{
+030-2.gat,140,41,0	script	Urmas	328,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -33,15 +28,15 @@ L_Helping:
     mes "Bring me some wood, so I can make new boxes out of it.";
     mes $@xmas_log_amount + " Raw Logs will do for one box.\"";
     mes "";
-    if (countitem("RawLog") < $@xmas_log_amount)
+    if (countitemcolor("RawLog") < $@xmas_log_amount)
         mes "\"But I see you do not have enough with you anyway. Come back with some material please.\"";
-    if (countitem("RawLog") < $@xmas_log_amount) goto L_Close;
+    if (countitemcolor("RawLog") < $@xmas_log_amount) goto L_Close;
     next;
     mes "\"How many boxes do you need?\"";
     input @amount;
     if (@amount <= 0)
         goto L_Close;
-    if (countitem("RawLog") < (@amount * $@xmas_log_amount))
+    if (countitemcolor("RawLog") < (@amount * $@xmas_log_amount))
         goto L_NoItems;
     getinventorylist;
     if (@inventorylist_count > 100)
@@ -63,6 +58,6 @@ L_NoItems:
     goto L_Close;
 
 L_Close:
-    set @amount, 0;
+    @amount = 0;
     close;
 }

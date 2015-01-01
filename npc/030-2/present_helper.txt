@@ -1,9 +1,5 @@
-// Annual Xmas
-// Author: wushin
-// Present Reclaimation
 
-030-2.gat,47,82,0|script|Jonanthan|328
-{
+030-2.gat,47,82,0	script	Jonanthan	328,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -43,32 +39,32 @@ L_Main:
         $@xmas_present_amount + " White present boxes.",L_White;
 
 L_Purple:
-    set @karma_bonus, $@xmas_karma_bonus;
-    set @present_name$, "PurplePresentBox";
+    @karma_bonus = $@xmas_karma_bonus;
+    @present_name$ = "PurplePresentBox";
     goto L_RewardIncrease;
 
 L_Blue:
-    set @karma_bonus, $@xmas_karma_bonus;
-    set @present_name$, "BluePresentBox";
+    @karma_bonus = $@xmas_karma_bonus;
+    @present_name$ = "BluePresentBox";
     goto L_RewardIncrease;
 
 L_Green:
-    set @karma_bonus, $@xmas_karma_bonus;
-    set @present_name$, "GreenPresentBox";
+    @karma_bonus = $@xmas_karma_bonus;
+    @present_name$ = "GreenPresentBox";
     goto L_RewardIncrease;
 
 L_Yellow:
-    set @karma_bonus, 2;
-    set @present_name$, "YellowPresentBox";
+    @karma_bonus = 2;
+    @present_name$ = "YellowPresentBox";
     goto L_RewardIncrease;
 
 L_White:
-    set @karma_bonus, 2;
-    set @present_name$, "WhitePresentBox";
+    @karma_bonus = 2;
+    @present_name$ = "WhitePresentBox";
     goto L_RewardIncrease;
 
 L_RewardIncrease:
-    if ($@xmas_present_amount > countitem(@present_name$))
+    if ($@xmas_present_amount > countitemcolor(@present_name$))
         goto L_NotEnough;
     mes "\"Oh, thank you!\"";
     delitem @present_name$, $@xmas_present_amount;
@@ -81,7 +77,7 @@ L_NotEnough:
 
 L_Close:
     mes "\"See You later!\"";
-    set @present_name$, "";
+    @present_name$ = "";
     close;
 }
 

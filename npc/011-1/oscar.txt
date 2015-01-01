@@ -1,54 +1,26 @@
-//############################################################################
-//#                                                                          #
-//#                             Halloween seasonal                           #
-//#                                                                          #
-//############################################################################
 
-// Annual_Quest variable:
-//  This variable contains 4 bytes that are used to check if a player
-//  completed or not an annual quest. The first byte will be used by this
-//  after-Halloween event.
-//  Each byte contains the value "year minus 2000" where year is the next year
-//  when the player can start over the annual quest.
-//  Be sure to not have a quest whose duration overlaps on two years,
-//  or this will cause problems.
 
-// The second byte contains easter information, see annualeaster.txt for more information.
 
-// Halloween quest states:
-//  0: nothing started
-//  1: the player knows the story and is asked to go find pumpkin seeds in the forest
-//  2: the player gathered enough seeds
-//  3: the player gave the pumpkin seeds and can now help the farmer to grow them
-//  the player can chose that the pumpkins patches will be watered by kaflosh (requires Nature Magic lvl 2), -> jumps to 5
-//  4: the player is asked to go refill water bottles
-//  5: various possible states here: the water bottles are refilled and the pumpkin spawns will start right away.
-//                                   the player will start by kafloshing ($@HalloweenQuest_PumpkinHunter$ == "")
-//  5 + $@HalloweenQuest_PumpkinHunter$ != "":* the player watered the patches (by kaflosh, or the farmer did). Pumpkins spawn.
-//  6: the player saved the farmer from the pumpkin invasion (all pumpkins / mobs killed)
-//  10: the player failed to save the farmer from the pumpkin invasion (player left the map, died -- logging off is allowed however)
 
-function|script|HalloweenQuestWaterPumpkins
-{
+function	script	HalloweenQuestWaterPumpkins	{
     if (Quest_Halloween != 5 || $@HalloweenQuest_PumpkinHunter$ != "")
         end;
-    set $@HalloweenQuest_PumpkinHunter$, strcharinfo(0);
+    $@HalloweenQuest_PumpkinHunter$ = strcharinfo(0);
     cmdothernpc "Oscar", "Spg";
     end;
 }
 
-011-1.gat,94,38,0|script|Oscar|142
-{
+011-1.gat,94,38,0	script	Oscar	142,{
     // Check we are at the good time of the year
     if (!(gettime(6) == 11 && (gettime(5) >= 4 && gettime(5) <= 30))) goto L_NoEvent;
     // Check halloween quest has been done or not.
-    set @halloween_year, (Annual_Quest & BYTE_0_MASK) >> BYTE_0_SHIFT;
+    @halloween_year = (Annual_Quest & BYTE_0_MASK) >> BYTE_0_SHIFT;
     if (@halloween_year < (gettime(7) - 2000)) goto L_AdjustYear;
     goto L_Init;
 
 L_AdjustYear:
-    set Quest_Halloween, 0;
-    set @halloween_year, gettime(7) - 2000;
+    Quest_Halloween = 0;
+    @halloween_year = gettime(7) - 2000;
     callsub S_Update_Annual_Quest;
     goto L_Init;
 
@@ -121,7 +93,7 @@ L_Next2:
     mes "[Oscar]";
     mes "\"Thanks so much " + strcharinfo(0) + "!";
     mes "I can't wait to try them!\"";
-    set Quest_Halloween, 1;
+    Quest_Halloween = 1;
     goto L_End;
 
 L_TooYoung:
@@ -129,14 +101,14 @@ L_TooYoung:
     goto L_End;
 
 L_End:
-    set @halloween_year, 0;
+    @halloween_year = 0;
     close;
 
 L_CheckSeeds:
-    if (countitem("PumpkinSeeds") < $@halloween_num_seeds)
+    if (countitemcolor("PumpkinSeeds") < $@halloween_num_seeds)
         goto L_NotEnoughSeeds;
     delitem "PumpkinSeeds", $@halloween_num_seeds;
-    set Quest_Halloween, 3;
+    Quest_Halloween = 3;
     mes "[Oscar]";
     mes "\"Yes you found them! I can start to make them grow now!";
     mes "Thank you so much " + strcharinfo(0) + "!\"";
@@ -150,7 +122,7 @@ L_NotEnoughSeeds:
 L_HelpGrowSeeds:
     // Wait 20 seconds before triggering the next step.
     if (@halloween_seeds_timer == 0)
-        set @halloween_seeds_timer, gettimetick(2);
+        @halloween_seeds_timer = gettimetick(2);
     if ((gettimetick(2) - @halloween_seeds_timer) < 5)
         goto L_WaitGrowSeeds;
     mes "[Oscar]";
@@ -165,24 +137,24 @@ L_HelpGrowSeeds:
     next;
     mes "\"If you could help me fill these " + $@halloween_num_water_bottles + " bottles with water, that would be very kind of you!\"";
 
-    set @nature_magic, getskilllv(SKILL_MAGIC_NATURE);
+    @nature_magic = getskilllv(SKILL_MAGIC_NATURE);
     if (@nature_magic > 1)
         goto L_ProposeUseKaflosh;
-    set @nature_magic, 0;
+    @nature_magic = 0;
     menu
         "Yeah sure!", L_Next3,
         "That sounds boring to do. No thanks.", L_End;
 
 L_Next3:
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("EmptyBottle") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("EmptyBottle") == 0)
         goto L_InventoryFull;
-    set @inventorylist_count, 0;
-    set Quest_Halloween, 4;
+    @inventorylist_count = 0;
+    Quest_Halloween = 4;
     goto L_GetEmptyBottles;
 
 L_ProposeUseKaflosh:
-    set @nature_magic, 0;
+    @nature_magic = 0;
     menu
         "Yeah sure!", L_Next4,
         "Maybe I can help you water them with magic!", L_WaterWithKaflosh,
@@ -190,9 +162,9 @@ L_ProposeUseKaflosh:
 
 L_Next4:
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("EmptyBottle") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("EmptyBottle") == 0)
         goto L_InventoryFull;
-    set Quest_Halloween, 4;
+    Quest_Halloween = 4;
     goto L_GetEmptyBottles;
 
 L_GetEmptyBottles:
@@ -226,7 +198,7 @@ L_HelpFillWaters:
         "Oh, not yet. I'm on my way.", L_End;
 
 L_Next5:
-    if (countitem("BottleOfWater") < $@halloween_num_water_bottles)
+    if (countitemcolor("BottleOfWater") < $@halloween_num_water_bottles)
         goto L_NotEnoughWaters;
 
     // make an additional check here, since the player had a dialog pause in the above menu.
@@ -237,14 +209,14 @@ L_Next5:
     mes "[Oscar]";
     mes "\"Many thanks! I wonder what I would have done without you!";
     mes "I'll water the patches right away. Watch this!\"";
-    set Quest_Halloween, 5;
-    set $@HalloweenQuest_PumpkinHunter$, strcharinfo(0);
+    Quest_Halloween = 5;
+    $@HalloweenQuest_PumpkinHunter$ = strcharinfo(0);
     callsub S_StartPumpkinsSpawn;
     goto L_End;
 
 L_WaterWithKaflosh:
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("BottleOfWater") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("BottleOfWater") == 0)
         goto L_InventoryFull;
     mes "[Oscar]";
     mes "\"Oh, I see!";
@@ -256,7 +228,7 @@ L_WaterWithKaflosh:
     next;
     mes "\"By the way, I told you about the rumors concerning these pumpkins.";
     mes "Why not bring some friends here? Oh, unless you consider yourself strong enough!\"";
-    set Quest_Halloween, 5;
+    Quest_Halloween = 5;
     getitem "BottleOfWater", 1;
     goto L_End;
 
@@ -264,10 +236,10 @@ L_HelpWaterPatches:
     // We check again here that the player has magic skills
     // This case happens when the player has logged off
     // during the infestation phase.
-    set @nature_magic, getskilllv(SKILL_MAGIC_NATURE);
+    @nature_magic = getskilllv(SKILL_MAGIC_NATURE);
     if (!(@nature_magic > 1))
         goto L_HelpFillWaters;
-    set @nature_magic, 0;
+    @nature_magic = 0;
     mes "[Oscar]";
     mes "\"Come on, water the pumpkin patches right here with your awesome magic!";
     mes "For sure you will be more efficient than me!\"";
@@ -292,7 +264,7 @@ L_NotEnoughWaters:
     goto L_End;
 
 S_Update_Annual_Quest:
-    set Annual_Quest, (Annual_Quest & ~(BYTE_0_MASK) | (@halloween_year << BYTE_0_SHIFT));
+    Annual_Quest = (Annual_Quest & ~(BYTE_0_MASK) | (@halloween_year << BYTE_0_SHIFT));
     return;
 
 OnCommandSpg:
@@ -300,8 +272,8 @@ OnCommandSpg:
     end;
 
 S_StartPumpkinsSpawn:
-    set $@HalloweenQuest_PumpkinsCount, $@halloween_num_pumpkins;
-    set $@HalloweenQuest_PumpkinsState, 0;
+    $@HalloweenQuest_PumpkinsCount = $@halloween_num_pumpkins;
+    $@HalloweenQuest_PumpkinsState = 0;
     initnpctimer;
     return;
 
@@ -312,9 +284,9 @@ L_QuestAlreadyDone:
     goto L_End;
 
 OnInit:
-    set $@halloween_num_seeds, 12;
-    set $@halloween_num_water_bottles, 15;
-    set $@halloween_num_pumpkins, $@halloween_num_seeds * 4;
+    $@halloween_num_seeds = 12;
+    $@halloween_num_water_bottles = 15;
+    $@halloween_num_pumpkins = $@halloween_num_seeds * 4;
     end;
 
 OnTimer1000:
@@ -330,9 +302,9 @@ L_TimerFunction:
     if ($@HalloweenQuest_PumpkinsState != 1)
         end;
     callsub S_CheckPlayer;
-    set $@HalloweenQuest_PumpkinsTimer, $@HalloweenQuest_PumpkinsTimer + 1;
-    if (mobcount("011-1.gat", "Oscar::OnPD")  < 0 &&
-        mobcount("011-1.gat", "Oscar::OnPDP") < 0 &&
+    $@HalloweenQuest_PumpkinsTimer = $@HalloweenQuest_PumpkinsTimer + 1;
+    if (mobcount("011-1", "Oscar::OnPD")  < 0 &&
+        mobcount("011-1", "Oscar::OnPDP") < 0 &&
         $@HalloweenQuest_PumpkinsCount <= 0)
         goto L_AllPumpkinsDead;
     // A quick "cheer up"
@@ -348,14 +320,14 @@ L_TimerFunction:
 
 L_TrySpawnPumpkin:
     if ($@HalloweenQuest_PumpkinsCount > 0)
-        areamonster "011-1.gat", 97, 40, 101, 44, "", 1063, 1, "Oscar::OnPD";
+        areamonster "011-1", 97, 40, 101, 44, "", 1063, 1, "Oscar::OnPD";
     setnpctimer 0;
     end;
 
 OnTimer2500:
     if ($@HalloweenQuest_PumpkinsState != 0)
         end;
-    areamonster "011-1.gat", 97, 40, 101, 44, "", 1063, 2, "Oscar::OnPD";
+    areamonster "011-1", 97, 40, 101, 44, "", 1063, 2, "Oscar::OnPD";
     end;
 
 OnTimer6000:
@@ -363,23 +335,23 @@ OnTimer6000:
         end;
     emotion EMOTE_AFRAID;
     npctalk "Oh no, these pumpkins look strange and infested with bugs! Help me get rid of them " + $@HalloweenQuest_PumpkinHunter$ + "!";
-    set $@HalloweenQuest_PumpkinsState, 1;
+    $@HalloweenQuest_PumpkinsState = 1;
     setnpctimer 0;
     end;
 
 OnPD:
     if (strcharinfo(0) != $@HalloweenQuest_PumpkinHunter$)
         goto L_KillBadHunter;
-    set $@HalloweenQuest_PumpkinsCount, $@HalloweenQuest_PumpkinsCount - 1;
+    $@HalloweenQuest_PumpkinsCount = $@HalloweenQuest_PumpkinsCount - 1;
     if (@discover_poisonous_pumpkin_again == 0)
         message strcharinfo(0), "Oh no! These pumpkins are poisonous as well!";
-    set @discover_poisonous_pumpkin_again, 1;
+    @discover_poisonous_pumpkin_again = 1;
     // Small damages
     misceffect FX_PUMPKIN_EXPLOSION, strcharinfo(0);
     heal -10, 0;
-    sc_start sc_poison, 1, 3;
+    sc_start SC_POISON, 1, 3;
     // Spawn mobs or get items
-    set @halloween_rand, rand(0,100);
+    @halloween_rand = rand(0,100);
     // Seeds reward
     if (@halloween_rand < 10)
         getitem "PumpkinSeeds", 1;
@@ -388,15 +360,15 @@ OnPD:
         getitem "PumpkinHelmet", 1;
     // huntsman spider x1
     if (@halloween_rand < (15*BaseLevel)/100)
-        areamonster "011-1.gat", 97, 40, 101, 44, "", 1083, 1, "Oscar::OnPDP";
+        areamonster "011-1", 97, 40, 101, 44, "", 1083, 1, "Oscar::OnPDP";
     // Or spider x1
     if (@halloween_rand >= (15*BaseLevel)/100 && @halloween_rand < (75*BaseLevel)/100)
-        areamonster "011-1.gat", 97, 40, 101, 44, "", 1012, 1, "Oscar::OnPDP";
+        areamonster "011-1", 97, 40, 101, 44, "", 1012, 1, "Oscar::OnPDP";
     // Or archant x2
     if (@halloween_rand >= (75*BaseLevel)/100)
-        areamonster "011-1.gat", 97, 40, 101, 44, "", 1060, 2, "Oscar::OnPDP";
+        areamonster "011-1", 97, 40, 101, 44, "", 1060, 2, "Oscar::OnPDP";
 
-    set @halloween_rand, 0;
+    @halloween_rand = 0;
     end;
 
 OnPDP:
@@ -419,7 +391,7 @@ S_CheckPlayer:
         goto L_PlayerOff;
     if (isdead())
         goto L_PlayerDead;
-    if (isin("011-1.gat",20,5,130,110) == 0)
+    if (isin("011-1",20,5,130,110) == 0)
         goto L_PlayerLeft;
     detachrid;
     return;
@@ -441,25 +413,25 @@ L_Fail:
     // is online, we can consider it's an accident, so we will allow to redo the quest
     // Otherwise, it's a "valid" fail.
     if (attachrid(getcharid(3, $@HalloweenQuest_PumpkinHunter$)))
-        set Quest_Halloween, 10;
+        Quest_Halloween = 10;
     goto L_Clean;
 
 L_Success:
     // Make this check again or the server will crash.
     if (attachrid(getcharid(3, $@HalloweenQuest_PumpkinHunter$)) == 0)
         goto L_PlayerOff;
-    set Quest_Halloween, 6;
+    Quest_Halloween = 6;
     emotion EMOTE_GRIN;
     npctalk "Hurray, " + $@HalloweenQuest_PumpkinHunter$ + " you did it! Thank you thank you! Come here!";
     goto L_Clean;
 
 L_Clean:
-    killmonster "011-1.gat", "Oscar::OnPD";
-    killmonster "011-1.gat", "Oscar::OnPDP";
-    set $@HalloweenQuest_PumpkinHunter$, "";
-    set $@HalloweenQuest_PumpkinsCount, 0;
-    set $@HalloweenQuest_PumpkinsState, 0;
-    set $@HalloweenQuest_PumpkinsTimer, 0;
+    killmonster "011-1", "Oscar::OnPD";
+    killmonster "011-1", "Oscar::OnPDP";
+    $@HalloweenQuest_PumpkinHunter$ = "";
+    $@HalloweenQuest_PumpkinsCount = 0;
+    $@HalloweenQuest_PumpkinsState = 0;
+    $@HalloweenQuest_PumpkinsTimer = 0;
     stopnpctimer;
     detachrid;
     end;
@@ -473,12 +445,12 @@ L_GetReward:
     mes "I believe not many exist in the world, but hey, this one is for you!\"";
 
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("GoldenDeliciousApple") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("GoldenDeliciousApple") == 0)
         goto L_InventoryFull;
-    set @inventorylist_count, 0;
+    @inventorylist_count = 0;
     getitem "GoldenDeliciousApple", 1;
-    set @halloween_year, gettime(7) - 2000 + 1;
-    set Quest_Halloween, 0;
+    @halloween_year = gettime(7) - 2000 + 1;
+    Quest_Halloween = 0;
     callsub S_Update_Annual_Quest;
     goto L_End;
 
@@ -493,17 +465,17 @@ L_GetSlap:
     mes "Take this for your trouble and farewell!\"";
 
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("CandyPumpkin") == 0)
+    if (@inventorylist_count == 100 && countitemcolor("CandyPumpkin") == 0)
         goto L_InventoryFull;
-    set @inventorylist_count, 0;
+    @inventorylist_count = 0;
     getitem "CandyPumpkin", 5;
-    set @halloween_year, gettime(7) - 2000 + 1;
-    set Quest_Halloween, 0;
+    @halloween_year = gettime(7) - 2000 + 1;
+    Quest_Halloween = 0;
     callsub S_Update_Annual_Quest;
     goto L_End;
 
 L_InventoryFull:
-    set @inventorylist_count, 0;
+    @inventorylist_count = 0;
     next;
     mes "\"Ah, but you cannot carry anything else!";
     mes "Make some room first.\"";

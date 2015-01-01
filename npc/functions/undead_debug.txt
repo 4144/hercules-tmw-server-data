@@ -1,7 +1,5 @@
-// Debug Crypts Battle
 
-function|script|UndeadDebug
-{
+function	script	UndeadDebug	{
     goto L_Main;
 
 L_Main:
@@ -81,10 +79,8 @@ L_Close:
     close;
 }
 
-// Debug for Krukan
-027-3.gat,84,89,0|script|UndeadDebug3|155
-{
-    set @undeaddebug, 3;
+027-3.gat,84,89,0	script	UndeadDebug3	155,{
+    @undeaddebug = 3;
     callfunc "UndeadDebug";
     end;
 OnInit:
@@ -93,10 +89,8 @@ OnInit:
     end;
 }
 
-// Debug for Razha
-027-4.gat,76,79,0|script|UndeadDebug4|155
-{
-    set @undeaddebug, 4;
+027-4.gat,76,79,0	script	UndeadDebug4	155,{
+    @undeaddebug = 4;
     callfunc "UndeadDebug";
     end;
 OnInit:
@@ -105,10 +99,8 @@ OnInit:
     end;
 }
 
-// Debug for Terogan
-027-5.gat,72,26,0|script|UndeadDebug5|155
-{
-    set @undeaddebug, 5;
+027-5.gat,72,26,0	script	UndeadDebug5	155,{
+    @undeaddebug = 5;
     callfunc "UndeadDebug";
     end;
 OnInit:

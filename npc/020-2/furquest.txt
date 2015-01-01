@@ -1,14 +1,9 @@
-//#################################################################################
-// Script by Shaili and QOAL
-//#################################################################################
 
-// Tulimshar Crafting Workshop - Agostine, The Legendary Tailor
-020-2.gat,27,26,0|script|Agostine|137
-{
-    set @CUTFUR_EXP, 10;
-    set @FINEDRESS_COTTON_CLOTHS, 20;
-    set @FINEDRESS_GP, 20000;
-    set @wg_state, ((QUEST_WG_state & BYTE_0_MASK) >> BYTE_0_SHIFT);
+020-2.gat,27,26,0	script	Agostine	137,{
+    @CUTFUR_EXP = 10;
+    @FINEDRESS_COTTON_CLOTHS = 20;
+    @FINEDRESS_GP = 20000;
+    @wg_state = ((QUEST_WG_state & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
 
     if (@wg_state == 1) goto L_State_0_3;
@@ -45,7 +40,6 @@
         "I want something new for my wardrobe!", L_State_0_1,
         "Oh, nothing, thanks!", L_Close;
 
-// Quest #0 - Beginning - Needed: Iron Potion
 
 L_State_0_1:
     mes "[Agostine, The Legendary Tailor]";
@@ -68,7 +62,7 @@ L_State_0_2:
 L_State_Accept:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Thanks so much.\"";
-    set @wg_state, 1;
+    @wg_state = 1;
     goto L_Close;
 
 L_State_0_3:
@@ -87,42 +81,42 @@ L_State_0_3:
 L_State_0_4:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, a Cactus Drink?\"";
-    if (countitem("CactusDrink") < 1) goto L_State_neg;
+    if (countitemcolor("CactusDrink") < 1) goto L_State_neg;
     delitem "CactusDrink", 1;
     goto L_State_bad;
 
 L_State_0_5:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, a Cactus Potion?\"";
-    if (countitem("CactusPotion") < 1) goto L_State_neg;
+    if (countitemcolor("CactusPotion") < 1) goto L_State_neg;
     delitem "CactusPotion", 1;
     goto L_State_bad;
 
 L_State_0_6:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, some milk for me?\"";
-    if (countitem("Milk") < 1) goto L_State_neg;
+    if (countitemcolor("Milk") < 1) goto L_State_neg;
     delitem "Milk", 1;
     goto L_State_bad;
 
 L_State_0_7:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, a beer?\"";
-    if (countitem("Beer") < 1) goto L_State_neg;
+    if (countitemcolor("Beer") < 1) goto L_State_neg;
     delitem "Beer", 1;
     goto L_State_bad;
 
 L_State_0_8:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, a Concentration Potion?\"";
-    if (countitem("ConcentrationPotion") < 1) goto L_State_neg;
+    if (countitemcolor("ConcentrationPotion") < 1) goto L_State_neg;
     delitem "ConcentrationPotion", 1;
     goto L_State_bad;
 
 L_State_0_9:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, an Iron Potion?\"";
-    if (countitem("IronPotion") < 1) goto L_State_neg;
+    if (countitemcolor("IronPotion") < 1) goto L_State_neg;
     delitem "IronPotion", 1;
     next;
     mes "Agostine looks pleased as he drinks the potion.";
@@ -130,10 +124,10 @@ L_State_0_9:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Oh! This is damn good! I feel a new man, my friend!\"";
     next;
-    set Zeny, Zeny + 500;
+    Zeny = Zeny + 500;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"This is a little reward for your help. Take 500 GP, my friend!\"";
-    set @wg_state, 2;
+    @wg_state = 2;
     goto L_Close;
 
 L_State_neg:
@@ -146,7 +140,6 @@ L_State_bad:
     mes "\"Well, I don't like it so much. Bring me something else.\"";
     goto L_Close;
 
-// First Quest: edited version of Forest Bow Quest - Needed: about 30 White Furs and 15.000 GP
 
 L_State_1:
     mes "[Agostine, The Legendary Tailor]";
@@ -162,7 +155,7 @@ L_State_2:
     mes "\"Well, Winter Gloves are so fashionable for their lovable fur!";
     mes "Only the best furs can be used for these gloves!";
     mes "But, as you see, I am a tailor, not a hunter! So, why don't you bring me the best fluffy's fur you can find?\"";
-    set @wg_state, 3;
+    @wg_state = 3;
     next;
     menu
         "You are crazy! I won't kill any animal for this!", L_Close,
@@ -171,13 +164,13 @@ L_State_2:
 L_State_3:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Remember, I want the best of fur!\"";
-    set @wg_state, 4;
+    @wg_state = 4;
     goto L_Close;
 
 L_State_4:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Oh, my friend! Have you brought me some good furs?\"";
-    if (countitem("WhiteFur") < 1) goto L_Close;
+    if (countitemcolor("WhiteFur") < 1) goto L_Close;
     next;
     menu
         "Here, take a look!", L_State_4_try,
@@ -188,16 +181,16 @@ L_State_4_try:
     mes "\"Let me see, my friend! It needs to be perfect for my gloves!\"";
     mes "Agostine examines the patch of fur.";
     next;
-    if (countitem("WhiteFur") < 1) goto L_No_Fur;
+    if (countitemcolor("WhiteFur") < 1) goto L_No_Fur;
     delitem "WhiteFur", 1;
-    set @Temp1,rand(30);
+    @Temp1 = rand(30);
     if (@Temp1 == 0) goto L_State_4_success;
     mes "Agostine throws away the white fur.";
     getexp @CUTFUR_EXP, 0;
     next;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"It was awfully cut! You should pay more attention when you kill fluffies!\"";
-    if (countitem("WhiteFur") < 1) goto L_Close;
+    if (countitemcolor("WhiteFur") < 1) goto L_Close;
     next;
     menu
         "Here I have another one!", L_State_4_try,
@@ -209,7 +202,7 @@ L_State_4_success:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"It's perfect! Perfect! Good job, my friend! I will prepare your gloves right now!\"";
     next;
-    set @wg_state, 5;
+    @wg_state = 5;
     goto L_State_5;
 
 L_State_5:
@@ -224,9 +217,9 @@ L_State_5_pay:
     if (Zeny < 15000) goto L_State_5_nocash;
     getinventorylist;
     if (@inventorylist_count == 100) goto L_TooMany;
-    set Zeny, Zeny - 15000;
+    Zeny = Zeny - 15000;
     getitem "WinterGloves", 1;
-    set @wg_state, 6;
+    @wg_state = 6;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Here they are. You will have the most fashionable hands in the world!\"";
     goto L_Close;
@@ -247,19 +240,18 @@ L_State_6:
         "It's a great idea!", L_State_10,
         "I'm glamourous enough, thanks", L_Close;
 
-// Start of Second Quest: Furry Boots - Needed: About 30 White Furs, 1 pair of Boots and 15.000 GP
 L_State_10:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Perfect! For satisfying your request I need another perfect White Fur";
     mes "and a pair of Boots, like those you can find in the mines.";
     mes "They will make you lovely, my friend!\"";
-    set @wg_state, 7;
+    @wg_state = 7;
     goto L_Close;
 
 L_State_11:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"So, my friend, have you brought me the right Fur?\"";
-    if (countitem("WhiteFur") < 1) goto L_Close;
+    if (countitemcolor("WhiteFur") < 1) goto L_Close;
     next;
     menu
         "Sure, I'm a fluffy hunter!", L_State_11_try,
@@ -271,16 +263,16 @@ L_State_11_try:
     next;
     mes "Agostine examines the patch of fur.";
     next;
-    if (countitem("WhiteFur") < 1) goto L_No_Fur;
+    if (countitemcolor("WhiteFur") < 1) goto L_No_Fur;
     delitem "WhiteFur", 1;
-    set @Temp2,rand(30);
+    @Temp2 = rand(30);
     if (@Temp2 == 0) goto L_State_11_success;
     mes "Agostine rips the white fur.";
     getexp @CUTFUR_EXP, 0;
     next;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"That fur was terrible. I won't work with it!\"";
-    if (countitem("WhiteFur") < 1) goto L_Close;
+    if (countitemcolor("WhiteFur") < 1) goto L_Close;
     next;
     menu
         "Well, maybe this is better!", L_State_11_try,
@@ -291,7 +283,7 @@ L_State_11_success:
     next;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"This one is good enough, my friend. Good job.\"";
-    set @wg_state, 8;
+    @wg_state = 8;
     goto L_State_12;
 
 L_State_12:
@@ -305,12 +297,12 @@ L_State_12:
 
 L_State_12_pay:
     if (Zeny < 15000) goto L_State_12_missing;
-    if (countitem("Boots") < 1) goto L_State_12_missing;
+    if (countitemcolor("Boots") < 1) goto L_State_12_missing;
     // No inventory check needed, as boots are removed, opening a slot
-    set Zeny, Zeny - 15000;
+    Zeny = Zeny - 15000;
     delitem "Boots", 1;
     getitem "FurBoots", 1;
-    set @wg_state, 9;
+    @wg_state = 9;
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Enjoy your new boots, my friend!\"";
     goto L_Close;
@@ -380,7 +372,7 @@ L_Next2:
         "It will never happen. I won't waste my time.", L_Close;
 
 L_State_14_Accept:
-    set @wg_state, 12;
+    @wg_state = 12;
     goto L_Close;
 
 L_State_14_AlreadyAccepted:
@@ -420,7 +412,7 @@ L_Next4:
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Hurry back my friend!\"";
 
-    set @wg_state, 14;
+    @wg_state = 14;
 
     goto L_Close;
 
@@ -462,7 +454,7 @@ L_Next6:
         "... I'll take a nap first.", L_Close;
 
 L_Next7:
-    set @wg_state, 17;
+    @wg_state = 17;
 
     message strcharinfo(0), "Agostine gives you a folio containing his designs, that you put in a hidden compartment in your backpack.";
     mes "Agostine gives you a folio containing his designs, that you put in a hidden compartment in your backpack.";
@@ -503,7 +495,7 @@ L_State_17_AskItems:
         "Here you are!", L_State_17_GiveItems;
 
 L_Next9:
-    set @wg_state, 21;
+    @wg_state = 21;
     goto L_Close;
 
 L_State_17_NotEnoughItems:
@@ -516,7 +508,7 @@ L_State_17_GiveItems:
     if (countitem ("CottonCloth") < @FINEDRESS_COTTON_CLOTHS)
         goto L_State_17_NotEnoughItems;
     delitem "CottonCloth", @FINEDRESS_COTTON_CLOTHS;
-    set @wg_state, 22;
+    @wg_state = 22;
 
     mes "[Agostine, The Legendary Tailor]";
     mes "\"Great now just a little cloth here........\"";
@@ -571,9 +563,9 @@ L_Next11:
     if (@inventorylist_count == 100)
         goto L_State_17_InventoryFull;
 
-    set Zeny, Zeny - @FINEDRESS_GP;
+    Zeny = Zeny - @FINEDRESS_GP;
     getitem "FineDress", 1;
-    set @wg_state, 23;
+    @wg_state = 23;
     goto L_Close;
 
 L_State_17_NoMoney:
@@ -595,7 +587,7 @@ L_State_18:
     goto L_Close;
 
 L_Close:
-    set QUEST_WG_state, (QUEST_WG_state & ~(BYTE_0_MASK) | (@wg_state << BYTE_0_SHIFT));
-    set @wg_state, 0;
+    QUEST_WG_state = (QUEST_WG_state & ~(BYTE_0_MASK) | (@wg_state << BYTE_0_SHIFT));
+    @wg_state = 0;
     close;
 }

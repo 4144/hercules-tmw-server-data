@@ -1,7 +1,5 @@
-//
 
-010-2.gat,34,38,0|script|Dimond|165
-{
+010-2.gat,34,38,0	script	Dimond	165,{
     mes "[Dimond]";
     mes "\"Welcome to Dimond's Cove!\"";
     mes "";
@@ -12,11 +10,10 @@
     close;
 }
 
-010-2.gat,35,35,0|script|Shannon|193
-{
-    set @month, 1;
-    set @start_day, 24;
-    set @end_day, 26;
+010-2.gat,35,35,0	script	Shannon	193,{
+    @month = 1;
+    @start_day = 24;
+    @end_day = 26;
     if (gettime(6) != @month) goto L_no_event;
     if (gettime(5) < @start_day) goto L_no_event;
     if (gettime(5) > @end_day) goto L_no_event;
@@ -189,7 +186,7 @@ L_Next:
     if (@inventorylist_count == 100)
         goto L_Full_Inv;
     getitem "BowlerHat", 1;
-    set FLAGS, FLAGS | FLAG_HAS_BOWLER_BURNSDAY;
+    FLAGS = FLAGS | FLAG_HAS_BOWLER_BURNSDAY;
     close;
 
 L_no_event:
@@ -365,57 +362,57 @@ S_food_menu:
     setarray @choice_idx, 0,0,0,0,0,0;
     setarray @choice$, "","","","","","";
 
-    set @C_steak, 676;
-    set @C_chickenleg, 562;
-    set @C_redapple, 535;
-    set @C_greenapple, 719;
-    set @C_beer, 539;
+    @C_steak = 676;
+    @C_chickenleg = 562;
+    @C_redapple = 535;
+    @C_greenapple = 719;
+    @C_beer = 539;
 
     // counter of available answers
-    set @choices_nr, 0;
+    @choices_nr = 0;
 
-    if (countitem("Steak") == 0)
+    if (countitemcolor("Steak") == 0)
         goto L_nosteaks;
-    set @choice_idx[@choices_nr], @C_steak;
-    set @choice$[@choices_nr], "Offer him a steak.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_steak;
+    @choice$[@choices_nr] = "Offer him a steak.";
+    @choices_nr = @choices_nr + 1;
     goto L_nosteaks;
 
 L_nosteaks:
-    if (countitem("ChickenLeg") == 0)
+    if (countitemcolor("ChickenLeg") == 0)
         goto L_nochickenleg;
-    set @choice_idx[@choices_nr], @C_chickenleg;
-    set @choice$[@choices_nr], "Offer him a chicken leg.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_chickenleg;
+    @choice$[@choices_nr] = "Offer him a chicken leg.";
+    @choices_nr = @choices_nr + 1;
     goto L_nochickenleg;
 
 L_nochickenleg:
-    if (countitem("RedApple") == 0)
+    if (countitemcolor("RedApple") == 0)
         goto L_noredapple;
-    set @choice_idx[@choices_nr], @C_redapple;
-    set @choice$[@choices_nr], "Offer him a red apple.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_redapple;
+    @choice$[@choices_nr] = "Offer him a red apple.";
+    @choices_nr = @choices_nr + 1;
     goto L_noredapple;
 
 L_noredapple:
-    if (countitem("GreenApple") == 0)
+    if (countitemcolor("GreenApple") == 0)
         goto L_nogreenapple;
-    set @choice_idx[@choices_nr], @C_greenapple;
-    set @choice$[@choices_nr], "Offer him a green apple.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_greenapple;
+    @choice$[@choices_nr] = "Offer him a green apple.";
+    @choices_nr = @choices_nr + 1;
     goto L_nogreenapple;
 
 L_nogreenapple:
-    if (countitem("Beer") == 0)
+    if (countitemcolor("Beer") == 0)
         goto L_nobeer;
-    set @choice_idx[@choices_nr], @C_beer;
-    set @choice$[@choices_nr], "Offer him a beer.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_beer;
+    @choice$[@choices_nr] = "Offer him a beer.";
+    @choices_nr = @choices_nr + 1;
     goto L_nobeer;
 
 L_nobeer:
-    set @choice_idx[@choices_nr], @C_nevermind;
-    set @choice$[@choices_nr], "Leave";
+    @choice_idx[@choices_nr] = @C_nevermind;
+    @choice$[@choices_nr] = "Leave";
 
     menu
         @choice$[0],L_MenuItems,
@@ -431,18 +428,18 @@ L_nobeer:
         @choice$[10],L_MenuItems;
 
 L_MenuItems:
-    set @choose, @menu - 1;
+    @choose = @menu - 1;
     if (@choice_idx[@choose] == 0)
         goto L_Close;
-    if ((countitem("Steak") != 0) && (@choice_idx[@choose] == @C_steak))
+    if ((countitemcolor("Steak") != 0) && (@choice_idx[@choose] == @C_steak))
         goto L_RmItem;
-    if ((countitem("ChickenLeg") != 0) && (@choice_idx[@choose] == @C_chickenleg))
+    if ((countitemcolor("ChickenLeg") != 0) && (@choice_idx[@choose] == @C_chickenleg))
         goto L_RmItem;
-    if ((countitem("RedApple") != 0) && (@choice_idx[@choose] == @C_redapple))
+    if ((countitemcolor("RedApple") != 0) && (@choice_idx[@choose] == @C_redapple))
         goto L_RmItem;
-    if ((countitem("GreenApple") != 0) && (@choice_idx[@choose] == @C_greenapple))
+    if ((countitemcolor("GreenApple") != 0) && (@choice_idx[@choose] == @C_greenapple))
         goto L_RmItem;
-    if ((countitem("Beer") != 0) && (@choice_idx[@choose] == @C_beer))
+    if ((countitemcolor("Beer") != 0) && (@choice_idx[@choose] == @C_beer))
         goto L_RmItem;
 
     // fallthrough only when player remove the items while in menu, trying to cheat
@@ -458,8 +455,7 @@ L_Close:
     close;
 }
 
-010-2.gat,27,30,0|script|Bar Rules|400
-{
+010-2.gat,27,30,0	script	Bar Rules	400,{
     mes "Dimonds Cove Bar Rules";
     next;
     mes "No excessive drinking!";
@@ -478,29 +474,25 @@ L_Close:
     close;
 }
 
-010-2.gat,71,38,0|script|Store Policy#1|400
-{
+010-2.gat,71,38,0	script	Store Policy#1	400,{
     mes "All sales are final.";
     mes "Returns are subject to a 50% re-stocking fee.";
     close;
 }
 
-010-2.gat,77,38,0|script|Store Policy#2|400
-{
+010-2.gat,77,38,0	script	Store Policy#2	400,{
     mes "All sales are final.";
     mes "Returns are subject to a 50% re-stocking fee.";
     close;
 }
 
-010-2.gat,36,30,0|script|Directions|400
-{
+010-2.gat,36,30,0	script	Directions	400,{
     mes "This way to the Dimonds Cove Inn.";
     mes "Five star accommodation for the weary traveler!";
     close;
 }
 
-010-2.gat,80,32,0|script|Dimonds Cove 1|400
-{
+010-2.gat,80,32,0	script	Dimonds Cove 1	400,{
     mes "The Story of Dimonds Cove";
     next;
     mes "One day Dimond D. Stone dreamed of her own restaurant.";
@@ -519,16 +511,14 @@ L_Close:
     close;
 }
 
-010-2.gat,85,32,0|script|Dimonds Cove 2|400
-{
+010-2.gat,85,32,0	script	Dimonds Cove 2	400,{
     mes "List of Events at Dimonds Cove";
     mes "January 2008 - Construction of Dimonds Cove.";
     close;
 }
 
 
-010-2.gat,71,30,0|script|Inn|400
-{
+010-2.gat,71,30,0	script	Inn	400,{
     mes "Welcome to the Dimonds Cove Inn";
     mes "Rooms are 200 gp a night.";
     mes "Plese check in with Basil.";
@@ -536,18 +526,17 @@ L_Close:
 }
 
 
-010-2.gat,24,27,0|shop|Bartender|112,Beer:*175,IronPotion:*500,ConcentrationPotion:*500
+010-2,24,27,0	shop	Bartender	112,539:175,567:500,568:500
 
-010-2.gat,32,34,0|shop|Waitress|139,CherryCake:*100,RoastedMaggot:*110,OrangeCupcake:*600,ChickenLeg:*250,Steak:*275
+010-2,32,34,0	shop	Waitress	139,519:100,533:110,534:600,562:250,676:275
 
-010-2.gat,85,41,0|shop|Blacksmith|146,ForestBow:*20000,IronArrow:*4,LeatherShield:*2000
+010-2,85,41,0	shop	Blacksmith	146,545:20000,529:4,603:2000
 
-010-2.gat,65,41,0|shop|General Store#dimond|137,CottonShorts:*1000,FancyHat:*1600,SilkHeadband:*5000,CottonSkirt:*1000,Boots:*8000,CottonBoots:*2000
+010-2,65,41,0	shop	General Store#dimond	137,586:1000,524:1600,544:5000,632:1000,528:8000,735:2000
 
-010-2.gat,75,68,0|script|Basil|107
-{
-    set @npcname$, "Basil the Inn Keeper";
-    set @cost, 200;
+010-2.gat,75,68,0	script	Basil	107,{
+    @npcname$ = "Basil the Inn Keeper";
+    @cost = 200;
     callfunc "Inn";
     end;
 }

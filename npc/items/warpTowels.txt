@@ -1,11 +1,9 @@
-// See #TravelConfig
-function|script|WarpTowel
-{
+function	script	WarpTowel	{
     if (TowelLastUsed > (gettimetick(2) - 1800))
         goto L_DontPanic;
-    if (isin("botcheck.gat",25,27,51,47))
+    if (isin("botcheck",25,27,51,47))
         goto L_Prison;
-    if (getmapflag(getmap(), MF_NOSAVE) || isin("009-7.gat",$@fightclub_x1,$@fightclub_y1,$@fightclub_x2,$@fightclub_y2))
+    if (getmapflag(getmapname(), mf_nosave) || isin("009-7",$@fightclub_x1,$@fightclub_y1,$@fightclub_x2,$@fightclub_y2))
         goto L_Forbid;
 
     callfunc "MultiWarpTowel";
@@ -36,83 +34,83 @@ function|script|WarpTowel
 
 L_White:
     // Koga
-    set @NextLocationMap$, "035-2.gat";
-    set @NextLocationX, 20;
-    set @NextLocationY, 21;
+    @NextLocationMap$ = "035-2";
+    @NextLocationX = 20;
+    @NextLocationY = 21;
     goto L_WarpPlayer;
 
 L_Red:
     // Barbarians
-    set @NextLocationMap$, "033-1.gat";
-    set @NextLocationX, 66;
-    set @NextLocationY, 33;
+    @NextLocationMap$ = "033-1";
+    @NextLocationX = 66;
+    @NextLocationY = 33;
     goto L_WarpPlayer;
 
 L_Green:
     // Candor
-    set @NextLocationMap$, "029-1.gat";
-    set @NextLocationX, 69;
-    set @NextLocationY, 69;
+    @NextLocationMap$ = "029-1";
+    @NextLocationX = 69;
+    @NextLocationY = 69;
     goto L_WarpPlayer;
 
 L_Blue:
     // Blue Sages
-    set @NextLocationMap$, "048-2.gat";
-    set @NextLocationX, 26;
-    set @NextLocationY, 47;
+    @NextLocationMap$ = "048-2";
+    @NextLocationX = 26;
+    @NextLocationY = 47;
     goto L_WarpPlayer;
 
 L_Yellow:
     // Tulimshar Mines
-    set @NextLocationMap$, "002-2.gat";
-    set @NextLocationX, 27;
-    set @NextLocationY, 28;
+    @NextLocationMap$ = "002-2";
+    @NextLocationX = 27;
+    @NextLocationY = 28;
     goto L_WarpPlayer;
 
 L_Purple:
     // Dimonds Inn
-    set @NextLocationMap$, "010-1.gat";
-    set @NextLocationX, 27;
-    set @NextLocationY, 97;
+    @NextLocationMap$ = "010-1";
+    @NextLocationX = 27;
+    @NextLocationY = 97;
     goto L_WarpPlayer;
 
 L_Orange:
     // Graveyard
-    set @NextLocationMap$, "027-1.gat";
-    set @NextLocationX, 70;
-    set @NextLocationY, 100;
+    @NextLocationMap$ = "027-1";
+    @NextLocationX = 70;
+    @NextLocationY = 100;
     goto L_WarpPlayer;
 
 L_Pink:
     // Terranite Cave
-    set @NextLocationMap$, "012-3.gat";
-    set @NextLocationX, 448;
-    set @NextLocationY, 66;
+    @NextLocationMap$ = "012-3";
+    @NextLocationX = 448;
+    @NextLocationY = 66;
     goto L_WarpPlayer;
 
 L_Teal:
     // Mana Seed
-    set @NextLocationMap$, "012-3.gat";
-    set @NextLocationX, 64;
-    set @NextLocationY, 130;
+    @NextLocationMap$ = "012-3";
+    @NextLocationX = 64;
+    @NextLocationY = 130;
     goto L_WarpPlayer;
 
 L_Lime:
     // Pachua
-    set @NextLocationMap$, "006-1.gat";
-    set @NextLocationX, 28;
-    set @NextLocationY, 97;
+    @NextLocationMap$ = "006-1";
+    @NextLocationX = 28;
+    @NextLocationY = 97;
     goto L_WarpPlayer;
 
 L_Save:
     // Soul Menhir
-    set @NextLocationMap$, getsavepoint(0);
-    set @NextLocationX, getsavepoint(1);
-    set @NextLocationY, getsavepoint(2);
+    @NextLocationMap$ = getsavepoint(0);
+    @NextLocationX = getsavepoint(1);
+    @NextLocationY = getsavepoint(2);
     goto L_WarpPlayer;
 
 L_WarpPlayer:
-    set TowelLastUsed, gettimetick(2);
+    TowelLastUsed = gettimetick(2);
     warp @NextLocationMap$,@NextLocationX,@NextLocationY;
     goto L_BreakChance;
 
@@ -139,29 +137,28 @@ L_Keep:
     goto L_End;
 
 L_End:
-    set @NextLocationMap$, "";
-    set @NextLocationX, 0;
-    set @NextLocationY, 0;
-    set @warpTowelName$, "";
+    @NextLocationMap$ = "";
+    @NextLocationX = 0;
+    @NextLocationY = 0;
+    @warpTowelName$ = "";
     end;
 }
 
-function|script|MultiWarpTowel
-{
+function	script	MultiWarpTowel	{
     setarray $@warpTowels$, "HitchhikersTowel", "WhiteHitchhikersTowel", "RedHitchhikersTowel", "GreenHitchhikersTowel", "BlueHitchhikersTowel", "YellowHitchhikersTowel", "PurpleHitchhikersTowel", "OrangeHitchhikersTowel", "PinkHitchhikersTowel", "TealHitchhikersTowel", "LimeHitchhikersTowel";
-    set @towel_count, 0;
-    set @towel_loop, 0;
+    @towel_count = 0;
+    @towel_loop = 0;
     goto L_CountTowelLoop;
 
 L_CountTowelLoop:
-    set @towel_count, (@towel_count + countitem($@warpTowels$[@towel_loop]));
-    delitem $@warpTowels$[@towel_loop], countitem($@warpTowels$[@towel_loop]);
+    @towel_count = (@towel_count + countitemcolor($@warpTowels$[@towel_loop]));
+    delitem $@warpTowels$[@towel_loop], countitemcolor($@warpTowels$[@towel_loop]);
     goto L_DelLoopAgain;
 
 L_DelLoopAgain:
     if((@towel_loop + 1) == getarraysize($@warpTowels$))
         goto L_Return;
-    set @towel_loop, (@towel_loop + 1);
+    @towel_loop = (@towel_loop + 1);
     goto L_CountTowelLoop;
 
 L_Return:

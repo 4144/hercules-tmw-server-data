@@ -1,3 +1,2 @@
-// Bartender
 
-001-2.gat,21,27,0|shop|Bartender#Casino|112,Beer:*175,Cake:*30,CherryCake:*100
+001-2,21,27,0	shop	Bartender#Casino	112,539:175,513:30,519:100

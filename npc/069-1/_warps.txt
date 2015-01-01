@@ -1,20 +1,18 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Tulimshar Castle warps
 
-069-1.gat,55,21|warp|To Tulmishar Noble|3,-1,068-1.gat,84,107
-069-1.gat,19,44|warp|To Tulmishar|-1,0,021-1.gat,155,44
-069-1.gat,19,97|warp|To Tulmishar|-1,0,021-1.gat,155,97
-069-1.gat,67,56|warp|To Tulmishar Castle Ind|0,-1,069-2.gat,44,126
-069-1.gat,90,100|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,24,30
-069-1.gat,98,79|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,55,30
-069-1.gat,98,57|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,86,30
-069-1.gat,90,40|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,117,30
-069-1.gat,44,40|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,24,61
-069-1.gat,35,57|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,55,61
-069-1.gat,35,79|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,86,61
-069-1.gat,43,99|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,117,61
-069-1.gat,64,41|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,97,126
-069-1.gat,69,41|warp|To Tulmishar Castle Ind|-1,-1,069-2.gat,116,126
-069-1.gat,65,129|warp|To Prison|-1,-1,069-2.gat,4960,3104
-069-1.gat,71,122|warp|To Prison|0,-1,069-2.gat,4960,3104
-069-1.gat,99,122|warp|To Prison Mine|-1,-1,069-3.gat,4960,3104
+069-1,55,21,0	warp	To Tulmishar Noble	3,0,068-1,84,107
+069-1,19,44,0	warp	To Tulmishar	0,0,021-1,155,44
+069-1,19,97,0	warp	To Tulmishar	0,0,021-1,155,97
+069-1,67,56,0	warp	To Tulmishar Castle Ind	0,0,069-2,44,126
+069-1,90,100,0	warp	To Tulmishar Castle Ind	0,0,069-2,24,30
+069-1,98,79,0	warp	To Tulmishar Castle Ind	0,0,069-2,55,30
+069-1,98,57,0	warp	To Tulmishar Castle Ind	0,0,069-2,86,30
+069-1,90,40,0	warp	To Tulmishar Castle Ind	0,0,069-2,117,30
+069-1,44,40,0	warp	To Tulmishar Castle Ind	0,0,069-2,24,61
+069-1,35,57,0	warp	To Tulmishar Castle Ind	0,0,069-2,55,61
+069-1,35,79,0	warp	To Tulmishar Castle Ind	0,0,069-2,86,61
+069-1,43,99,0	warp	To Tulmishar Castle Ind	0,0,069-2,117,61
+069-1,64,41,0	warp	To Tulmishar Castle Ind	0,0,069-2,97,126
+069-1,69,41,0	warp	To Tulmishar Castle Ind	0,0,069-2,116,126
+069-1,65,129,0	warp	To Prison	0,0,069-2,4960,3104
+069-1,71,122,0	warp	To Prison	0,0,069-2,4960,3104
+069-1,99,122,0	warp	To Prison Mine	0,0,069-3,4960,3104

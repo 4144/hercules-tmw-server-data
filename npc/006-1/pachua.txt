@@ -1,15 +1,14 @@
-006-1.gat,24,113,0|script|Pachua|143
-{
+006-1.gat,24,113,0	script	Pachua	143,{
     setarray @npc_loc, 24, 113, 4;
     callfunc "PCtoNPCRange";
     if (@npc_check)
         goto L_Close;
 
-    set @halloween_npc_id, $@halloween_npc_pachua;
+    @halloween_npc_id = $@halloween_npc_pachua;
     callfunc "TrickOrTreat";
 
-    set @LEATHER_PATCH_PRICE, 300;
-    set @wants_leather_patch, QUEST_Forestbow_state & NIBBLE_4_MASK;
+    @LEATHER_PATCH_PRICE = 300;
+    @wants_leather_patch = QUEST_Forestbow_state & NIBBLE_4_MASK;
 
     if (QUEST_MIRIAM_cheat != 0) goto L_warp_cheat;
     if (QUEST_MIRIAM_start != 0) goto L_smoke;
@@ -31,9 +30,9 @@ L_Begin:
     goto L_Check_Shops;
 
 L_Check_Shops:
-    if((countitem("JeansShorts") > 0 && countitem("SnakeSkin") > 9) && (countitem("FancyHat") > 0 && countitem("SnakeSkin") > 1)) goto L_Super_store;
-    if(countitem("JeansShorts") > 0 && countitem("SnakeSkin") > 9) goto L_Chaps_store;
-    if(countitem("FancyHat") > 0 && countitem("SnakeSkin") > 1) goto L_Cowboy_store;
+    if((countitemcolor("JeansShorts") > 0 && countitemcolor("SnakeSkin") > 9) && (countitemcolor("FancyHat") > 0 && countitemcolor("SnakeSkin") > 1)) goto L_Super_store;
+    if(countitemcolor("JeansShorts") > 0 && countitemcolor("SnakeSkin") > 9) goto L_Chaps_store;
+    if(countitemcolor("FancyHat") > 0 && countitemcolor("SnakeSkin") > 1) goto L_Cowboy_store;
 
     mes "[Chief Pachua]";
     mes "";
@@ -114,9 +113,9 @@ L_Chaps_store:
 
 L_BuyChaps:
     if (Zeny < 10000) goto L_NoMoney;
-    if (countitem("JeansShorts") < 1) goto L_NoJeans;
-    if (countitem("SnakeSkin") < 10) goto L_NoSkins;
-    set Zeny, Zeny - 10000;
+    if (countitemcolor("JeansShorts") < 1) goto L_NoJeans;
+    if (countitemcolor("SnakeSkin") < 10) goto L_NoSkins;
+    Zeny = Zeny - 10000;
     delitem "SnakeSkin", 10;
     delitem "JeansShorts", 1;
     getitem "JeansChaps", 1;
@@ -124,12 +123,12 @@ L_BuyChaps:
 
 L_BuyCowboy:
     if (Zeny < 5000) goto L_NoMoney;
-    if (countitem("FancyHat") < 1) goto L_NoFancy;
-    if (countitem("SnakeSkin") < 2) goto L_NoSkins;
-    set Zeny, Zeny - 5000;
+    if (countitemcolor("FancyHat") < 1) goto L_NoFancy;
+    if (countitemcolor("SnakeSkin") < 2) goto L_NoSkins;
+    Zeny = Zeny - 5000;
     delitem "SnakeSkin", 2;
     delitem "FancyHat", 1;
-    set @temp,rand(2);
+    @temp = rand(2);
     if(@temp == 0) goto L_Cowboy_white;
     goto L_Cowboy_black;
 
@@ -152,12 +151,12 @@ L_leather_patch:
         "That's too expensive!.", L_NoDeal;
 
 L_Next:
-    if (countitem("SnakeSkin") < 1) goto L_NoSkins;
+    if (countitemcolor("SnakeSkin") < 1) goto L_NoSkins;
     if (Zeny < @LEATHER_PATCH_PRICE) goto L_NoMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("SnakeSkin") > 1) goto L_TooMany;
+    if (@inventorylist_count == 100 && countitemcolor("SnakeSkin") > 1) goto L_TooMany;
 
-    set Zeny, Zeny - @LEATHER_PATCH_PRICE;
+    Zeny = Zeny - @LEATHER_PATCH_PRICE;
     delitem "SnakeSkin", 1;
     getitem "LeatherPatch", 1;
     goto L_DealDone;
@@ -215,12 +214,12 @@ L_WearingChaps:
     goto L_Check_Shops;
 
 L_Close:
-    set @LEATHER_PATCH_PRICE, 0;
-    set @wants_leather_patch, 0;
-    set @month, 0;
-    set @start_day, 0;
-    set @end_day, 0;
-    set @temp, 0;
+    @LEATHER_PATCH_PRICE = 0;
+    @wants_leather_patch = 0;
+    @month = 0;
+    @start_day = 0;
+    @end_day = 0;
+    @temp = 0;
     close;
 
 L_TooMany:
@@ -231,13 +230,13 @@ L_TooMany:
 
 L_smoke:
     message strcharinfo(0), "Pachua quickly inhales from his pipe and releases a ring of smoke towards the sky!";
-    set QUEST_MIRIAM_run, gettimetick(2) - QUEST_MIRIAM_start;
-    set QUEST_MIRIAM_start, 0;
+    QUEST_MIRIAM_run = gettimetick(2) - QUEST_MIRIAM_start;
+    QUEST_MIRIAM_start = 0;
     end;
 
 L_warp_cheat:
     if (@warp_cheat == 1) goto L_Begin;
     message strcharinfo(0), "Pachua releases a ring of smoke towards the sky! But, by the look on his face, you can tell he is suspicious about your methods...";
-    set @warp_cheat, 1;
+    @warp_cheat = 1;
     end;
 }

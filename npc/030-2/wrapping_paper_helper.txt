@@ -1,10 +1,5 @@
-// author: Jenalya, wushin
-// Reino asks for reed bundles and water to make wrapping paper
-// also for some dyes to make them colorful
-// later he can be asked for those papers to wrap boxes
 
-030-2.gat,140,31,0|script|Reino|328
-{
+030-2.gat,140,31,0	script	Reino	328,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -50,7 +45,7 @@ L_White:
 getinventorylist;
     if (@inventorylist_count == 100 || (checkweight("WhiteWrap", $@xmas_wrap_reward) == 0))
         goto L_FullInv;
-    if ((countitem("ReedBundle") < $@xmas_reed_amount) || (countitem("BottleOfWater") < $@xmas_water_amount) || (countitem("PileOfAsh") < $@xmas_poa_amount))
+    if ((countitemcolor("ReedBundle") < $@xmas_reed_amount) || (countitemcolor("BottleOfWater") < $@xmas_water_amount) || (countitemcolor("PileOfAsh") < $@xmas_poa_amount))
         goto L_NoItems;
     delitem "ReedBundle", $@xmas_reed_amount;
     delitem "BottleOfWater", $@xmas_water_amount;
@@ -64,7 +59,7 @@ L_Yellow:
     getinventorylist;
     if (@inventorylist_count == 100 || (checkweight("YellowWrap", $@xmas_wrap_reward) == 0))
         goto L_FullInv;
-    if ((countitem("ReedBundle") < $@xmas_reed_amount) || (countitem("BottleOfWater") < $@xmas_water_amount) || (countitem("YellowDye") < $@xmas_wrap_yellow_amount))
+    if ((countitemcolor("ReedBundle") < $@xmas_reed_amount) || (countitemcolor("BottleOfWater") < $@xmas_water_amount) || (countitemcolor("YellowDye") < $@xmas_wrap_yellow_amount))
         goto L_NoItems;
     delitem "ReedBundle", $@xmas_reed_amount;
     delitem "BottleOfWater", $@xmas_water_amount;
@@ -78,7 +73,7 @@ L_Blue:
     getinventorylist;
     if (@inventorylist_count == 100 || (checkweight("BlueWrap", $@xmas_wrap_reward) == 0))
         goto L_FullInv;
-    if ((countitem("ReedBundle") < $@xmas_reed_amount) || (countitem("BottleOfWater") < $@xmas_water_amount) || (countitem("LightBlueDye") < $@xmas_wrap_ltblue_amount))
+    if ((countitemcolor("ReedBundle") < $@xmas_reed_amount) || (countitemcolor("BottleOfWater") < $@xmas_water_amount) || (countitemcolor("LightBlueDye") < $@xmas_wrap_ltblue_amount))
         goto L_NoItems;
     delitem "ReedBundle", $@xmas_reed_amount;
     delitem "BottleOfWater", $@xmas_water_amount;
@@ -92,7 +87,7 @@ L_Purple:
     getinventorylist;
     if (@inventorylist_count == 100 || (checkweight("PurpleWrap", $@xmas_wrap_reward) == 0))
         goto L_FullInv;
-    if ((countitem("ReedBundle") < $@xmas_reed_amount) || (countitem("BottleOfWater") < $@xmas_water_amount) || (countitem("PurpleDye") < $@xmas_wrap_purple_amount))
+    if ((countitemcolor("ReedBundle") < $@xmas_reed_amount) || (countitemcolor("BottleOfWater") < $@xmas_water_amount) || (countitemcolor("PurpleDye") < $@xmas_wrap_purple_amount))
         goto L_NoItems;
     delitem "ReedBundle", $@xmas_reed_amount;
     delitem "BottleOfWater", $@xmas_water_amount;
@@ -106,7 +101,7 @@ L_Green:
     getinventorylist;
     if (@inventorylist_count == 100 || (checkweight("GreenWrap", $@xmas_wrap_reward) == 0))
         goto L_FullInv;
-    if ((countitem("ReedBundle") < $@xmas_reed_amount) || (countitem("BottleOfWater") < $@xmas_water_amount) || (countitem("GreenDye") < $@xmas_wrap_green_amount))
+    if ((countitemcolor("ReedBundle") < $@xmas_reed_amount) || (countitemcolor("BottleOfWater") < $@xmas_water_amount) || (countitemcolor("GreenDye") < $@xmas_wrap_green_amount))
         goto L_NoItems;
     delitem "ReedBundle", $@xmas_reed_amount;
     delitem "BottleOfWater", $@xmas_water_amount;

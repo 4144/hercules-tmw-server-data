@@ -1,9 +1,6 @@
-// Annual Christmas
-// author: Jenalya, wushin
 
-030-2.gat,25,35,0|script|Vellamo|328
-{
-    set @halloween_npc_id, $@halloween_npc_vellamo;
+030-2.gat,25,35,0	script	Vellamo	328,{
+    @halloween_npc_id = $@halloween_npc_vellamo;
     callfunc "TrickOrTreat";
     callfunc "XmasStates";
 
@@ -38,7 +35,7 @@ L_Next:
     mes "\"However, this year they tried again, but I was able to hold them off. They just managed to devour most of our candy supplies.\"";
     next;
     mes "\"So in case you find some of the Candies, feel free to bring them back. Ismo will give you some reward for them.\"";
-    set XMASTIME, XMASTIME | ($@xmas_helper_bit_storage);
+    XMASTIME = XMASTIME | ($@xmas_helper_bit_storage);
     goto L_Close;
 
 L_Candy:
@@ -50,8 +47,7 @@ L_Close:
     close;
 }
 
-030-2.gat,33,29,0|script|Ismo|329
-{
+030-2.gat,33,29,0	script	Ismo	329,{
     callfunc "XmasStates";
 
     if(($@xmas_time) && (XMASTIME & $@xmas_helper_bit_storage))
@@ -72,34 +68,34 @@ L_Helping:
         "Give " + $@xmas_bad_friendly_name$ + "(What? how mean!).", L_BadCandy;
 
 L_BadCandy:
-    set @dq_level, $@xmas_bad_level;
-    set @dq_cost, $@xmas_bad_cost;
-    set @dq_count, $@xmas_bad_count;
-    set @dq_name$, $@xmas_bad_name$;
-    set @dq_friendly_name$, $@xmas_bad_friendly_name$;
-    set @dq_money, $@xmas_bad_money;
-    set @dq_exp, $@xmas_bad_exp;
+    @dq_level = $@xmas_bad_level;
+    @dq_cost = $@xmas_bad_cost;
+    @dq_count = $@xmas_bad_count;
+    @dq_name$ = $@xmas_bad_name$;
+    @dq_friendly_name$ = $@xmas_bad_friendly_name$;
+    @dq_money = $@xmas_bad_money;
+    @dq_exp = $@xmas_bad_exp;
 
     callfunc "DailyQuest";
-    if (countitem(@dq_name$) < @dq_count)
+    if (countitemcolor(@dq_name$) < @dq_count)
         goto L_Close;
-    set @karma_bonus, $@xmas_karma_bonus;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNaughty";
     goto L_Close;
 
 L_GoodCandy:
-    set @dq_level, $@xmas_good_level;
-    set @dq_cost, $@xmas_good_cost;
-    set @dq_count, $@xmas_good_count;
-    set @dq_name$, $@xmas_good_name$;
-    set @dq_friendly_name$, $@xmas_good_friendly_name$;
-    set @dq_money, $@xmas_good_money;
-    set @dq_exp, $@xmas_good_exp;
+    @dq_level = $@xmas_good_level;
+    @dq_cost = $@xmas_good_cost;
+    @dq_count = $@xmas_good_count;
+    @dq_name$ = $@xmas_good_name$;
+    @dq_friendly_name$ = $@xmas_good_friendly_name$;
+    @dq_money = $@xmas_good_money;
+    @dq_exp = $@xmas_good_exp;
 
     callfunc "DailyQuest";
-    if (countitem(@dq_name$) < @dq_count)
+    if (countitemcolor(@dq_name$) < @dq_count)
         goto L_Close;
-    set @karma_bonus, $@xmas_karma_bonus;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNice";
     goto L_Close;
 

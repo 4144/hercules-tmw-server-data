@@ -1,12 +1,9 @@
-// Lieutenant in charge of monitoring the monster threat surrounding the city.
-// Variables used: nibble 4 and 5 of QUEST_SouthTulimshar
 
-002-1.gat,54,27,0|script|Lieutenant Dausen|122
-{
+002-1.gat,54,27,0	script	Lieutenant Dausen	122,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (@state == 21) goto L_LD_Key;
     if (@state == 7) goto L_LD_Miners;
@@ -17,10 +14,10 @@
     if (@state == 2) goto L_LD_Woe_Is_Me;
     if (@state == 1) goto L_LD_Drinks;
 
-    set @bermik, ((QUEST_SouthTulimshar & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
-    set @sarah, ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
-    set @vincent, ((QUEST_SouthTulimshar & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
-    set @sandra, ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @bermik = ((QUEST_SouthTulimshar & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
+    @sarah = ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
+    @vincent = ((QUEST_SouthTulimshar & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
+    @sandra = ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if ((@state == 0) && (@bermik >= 6) && (@sarah >= 2) && (@vincent >= 2) && (@sandra >= 2))
         goto L_LD_Start;
@@ -36,7 +33,7 @@
     goto L_Close;
 
 L_LD_Start:
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Var;
     mes "[Lieutenant Dausen]";
     mes "\"Out here in the desert, it sure does get hot!  My men and I get thirsty rather quickly. Cactus Drinks are our favourite; if you can get some for us, we'd surely appreciate your effort. About 10 would do.\"";
@@ -46,9 +43,9 @@ L_LD_Drinks:
     if (countitem ("CactusDrink") < 10)
         goto L_LD_NotEnough_Drink;
     getinventorylist;
-    if (@inventorylist_count - (countitem("CactusDrink") == 10) > 99)
+    if (@inventorylist_count - (countitemcolor("CactusDrink") == 10) > 99)
         goto L_LD_TooMany;
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Var;
     delitem "CactusDrink", 10;
     getitem "Boots", 1;
@@ -80,7 +77,7 @@ L_LD_Woe_Is_Me:
         "Bye-bye.", L_LD_NoHelp;
 
 L_LD_Help:
-    set @state, 3;
+    @state = 3;
     callsub S_Update_Var;
     mes "[Lieutenant Dausen]";
     mes "\"Oh!  Would you?  You are ever most helpful!  Could you let Stewen know first?  I'm the most worried about the monsters from the eastern desert and he should know first to hold his post. Come back to me after you see him. Hope to hear from you soon!\"";
@@ -97,7 +94,7 @@ L_LD_Waits:
      goto L_Close;
 
 L_LD_Nickos:
-    set @state, 5;
+    @state = 5;
     callsub S_Update_Var;
     mes "[Lieutenant Dausen]";
     mes "\"Thanks for letting Stewen know. Can you now tell Nickos to hold his post too?  He guards the mine to the south, monitoring the monster threat and protecting the miners when he can.\"";
@@ -109,9 +106,9 @@ L_LD_Nickos_Waits:
     goto L_Close;
 
 L_LD_Orders:
-    set @state, 7;
+    @state = 7;
     callsub S_Update_Var;
-    set Zeny, Zeny + 500;
+    Zeny = Zeny + 500;
     mes "[Lieutenant Dausen]";
     mes "\"Thank you for clearing up the orders to my men!  Here's some gold for your efforts.\"";
     next;
@@ -126,21 +123,21 @@ L_LD_Miners:
     goto L_Close;
 
 L_LD_Key:
-    set @state, 22;
+    @state = 22;
     callsub S_Update_Var;
     mes "[Lieutenant Dausen]";
     mes "\"Oh, Naem lost his key?  Here, take this spare. It should help you get into the underground palace.\"";
     goto L_Close;
 
 L_Close:
-    set @state, 0;
-    set @bermik, 0;
-    set @sarah, 0;
-    set @vincent, 0;
-    set @sandra, 0;
+    @state = 0;
+    @bermik = 0;
+    @sarah = 0;
+    @vincent = 0;
+    @sandra = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

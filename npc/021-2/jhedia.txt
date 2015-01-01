@@ -1,10 +1,8 @@
-// Ingot maker takes iron ore, gives ingots for future crafting purposes.
 
-021-2.gat,70,124,0|script|Jhedia|160
-{
-    set @Cost_Per_Ingot, 1000;
-    set @Iron_Ore_Per, 5;
-    set @Coal_Per, 10;
+021-2.gat,70,124,0	script	Jhedia	160,{
+    @Cost_Per_Ingot = 1000;
+    @Iron_Ore_Per = 5;
+    @Coal_Per = 10;
 
     mes "[Jhedia]";
     mes "\"I forge Iron Ore into ingots. Ingots are more useful for skilled smiths, like armorers, because the ore is refined and made into useful units which can be worked with. To make ingots, I need " + @Iron_Ore_Per + " Iron Ore and " + @Cost_Per_Ingot + " gp per ingot. I also need " + @Coal_Per + " Coal for my forge.\"";
@@ -15,20 +13,20 @@
 
     if (@ingot_count == 0)
         goto L_Jhedia_Bye;
-    set @Zeny_cost, @ingot_count * @Cost_Per_Ingot;
-    if (countitem("IronOre") < @Iron_Ore_Per * @ingot_count)
+    @Zeny_cost = @ingot_count * @Cost_Per_Ingot;
+    if (countitemcolor("IronOre") < @Iron_Ore_Per * @ingot_count)
         goto L_Jhedia_NotEnough_Ore;
-    if (countitem("Coal") < @Coal_Per * @ingot_count)
+    if (countitemcolor("Coal") < @Coal_Per * @ingot_count)
         goto L_Jhedia_NotEnough_Coal;
     if (Zeny < @Zeny_cost)
         goto L_Jhedia_NotEnough_Zeny;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("IronIngot") == 0
-        && countitem("IronOre") > @ingot_count * @Iron_Ore_Per
-        | countitem("Coal") > @ingot_count * @Coal_Per)
+        && countitemcolor("IronIngot") == 0
+        && countitemcolor("IronOre") > @ingot_count * @Iron_Ore_Per
+        | countitemcolor("Coal") > @ingot_count * @Coal_Per)
             goto L_Jhedia_NotEnoughSlots;
-    set Zeny, Zeny - @Zeny_cost;
+    Zeny = Zeny - @Zeny_cost;
     delitem "IronOre", @ingot_count * @Iron_Ore_Per;
     delitem "Coal", @ingot_count * @Coal_Per;
     getitem "IronIngot", @ingot_count;

@@ -1,10 +1,8 @@
-// Girl sitting on bench
 
-009-1.gat,88,27,0|script|Sabine|106
-{
+009-1.gat,88,27,0	script	Sabine	106,{
     callfunc "ClearVariables";
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     mes "[Sabine]";
     mes "\"Isn't this place pretty? I love hanging out here!\"";
@@ -28,6 +26,6 @@ L_NohMask_Robbery:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 }

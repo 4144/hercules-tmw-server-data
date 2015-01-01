@@ -1,9 +1,7 @@
-// Student at Tulimshar's magic academy
 
-024-1.gat,69,56,0|script|Ched|113
-{
-    if (isin("024-1.gat", 62, 52, 65, 57)) goto L_Garden;
-    if (isin("024-1.gat", 66, 43, 80, 54)) goto L_Canyon;
+024-1.gat,69,56,0	script	Ched	113,{
+    if (isin("024-1", 62, 52, 65, 57)) goto L_Garden;
+    if (isin("024-1", 66, 43, 80, 54)) goto L_Canyon;
 
     mes "[Ched]";
     mes "\"I'm trying to get a spell to work. It's supposed to combine two potions, but I can't seem to figure out which two those are...\"";
@@ -41,7 +39,7 @@ L_Canyon:
     close;
 
 L_Warp:
-    warp "024-1.gat", 71, 56;
+    warp "024-1", 71, 56;
     mes "[Ched]";
     mes "\"You can't be back there.\"";
     close;

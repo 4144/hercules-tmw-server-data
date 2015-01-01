@@ -1,7 +1,5 @@
-// Dock
 
-036-2.gat,39,29,0|script|#KogaCandorExit|45,0,1
-{
+036-2.gat,39,29,0	script	#KogaCandorExit	45,0,1,{
     mes "Disembark the ferry for "+$@CandorDocks$[$@CandorCurrentDock]+"?";
     menu
         "Yes.", L_Leave,
@@ -15,11 +13,11 @@ L_Leave:
     goto L_Close;
 
 L_Tulimshar:
-    warp "022-1.gat", 60, 33;
+    warp "022-1", 60, 33;
     goto L_Close;
 
 L_Candor:
-    warp "029-1.gat", 25, 37;
+    warp "029-1", 25, 37;
     goto L_Close;
 
 L_Close:

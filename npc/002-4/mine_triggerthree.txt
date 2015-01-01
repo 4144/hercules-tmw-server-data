@@ -1,12 +1,9 @@
-//Sandstorm mine trigger 3 Trigger 002-4 98,42 (127)
-// Variables used: nibble 4 and 5 of QUEST_SouthTulimshar
 
-002-4.gat,91,99,0|script|Button#mine-3|400,0,0
-{
+002-4.gat,91,99,0	script	Button#mine-3	400,0,0,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (@state == 24) goto L_Trigger_Wrong_3;
     if (@state == 23) goto L_Trigger_3;
@@ -23,13 +20,13 @@ L_Trigger_Wrong_3:
         "Do nothing.", L_Nothing_3;
 
 L_Right_Wrong_3:
-    set @state, 22;
+    @state = 22;
     callsub S_Update_Var;
     mes "You turn the key right.";
     goto L_Close;
 
 L_Left_Wrong_3:
-    set @state, 22;
+    @state = 22;
     callsub S_Update_Var;
     mes "You turn the key left.";
     goto L_Close;
@@ -42,13 +39,13 @@ L_Trigger_3:
         "Do nothing.", L_Nothing_3;
 
 L_Right_3:
-    set @state, 22;
+    @state = 22;
     callsub S_Update_Var;
     mes "You turn the key right.";
     goto L_Close;
 
 L_Left_3:
-    set @state, 24;
+    @state = 24;
     callsub S_Update_Var;
     mes "You turn the key left. A clicking sound echoes throughout the mine.";
     goto L_Close;
@@ -58,10 +55,10 @@ L_Nothing_3:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

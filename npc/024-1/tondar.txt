@@ -1,12 +1,10 @@
-// A professor at Tulimshar's magic academy
 
-024-1.gat,83,51,0|script|Tondar|168
-{
+024-1.gat,83,51,0	script	Tondar	168,{
     mes "[Tondar]";
     mes "\"We're not accepting any new students right now.\"";
     if (getskilllv(SKILL_MAGIC) > 0)
         goto L_may_ask;
-    goto L_end;
+    goto L_End;
 
 L_may_ask:
     next;
@@ -14,15 +12,15 @@ L_may_ask:
         "Can you teach me a spell?", L_askspell,
         "Do you have a magic library?", L_library,
         "Are you sure?  I can pay well...", L_nopay,
-        "That's unfortunate.", L_end,
-        "Goodbye, then.", L_end;
+        "That's unfortunate.", L_End,
+        "Goodbye, then.", L_End;
 
 L_library:
     mes "[Tondar]";
     mes "\"Of course we do. It is only for graduate students, alumni, and faculty.\"";
     next;
     menu
-        "Thank you, and goodbye.", L_end,
+        "Thank you, and goodbye.", L_End,
         "Nobody else is allowed inside?", L_Next;
 
 L_Next:
@@ -49,8 +47,8 @@ L_nopay:
     mes "[Tondar]";
     mes "The wizard frowns angrily.";
     mes "\"Do not tempt me to teach you a different kind of lesson, young one!  Begone!\"";
-    goto L_end;
+    goto L_End;
 
-L_end:
+L_End:
     close;
 }

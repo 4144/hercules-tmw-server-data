@@ -1,20 +1,14 @@
-// author: Jenalya
-// state0: Cindy is totally scared and does nothing helpful
-// state1: you are able to open the cage
-// state2: Cindy is saved, she gives you a reward (wizard hat or wooden staff)
-// state3: and greater: Cindy is saved, she asks you to visit them
 
-031-4.gat,42,42,0|script|Cindy|198
-{
+031-4.gat,42,42,0	script	Cindy	198,{
     if ($@FIGHT_YETI_STATUS != 0) goto L_Yeti;
 
-    set @KEYS_AMOUNT, 10;
-    set @minlevel, 70;
+    @KEYS_AMOUNT = 10;
+    @minlevel = 70;
 
-    set @Q_Nivalis_state_MASK, NIBBLE_5_MASK;
-    set @Q_Nivalis_state_SHIFT, NIBBLE_5_SHIFT;
+    @Q_Nivalis_state_MASK = NIBBLE_5_MASK;
+    @Q_Nivalis_state_SHIFT = NIBBLE_5_SHIFT;
 
-    set @rescue_Cindy, ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
+    @rescue_Cindy = ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
 
     if (Sex == 0) set @title$, "Misses";
     if (Sex == 1) set @title$, "Mister";
@@ -50,7 +44,7 @@ L_Next:
 L_Try_Cage:
     if (BaseLevel < @minlevel)
         goto L_To_Weak;
-    if (countitem("TreasureKey") < @KEYS_AMOUNT)
+    if (countitemcolor("TreasureKey") < @KEYS_AMOUNT)
         goto L_Not_Enough_Keys;
     delitem "TreasureKey", @KEYS_AMOUNT;
     mes "As you try to open the door of the cage, there is a loud squeaking noise.";
@@ -61,11 +55,11 @@ L_Try_Cage:
     npctalk "Oh no, the Yetis...";
 
     // initialize fight
-    set $@FIGHT_YETI_STATUS, 1;
-    set $@FIGHT_YETI_WAVE, 0;
-    set $@YETI_COUNT, 1;
-    set $@FIGHT_YETI_PLAYER_COUNT, getmapusers("031-4.gat");
-    areamonster "031-4.gat", 0, 0, 95, 91, "", 1072, 1, "Cindy::OnPetDeath";
+    $@FIGHT_YETI_STATUS = 1;
+    $@FIGHT_YETI_WAVE = 0;
+    $@YETI_COUNT = 1;
+    $@FIGHT_YETI_PLAYER_COUNT = getmapusers("031-4");
+    areamonster "031-4", 0, 0, 95, 91, "", 1072, 1, "Cindy::OnPetDeath";
 
     initnpctimer;
     goto L_Close;
@@ -85,11 +79,11 @@ L_Reward:
     if (@inventorylist_count == 100)
         goto L_Full_Inv;
 
-    set @reward, rand(15);
+    @reward = rand(15);
     if (@reward < 10)
         goto L_Wizard_Hat;
     getitem "WoodenStaff", 1;
-    set @rescue_Cindy, 3;
+    @rescue_Cindy = 3;
     callsub S_Update_Mask;
     goto L_Visit;
 
@@ -97,7 +91,7 @@ L_Wizard_Hat:
     // get a wizard hat in one of the ten colors - no white
     setarray @wizardhats, 2200, 2201, 2202, 2203, 2204, 2205, 2206, 2207, 2208, 2209;
     getitem @wizardhats[@reward], 1;
-    set @rescue_Cindy, 3;
+    @rescue_Cindy = 3;
     callsub S_Update_Mask;
     goto L_Visit;
 
@@ -125,18 +119,17 @@ L_Full_Inv:
     goto L_Close;
 
 L_Close:
-    set @KEYS_AMOUNT, 0;
-    set @Q_Nivalis_state_MASK, 0;
-    set @Q_Nivalis_state_SHIFT, 0;
-    set @rescue_Cindy, 0;
-    set @title$, "";
-    set @minlevel, 0;
-    set @inventorylist_count, 0;
+    @KEYS_AMOUNT = 0;
+    @Q_Nivalis_state_MASK = 0;
+    @Q_Nivalis_state_SHIFT = 0;
+    @rescue_Cindy = 0;
+    @title$ = "";
+    @minlevel = 0;
+    @inventorylist_count = 0;
     cleararray @wizardhats, 0, 10;
-    set @reward, 0;
+    @reward = 0;
     close;
 
-// Fight logic attached to npc
 OnTimer5000:
     setnpctimer 0;
     if ($@FIGHT_YETI_STATUS != 0)
@@ -144,26 +137,26 @@ OnTimer5000:
     goto L_Return_1;
 
 L_Return_1:
-    set $@FIGHT_YETI_PLAYER_COUNT, 0;
-    areatimer "031-4.gat", 0, 0, 95, 91, 10, "Cindy::OnTick";
+    $@FIGHT_YETI_PLAYER_COUNT = 0;
+    areatimer "031-4", 0, 0, 95, 91, 10, "Cindy::OnTick";
     end;
 
 L_CaveLogic:
-    set $@FIGHT_YETI_ROUND_PEN, $@FIGHT_YETI_PLAYER_COUNT;
+    $@FIGHT_YETI_ROUND_PEN = $@FIGHT_YETI_PLAYER_COUNT;
     if ($@FIGHT_YETI_ROUND_PEN > 60)
-        set $@FIGHT_YETI_ROUND_PEN, 60;
+        $@FIGHT_YETI_ROUND_PEN = 60;
     if ($@FIGHT_YETI_PLAYER_COUNT <= 0)
         goto L_CleanUp;
     set $@FIGHT_YETI_ROUND_TIMER, $@FIGHT_YETI_ROUND_TIMER + 5; // Advance 5 seconds
-    if (mobcount("031-4.gat", "Cindy::OnPetDeath") < 0)
+    if (mobcount("031-4", "Cindy::OnPetDeath") < 0)
         goto L_NextWave;
     if ($@FIGHT_YETI_ROUND_TIMER + $@FIGHT_YETI_ROUND_PEN >= 120)
         goto L_NextWave;
     goto L_Return_1;
 
 L_NextWave:
-    set $@FIGHT_YETI_ROUND_TIMER, 0;
-    set $@FIGHT_YETI_WAVE, $@FIGHT_YETI_WAVE + 1;
+    $@FIGHT_YETI_ROUND_TIMER = 0;
+    $@FIGHT_YETI_WAVE = $@FIGHT_YETI_WAVE + 1;
     if ($@FIGHT_YETI_WAVE > 10
         && $@YETI_COUNT == 0)
             goto L_CleanUp;
@@ -171,68 +164,67 @@ L_NextWave:
         && $@FIGHT_YETI_WAVE < 22)
             goto L_Return_1;
     if ($@FIGHT_YETI_WAVE > 22)
-        areamonster "031-4.gat", 0, 0, 95, 91, "", 1072, $@FIGHT_YETI_WAVE*2 + $@FIGHT_YETI_PLAYER_COUNT*5, "Cindy::OnPetDeath";
+        areamonster "031-4", 0, 0, 95, 91, "", 1072, $@FIGHT_YETI_WAVE*2 + $@FIGHT_YETI_PLAYER_COUNT*5, "Cindy::OnPetDeath";
     if ($@FIGHT_YETI_WAVE > 22)
-        set $@YETI_COUNT, $@YETI_COUNT + $@FIGHT_YETI_WAVE*2 + $@FIGHT_YETI_PLAYER_COUNT*5;
-    set $@FIGHT_YETI_NUMBER, (5 + (1 * $@FIGHT_YETI_WAVE) + (2 * $@FIGHT_YETI_PLAYER_COUNT))/4;
-    set $@YETI_COUNT, $@YETI_COUNT + $@FIGHT_YETI_NUMBER;
+        $@YETI_COUNT = $@YETI_COUNT + $@FIGHT_YETI_WAVE*2 + $@FIGHT_YETI_PLAYER_COUNT*5;
+    $@FIGHT_YETI_NUMBER = (5 + (1 * $@FIGHT_YETI_WAVE) + (2 * $@FIGHT_YETI_PLAYER_COUNT))/4;
+    $@YETI_COUNT = $@YETI_COUNT + $@FIGHT_YETI_NUMBER;
 
-    areamonster "031-4.gat", 0, 0, 95, 91, "", 1072, $@FIGHT_YETI_NUMBER, "Cindy::OnPetDeath";
+    areamonster "031-4", 0, 0, 95, 91, "", 1072, $@FIGHT_YETI_NUMBER, "Cindy::OnPetDeath";
 
-    set $@msg$, $@FIGHT_YETI_MESSAGES$[$@FIGHT_YETI_WAVE];
+    $@msg$ = $@FIGHT_YETI_MESSAGES$[$@FIGHT_YETI_WAVE];
     if ($@msg$ == "")
         goto L_Return_1;
-    mapannounce "031-4.gat", $@msg$, 0;
-    mapannounce "031-3.gat", $@msg$, 0;
-    set $@msg$, "";
+    mapannounce "031-4", $@msg$, 0;
+    mapannounce "031-3", $@msg$, 0;
+    $@msg$ = "";
     goto L_Return_1;
 
-// Called on each player once every 5 seconds
 OnTick:
     if (isdead()) end;
-    set $@FIGHT_YETI_PLAYER_COUNT, $@FIGHT_YETI_PLAYER_COUNT + 1;
+    $@FIGHT_YETI_PLAYER_COUNT = $@FIGHT_YETI_PLAYER_COUNT + 1;
     end;
 
 OnPetDeath:
-    set $@YETI_COUNT, $@YETI_COUNT - 1;
+    $@YETI_COUNT = $@YETI_COUNT - 1;
     end;
 
 L_CleanUp:
-    areatimer "031-4.gat", 0, 0, 95, 91, 10, "Cindy::OnReward";
-    set $@FIGHT_YETI_STATUS, 0;
-    set $@FIGHT_YETI_PLAYER_COUNT, 0;
-    set $@FIGHT_YETI_WAVE, 0;
-    set $@FIGHT_YETI_ROUND_TIMER, 0;
-    set $@YETI_COUNT, 0;
-    set $@FIGHT_YETI_ROUND_PEN, 0;
-    set $@FIGHT_YETI_NUMBER, 0;
-    killmonster "031-4.gat", "Cindy::OnPetDeath";
+    areatimer "031-4", 0, 0, 95, 91, 10, "Cindy::OnReward";
+    $@FIGHT_YETI_STATUS = 0;
+    $@FIGHT_YETI_PLAYER_COUNT = 0;
+    $@FIGHT_YETI_WAVE = 0;
+    $@FIGHT_YETI_ROUND_TIMER = 0;
+    $@YETI_COUNT = 0;
+    $@FIGHT_YETI_ROUND_PEN = 0;
+    $@FIGHT_YETI_NUMBER = 0;
+    killmonster "031-4", "Cindy::OnPetDeath";
     stopnpctimer;
     setnpctimer 0;
     end;
 
 OnReward:
     if (isdead()) end;
-    set @bonus, (BaseLevel/2);
-    set DailyQuestBonus, DailyQuestBonus + @bonus;
+    @bonus = (BaseLevel/2);
+    DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action. " + @bonus + " daily bonus gained." ;
-    set @Q_Nivalis_state_MASK, NIBBLE_5_MASK;
-    set @Q_Nivalis_state_SHIFT, NIBBLE_5_SHIFT;
-    set @rescue_Cindy, ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
+    @Q_Nivalis_state_MASK = NIBBLE_5_MASK;
+    @Q_Nivalis_state_SHIFT = NIBBLE_5_SHIFT;
+    @rescue_Cindy = ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
     if (@rescue_Cindy != 1 )
         goto L_End;
-    set @rescue_Cindy, 2;
+    @rescue_Cindy = 2;
     callsub S_Update_Mask;
     message strcharinfo(0), "Cindy looks relieved and as if she wants to talk with you.";
-    set BOSS_POINTS, BOSS_POINTS + 70;
+    BOSS_POINTS = BOSS_POINTS + 70;
     message strcharinfo(0), "You gain 70 Boss Points giving you a total of " + BOSS_POINTS + ".";
     goto L_End;
 
 L_End:
-    set @bonus, 0;
-    set @Q_Nivalis_state_MASK, 0;
-    set @Q_Nivalis_state_SHIFT, 0;
-    set @rescue_Cindy, 0;
+    @bonus = 0;
+    @Q_Nivalis_state_MASK = 0;
+    @Q_Nivalis_state_SHIFT = 0;
+    @rescue_Cindy = 0;
     end;
 
 OnInit:
@@ -251,7 +243,6 @@ OnInit:
         "Cindy:* This seems to be their final attack! I believe in you!";
     end;
 
-/////////
 S_Update_Mask:
     set QUEST_Nivalis_state,
         (QUEST_Nivalis_state & ~(@Q_Nivalis_state_MASK))

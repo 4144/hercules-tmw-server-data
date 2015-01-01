@@ -1,52 +1,44 @@
-// Travelers
-// Authors: Wombat, Wushin
 
-// Multiple Travelers
-// Cannot access until found (Player Bitmask)
-// Costs Zeny
 
-// Contains all warp points to find
-017-9.gat,27,28,0|script|#TravelConfig|-1
-{
+017-9.gat,27,28,0	script	#TravelConfig	-1,{
     end;
 
 OnInit:
     // TravelFound
-    set $@tut_bit, (1 << 2);
-    set $@druid_tree_bit, (1 << 3);
-    set $@graveyard_bit, (1 << 4);
-    set $@magic_house_bit, (1 << 5);
-    set $@terranite_cave_bit, (1 << 6);
-    set $@tulimshar_bit, (1 << 7);
-    set $@blue_sage_bit, (1 << 8);
-    set $@hurnscald_bit, (1 << 9);
-    set $@nivalis_bit, (1 << 10);
-    set $@tul_mine_bit, (1 << 11);
-    set $@pachua_bit, (1 << 12);
-    set $@nivalis_snow_hills_bit, (1 << 13);
-    set $@barbarians_bit, (1 << 14);
-    set $@hurns_farms_bit, (1 << 15);
-    set $@candor_bit, (1 << 16);
+    $@tut_bit = (1 << 2);
+    $@druid_tree_bit = (1 << 3);
+    $@graveyard_bit = (1 << 4);
+    $@magic_house_bit = (1 << 5);
+    $@terranite_cave_bit = (1 << 6);
+    $@tulimshar_bit = (1 << 7);
+    $@blue_sage_bit = (1 << 8);
+    $@hurnscald_bit = (1 << 9);
+    $@nivalis_bit = (1 << 10);
+    $@tul_mine_bit = (1 << 11);
+    $@pachua_bit = (1 << 12);
+    $@nivalis_snow_hills_bit = (1 << 13);
+    $@barbarians_bit = (1 << 14);
+    $@hurns_farms_bit = (1 << 15);
+    $@candor_bit = (1 << 16);
     // Travel Base Cost
-    set $@tulimshar_cost, 100;
-    set $@hurnscald_cost, 100;
-    set $@nivalis_cost, 100;
-    set $@druid_tree_cost, 150;
-    set $@tul_mine_cost, 150;
-    set $@pachua_cost, 200;
-    set $@graveyard_cost, 200;
-    set $@magic_house_cost, 150;
-    set $@terranite_cave_cost, 200;
-    set $@blue_sage_cost, 200;
-    set $@nivalis_snow_hills_cost, 150;
-    set $@barbarians_cost, 150;
-    set $@hurns_farms_cost, 150;
-    set $@candor_cost, 200;
+    $@tulimshar_cost = 100;
+    $@hurnscald_cost = 100;
+    $@nivalis_cost = 100;
+    $@druid_tree_cost = 150;
+    $@tul_mine_cost = 150;
+    $@pachua_cost = 200;
+    $@graveyard_cost = 200;
+    $@magic_house_cost = 150;
+    $@terranite_cave_cost = 200;
+    $@blue_sage_cost = 200;
+    $@nivalis_snow_hills_cost = 150;
+    $@barbarians_cost = 150;
+    $@hurns_farms_cost = 150;
+    $@candor_cost = 200;
     end;
 }
 
-function|script|TravelerTut
-{
+function	script	TravelerTut	{
     //Explain Travelers
     mes "["+@NpcName$+"]";
     mes "\"We travelers are found all over the world. Once you have found another traveler, we can create a link and send you between us.\"";
@@ -56,15 +48,14 @@ function|script|TravelerTut
     goto L_SetBit;
 
 L_SetBit:
-    set TravelFound, TravelFound | $@tut_bit;
+    TravelFound = TravelFound | $@tut_bit;
     goto L_Return;
 
 L_Return:
     return;
 }
 
-function|script|Traveler
-{
+function	script	Traveler	{
     mes "["+@NpcName$+"]";
     mes "\"Greetings. I am "+@NpcName$+" the Traveler.\"";
     next;
@@ -79,9 +70,9 @@ L_Main:
     goto L_SetTravelBit;
 
 L_BitTravelSet:
-    set @Cost, 10;
+    @Cost = 10;
     if (BaseLevel < 45)
-        set @Cost, 5;
+        @Cost = 5;
     goto L_Start;
 
 L_TravelTut:
@@ -92,7 +83,7 @@ L_SetTravelBit:
     mes "["+@NpcName$+"]";
     mes "\"Uplink Set. You can now return to this spot for a fee.\"";
     next;
-    set TravelFound, TravelFound | @NpcTravelBit;
+    TravelFound = TravelFound | @NpcTravelBit;
     goto L_BitTravelSet;
 
 L_Start:
@@ -128,120 +119,120 @@ L_TravelPlayer:
     mes "["+@NpcName$+"]";
     mes "\"Be fearless!\"";
     close2;
-    set Zeny, Zeny - @NextLocationCost;
+    Zeny = Zeny - @NextLocationCost;
     warp @NextLocationMap$,@NextLocationX,@NextLocationY;
     goto L_Clearvars;
 
 L_TravelDruidTree:
-    set @NextLocationBit, $@druid_tree_bit;
-    set @NextLocationCost, (@Cost * $@druid_tree_cost);
-    set @NextLocationMap$, "005-1.gat";
-    set @NextLocationX, 76;
-    set @NextLocationY, 36;
+    @NextLocationBit = $@druid_tree_bit;
+    @NextLocationCost = (@Cost * $@druid_tree_cost);
+    @NextLocationMap$ = "005-1";
+    @NextLocationX = 76;
+    @NextLocationY = 36;
     goto L_TravelChecks;
 
 L_TravelGraveyard:
-    set @NextLocationBit, $@graveyard_bit;
-    set @NextLocationCost, (@Cost * $@graveyard_cost);
-    set @NextLocationMap$, "027-1.gat";
-    set @NextLocationX, 84;
-    set @NextLocationY, 86;
+    @NextLocationBit = $@graveyard_bit;
+    @NextLocationCost = (@Cost * $@graveyard_cost);
+    @NextLocationMap$ = "027-1";
+    @NextLocationX = 84;
+    @NextLocationY = 86;
     goto L_TravelChecks;
 
 L_TravelMagicHouse:
-    set @NextLocationBit, $@magic_house_bit;
-    set @NextLocationCost, (@Cost * $@magic_house_cost);
-    set @NextLocationMap$, "013-1.gat";
-    set @NextLocationX, 120;
-    set @NextLocationY, 93;
+    @NextLocationBit = $@magic_house_bit;
+    @NextLocationCost = (@Cost * $@magic_house_cost);
+    @NextLocationMap$ = "013-1";
+    @NextLocationX = 120;
+    @NextLocationY = 93;
     goto L_TravelChecks;
 
 L_TravelTerranite:
-    set @NextLocationBit, $@terranite_cave_bit;
-    set @NextLocationCost, (@Cost * $@terranite_cave_cost);
-    set @NextLocationMap$, "012-3.gat";
-    set @NextLocationX, 445;
-    set @NextLocationY, 65;
+    @NextLocationBit = $@terranite_cave_bit;
+    @NextLocationCost = (@Cost * $@terranite_cave_cost);
+    @NextLocationMap$ = "012-3";
+    @NextLocationX = 445;
+    @NextLocationY = 65;
     goto L_TravelChecks;
 
 L_TravelTulimshar:
-    set @NextLocationBit, $@tulimshar_bit;
-    set @NextLocationCost, (@Cost * $@tulimshar_cost);
-    set @NextLocationMap$, "001-1.gat";
-    set @NextLocationX, 44;
-    set @NextLocationY, 70;
+    @NextLocationBit = $@tulimshar_bit;
+    @NextLocationCost = (@Cost * $@tulimshar_cost);
+    @NextLocationMap$ = "001-1";
+    @NextLocationX = 44;
+    @NextLocationY = 70;
     goto L_TravelChecks;
 
 L_TravelBlueSage:
-    set @NextLocationBit, $@blue_sage_bit;
-    set @NextLocationCost, (@Cost  * $@blue_sage_cost);
-    set @NextLocationMap$, "048-2.gat";
-    set @NextLocationX, 26;
-    set @NextLocationY, 47;
+    @NextLocationBit = $@blue_sage_bit;
+    @NextLocationCost = (@Cost  * $@blue_sage_cost);
+    @NextLocationMap$ = "048-2";
+    @NextLocationX = 26;
+    @NextLocationY = 47;
     goto L_TravelChecks;
 
 L_TravelHurnscald:
-    set @NextLocationBit, $@hurnscald_bit;
-    set @NextLocationCost, (@Cost * $@hurnscald_cost);
-    set @NextLocationMap$, "008-1.gat";
-    set @NextLocationX, 79;
-    set @NextLocationY, 84;
+    @NextLocationBit = $@hurnscald_bit;
+    @NextLocationCost = (@Cost * $@hurnscald_cost);
+    @NextLocationMap$ = "008-1";
+    @NextLocationX = 79;
+    @NextLocationY = 84;
     goto L_TravelChecks;
 
 L_TravelNivalis:
-    set @NextLocationBit, $@nivalis_bit;
-    set @NextLocationCost, (@Cost * $@nivalis_cost);
-    set @NextLocationMap$, "020-1.gat";
-    set @NextLocationX, 53;
-    set @NextLocationY, 122;
+    @NextLocationBit = $@nivalis_bit;
+    @NextLocationCost = (@Cost * $@nivalis_cost);
+    @NextLocationMap$ = "020-1";
+    @NextLocationX = 53;
+    @NextLocationY = 122;
     goto L_TravelChecks;
 
 L_TravelTulMine:
-    set @NextLocationBit, $@tul_mine_bit;
-    set @NextLocationCost, (@Cost * $@tul_mine_cost);
-    set @NextLocationMap$, "002-2.gat";
-    set @NextLocationX, 27;
-    set @NextLocationY, 28;
+    @NextLocationBit = $@tul_mine_bit;
+    @NextLocationCost = (@Cost * $@tul_mine_cost);
+    @NextLocationMap$ = "002-2";
+    @NextLocationX = 27;
+    @NextLocationY = 28;
     goto L_TravelChecks;
 
 L_TravelPachua:
-    set @NextLocationBit, $@pachua_bit;
-    set @NextLocationCost, (@Cost * $@pachua_cost);
-    set @NextLocationMap$, "006-1.gat";
-    set @NextLocationX, 28;
-    set @NextLocationY, 97;
+    @NextLocationBit = $@pachua_bit;
+    @NextLocationCost = (@Cost * $@pachua_cost);
+    @NextLocationMap$ = "006-1";
+    @NextLocationX = 28;
+    @NextLocationY = 97;
     goto L_TravelChecks;
 
 L_TravelSnowHills:
-    set @NextLocationBit, $@nivalis_snow_hills_bit;
-    set @NextLocationCost, (@Cost * $@nivalis_snow_hills_cost);
-    set @NextLocationMap$, "044-1.gat";
-    set @NextLocationX, 152;
-    set @NextLocationY, 19;
+    @NextLocationBit = $@nivalis_snow_hills_bit;
+    @NextLocationCost = (@Cost * $@nivalis_snow_hills_cost);
+    @NextLocationMap$ = "044-1";
+    @NextLocationX = 152;
+    @NextLocationY = 19;
     goto L_TravelChecks;
 
 L_TravelBarbarians:
-    set @NextLocationBit, $@barbarians_bit;
-    set @NextLocationCost, (@Cost * $@barbarians_cost);
-    set @NextLocationMap$, "033-1.gat";
-    set @NextLocationX, 66;
-    set @NextLocationY, 33;
+    @NextLocationBit = $@barbarians_bit;
+    @NextLocationCost = (@Cost * $@barbarians_cost);
+    @NextLocationMap$ = "033-1";
+    @NextLocationX = 66;
+    @NextLocationY = 33;
     goto L_TravelChecks;
 
 L_TravelHurnsFarms:
-    set @NextLocationBit, $@hurns_farms_bit;
-    set @NextLocationCost, (@Cost * $@hurns_farms_cost);
-    set @NextLocationMap$, "055-1.gat";
-    set @NextLocationX, 135;
-    set @NextLocationY, 60;
+    @NextLocationBit = $@hurns_farms_bit;
+    @NextLocationCost = (@Cost * $@hurns_farms_cost);
+    @NextLocationMap$ = "055-1";
+    @NextLocationX = 135;
+    @NextLocationY = 60;
     goto L_TravelChecks;
 
 L_TravelCandor:
-    set @NextLocationBit, $@candor_bit;
-    set @NextLocationCost, (@Cost * $@candor_cost);
-    set @NextLocationMap$, "029-1.gat";
-    set @NextLocationX, 69;
-    set @NextLocationY, 69;
+    @NextLocationBit = $@candor_bit;
+    @NextLocationCost = (@Cost * $@candor_cost);
+    @NextLocationMap$ = "029-1";
+    @NextLocationX = 69;
+    @NextLocationY = 69;
     goto L_TravelChecks;
 
 L_TravelNo:
@@ -269,11 +260,11 @@ L_AlreadyThere:
     goto L_Clearvars;
 
 L_Clearvars:
-    set @Cost, 0;
-    set @NextLocationBit, 0;
-    set @NextLocationCost, 0;
-    set @NextLocationMap$, "";
-    set @NextLocationX, 0;
-    set @NextLocationY, 0;
+    @Cost = 0;
+    @NextLocationBit = 0;
+    @NextLocationCost = 0;
+    @NextLocationMap$ = "";
+    @NextLocationX = 0;
+    @NextLocationY = 0;
     return;
 }

@@ -1,13 +1,11 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// South Tulimshar Indoor warps
 
-001-2.gat,25,35|warp|To Outside|-1,-1,001-1.gat,32,72
-001-2.gat,44,25|warp|To Second Floor|-1,0,001-2.gat,65,25
-001-2.gat,64,25|warp|To First Floor|-1,-1,001-2.gat,43,25
-001-2.gat,67,30|warp|To Bedroom|-1,-1,001-2.gat,103,23
-001-2.gat,76,30|warp|To Deposit|-1,-1,001-2.gat,131,23
-001-2.gat,69,22|warp|To Casino|0,-1,001-2.gat,32,72
-001-2.gat,103,22|warp|To Second Floor|0,-1,001-2.gat,67,29
-001-2.gat,131,22|warp|To Second Floor|0,-1,001-2.gat,76,29
-001-2.gat,32,73|warp|To Second Floor|-1,-1,001-2.gat,69,23
-001-2.gat,71,73|warp|To Outside|-1,-1,001-1.gat,75,42
+001-2,25,35,0	warp	To Outside	0,0,001-1,32,72
+001-2,44,25,0	warp	To Second Floor	0,0,001-2,65,25
+001-2,64,25,0	warp	To First Floor	0,0,001-2,43,25
+001-2,67,30,0	warp	To Bedroom	0,0,001-2,103,23
+001-2,76,30,0	warp	To Deposit	0,0,001-2,131,23
+001-2,69,22,0	warp	To Casino	0,0,001-2,32,72
+001-2,103,22,0	warp	To Second Floor	0,0,001-2,67,29
+001-2,131,22,0	warp	To Second Floor	0,0,001-2,76,29
+001-2,32,73,0	warp	To Second Floor	0,0,001-2,69,23
+001-2,71,73,0	warp	To Outside	0,0,001-1,75,42

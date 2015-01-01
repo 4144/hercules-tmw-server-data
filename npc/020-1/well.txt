@@ -1,27 +1,11 @@
-//############################################
-//#    NPC Well & Miler
-//# Authors: Lien, PjotrOrial
-//# Review:
-//#
-//# There is someone in the well. This can be found out by throwing some stuff
-//# in there.
-//#
-//# When the npc in the well is detected they can be rescued by asking Miler
-//# for help.
-//#
-//# The experience reward given by Miler is 111 * BaseLevel
-//#
-//# used variables: QUEST_Nivalis_state Nibble4
-//############################################
 
-020-1.gat,99,83,0|script|#Well|400
-{
-    set @Q_MASK, NIBBLE_4_MASK;
-    set @Q_SHIFT, NIBBLE_4_SHIFT;
-    set @Q_status, ((QUEST_Nivalis_state) & @Q_MASK) >> @Q_SHIFT;
+020-1.gat,99,83,0	script	#Well	400,{
+    @Q_MASK = NIBBLE_4_MASK;
+    @Q_SHIFT = NIBBLE_4_SHIFT;
+    @Q_status = ((QUEST_Nivalis_state) & @Q_MASK) >> @Q_SHIFT;
 
     if(@Q_status == 2) goto L_Finished;
-    set @item_ID, 0;
+    @item_ID = 0;
     setarray @quote_item$, "Yuck! Who has thrown that on me?","Ouch! Who hurts me?","White powder!? What's going on up there?","Ahw! It's raining ","","","";
 
     mes "...";
@@ -39,20 +23,20 @@ L_trew:
         "Leave it alone", L_Close;
 
 L_MenuItems:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
 
     // little IF to do @quote$ & @Item_ID
-    set @quote$, @quote_item$[@menu];
+    @quote$ = @quote_item$[@menu];
     if(@menu == 0)
-        set @item_ID, 505;
+        @item_ID = 505;
     if(@menu == 1)
-        set @item_ID, 569;
+        @item_ID = 569;
     if(@menu == 2)
-        set @item_ID, 701;
+        @item_ID = 701;
     if(@menu == 3)
-        set @item_ID, 541;
+        @item_ID = 541;
 
-    if(countitem(@item_ID) < 1)
+    if(countitemcolor(@item_ID) < 1)
         goto L_NO_ITEM;
     if(@menu == 3)
         getitem "EmptyBottle", 1;
@@ -67,16 +51,16 @@ L_MenuItems:
         "Do you need help?", L_MenuItems1;
 
 L_MenuItems1:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
         if (@menu == 0)
-            set @quote$, "I'll talk about who I am after leaving the well.";
+            @quote$ = "I'll talk about who I am after leaving the well.";
         if (@menu == 1)
-            set @quote$, "Well, someone has pushed me in the well, I don't know who did that.";
+            @quote$ = "Well, someone has pushed me in the well, I don't know who did that.";
         if (@menu == 2)
-            set @quote$, "";
+            @quote$ = "";
     mes "[Mysterious voice inside the well]";
     mes "\" "+ @quote$ +". So if you can call help for me... please do so!\"";
-    set @Q_status, 1;
+    @Q_status = 1;
     callsub S_Update_Var;
     close;
 
@@ -98,11 +82,10 @@ S_Update_Var:
     return;
 }
 
-020-2.gat,100,28,0|script|Miler|100
-{
-    set @Q_MASK, NIBBLE_4_MASK;
-    set @Q_SHIFT, NIBBLE_4_SHIFT;
-    set @Q_status, ((QUEST_Nivalis_state) & @Q_MASK) >> @Q_SHIFT;
+020-2.gat,100,28,0	script	Miler	100,{
+    @Q_MASK = NIBBLE_4_MASK;
+    @Q_SHIFT = NIBBLE_4_SHIFT;
+    @Q_status = ((QUEST_Nivalis_state) & @Q_MASK) >> @Q_SHIFT;
 
     mes "[Miler]";
     mes "\"Hello!\"";
@@ -122,7 +105,7 @@ L_Next:
     mes "[Miler]";
     mes "\"Ho! I'll help him!\"";
     getexp (BaseLevel * 111), 0;
-    set @Q_status, 2;
+    @Q_status = 2;
     callsub S_Update_Var;
     close;
 

@@ -1,13 +1,10 @@
-// This NPC makes gem powders out of gemstones
-// Authors: Ali-G, enchilado, Jenalya
 
-018-2.gat,85,23,0|script|Malek|109
-{
+018-2.gat,85,23,0	script	Malek	109,{
     callfunc "ClearVariables";
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
-    set @MIN_GEM_AMOUNT, 7;
+    @MIN_GEM_AMOUNT = 7;
 
     if (@inspector == 10) goto L_NohMask;
 
@@ -26,8 +23,8 @@ L_NohMask:
         "The inspector sent me here to investigate.", L_Investigation;
 
 L_Investigation:
-    set @inspector, 11;
-    set QUEST_Hurnscald, (QUEST_Hurnscald & ~(NIBBLE_3_MASK)) | (@inspector << NIBBLE_3_SHIFT);
+    @inspector = 11;
+    QUEST_Hurnscald = (QUEST_Hurnscald & ~(NIBBLE_3_MASK)) | (@inspector << NIBBLE_3_SHIFT);
     mes "\"Yeah, we did hear a commotion. We thought we heard someone go down to the basement, but we checked the whole place over and didn't see anything out of the ordinary.\"";
     goto L_Close;
 
@@ -52,61 +49,61 @@ L_Check_Gems:
     mes "\"Which gem do you want me to powder for you?\"";
     next;
     setarray @menuitems$, "", "", "", "", "", "", "";
-    set @c, 0;
+    @c = 0;
     goto L_Check_Diamond;
 
 L_Check_Diamond:
-    if (countitem("Diamond") < 1)
+    if (countitemcolor("Diamond") < 1)
         goto L_Check_Ruby;
-    set @menuitems$[@c], "A diamond.";
-    set @menuid[@c], 0;
-    set @c, @c + 1;
+    @menuitems$[@c] = "A diamond.";
+    @menuid[@c] = 0;
+    @c = @c + 1;
     goto L_Check_Ruby;
 
 L_Check_Ruby:
-    if (countitem("Ruby") < 1)
+    if (countitemcolor("Ruby") < 1)
         goto L_Check_Emerald;
-    set @menuitems$[@c], "A ruby.";
-    set @menuid[@c], 1;
-    set @c, @c + 1;
+    @menuitems$[@c] = "A ruby.";
+    @menuid[@c] = 1;
+    @c = @c + 1;
     goto L_Check_Emerald;
 
 L_Check_Emerald:
-    if (countitem("Emerald") < 1)
+    if (countitemcolor("Emerald") < 1)
         goto L_Check_Sapphire;
-    set @menuitems$[@c], "An emerald.";
-    set @menuid[@c], 2;
-    set @c, @c + 1;
+    @menuitems$[@c] = "An emerald.";
+    @menuid[@c] = 2;
+    @c = @c + 1;
     goto L_Check_Sapphire;
 
 L_Check_Sapphire:
-    if (countitem("Sapphire") < 1)
+    if (countitemcolor("Sapphire") < 1)
         goto L_Check_Topaz;
-    set @menuitems$[@c], "A sapphire.";
-    set @menuid[@c], 3;
-    set @c, @c + 1;
+    @menuitems$[@c] = "A sapphire.";
+    @menuid[@c] = 3;
+    @c = @c + 1;
     goto L_Check_Topaz;
 
 L_Check_Topaz:
-    if (countitem("Topaz") < 1)
+    if (countitemcolor("Topaz") < 1)
         goto L_Check_Amethyst;
-    set @menuitems$[@c], "A topaz.";
-    set @menuid[@c], 4;
-    set @c, @c + 1;
+    @menuitems$[@c] = "A topaz.";
+    @menuid[@c] = 4;
+    @c = @c + 1;
     goto L_Check_Amethyst;
 
 L_Check_Amethyst:
-    if (countitem("Amethyst") < 1)
+    if (countitemcolor("Amethyst") < 1)
         goto L_Choose_Gem;
-    set @menuitems$[@c], "An amethyst.";
-    set @menuid[@c], 5;
-    set @c, @c + 1;
+    @menuitems$[@c] = "An amethyst.";
+    @menuid[@c] = 5;
+    @c = @c + 1;
     goto L_Choose_Gem;
 
 L_Choose_Gem:
-    set @menuitems$[@c], "None right now, thanks.";
-    set @menuid[@c], 6;
-    set @c, @c + 1;
+    @menuitems$[@c] = "None right now, thanks.";
+    @menuid[@c] = 6;
+    @c = @c + 1;
     menu
         @menuitems$[0], L_MenuItems,
         @menuitems$[1], L_MenuItems,
@@ -117,29 +114,29 @@ L_Choose_Gem:
         @menuitems$[6], L_MenuItems;
 
 L_MenuItems:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
     if (@menu >= @c)
         goto L_Close;
     if (@menuid[@menu] == 0)
-        set @gem$, "Diamond";
+        @gem$ = "Diamond";
     if (@menuid[@menu] == 1)
-        set @gem$, "Ruby";
+        @gem$ = "Ruby";
     if (@menuid[@menu] == 2)
-        set @gem$, "Emerald";
+        @gem$ = "Emerald";
     if (@menuid[@menu] == 3)
-        set @gem$, "Sapphire";
+        @gem$ = "Sapphire";
     if (@menuid[@menu] == 4)
-        set @gem$, "Topaz";
+        @gem$ = "Topaz";
     if (@menuid[@menu] == 5)
-        set @gem$, "Amethyst";
+        @gem$ = "Amethyst";
     if (@menuid[@menu] == 6)
         goto L_Close;
 
     getinventorylist;
-    if (countitem(@gem$) < 1)
+    if (countitemcolor(@gem$) < 1)
         goto L_no_gem;
     if (@inventorylist_count == 100
-        && countitem(@gem$) > 1)
+        && countitemcolor(@gem$) > 1)
             goto L_TooMany;
     delitem @gem$, 1;
     if (@gem$ == "Diamond")
@@ -173,6 +170,6 @@ L_no_gem:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 }

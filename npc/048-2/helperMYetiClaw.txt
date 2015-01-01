@@ -1,14 +1,8 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Santeri asks for Yeti Claws to make glue for repairing the books
-// can give second hint about Peetu in investigation subquest
 
-048-2.gat,97,78,0|script|Santeri|366
-{
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @claw_amount, 8;
-    set @claw_exp, 10000;
+048-2.gat,97,78,0	script	Santeri	366,{
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @claw_amount = 8;
+    @claw_exp = 10000;
 
     if (QUEST_BlueSage & $@Q_BlueSageMaterialClaw) goto L_Done;
     if (BaseLevel >= $@Q_BlueSageMinimumLevel) goto L_Quest;
@@ -35,11 +29,11 @@ L_HeroicAction:
         "No, sorry.",L_Investigate;
 
 L_TurnIn:
-    if(countitem("YetiClaw") < @claw_amount)
+    if(countitemcolor("YetiClaw") < @claw_amount)
         goto L_NoItem;
     delitem "YetiClaw", @claw_amount;
     getexp @claw_exp, 0;
-    set QUEST_BlueSage, (QUEST_BlueSage | $@Q_BlueSageMaterialClaw);
+    QUEST_BlueSage = (QUEST_BlueSage | $@Q_BlueSageMaterialClaw);
     mes "[Santeri]";
     mes "\"Great! Thank you!\"";
     goto L_Investigate;
@@ -88,13 +82,13 @@ L_Helper:
     mes "\"I really wonder what went wrong with that sealing spell. I can't imagine Peetu messing up something so important.\"";
     if ((@investigate != 5) && (@investigate != 6) && (@investigate != 7))
         goto L_Close;
-    set @investigate, @investigate + 3;
+    @investigate = @investigate + 3;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @claw_amount, 0;
-    set @claw_exp, 0;
+    @investigate = 0;
+    @claw_amount = 0;
+    @claw_exp = 0;
     close;
 }

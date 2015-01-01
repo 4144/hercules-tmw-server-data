@@ -1,89 +1,87 @@
-//
 
-013-3.gat,28,27,0|script|Chest#DemonMask|111
-{
+013-3.gat,28,27,0	script	Chest#DemonMask	111,{
     callfunc "ClearVariables";
 
-    set @state, ((QUEST_Hurnscald & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
+    @state = ((QUEST_Hurnscald & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
 
     if (@state < 2) goto L_This_shouldn_t_happen;
     if (@state == 3) goto L_Finished;
 
-    if (countitem("MaggotSlime") == 0)
+    if (countitemcolor("MaggotSlime") == 0)
         goto L_No_maggot_slime;
-    if (countitem("SmallMushroom") == 0)
+    if (countitemcolor("SmallMushroom") == 0)
         goto L_No_mushroom;
-    if (countitem("PinkPetal") == 0)
+    if (countitemcolor("PinkPetal") == 0)
         goto L_No_pink_petal;
-    if (countitem("Pearl") == 0)
+    if (countitemcolor("Pearl") == 0)
         goto L_No_pearl;
-    if (countitem("HardSpike") == 0)
+    if (countitemcolor("HardSpike") == 0)
         goto L_No_hard_spike;
-    if (countitem("RawLog") == 0)
+    if (countitemcolor("RawLog") == 0)
         goto L_No_raw_log;
-    if (countitem("PinkAntenna") == 0)
+    if (countitemcolor("PinkAntenna") == 0)
         goto L_No_pink_antenna;
-    if (countitem("SnakeTongue") == 0
-        || countitem("MountainSnakeTongue") == 0
-        || countitem("GrassSnakeTongue") == 0
-        || countitem("CaveSnakeTongue") == 0)
+    if (countitemcolor("SnakeTongue") == 0
+        || countitemcolor("MountainSnakeTongue") == 0
+        || countitemcolor("GrassSnakeTongue") == 0
+        || countitemcolor("CaveSnakeTongue") == 0)
             goto L_No_tongues;
-    if (countitem("TreasureKey") == 0)
+    if (countitemcolor("TreasureKey") == 0)
         goto L_No_treasure_key;
-    if (countitem("PileOfAsh") == 0)
+    if (countitemcolor("PileOfAsh") == 0)
         goto L_No_ash;
-    if (countitem("MauveHerb") == 0
-        || countitem("CobaltHerb") == 0
-        || countitem("GambogeHerb") == 0
-        || countitem("AlizarinHerb") == 0)
+    if (countitemcolor("MauveHerb") == 0
+        || countitemcolor("CobaltHerb") == 0
+        || countitemcolor("GambogeHerb") == 0
+        || countitemcolor("AlizarinHerb") == 0)
             goto L_No_herbs;
-    if (countitem("BugLeg") == 0)
+    if (countitemcolor("BugLeg") == 0)
         goto L_No_bug_leg;
-    if (countitem("CaveSnakeLamp") == 0)
+    if (countitemcolor("CaveSnakeLamp") == 0)
         goto L_No_lamp;
-    if (countitem("IronOre") == 0)
+    if (countitemcolor("IronOre") == 0)
         goto L_No_iron_ore;
-    if (countitem("ScorpionStinger") == 0
-        || countitem("RedScorpionStinger") == 0
-        || countitem("BlackScorpionStinger") == 0)
+    if (countitemcolor("ScorpionStinger") == 0
+        || countitemcolor("RedScorpionStinger") == 0
+        || countitemcolor("BlackScorpionStinger") == 0)
             goto L_No_stingers;
-    if (countitem("SilkCocoon") == 0)
+    if (countitemcolor("SilkCocoon") == 0)
         goto L_No_silk;
-    if (countitem("WhiteFur") == 0)
+    if (countitemcolor("WhiteFur") == 0)
         goto L_No_fur;
-    if (countitem("DarkCrystal") == 0)
+    if (countitemcolor("DarkCrystal") == 0)
         goto L_No_dark_crystal;
-    if (countitem("BottleOfWater") == 0)
+    if (countitemcolor("BottleOfWater") == 0)
         goto L_No_water;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("MaggotSlime") > 1
-        && countitem("BugLeg") > 1
-        && countitem("SilkCocoon") > 1
-        && countitem("SmallMushroom") > 1
-        && countitem("PinkPetal") > 1
-        && countitem("Pearl") > 1
-        && countitem("HardSpike") > 1
-        && countitem("RawLog") > 1
-        && countitem("PinkAntenna") > 1
-        && countitem("DarkCrystal") > 1
-        && countitem("IronOre") > 1
-        && countitem("ScorpionStinger") > 1
-        && countitem("RedScorpionStinger") > 1
-        && countitem("BlackScorpionStinger") > 1
-        && countitem("SnakeTongue") > 1
-        && countitem("MountainSnakeTongue") > 1
-        && countitem("GrassSnakeTongue") > 1
-        && countitem("CaveSnakeTongue") > 1
-        && countitem("MauveHerb") > 1
-        && countitem("CobaltHerb") > 1
-        && countitem("GambogeHerb") > 1
-        && countitem("AlizarinHerb") > 1
-        && countitem("TreasureKey") > 1
-        && countitem("CaveSnakeLamp") > 1
-        && countitem("PileOfAsh") > 1
-        && countitem("WhiteFur") > 1
-        && countitem("BottleOfWater") > 1)
+        && countitemcolor("MaggotSlime") > 1
+        && countitemcolor("BugLeg") > 1
+        && countitemcolor("SilkCocoon") > 1
+        && countitemcolor("SmallMushroom") > 1
+        && countitemcolor("PinkPetal") > 1
+        && countitemcolor("Pearl") > 1
+        && countitemcolor("HardSpike") > 1
+        && countitemcolor("RawLog") > 1
+        && countitemcolor("PinkAntenna") > 1
+        && countitemcolor("DarkCrystal") > 1
+        && countitemcolor("IronOre") > 1
+        && countitemcolor("ScorpionStinger") > 1
+        && countitemcolor("RedScorpionStinger") > 1
+        && countitemcolor("BlackScorpionStinger") > 1
+        && countitemcolor("SnakeTongue") > 1
+        && countitemcolor("MountainSnakeTongue") > 1
+        && countitemcolor("GrassSnakeTongue") > 1
+        && countitemcolor("CaveSnakeTongue") > 1
+        && countitemcolor("MauveHerb") > 1
+        && countitemcolor("CobaltHerb") > 1
+        && countitemcolor("GambogeHerb") > 1
+        && countitemcolor("AlizarinHerb") > 1
+        && countitemcolor("TreasureKey") > 1
+        && countitemcolor("CaveSnakeLamp") > 1
+        && countitemcolor("PileOfAsh") > 1
+        && countitemcolor("WhiteFur") > 1
+        && countitemcolor("BottleOfWater") > 1)
             goto L_TooMany;
 
     delitem "MaggotSlime", 1;
@@ -117,7 +115,7 @@
     mes "You managed to perform the ritual and open the chest.";
     getitem "DemonMask", 1;
     mes "You found a demon mask inside.";
-    set @state, 3;
+    @state = 3;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -198,7 +196,7 @@ L_No_water:
     goto L_Close;
 
 L_This_shouldn_t_happen:
-    warp "013-3.gat", 71, 25;
+    warp "013-3", 71, 25;
     // You need to go through the barrier to get to the chest, so this shouldn't happen. So just warp them like the barrier does.
     goto L_Close;
 
@@ -213,10 +211,10 @@ L_TooMany:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_Hurnscald, (QUEST_Hurnscald & ~(NIBBLE_2_MASK)) | (@state << NIBBLE_2_SHIFT);
+    QUEST_Hurnscald = (QUEST_Hurnscald & ~(NIBBLE_2_MASK)) | (@state << NIBBLE_2_SHIFT);
     return;
 }

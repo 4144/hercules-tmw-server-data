@@ -1,8 +1,7 @@
-033-1.gat,66,28,0|script|Yerrnk|216
-{
-    set @state, ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
+033-1.gat,66,28,0	script	Yerrnk	216,{
+    @state = ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
 
-    set @yeti_level, 70;
+    @yeti_level = 70;
 
     if (@state == 9) goto L_Done;
     if (@state == 8) goto L_Yeti_Success;
@@ -137,7 +136,7 @@ L_Yeti:
     next;
     mes "\"If you dare to take on this task, seek that Yeti and make the area secure again.";
     mes "To find the house, enter the forest and then go first south and then west.\"";
-    set @state, 7;
+    @state = 7;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -155,7 +154,7 @@ L_Yeti_Success:
     mes "\"" + strcharinfo(0) + "! You made it!";
     mes "You proved that you're one of the most skilled warriors of our tribe. Please have this.\"";
     getitem "LeatherTrousers", 1;
-    set @state, 9;
+    @state = 9;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -169,8 +168,8 @@ L_Done:
         "(Leave)",L_Close;
 
 L_Close:
-    set @state, 0;
-    set @yeti_level, 0;
+    @state = 0;
+    @yeti_level = 0;
     close;
 
 S_Update_Mask:

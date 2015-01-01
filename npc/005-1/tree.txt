@@ -1,11 +1,10 @@
-function|script|QuestTreeTrigger
-{
-    set @Q_MASK, NIBBLE_2_MASK;
-    set @Q_SHIFT, NIBBLE_2_SHIFT;
+function	script	QuestTreeTrigger	{
+    @Q_MASK = NIBBLE_2_MASK;
+    @Q_SHIFT = NIBBLE_2_SHIFT;
 
-    set @Q_status, (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
-    set @Q_status_lower, @Q_status & 3;
-    set @Q_status, (@Q_status & 12) >> 2;
+    @Q_status = (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
+    @Q_status_lower = @Q_status & 3;
+    @Q_status = (@Q_status & 12) >> 2;
 
     if (@Q_status & @flag) goto L_Close;  // already did that
 
@@ -13,8 +12,8 @@ function|script|QuestTreeTrigger
     goto L_cont;
 
 L_cont:
-    set @Q_status, @Q_status | @flag;
-    callsub S_update_var;
+    @Q_status = @Q_status | @flag;
+    callsub S_Update_Var;
 
     if (@Q_status != 3) goto L_Close;
 
@@ -23,7 +22,7 @@ L_cont:
     mes "Maybe it is just a trick of the light, but you can't help but think that the tree looks different... healthier, almost younger.";
     mes "[20000 experience points]";
     getexp 20000, 0;
-    set @value, 15;
+    @value = 15;
     callfunc "QuestSagathaHappy";
     goto L_Close;
 
@@ -33,27 +32,26 @@ L_hug:
     goto L_cont;
 
 L_Close:
-    set @Q_MASK, 0;
-    set @Q_SHIFT, 0;
-    set @Q_status, 0;
-    set @Q_status_lower, 0;
-    set @Q_wr_status, 0;
-    set @value, 0;
+    @Q_MASK = 0;
+    @Q_SHIFT = 0;
+    @Q_status = 0;
+    @Q_status_lower = 0;
+    @Q_wr_status = 0;
+    @value = 0;
     close;
 
-S_update_var:
-    set @Q_wr_status, (@Q_status << 2) | @Q_status_lower;
-    set QUEST_MAGIC, (QUEST_MAGIC & ~(@Q_MASK) | (@Q_wr_status << @Q_SHIFT));
+S_Update_Var:
+    @Q_wr_status = (@Q_status << 2) | @Q_status_lower;
+    QUEST_MAGIC = (QUEST_MAGIC & ~(@Q_MASK) | (@Q_wr_status << @Q_SHIFT));
     return;
 }
 
-function|script|QuestTreeTouch
-{
-    set @Q_MASK, NIBBLE_2_MASK;
-    set @Q_SHIFT, NIBBLE_2_SHIFT;
+function	script	QuestTreeTouch	{
+    @Q_MASK = NIBBLE_2_MASK;
+    @Q_SHIFT = NIBBLE_2_SHIFT;
 
-    set @Q_status, (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
-    set @Q_status, (@Q_status & 12) >> 2;
+    @Q_status = (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
+    @Q_status = (@Q_status & 12) >> 2;
 
     if (@Q_status == 3) goto L_happy;
 
@@ -96,7 +94,7 @@ L_both:
         "Leave it alone", L_Close;
 
 L_givewater:
-    if (countitem("BottleOfWater") < 1) goto L_no_water;
+    if (countitemcolor("BottleOfWater") < 1) goto L_no_water;
     delitem "BottleOfWater", 1;
     getitem "EmptyBottle", 1;
 
@@ -116,7 +114,7 @@ L_kiss:
     goto L_Close;
 
 L_do_cut:
-    if (countitem("BoneKnife") < 1) goto L_no_boneknife;
+    if (countitemcolor("BoneKnife") < 1) goto L_no_boneknife;
 
     if (MAGIC_FLAGS & MFLAG_DID_CUTTREE) goto L_really_cut;
 
@@ -130,7 +128,7 @@ L_do_cut:
         "Yes, let's cut!", L_really_cut;
 
 L_really_cut:
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_DID_CUTTREE;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_DID_CUTTREE;
     getitem "DruidTreeBranch", 1;
     mes "[Dying Tree]";
     mes "You cut off a branch from the tree.";
@@ -148,21 +146,19 @@ L_happy:
     goto L_Close;
 
 L_Close:
-    set @Q_MASK, 0;
-    set @Q_SHIFT, 0;
-    set @Q_status, 0;
+    @Q_MASK = 0;
+    @Q_SHIFT = 0;
+    @Q_status = 0;
     close;
 
 }
 
-005-1.gat,79,41,0|script|#DruidTree0#_M|400
-{
+005-1.gat,79,41,0	script	#DruidTree0#_M	400,{
     callfunc "QuestTreeTouch";
     end;
 }
 
-005-1.gat,80,41,0|script|#DruidTree1#_M|400
-{
+005-1.gat,80,41,0	script	#DruidTree1#_M	400,{
     callfunc "QuestTreeTouch";
     end;
 }

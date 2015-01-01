@@ -1,7 +1,5 @@
-//
 
-001-1.gat,50,51,0|script|Ishi|106
-{
+001-1.gat,50,51,0	script	Ishi	106,{
     if (MPQUEST == 0) goto L_Register;
     if (tvis == 0) set tvis, 1;
     if (Mobpt < tvis) goto L_NotEnough;
@@ -12,7 +10,7 @@
     mes "\"Welcome! I see you have " + Mobpt + " Monster Points. Would you like to exchange some of those for items?\"";
     next;
 
-    set @i, 0;
+    @i = 0;
     setarray @Menu$, "", "", "", "", "", "", "", "", "", "", "", "";
     callsub S_prep_menu;
 
@@ -36,15 +34,15 @@ L_MenuItems:
     // this is for the "Give all" entry:
     if (@menu == 11) goto L_Give_all;
 
-    set @req, @menu;
-    set @rec, 0;
+    @req = @menu;
+    @rec = 0;
     goto L_Item_Loop;
 
 L_Item_Loop:
     if (@rec == @req || Mobpt < tvis) goto L_Item_Done;
 
     callsub S_give_item;
-    set @rec, @rec + 1;
+    @rec = @rec + 1;
     goto L_Item_Loop;
 
 L_Item_Done:
@@ -65,13 +63,13 @@ L_Give_all:
     // we need to count how many loop iterations are done there,
     // since the server complains about more than 250 (70 according to Jaxad0127)
     // gotos without interrupting next statement.
-    set @gotocounter, 50;
+    @gotocounter = 50;
     goto L_Give_all_loop;
 
 L_Give_all_loop:
-    set @gotocounter, @gotocounter - 1;
+    @gotocounter = @gotocounter - 1;
     if (@gotocounter < 1) goto L_Give_all_next;
-    set @itemgiveerror, 0;
+    @itemgiveerror = 0;
     callsub S_give_item;
     if (@itemgiveerror != 0) goto L_Close;
     goto L_Give_all_loop;
@@ -85,54 +83,51 @@ L_Give_all_next:
         "No", L_Close;
 
 L_Close:
-    set @gotocounter, 0;
-    set @itemgiveerror, 0;
-    set @pts, 0;
-    set @dif, 0;
-    set @i, 0;
+    @gotocounter = 0;
+    @itemgiveerror = 0;
+    @pts = 0;
+    @dif = 0;
+    @i = 0;
     cleararray @Menu$[0], "", 10;
     cleararray @Items$[0], "", 10;
     close;
 
-//////////////////////////////////////////////////
-// Subroutines
-//////////////////////////////////////////////////
 
 S_prep_menu:
-    set @pts, Mobpt;
-    set @dif, tvis;
+    @pts = Mobpt;
+    @dif = tvis;
     goto L_Menu_Loop;
 
 L_Menu_Loop:
     if (@pts < @dif || @i == 10) goto L_Menu_Check;
 
-    set @Menu$[@i], @i + 1;
+    @Menu$[@i] = @i + 1;
 
-    set @i, @i + 1;
-    set @pts, @pts - @dif;
-    set @dif, @dif + 1;
+    @i = @i + 1;
+    @pts = @pts - @dif;
+    @dif = @dif + 1;
 
     goto L_Menu_Loop;
 
 L_Menu_Check:
     // if we are able to give 10, we can enable the option to give all we can have
     if (@i != 10) goto L_Menu_Done;
-        set @Menu$[@i], "Please give me as many as I deserve!";
-        set @i, @i + 1;
+        @Menu$[@i] = "Please give me as many as I deserve!";
+        @i = @i + 1;
     goto L_Menu_Done;
 
 L_Menu_Done:
-    set @Menu$[@i], "No thanks";
+    @Menu$[@i] = "No thanks";
     return;
 
 S_give_item:
-    set @itemgiveerror, 0;
+    @itemgiveerror = 0;
     getinventorylist;
     if (@inventorylist_count == 100) goto S_give_noinv;
     if (Mobpt < tvis) goto S_give_nomobpts;
-    set Mobpt, Mobpt - tvis;
-    set tvis, tvis + 1;
-    set @item$, @Items$[rand(getarraysize(@Items$))];
+    Mobpt = Mobpt - tvis;
+    tvis = tvis + 1;
+    @item$ = @Items$[rand(getarraysize(@Items$))];
 
     getitem @item$, 1;
 
@@ -141,11 +136,11 @@ S_give_item:
 
 S_give_noinv:
     mes "Your inventory is full!";
-    set @itemgiveerror, 1;
+    @itemgiveerror = 1;
     return;
 
 S_give_nomobpts:
     mes "It looks like your Monster Points were over estimated.";
-    set @itemgiveerror, 1;
+    @itemgiveerror = 1;
     return;
 }

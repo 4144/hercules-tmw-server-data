@@ -1,11 +1,6 @@
-// Merchant got his shop shot down due to selling poison and asks the player for some errand
-// after finishing this, daily quest with scorpion stingers
-// Using bit 8 and 9 of QUEST_NorthTulimshar (first half of nibble 2)
-// author: Jenalya
-021-1.gat,120,31,0|script|Imec|162
-{
-    set @state, ((QUEST_NorthTulimshar & TWOBIT_4_MASK) >> TWOBIT_4_SHIFT);
-    set @money, 500;
+021-1.gat,120,31,0	script	Imec	162,{
+    @state = ((QUEST_NorthTulimshar & TWOBIT_4_MASK) >> TWOBIT_4_SHIFT);
+    @money = 500;
 
     if (@state >= 3) goto L_Stingers;
     if (@state == 2) goto L_Return;
@@ -33,7 +28,7 @@ L_Next:
     mes "[Imec]";
     mes "\"Very good. Here is the paper.\"";
     mes "Imec gives you a sealed letter. You put it away in a pocket separated from your inventory, so it won't get lost.";
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -70,8 +65,8 @@ L_Return:
 L_Next1:
     mes "[Imec]";
     mes "\"What? Ah, right. Here, have this.\"";
-    set Zeny, Zeny + @money;
-    set @state, 3;
+    Zeny = Zeny + @money;
+    @state = 3;
     callsub S_Update_Mask;
     next;
     mes "\"Actually, you could be of further help to me.\"";
@@ -80,32 +75,32 @@ L_Next1:
 
 L_Stingers:
     mes "[Imec]";
-    set @dq_level, 10;
-    set @dq_cost, 3;
-    set @dq_count, 3;
-    set @dq_name$, "ScorpionStinger";
-    set @dq_friendly_name$, "Scorpion Stingers";
-    set @dq_money, 200;
-    set @dq_exp, 40;
+    @dq_level = 10;
+    @dq_cost = 3;
+    @dq_count = 3;
+    @dq_name$ = "ScorpionStinger";
+    @dq_friendly_name$ = "Scorpion Stingers";
+    @dq_money = 200;
+    @dq_exp = 40;
 
     callfunc "DailyQuest";
     goto L_Close;
 
 L_Close:
-    set @money, 0;
-    set @state, 0;
+    @money = 0;
+    @state = 0;
 
-    set @dq_level, 0;
-    set @dq_cost, 0;
-    set @dq_count, 0;
-    set @dq_name$, "";
-    set @dq_friendly_name$, "";
-    set @dq_money, 0;
-    set @dq_exp, 0;
-    set @dq_return, 0;
+    @dq_level = 0;
+    @dq_cost = 0;
+    @dq_count = 0;
+    @dq_name$ = "";
+    @dq_friendly_name$ = "";
+    @dq_money = 0;
+    @dq_exp = 0;
+    @dq_return = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_NorthTulimshar, (QUEST_NorthTulimshar & ~(TWOBIT_4_MASK)) | (@state << TWOBIT_4_SHIFT);
+    QUEST_NorthTulimshar = (QUEST_NorthTulimshar & ~(TWOBIT_4_MASK)) | (@state << TWOBIT_4_SHIFT);
     return;
 }

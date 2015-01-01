@@ -1,22 +1,18 @@
-// This file belongs to the yeti hunting quest given by 033-1/yerrnk.txt
-// Author: Jenalya
 
-034-1.gat,79,98,0|script|#Yerrnk_YetiTrigger|32767,1,3
-{
-    set @state, ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
+034-1.gat,79,98,0	script	#Yerrnk_YetiTrigger	32767,1,3,{
+    @state = ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
     if (@state != 7)
         end;
 
     if ($@Yerrnk_Yeti_Active != 0)
         end;
-    set $@Yerrnk_Yetifighter_ID, getcharid(3);
-    set $@Yerrnk_Yeti_Active, 1;
+    $@Yerrnk_Yetifighter_ID = getcharid(3);
+    $@Yerrnk_Yeti_Active = 1;
     donpcevent "#Yerrnk_Yeti::OnYeti";
     end;
 }
 
-034-1.gat,78,98,0|script|#Yerrnk_Yeti|32767
-{
+034-1.gat,78,98,0	script	#Yerrnk_Yeti	32767,{
 end;
 
 OnYeti:
@@ -24,29 +20,29 @@ OnYeti:
         goto L_Abort;
 
     message strcharinfo(0), "There is the Yeti!";
-    areamonster "034-1.gat", 67, 93, 74, 102, "", 1072, 1, "#Yerrnk_Yeti::OnYetiDeath";
+    areamonster "034-1", 67, 93, 74, 102, "", 1072, 1, "#Yerrnk_Yeti::OnYetiDeath";
     end;
 
 L_Abort:
-    set $@Yerrnk_Yeti_Active, 0;
-    set $@Yerrnk_Yetifighter_ID, 0;
+    $@Yerrnk_Yeti_Active = 0;
+    $@Yerrnk_Yetifighter_ID = 0;
     end;
 
 OnYetiDeath:
-    set @MobID, 1072;
+    @MobID = 1072;
 
-    set @state, ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
+    @state = ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
     if (@state != 7)
         goto L_NonQuestKill;
-    set @state, 8;
+    @state = 8;
     callsub S_Update_Mask;
-    set BOSS_POINTS, BOSS_POINTS + 40;
+    BOSS_POINTS = BOSS_POINTS + 40;
     message strcharinfo(0), "You defeated the Yeti and gain 40 Boss Points giving you a total of " + BOSS_POINTS + ".";
     goto L_End;
 
 L_End:
-    set $@Yerrnk_Yeti_Active, 0;
-    set $@Yerrnk_Yetifighter_ID, 0;
+    $@Yerrnk_Yeti_Active = 0;
+    $@Yerrnk_Yetifighter_ID = 0;
     end;
 
 L_NonQuestKill:

@@ -1,13 +1,8 @@
-// Teaches Trading skill
-// Offers item conversion for non-magic users
-// Updated by: TheKandiman
-// Reviewed by: Wombat
 
-001-1.gat,57,31,0|script|Trader|115
-{
-    set @Ironprice, 1000;
-    set @Sulphurprice, 1200;
-    set @Potionprice, 500;
+001-1.gat,57,31,0	script	Trader	115,{
+    @Ironprice = 1000;
+    @Sulphurprice = 1200;
+    @Potionprice = 500;
     if (BaseLevel >= 25) goto L_Trade;
 
     mes "[Trader]";
@@ -35,7 +30,7 @@ L_Except:
 
 L_Teach:
     if (Zeny < 5) goto L_NotEnoughMoney;
-    set Zeny, Zeny - 2;
+    Zeny = Zeny - 2;
     mes "[Trader]";
     mes "\"You can initiate trade with someone by right-clicking on them and choosing trade.";
     mes "You'll both add the items and set the GP you're putting up then press propose trade.";
@@ -86,12 +81,12 @@ L_Healpots:
         "Whoa, that's way too much.", L_Close;
 
 L_Ipowder:
-    if (countitem("IronOre") < 1) goto L_Missing;
+    if (countitemcolor("IronOre") < 1) goto L_Missing;
     if (Zeny < @Ironprice) goto L_NotEnoughMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("IronOre") > 1 && countitem("IronPowder") < 1) goto L_Full;
+    if (@inventorylist_count == 100 && countitemcolor("IronOre") > 1 && countitemcolor("IronPowder") < 1) goto L_Full;
     delitem "IronOre", 1;
-    set Zeny, Zeny - @Ironprice;
+    Zeny = Zeny - @Ironprice;
     getitem "IronPowder", 4;
     mes "[Trader]";
     mes "\"There you go. Would you like to trade anything else?\"";
@@ -100,12 +95,12 @@ L_Ipowder:
         "No.", L_No;
 
 L_Spowder:
-    if (countitem("PileOfAsh") < 1) goto L_Missing;
+    if (countitemcolor("PileOfAsh") < 1) goto L_Missing;
     if (Zeny < @Sulphurprice) goto L_NotEnoughMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("PileOfAsh") > 1 && countitem("SulphurPowder") < 1) goto L_Full;
+    if (@inventorylist_count == 100 && countitemcolor("PileOfAsh") > 1 && countitemcolor("SulphurPowder") < 1) goto L_Full;
     delitem "PileOfAsh", 1;
-    set Zeny, Zeny - @Sulphurprice;
+    Zeny = Zeny - @Sulphurprice;
     getitem "SulphurPowder", 5;
     mes "[Trader]";
     mes "\"There you go. Would you like to trade anything else?\"";
@@ -114,12 +109,12 @@ L_Spowder:
         "No.", L_No;
 
 L_Pots:
-    if (countitem("SmallHealingPotion") < 3) goto L_Missing;
+    if (countitemcolor("SmallHealingPotion") < 3) goto L_Missing;
     if (Zeny < @Potionprice) goto L_NotEnoughMoney;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("SmallHealingPotion") > 3 && countitem("MediumHealingPotion") < 1) goto L_Full;
+    if (@inventorylist_count == 100 && countitemcolor("SmallHealingPotion") > 3 && countitemcolor("MediumHealingPotion") < 1) goto L_Full;
     delitem "SmallHealingPotion", 3;
-    set Zeny, Zeny - @Potionprice;
+    Zeny = Zeny - @Potionprice;
     getitem "MediumHealingPotion", 1;
     mes "[Trader]";
     mes "\"There you go. Would you like to trade anything else?\"";
@@ -148,8 +143,8 @@ L_No:
     goto L_Close;
 
 L_Close:
-    set @Ironprice, 0;
-    set @Sulphurprice, 0;
-    set @Potionprice, 0;
+    @Ironprice = 0;
+    @Sulphurprice = 0;
+    @Potionprice = 0;
     close;
 }

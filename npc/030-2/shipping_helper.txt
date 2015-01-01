@@ -1,29 +1,23 @@
-// Annual Xmas
-// Author: Jenalya, wushin
 
-030-2.gat,30,88,0|script|Mo|328
-{
-    set $@npc_name$, "Mo";
+030-2.gat,30,88,0	script	Mo	328,{
+    $@npc_name$ = "Mo";
     callfunc "helpersPacking";
     close;
 }
 
-030-2.gat,33,88,0|script|Lorrie|329
-{
-    set $@npc_name$, "Lorrie";
+030-2.gat,33,88,0	script	Lorrie	329,{
+    $@npc_name$ = "Lorrie";
     callfunc "helpersPacking";
     close;
 }
 
-030-2.gat,37,88,0|script|Curlee|329
-{
-    set $@npc_name$, "Curlee";
+030-2.gat,37,88,0	script	Curlee	329,{
+    $@npc_name$ = "Curlee";
     callfunc "helpersPacking";
     close;
 }
 
-function|script|helpersPacking
-{
+function	script	helpersPacking	{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -62,34 +56,34 @@ L_Main:
         "White Wrapping Paper and an empty box.",L_White;
 
 L_Purple:
-    set @wrap$, "PurpleWrap";
-    set @present_name$, "PurplePresentBox";
+    @wrap$ = "PurpleWrap";
+    @present_name$ = "PurplePresentBox";
     goto L_Gift;
 
 L_Blue:
-    set @wrap$, "BlueWrap";
-    set @present_name$, "BluePresentBox";
+    @wrap$ = "BlueWrap";
+    @present_name$ = "BluePresentBox";
     goto L_Gift;
 
 L_Green:
-    set @wrap$, "GreenWrap";
-    set @present_name$, "GreenPresentBox";
+    @wrap$ = "GreenWrap";
+    @present_name$ = "GreenPresentBox";
     goto L_Gift;
 
 L_Yellow:
-    set @wrap$, "YellowWrap";
-    set @present_name$, "YellowPresentBox";
+    @wrap$ = "YellowWrap";
+    @present_name$ = "YellowPresentBox";
     goto L_Gift;
 
 L_White:
-    set @wrap$, "WhiteWrap";
-    set @present_name$, "WhitePresentBox";
+    @wrap$ = "WhiteWrap";
+    @present_name$ = "WhitePresentBox";
     goto L_Gift;
 
 L_Gift:
-    if ($@xmas_wrap_amount > countitem(@wrap$))
+    if ($@xmas_wrap_amount > countitemcolor(@wrap$))
         goto L_NotEnough;
-    if ($@xmas_empty_box_amount > countitem("OpenPresentBox"))
+    if ($@xmas_empty_box_amount > countitemcolor("OpenPresentBox"))
         goto L_NotEnough;
     getinventorylist;
     if ((@inventorylist_count == 100) || (checkweight(@present_name$, $@xmas_wrap_reward) == 0))
@@ -113,7 +107,7 @@ L_FullInv:
 
 L_Close:
     mes "\"Ok, back to work you two, we have to make up lost time for your antics.\"";
-    set @wrap$, "";
-    set @present_name$, "";
+    @wrap$ = "";
+    @present_name$ = "";
     close;
 }

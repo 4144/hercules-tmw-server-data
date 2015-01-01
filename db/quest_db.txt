@@ -1,0 +1,24 @@
+// Quest Database
+//
+// Structure of Database:
+// Quest ID,Time Limit,Target1,Val1,Target2,Val2,Target3,Val3,Quest Title
+
+0,0,0,0,0,0,0,0,"ShipQuests_Julia"
+1,0,0,0,0,0,0,0,"ShipQuests_Arpan"
+2,0,0,0,0,0,0,0,"ShipQuests_Alige"
+3,0,0,0,0,0,0,0,"ShipQuests_Peter"
+4,0,0,0,0,0,0,0,"ShipQuests_Nard"
+5,0,0,0,0,0,0,0,"ShipQuests_Knife"
+6,0,0,0,0,0,0,0,"ShipQuests_ArpanMoney"
+7,0,0,0,0,0,0,0,"ShipQuests_Door"
+8,0,0,0,0,0,0,0,"ShipQuests_Couwan"
+9,0,0,0,0,0,0,0,"ShipQuests_TreasureChest"
+10,0,0,0,0,0,0,0,"ShipQuests_Ale"
+11,0,0,0,0,0,0,0,"ShipQuests_Astapolos"
+12,0,0,0,0,0,0,0,"ShipQuests_Gulukan"
+13,0,0,0,0,0,0,0,"ShipQuests_Jalad"
+14,0,0,0,0,0,0,0,"ShipQuests_QMuller"
+15,0,0,0,0,0,0,0,"ShipQuests_Tibbo"
+16,0,0,0,0,0,0,0,"ShipQuests_Gugli"
+17,0,0,0,0,0,0,0,"ShipQuests_ChefGado"
+18,0,0,0,0,0,0,0,"General_Cookies"

@@ -1,18 +1,16 @@
-//
 
-010-2.gat,68,87,0|script|Doug|113
-{
+010-2.gat,68,87,0	script	Doug	113,{
     mes "[Doug]";
     mes "\"This room is too dark. I want to brighten it up.\"";
     next;
 
-    set @dq_level, 15;
-    set @dq_cost, 10;
-    set @dq_count, 5;
-    set @dq_name$, "CaveSnakeLamp";
-    set @dq_friendly_name$, "Cave Snake Lamps";
-    set @dq_money, 1000;
-    set @dq_exp, 1500;
+    @dq_level = 15;
+    @dq_cost = 10;
+    @dq_count = 5;
+    @dq_name$ = "CaveSnakeLamp";
+    @dq_friendly_name$ = "Cave Snake Lamps";
+    @dq_money = 1000;
+    @dq_exp = 1500;
 
     callfunc "DailyQuest";
 

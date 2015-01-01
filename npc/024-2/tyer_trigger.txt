@@ -1,7 +1,5 @@
-// A man in the magic school
 
-024-2.gat,33,24,0|script|#Tyer_Trigger|127,0,1
-{
+024-2.gat,33,24,0	script	#Tyer_Trigger	127,0,1,{
     callfunc "MorganState";
     if (@morgan >= 4)
         goto L_Close;

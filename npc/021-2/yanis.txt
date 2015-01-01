@@ -1,11 +1,8 @@
-// Government official taking care about shop licenses
-// involved in quest given by 021-1/imec.txt and 021-2/kylian.txt
 
-021-2.gat,33,17,0|script|Yanis|107
-{
-    set QUEST_NorthTulimshar, QUEST_NorthTulimshar | $@knowYanisNT;
-    set @kylian, ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
-    set @imec, ((QUEST_NorthTulimshar & TWOBIT_4_MASK) >> TWOBIT_4_SHIFT);
+021-2.gat,33,17,0	script	Yanis	107,{
+    QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@knowYanisNT;
+    @kylian = ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
+    @imec = ((QUEST_NorthTulimshar & TWOBIT_4_MASK) >> TWOBIT_4_SHIFT);
 
     mes "[Yanis]";
     mes "\"Welcome. I'm handling issues with trading licenses for the shop owners in Tulimshar. Can I help you?\"";
@@ -23,8 +20,8 @@ L_Next:
     next;
     mes "[Yanis]";
     mes "\"Here you have a letter of acknowledgement. You can bring that back to Imec. We will have a look at his case.\"";
-    set @imec, 2;
-    set QUEST_NorthTulimshar, (QUEST_NorthTulimshar & ~(TWOBIT_4_MASK)) | (@imec << TWOBIT_4_SHIFT);
+    @imec = 2;
+    QUEST_NorthTulimshar = (QUEST_NorthTulimshar & ~(TWOBIT_4_MASK)) | (@imec << TWOBIT_4_SHIFT);
     goto L_BeforeClose;
 
 L_BeforeClose:
@@ -35,7 +32,7 @@ L_BeforeClose:
     goto L_Close;
 
 L_Close:
-    set @imec, 0;
-    set @kylian, 0;
+    @imec = 0;
+    @kylian = 0;
     close;
 }

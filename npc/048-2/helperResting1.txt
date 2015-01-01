@@ -1,13 +1,7 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Lenita is one of the helpers working on sorting the bookpages, but is currently having a break
-// can give second hint about the visitor in investigation subquest
 
-048-2.gat,36,26,0|script|Lenita|363
-{
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @bookpages, ((QUEST_BlueSage & $@Q_BlueSageBookPages_MASK) >> $@Q_BlueSageBookPages_SHIFT);
+048-2.gat,36,26,0	script	Lenita	363,{
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @bookpages = ((QUEST_BlueSage & $@Q_BlueSageBookPages_MASK) >> $@Q_BlueSageBookPages_SHIFT);
 
     if (@bookpages == 254) goto L_Thank;
     if (@bookpages > 0) goto L_Progress;
@@ -56,7 +50,7 @@ L_Visitor:
     mes "\"With a mask? Yeah, I remember. That was a strange guy. He came to visit the library, but he lurked around at the workshop area and they had to send him back to the books.\"";
     if ((@investigate != 3) && (@investigate != 6) && (@investigate != 9))
         goto L_Close;
-    set @investigate, @investigate + 1;
+    @investigate = @investigate + 1;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
@@ -66,7 +60,7 @@ L_Helper:
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @bookpages, 0;
+    @investigate = 0;
+    @bookpages = 0;
     close;
 }

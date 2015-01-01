@@ -1,17 +1,12 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Sage Nikolai gives hints about the different subquests and rewards
 
-048-2.gat,98,106,0|script|Nikolai|362
-{
-    set @halloween_npc_id, $@halloween_npc_nikolai;
+048-2.gat,98,106,0	script	Nikolai	362,{
+    @halloween_npc_id = $@halloween_npc_nikolai;
     callfunc "TrickOrTreat";
 
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @bookpages, ((QUEST_BlueSage & $@Q_BlueSageBookPages_MASK) >> $@Q_BlueSageBookPages_SHIFT);
-    set @slimes, ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
-    set @material, ((QUEST_BlueSage & $@Q_BlueSageMaterial_MASK) >> $@Q_BlueSageMaterial_SHIFT);
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @bookpages = ((QUEST_BlueSage & $@Q_BlueSageBookPages_MASK) >> $@Q_BlueSageBookPages_SHIFT);
+    @slimes = ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
+    @material = ((QUEST_BlueSage & $@Q_BlueSageMaterial_MASK) >> $@Q_BlueSageMaterial_SHIFT);
 
     if ((@bookpages == 31)
             && (QUEST_BlueSage & $@Q_BlueSageMaterialInk)
@@ -50,94 +45,94 @@ L_Hints:
     cleararray @choice_idx, 0, 10;
     cleararray @choice$, "", 10;
 
-    set @C_startBookpages, 1;
-    set @C_bookpages, 2;
-    set @C_startMaterials, 3;
-    set @C_materials, 4;
-    set @C_startSlimes, 5;
-    set @C_slimes, 6;
-    set @C_startInvestigate, 7;
-    set @C_investigate, 8;
-    set @C_investigate2, 9;
-    set @C_nevermind, 10;
+    @C_startBookpages = 1;
+    @C_bookpages = 2;
+    @C_startMaterials = 3;
+    @C_materials = 4;
+    @C_startSlimes = 5;
+    @C_slimes = 6;
+    @C_startInvestigate = 7;
+    @C_investigate = 8;
+    @C_investigate2 = 9;
+    @C_nevermind = 10;
 
     // counter of available answers
-    set @choices_nr, 0;
+    @choices_nr = 0;
 
     if (@bookpages > 0)
         goto L_NoStartBookpages;
-    set @choice_idx[@choices_nr], @C_startBookpages;
-    set @choice$[@choices_nr], "I heard the slimes ate most of the books...";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_startBookpages;
+    @choice$[@choices_nr] = "I heard the slimes ate most of the books...";
+    @choices_nr = @choices_nr + 1;
     goto L_NoStartBookpages;
 
 L_NoStartBookpages:
     if ((@bookpages == 0) || (@bookpages == 31))
         goto L_NoBookpages;
-    set @choice_idx[@choices_nr], @C_bookpages;
-    set @choice$[@choices_nr], "I'm collecting lost bookpages.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_bookpages;
+    @choice$[@choices_nr] = "I'm collecting lost bookpages.";
+    @choices_nr = @choices_nr + 1;
     goto L_NoBookpages;
 
 L_NoBookpages:
     if (@material > 0)
         goto L_NoStartMaterials;
-    set @choice_idx[@choices_nr], @C_startMaterials;
-    set @choice$[@choices_nr], "There were many valuable books in your library, right?";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_startMaterials;
+    @choice$[@choices_nr] = "There were many valuable books in your library, right?";
+    @choices_nr = @choices_nr + 1;
     goto L_NoStartMaterials;
 
 L_NoStartMaterials:
     if ((@material == 0) || (@material == 15))
         goto L_NoMaterials;
-    set @choice_idx[@choices_nr], @C_materials;
-    set @choice$[@choices_nr], "I brought some material to repair the books.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_materials;
+    @choice$[@choices_nr] = "I brought some material to repair the books.";
+    @choices_nr = @choices_nr + 1;
     goto L_NoMaterials;
 
 L_NoMaterials:
     if (@slimes > 0)
         goto L_NoStartSlimes;
-    set @choice_idx[@choices_nr], @C_startSlimes;
-    set @choice$[@choices_nr], "Those slimes really caused a mess!";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_startSlimes;
+    @choice$[@choices_nr] = "Those slimes really caused a mess!";
+    @choices_nr = @choices_nr + 1;
     goto L_NoStartSlimes;
 
 L_NoStartSlimes:
     if ((@slimes == 0) || (@slimes == 255))
         goto L_NoSlimes;
-    set @choice_idx[@choices_nr], @C_slimes;
-    set @choice$[@choices_nr], "I'm hunting the remaining slimes in the library.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_slimes;
+    @choice$[@choices_nr] = "I'm hunting the remaining slimes in the library.";
+    @choices_nr = @choices_nr + 1;
     goto L_NoSlimes;
 
 L_NoSlimes:
     if (@investigate > 0)
         goto L_NoStartInvestigate;
-    set @choice_idx[@choices_nr], @C_startInvestigate;
-    set @choice$[@choices_nr], "How did this all happen?";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_startInvestigate;
+    @choice$[@choices_nr] = "How did this all happen?";
+    @choices_nr = @choices_nr + 1;
     goto L_NoStartInvestigate;
 
 L_NoStartInvestigate:
     if ((@investigate < 2) || (@investigate > 11))
         goto L_NoInvestigate;
-    set @choice_idx[@choices_nr], @C_investigate;
-    set @choice$[@choices_nr], "I'm trying to find out how that accident could've happened.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_investigate;
+    @choice$[@choices_nr] = "I'm trying to find out how that accident could've happened.";
+    @choices_nr = @choices_nr + 1;
     goto L_NoInvestigate;
 
 L_NoInvestigate:
     if (@investigate != 11)
         goto L_NoInvestigate2;
-    set @choice_idx[@choices_nr], @C_investigate2;
-    set @choice$[@choices_nr], "I told Chief Oskari what I found out about the accident.";
-    set @choices_nr, @choices_nr + 1;
+    @choice_idx[@choices_nr] = @C_investigate2;
+    @choice$[@choices_nr] = "I told Chief Oskari what I found out about the accident.";
+    @choices_nr = @choices_nr + 1;
     goto L_NoInvestigate2;
 
 L_NoInvestigate2:
-    set @choice_idx[@choices_nr], @C_nevermind;
-    set @choice$[@choices_nr], "Nevermind.";
+    @choice_idx[@choices_nr] = @C_nevermind;
+    @choice$[@choices_nr] = "Nevermind.";
 
     menu
         @choice$[0],L_MenuChoice,
@@ -152,7 +147,7 @@ L_NoInvestigate2:
         @choice$[9],L_MenuChoice;
 
 L_MenuChoice:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
     if (@choice_idx[@menu] == 0)
         goto L_Close;
     if (@choice_idx[@menu] == @C_startBookpages)
@@ -248,7 +243,7 @@ L_GrimoireReward:
     if ((checkweight("Grimoire", 1) == 0) || (@inventorylist_count == 100))
         goto L_Full_Inv;
     getitem "Grimoire", 1;
-    set QUEST_BlueSage, QUEST_BlueSage | $@Q_BlueSageGrimoire;
+    QUEST_BlueSage = QUEST_BlueSage | $@Q_BlueSageGrimoire;
     mes "He hands you a very precious book.";
     next;
     mes "\"This is an artifact of great power, and holding it while attempting to use magic will allow you to access your inner magic power much better. Use it wisely.\"";
@@ -263,7 +258,7 @@ L_SlimesReward:
     if ((checkweight("IceGladius", 1) == 0) || (@inventorylist_count == 100))
         goto L_Full_Inv;
     getitem "IceGladius", 1;
-    set QUEST_BlueSage, QUEST_BlueSage | $@Q_BlueSageIceSword;
+    QUEST_BlueSage = QUEST_BlueSage | $@Q_BlueSageIceSword;
     mes "He gives you a sword with a shimmering blue blade.";
     next;
     mes "\"I'm sure you can use this well.\"";
@@ -280,29 +275,10 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    set @inventorylist_count, 0;
-    set @investigate, 0;
-    set @bookpages, 0;
-    set @slimes, 0;
+    @inventorylist_count = 0;
+    @investigate = 0;
+    @bookpages = 0;
+    @slimes = 0;
     close;
 }
 
-//048-2.gat,100,106,0|script|Debug|160
-//{
-//    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-//    set @bookpages, ((QUEST_BlueSage & $@Q_BlueSageBookPages_MASK) >> $@Q_BlueSageBookPages_SHIFT);
-//    set @slimes, ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
-//    set @material, ((QUEST_BlueSage & $@Q_BlueSageMaterial_MASK) >> $@Q_BlueSageMaterial_SHIFT);
-//
-//    mes "QUEST_BlueSage: " + QUEST_BlueSage;
-//    mes "investigate: " + @investigate;
-//    mes "slimes: " + @slimes;
-//    mes "bookpages: " + @bookpages;
-//    mes "material: " + @material;
-//    menu
-//        "reset quest",-,
-//        "close",L_Close;
-//    set QUEST_BlueSage, 0;
-//L_Close:
-//    close;
-//}

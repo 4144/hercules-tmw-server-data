@@ -1,10 +1,5 @@
-// Annual Xmas
-// author: Jenalya, wushin
-// Veneri asks for Diamond Powder and Ruby Powder for decoration
-// can be sabotaged with Red Powder and Yellow Powder, Saboteur can make that out of Wisp and Spectre Powder
 
-030-2.gat,31,81,0|script|Veneri|328
-{
+030-2.gat,31,81,0	script	Veneri	328,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -32,34 +27,34 @@ L_Helping:
     next;
     mes "[Veneri]";
     mes "\"This material has proven to have the quality we need to make our christmas magic last until it can sparkle under every christmas tree. Sadly we made some bad experience in the past. Please make sure you only bring class A powders.\"";
-    set XMASTIME, XMASTIME | $@xmas_helper_bit_glitter_starts;
+    XMASTIME = XMASTIME | $@xmas_helper_bit_glitter_starts;
     goto L_Close;
 
 L_Powder:
     mes "[Veneri]";
     mes "\"Welcome back. Do you have the " + $@xmas_red_amount + " Ruby Powders and " + $@xmas_yellow_amount + " Topaz Powders needed for the decoration glitter?\"";
-    if ((countitem("RubyPowder") >= $@xmas_red_amount) && (countitem("TopazPowder") >= $@xmas_yellow_amount) && (countitem("RedPowder") >= $@xmas_red_amount) && (countitem("YellowPowder") >= $@xmas_yellow_amount))
+    if ((countitemcolor("RubyPowder") >= $@xmas_red_amount) && (countitemcolor("TopazPowder") >= $@xmas_yellow_amount) && (countitemcolor("RedPowder") >= $@xmas_red_amount) && (countitemcolor("YellowPowder") >= $@xmas_yellow_amount))
         menu
             "Yeah, here it is. (Give the gem powders.)",L_GemPowders,
             "Sure, here you go. (Give the fake powders.)",L_FakePowders,
             "No, I am still working on that.",L_Close;
-    if ((countitem("RubyPowder") >= $@xmas_red_amount) && (countitem("TopazPowder") >= $@xmas_yellow_amount))
+    if ((countitemcolor("RubyPowder") >= $@xmas_red_amount) && (countitemcolor("TopazPowder") >= $@xmas_yellow_amount))
         menu
             "Yeah, here it is. (Give the gem powders.)",L_GemPowders,
             "No, I am still working on that.",L_Close;
-    if ((countitem("RedPowder") >= $@xmas_red_amount) && (countitem("YellowPowder") >= $@xmas_yellow_amount))
+    if ((countitemcolor("RedPowder") >= $@xmas_red_amount) && (countitemcolor("YellowPowder") >= $@xmas_yellow_amount))
         menu
             "Sure, here it is. (Give the fake powders.)",L_FakePowders,
             "No, I am still working on that.",L_Close;
     goto L_Close;
 
 L_GemPowders:
-    if ((countitem("RubyPowder") < $@xmas_red_amount) || (countitem("TopazPowder") < $@xmas_yellow_amount))
+    if ((countitemcolor("RubyPowder") < $@xmas_red_amount) || (countitemcolor("TopazPowder") < $@xmas_yellow_amount))
         goto L_NoItems;
     delitem "RubyPowder", $@xmas_red_amount;
     delitem "TopazPowder", $@xmas_yellow_amount;
-    set XMASTIME, XMASTIME | $@xmas_helper_bit_glitter_ends;
-    set @karma_bonus, $@xmas_karma_bonus;
+    XMASTIME = XMASTIME | $@xmas_helper_bit_glitter_ends;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNice";
     callfunc "XmasXpReward";
     mes "[Veneri]";
@@ -67,13 +62,13 @@ L_GemPowders:
     goto L_Close;
 
 L_FakePowders:
-    if ((countitem("RedPowder") < $@xmas_red_amount) || (countitem("YellowPowder") < $@xmas_yellow_amount))
+    if ((countitemcolor("RedPowder") < $@xmas_red_amount) || (countitemcolor("YellowPowder") < $@xmas_yellow_amount))
         goto L_NoItems;
     delitem "RedPowder", $@xmas_red_amount;
     delitem "YellowPowder", $@xmas_yellow_amount;
-    set XMASTIME, XMASTIME | $@xmas_helper_bit_glitter_ends;
-    set XMASTIME, XMASTIME &~ $@xmas_helper_bit_glitter_starts;
-    set @karma_bonus, $@xmas_karma_bonus;
+    XMASTIME = XMASTIME | $@xmas_helper_bit_glitter_ends;
+    XMASTIME = XMASTIME &~ $@xmas_helper_bit_glitter_starts;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNaughty";
     callfunc "XmasXpReward";
     mes "It seems like he didn't notice that the powder you gave him is bogus.";

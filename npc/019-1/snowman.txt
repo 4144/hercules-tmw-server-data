@@ -1,8 +1,5 @@
-// Author: accoring to git history probably Jaxad
-// quest made seasonal and adapted to new scripting standards by Jenalya
 
-019-1.gat,77,44,0|script|Snowman|129
-{
+019-1.gat,77,44,0	script	Snowman	129,{
     callfunc "ClearVariables";
     if (FLAGS & FLAG_SNOWMAN) goto L_Done;
     if (gettime(6) == 12 || gettime(6) == 1 || gettime(6) == 2) goto L_Quest;
@@ -13,12 +10,12 @@
 
 L_Quest:
     if (Sex == 0)
-        set @sex$, "lady";
+        @sex$ = "lady";
     if (Sex == 1)
-        set @sex$, "man";
-    set @candy_amount, 15;
-    set @chocolate_amount, 10;
-    set @cactus_amount, 5;
+        @sex$ = "man";
+    @candy_amount = 15;
+    @chocolate_amount = 10;
+    @cactus_amount = 5;
 
     mes "[Snowman]";
     mes "\"Hello there young " + @sex$ + ".";
@@ -41,11 +38,11 @@ L_Sure:
     mes "[Snowman]";
     mes "\"Hmm, let me see what you have.\"";
     next;
-    if(countitem("Candy") < @candy_amount)
+    if(countitemcolor("Candy") < @candy_amount)
         goto L_NoItem;
-    if(countitem("ChocolateBar") < @chocolate_amount)
+    if(countitemcolor("ChocolateBar") < @chocolate_amount)
         goto L_NoItem;
-    if(countitem("CactusPotion") < @cactus_amount)
+    if(countitemcolor("CactusPotion") < @cactus_amount)
         goto L_NoItem;
     getinventorylist;
     if (@inventorylist_count > 99)
@@ -56,7 +53,7 @@ L_Sure:
     mes "[Snowman]";
     mes "\"Here you go, enjoy your new hat!\"";
     getitem "SantaHat", 1;
-    set FLAGS, FLAGS | FLAG_SNOWMAN;
+    FLAGS = FLAGS | FLAG_SNOWMAN;
     goto L_Close;
 
 L_Need:
@@ -85,9 +82,9 @@ L_TooMany:
     goto L_Close;
 
 L_Close:
-    set @sex$, "";
-    set @candy_amount, 0;
-    set @chocolate_amount, 0;
-    set @cactus_amount, 0;
+    @sex$ = "";
+    @candy_amount = 0;
+    @chocolate_amount = 0;
+    @cactus_amount = 0;
     close;
 }

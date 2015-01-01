@@ -1,27 +1,26 @@
-015-1.gat,97,97,0|script|#MagicSword#_M|400
-{
+015-1.gat,97,97,0	script	#MagicSword#_M	400,{
     if (getskilllv(SKILL_MAGIC))
         goto L_message;
     mes "It appears to be an ordinary sword.";
     close;
 
 L_message:
-    set @Q_MASK, (NIBBLE_6_MASK | NIBBLE_7_MASK);
-    set @Q_SHIFT, NIBBLE_6_SHIFT;
-    set @Q_status, (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
+    @Q_MASK = (NIBBLE_6_MASK | NIBBLE_7_MASK);
+    @Q_SHIFT = NIBBLE_6_SHIFT;
+    @Q_status = (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
 
     // Set up SkillUp function
-    set @SUP_id, SKILL_MAGIC_WAR;
-    set @SUP_name$, "War Magic";
+    @SUP_id = SKILL_MAGIC_WAR;
+    @SUP_name$ = "War Magic";
 
-    set @STATUS_INITIAL, 0;
-    set @STATUS_LEARNED_FLAREDART, 1;
-    set @STATUS_LEARNED_MAGICBLADE, 2;
-    set @STATUS_LEVEL2, 3;
-    set @STATUS_W11, 4;
-    set @STATUS_W12, 5;
-    set @STATUS_W11_12, 6;
-    set @STATUS_L2_ALLSPELLS, 7;
+    @STATUS_INITIAL = 0;
+    @STATUS_LEARNED_FLAREDART = 1;
+    @STATUS_LEARNED_MAGICBLADE = 2;
+    @STATUS_LEVEL2 = 3;
+    @STATUS_W11 = 4;
+    @STATUS_W12 = 5;
+    @STATUS_W11_12 = 6;
+    @STATUS_L2_ALLSPELLS = 7;
 
     if (@Q_status == @STATUS_INITIAL) goto L_Initial;
     if (@Q_status == @STATUS_LEARNED_FLAREDART) goto L_FlareStage;
@@ -110,8 +109,8 @@ L_Initial_ok:
     next;
     mes "[Mystic Sword]";
     mes "\"For the flare dart spell throw a handful of sulphur powder up into the air, and say, '" + getspellinvocation("flare-dart") + "'.\"";
-    set @Q_status, @STATUS_LEARNED_FLAREDART;
-    callsub S_update_var;
+    @Q_status = @STATUS_LEARNED_FLAREDART;
+    callsub S_Update_Var;
     next;
     mes "[Mystic Sword]";
     mes "\"From then on, thou canst shoot fiery missiles from thy fingers, for a limited time.\"";
@@ -183,7 +182,7 @@ L_Levelup2_yes:
         "No... never mind.", L_Farewell;
 
 L_Next1:
-    set Mobpt, Mobpt - 1000;
+    Mobpt = Mobpt - 1000;
 
     mes "[Mystic Sword]";
     mes "The sword begins to chant in your head!";
@@ -202,11 +201,11 @@ L_Next1:
     mes "[Mystic Sword]";
     mes "The sensation and the noises vanish as quickly as they came.";
 
-    set @Q_status, @STATUS_LEVEL2;
-    callsub S_update_var;
+    @Q_status = @STATUS_LEVEL2;
+    callsub S_Update_Var;
 
-    set @SUP_xp, 5000;
-    set @SUP_lvl, 2;
+    @SUP_xp = 5000;
+    @SUP_lvl = 2;
     callfunc "SkillUp";
     next;
 
@@ -259,10 +258,10 @@ L_Next3:
     mes "[Mystic Sword]";
     mes "\"Indeed thou art worthy. The next spell I shall teach thee will enchant thy knuckles to turn them into powerful weapons; the component is a mere beer.\"";
     mes "[1000 experience points]";
-    set Mobpt, Mobpt - 5000;
+    Mobpt = Mobpt - 5000;
     getexp 1000, 0;
-    set @Q_status, @Q_status + 2;
-    callsub S_update_var;
+    @Q_status = @Q_status + 2;
+    callsub S_Update_Var;
     next;
     mes "[Mystic Sword]";
     mes "\"Speak '" + getspellinvocation("magic-knuckles") + "' and take a glass of beer and drink it, without ever taking it off thy lips. This will harden and enchant thy fists, turning them into powerful weapons.\"";
@@ -288,7 +287,7 @@ L_L2_W10:
         "No way.", L_farewell;
 
 L_Next4:
-    if (countitem("IronOre") < 1)
+    if (countitemcolor("IronOre") < 1)
         goto L_no_ore;
     if (MPQUEST && (Mobpt < 10000))
         goto L_lacking_mobpoints;
@@ -297,12 +296,12 @@ L_Next4:
     mes "\"Raise up the ore, mortal!\"";
     mes "As you do so, the ore begins to crumble, leaving only iron powder behind.";
     mes "[1000 experience points]";
-    set Mobpt, Mobpt - 10000;
+    Mobpt = Mobpt - 10000;
     getexp 1000, 0;
     delitem "IronOre", 1;
     getitem "IronPowder", 5;
-    set @Q_status, @STATUS_L2_ALLSPELLS;
-    callsub S_update_var;
+    @Q_status = @STATUS_L2_ALLSPELLS;
+    callsub S_Update_Var;
     next;
     mes "[Mystic Sword]";
     mes "\"This powder thou shalst need to cast the lightning spell. Throw it up into the air and shout '" + getspellinvocation("lightning-strike") +  "', and smite thine enemies with lightning.\"";
@@ -324,7 +323,7 @@ L_lacking_mobpoints:
     mes "\"Thou dost not have enough monster points to prove thy worthiness. Return when thou hast slain more monsters!\"";
     close;
 
-S_update_var:
+S_Update_Var:
     set QUEST_MAGIC,
         (QUEST_MAGIC & ~(@Q_MASK)
         | (@Q_status << @Q_SHIFT));

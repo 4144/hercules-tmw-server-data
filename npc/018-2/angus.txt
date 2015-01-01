@@ -1,13 +1,11 @@
-// Angus the craftsman
 
-018-2.gat,31,39,0|script|Angus|147
-{
-    set @honorific$, "lad";
+018-2.gat,31,39,0	script	Angus	147,{
+    @honorific$ = "lad";
     if (Sex == 0) set @honorific$, "lass";
 
     callfunc "ClearVariables";
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@inspector == 10) goto L_NohMask;
 
@@ -22,6 +20,6 @@ L_NohMask:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 }

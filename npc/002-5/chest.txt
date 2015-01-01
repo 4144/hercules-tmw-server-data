@@ -1,11 +1,9 @@
-// Variables used: nibble 4 and 5 of QUEST_SouthTulimshar
 
-002-5.gat,93,37,0|script|Supply Chest|378
-{
+002-5.gat,93,37,0	script	Supply Chest	378,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (@state >= 26) goto L_Finished;
 
@@ -17,15 +15,15 @@
         "No.", L_Close;
 
 L_Yes:
-    if (countitem("TreasureKey") < 3)
+    if (countitemcolor("TreasureKey") < 3)
         goto L_Not_Enough;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("TreasureKey") > 3)
+    if (@inventorylist_count == 100 && countitemcolor("TreasureKey") > 3)
         goto L_TooMany;
     mes "You opened the chest and found a short bow!";
     delitem "TreasureKey", 3;
     getitem "ShortBow", 1;
-    set @state, 26;
+    @state = 26;
     callsub S_Update_Var;
     goto L_Close;
 
@@ -42,10 +40,10 @@ L_TooMany:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

@@ -1,20 +1,6 @@
-//############################################################################
-//#                                                                          #
-//#                             GM scheduled broadcasts                      #
-//#                                                                          #
-//############################################################################
 
-// $@GMSA_STATUS values:
-//      0: Broadcasts not running
-//      1: Broadcasts running
-// $@GMSA_NAME$: the GM/Admin who created the broadcast, if any
-// $@GMSA_MSG$: the message to be broadcasted
-// $@GMSA_MAX: the number of times the broadcast will be performed, if > 0
-// $@GMSA_TICK: broadcast the message every $@GMSA_TICK hours
-// $@GMSA_CURRENT_TICK: internal counter incremented every hour
 
-017-9.gat,26,24,0|script|Stone Board|145
-{
+017-9.gat,26,24,0	script	Stone Board	145,{
     if (getgmlevel() < 60)
         goto L_Close;
 
@@ -23,9 +9,9 @@
     goto L_PrepareBroadcast;
 
 L_InfoBroadcast:
-    set @next_broadcast_ts, (3600000*($@GMSA_TICK - $@GMSA_CURRENT_TICK) - getnpctimer(0))/1000;
-    set @next_broadcast_h, @next_broadcast_ts/3600;
-    set @next_broadcast_m, (@next_broadcast_ts - @next_broadcast_h*3600)/60;
+    @next_broadcast_ts = (3600000*($@GMSA_TICK - $@GMSA_CURRENT_TICK) - getnpctimer(0))/1000;
+    @next_broadcast_h = @next_broadcast_ts/3600;
+    @next_broadcast_m = (@next_broadcast_ts - @next_broadcast_h*3600)/60;
 
     mes "[GM Scheduled Broadcasts Board]";
     mes $@GMSA_NAME$ + " scheduled the current message, every " + $@GMSA_TICK + " hour(s):";
@@ -37,9 +23,9 @@ L_InfoBroadcast:
         mes "The next broadcast will happen in " + @next_broadcast_m + " minute(s).";
     next;
 
-    set @next_broadcast_ts, 0;
-    set @next_broadcast_h, 0;
-    set @next_broadcast_m, 0;
+    @next_broadcast_ts = 0;
+    @next_broadcast_h = 0;
+    @next_broadcast_m = 0;
 
     mes "What do you want to do?";
     menu
@@ -128,12 +114,12 @@ L_StopBroadcast:
 S_StopBroadcast:
     stopnpctimer;
     setnpctimer 0;
-    set $@GMSA_STATUS, 0;
-    set $@GMSA_NAME$, "";
-    set $@GMSA_MSG$, "";
-    set $@GMSA_TICK, 0;
-    set $@GMSA_MAX, 0;
-    set $@GMSA_CURRENT_TICK, 0;
+    $@GMSA_STATUS = 0;
+    $@GMSA_NAME$ = "";
+    $@GMSA_MSG$ = "";
+    $@GMSA_TICK = 0;
+    $@GMSA_MAX = 0;
+    $@GMSA_CURRENT_TICK = 0;
     return;
 
 L_StartBroadcast2:
@@ -145,9 +131,9 @@ L_StartBroadcast2:
 L_StartBroadcast:
     if ($@GMSA_STATUS == 1)
         goto L_Abort;
-    set $@GMSA_STATUS, 1;
-    set $@GMSA_NAME$, strcharinfo(0);
-    set $@GMSA_CURRENT_TICK, 0;
+    $@GMSA_STATUS = 1;
+    $@GMSA_NAME$ = strcharinfo(0);
+    $@GMSA_CURRENT_TICK = 0;
     initnpctimer;
     mes "Done.";
     goto L_Close;
@@ -161,13 +147,13 @@ L_Close:
     close;
 
 OnTimer3600000:
-    set $@GMSA_CURRENT_TICK, $@GMSA_CURRENT_TICK + 1;
+    $@GMSA_CURRENT_TICK = $@GMSA_CURRENT_TICK + 1;
     setnpctimer 0;
     if ($@GMSA_CURRENT_TICK != $@GMSA_TICK)
         end;
     callsub S_PerformBroadcast;
-    set $@GMSA_CURRENT_TICK, 0;
-    set $@GMSA_MAX, $@GMSA_MAX - 1;
+    $@GMSA_CURRENT_TICK = 0;
+    $@GMSA_MAX = $@GMSA_MAX - 1;
     if ($@GMSA_MAX != 0)
         end;
     callsub S_StopBroadcast;

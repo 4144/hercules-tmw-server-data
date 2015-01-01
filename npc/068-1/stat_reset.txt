@@ -1,12 +1,8 @@
-//
 
-068-1.gat,79,94,0|script|Malivox|103
-{
-// if (ResetA_charstate == 1) goto L_Multiple;
+068-1.gat,79,94,0	script	Malivox	103,{
 
-// set @cost, 10000000 / ($ResetA_uses + 1);
 
-    set @cost, BaseLevel * 100;
+    @cost = BaseLevel * 100;
 
     mes "[Rogue Mage]";
     mes "\"I have come across a spell that will";
@@ -24,11 +20,9 @@ L_Next:
     if (Zeny<@cost) goto L_NoMoney;
     goto L_Reset;
 
-// set $ResetA_uses, $ResetA_uses + 1;
-// set ResetA_charstate, 1;
 
 L_Reset:
-    set Zeny, Zeny-@cost;
+    Zeny = Zeny-@cost;
     resetstatus;
 
     mes "[Rogue Mage]";
@@ -50,6 +44,6 @@ L_NoMoney:
     goto L_Close;
 
 L_Close:
-    set @cost, 0;
+    @cost = 0;
     close;
 }

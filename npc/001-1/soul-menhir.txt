@@ -1,18 +1,16 @@
-//
 
-001-1.gat,38,69,0|script|Soul Menhir#tulimshar|345
-{
+001-1.gat,38,69,0	script	Soul Menhir#tulimshar	345,{
     callfunc "ClearVariables";
-    set @map$, "001-1.gat";
+    @map$ = "001-1";
     setarray @Xs, 37, 38, 39, 37, 39, 37, 39;
     setarray @Ys, 68, 68, 68, 69, 69, 70, 70;
-    set @x, 0;
-    set @y, 0;
+    @x = 0;
+    @y = 0;
     callfunc "SoulMenhir";
-    set @map$, "";
+    @map$ = "";
     cleararray @Xs[0], 0, 7;
     cleararray @Ys[0], 0, 7;
-    set @x, 0;
-    set @y, 0;
+    @x = 0;
+    @y = 0;
     close;
 }

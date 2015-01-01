@@ -1,21 +1,19 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Snake Desert warps
 
-005-1.gat,19,41|warp|To Sandstorm Desert|-1,2,002-1.gat,107,79
-005-1.gat,89,23|warp|To Snake Pit|-1,-1,005-3.gat,52,35
-005-1.gat,71,75|warp|To Snake Pit|-1,-1,005-3.gat,33,84
-005-1.gat,167,108|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,168,107|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,169,106|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,170,105|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,171,104|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,172,103|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,173,102|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,174,101|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,175,100|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,176,99|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,177,98|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,178,97|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,179,96|warp|To Desert Mountains|-1,-1,006-1.gat,25,26
-005-1.gat,74,48|warp|To Druid Tree|-1,-1,005-1.gat,74,39
-005-1.gat,74,40|warp|To Druid Tree|-1,-1,005-1.gat,74,49
+005-1,19,41,0	warp	To Sandstorm Desert	0,2,002-1,107,79
+005-1,89,23,0	warp	To Snake Pit	0,0,005-3,52,35
+005-1,71,75,0	warp	To Snake Pit	0,0,005-3,33,84
+005-1,167,108,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,168,107,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,169,106,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,170,105,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,171,104,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,172,103,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,173,102,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,174,101,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,175,100,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,176,99,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,177,98,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,178,97,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,179,96,0	warp	To Desert Mountains	0,0,006-1,25,26
+005-1,74,48,0	warp	To Druid Tree	0,0,005-1,74,39
+005-1,74,40,0	warp	To Druid Tree	0,0,005-1,74,49

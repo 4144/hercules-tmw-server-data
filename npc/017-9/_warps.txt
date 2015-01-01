@@ -1,8 +1,6 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Backstage warps
 
-017-9.gat,22,20|warp|To Nivalis|-1,-1,020-1.gat,60,75
-017-9.gat,26,21|warp|To Hurnscald|-1,-1,009-1.gat,43,45
-017-9.gat,30,20|warp|To Tumlishar|-1,-1,001-1.gat,33,65
-017-9.gat,26,28|warp|To second warpzone|-1,-1,017-2.gat,26,23
-017-9.gat,31,28|warp|To Crypt|-1,-1,027-2.gat,118,109
+017-9,22,20,0	warp	To Nivalis	0,0,020-1,60,75
+017-9,26,21,0	warp	To Hurnscald	0,0,009-1,43,45
+017-9,30,20,0	warp	To Tumlishar	0,0,001-1,33,65
+017-9,26,28,0	warp	To second warpzone	0,0,017-2,26,23
+017-9,31,28,0	warp	To Crypt	0,0,027-2,118,109

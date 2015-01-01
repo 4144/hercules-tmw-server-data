@@ -1,24 +1,20 @@
-// here is based on the queststatus for the rescue Cindy quest, if the player can enter
-// player can enter, if Cindy is already saved and the player has been invited, quest status > 2
-// author: Jenalya
 
-031-1.gat,95,80,0|script|#Door|45,0,0
-{
-    set @Q_Nivalis_state_MASK, NIBBLE_5_MASK;
-    set @Q_Nivalis_state_SHIFT, NIBBLE_5_SHIFT;
+031-1.gat,95,80,0	script	#Door	45,0,0,{
+    @Q_Nivalis_state_MASK = NIBBLE_5_MASK;
+    @Q_Nivalis_state_SHIFT = NIBBLE_5_SHIFT;
 
-    set @rescue_Cindy, ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
+    @rescue_Cindy = ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
 
     if (@rescue_Cindy > 2)
         goto L_Warp;
     message strcharinfo(0), "The door is locked.";
 
-    set @Q_Nivalis_state_MASK, 0;
-    set @Q_Nivalis_state_SHIFT, 0;
-    set @rescue_Cindy, 0;
+    @Q_Nivalis_state_MASK = 0;
+    @Q_Nivalis_state_SHIFT = 0;
+    @rescue_Cindy = 0;
     close;
 
 L_Warp:
-    warp "031-2.gat", 23, 28;
+    warp "031-2", 23, 28;
     end;
 }

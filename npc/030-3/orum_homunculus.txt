@@ -1,8 +1,5 @@
-// Annual Xmas
-// Authors: Wushin, Chayenne
 
-019-3.gat,79,30,0|script|#OrumTelepathy1|45,3,3
-{
+019-3.gat,79,30,0	script	#OrumTelepathy1	45,3,3,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -24,8 +21,7 @@ L_End:
     end;
 }
 
-019-3.gat,104,67,0|script|#OrumTelepathy2|45,1,1
-{
+019-3.gat,104,67,0	script	#OrumTelepathy2	45,1,1,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -47,8 +43,7 @@ L_End:
     end;
 }
 
-019-3.gat,102,95,0|script|#OrumTelepathy3|45,3,3
-{
+019-3.gat,102,95,0	script	#OrumTelepathy3	45,3,3,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -70,8 +65,7 @@ L_End:
     end;
 }
 
-019-3.gat,81,61,0|script|#OrumTelepathy4|45,3,3
-{
+019-3.gat,81,61,0	script	#OrumTelepathy4	45,3,3,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -93,8 +87,7 @@ L_End:
     end;
 }
 
-030-3.gat,62,74,0|script|#OrumTelepathy5|45,1,1
-{
+030-3.gat,62,74,0	script	#OrumTelepathy5	45,1,1,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -116,8 +109,7 @@ L_End:
     end;
 }
 
-030-3.gat,48,73,0|script|#OrumTelepathy6|45,1,1
-{
+030-3.gat,48,73,0	script	#OrumTelepathy6	45,1,1,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -139,8 +131,7 @@ L_End:
     end;
 }
 
-030-3.gat,55,52,0|script|#OrumTelepathy7|45,1,1
-{
+030-3.gat,55,52,0	script	#OrumTelepathy7	45,1,1,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -162,8 +153,7 @@ L_End:
     end;
 }
 
-030-3.gat,28,28,0|script|Orum's Homunculus|385
-{
+030-3.gat,28,28,0	script	Orum's Homunculus	385,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -195,7 +185,7 @@ L_XmasMain:
     goto L_OffSeason;
 
 L_SetPath:
-    set @xmas_knows_route, 1;
+    @xmas_knows_route = 1;
     callfunc "XmasSetRoute";
     goto L_XmasMain;
 
@@ -213,7 +203,7 @@ L_Next:
     mes "\"Let's see the following children's lists are still missing:\"";
     callfunc "XmasListList";
     mes "\"Would you please go and take a look what happened to them? If you can get hold of a list, report back. We surely know how to \"amend\" these things properly...\"";
-    set @xmas_state, $@xmas_list_both_state;
+    @xmas_state = $@xmas_list_both_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -231,7 +221,7 @@ L_KeepGoing:
     mes "\"Let's see the following children's lists are missing:\"";
     callfunc "XmasListList";
     mes "\"Would you please go and take a look what happened to them? If you get a list, report back.\"";
-    set @xmas_state, $@xmas_list_path2_state;
+    @xmas_state = $@xmas_list_path2_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -315,9 +305,9 @@ L_FakeList:
     mes "\"Let me fake the mark Chief Warrick uses to identify his helpers. Don't get to close to the gaurds they might spot you.\"";
     mes "\"Now, prove yourself, gather the required items and go back to the Inn to sabotage Santa's Helpers.\"";
     callfunc "XmasSetSide";
-    set XMASTIME, XMASTIME | $@xmas_helper_bit;
-    set XMASTIME, XMASTIME | $@xmas_basement_passage;
-    set @xmas_state, $@xmas_helpers_start_state;
+    XMASTIME = XMASTIME | $@xmas_helper_bit;
+    XMASTIME = XMASTIME | $@xmas_basement_passage;
+    @xmas_state = $@xmas_helpers_start_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -375,7 +365,7 @@ L_ManaBattery:
     next;
     callfunc "ListReagents";
     mes "\"When you have gathered the required materials please come back and see me.\"";
-    set @xmas_state, $@xmas_reagents_start;
+    @xmas_state = $@xmas_reagents_start;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_Close;
@@ -435,7 +425,7 @@ L_CheckReagents:
     next;
     mes "\"Take the Mana Battery and install it in the warehouse.\"";
     mes "\"It's found behind Chief Warrick\"";
-    set @xmas_state, $@xmas_boss_door_open_state;
+    @xmas_state = $@xmas_boss_door_open_state;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_Close;
@@ -450,9 +440,9 @@ L_Reward:
     mes "[Orum's Homunculus]";
     mes "\"Revenge is a dish best served cold..\"";
     if @xmas_reward2_done_state
-        set @xmas_state, $@xmas_reward_done;
+        @xmas_state = $@xmas_reward_done;
     if @xmas_reward_start_state
-        set @xmas_state, $@xmas_reward1_done;
+        @xmas_state = $@xmas_reward1_done;
 
     callfunc "XmasSetState";
     callfunc "XmasMainXpBpReward";

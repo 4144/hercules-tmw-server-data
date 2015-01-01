@@ -1,12 +1,9 @@
-// A snobby store that won't sell to the player
-// takes part in quest given by 021-2/kylian.txt
 
-068-2.gat,92,83,0|shop|#LatoyShop|127,DesertShirt:*2000,SilkRobe:*40000,SerfHat:*500,DesertHat:*9600
+068-2,92,83,0	shop	#LatoyShop	127,546:2000,720:40000,656:500,723:9600
 
-068-2.gat,92,83,0|script|Latoy|106
-{
-    set QUEST_NorthTulimshar, QUEST_NorthTulimshar | $@knowLatoyNT;
-    set @kylian, ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
+068-2.gat,92,83,0	script	Latoy	106,{
+    QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@knowLatoyNT;
+    @kylian = ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
 
     mes "[Latoy]";
     mes "\"Is there something I can help you with?\"";
@@ -28,6 +25,6 @@ L_LatoyShop:
     shop "#LatoyShop";
 
 L_Close:
-    set @kylian, 0;
+    @kylian = 0;
     close;
 }

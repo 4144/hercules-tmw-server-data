@@ -1,21 +1,14 @@
-// This script file contains the npc scripts for the quest to obtain a scythe.
-//
-// Needed: 10 Pink Antenna
-// Reward: Scythe
-//
-// Variables used: Nibble 1 of QUEST_Hurnscald (previously QUEST_Scythe_state)
 
-008-1.gat,101,30,0|script|Hinnak|142
-{
+008-1.gat,101,30,0	script	Hinnak	142,{
     callfunc "ClearVariables";
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@inspector == 10) goto L_NohMask;
     goto L_No_NohMask;
 
 L_No_NohMask:
-    set @state, ((QUEST_Hurnscald & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
+    @state = ((QUEST_Hurnscald & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
 
     if (@state == 1) goto L_Exchange;
     if (@state == 2) goto L_ThanksAgain;
@@ -55,7 +48,7 @@ L_Help:
     mes "[Farmer Hinnak]";
     mes "\"Yes, you look quite fast. Maybe you can catch some of them. That will pay them a lesson.";
     mes "Slay some of them and bring me 10 of their antennae.\"";
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
     next;
     menu
@@ -83,14 +76,14 @@ L_Exchange_Start:
         "Sure, here they are!", L_Exchange_Exchange;
 
 L_Exchange_Exchange:
-    if (countitem("PinkAntenna") < 10)
+    if (countitemcolor("PinkAntenna") < 10)
         goto L_Exchange_Notenough;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("PinkAntenna") > 10)
+    if (@inventorylist_count == 100 && countitemcolor("PinkAntenna") > 10)
         goto L_Exchange_TooMany;
     delitem "PinkAntenna", 10;
     getitem "Scythe", 1;
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Mask;
     mes "[Farmer Hinnak]";
     mes "\"Thank you very much. I've got something for you. My old scythe. Maybe you can use it as a weapon. It is a bit cumbersome but its strikes are deadly.\"";
@@ -149,7 +142,7 @@ L_Next2:
         "I don't have any.", L_NoBeer;
 
 L_GiveBeer:
-    if (countitem("Beer") < 1)
+    if (countitemcolor("Beer") < 1)
         goto L_NoBeer;
     delitem "Beer", 1;
     mes "[Farmer Hinnak]";
@@ -249,11 +242,11 @@ L_NohMask_Satchel:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
-    set @inspector, 0;
+    @state = 0;
+    @inspector = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_Hurnscald, (QUEST_Hurnscald & ~(NIBBLE_1_MASK)) | (@state << NIBBLE_1_SHIFT);
+    QUEST_Hurnscald = (QUEST_Hurnscald & ~(NIBBLE_1_MASK)) | (@state << NIBBLE_1_SHIFT);
     return;
 }

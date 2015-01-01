@@ -1,29 +1,17 @@
-056-2.gat,67,24,0|script|Mirak|372
-{
-// Variables to set:
-// @dq_cost - The number of points this quest uses
-// @dq_money - The money reward for doing the quest
-// @dq_exp - Experince gained by doing the quest
+056-2.gat,67,24,0	script	Mirak	372,{
 
-// Variables used inside:
-// Mirak_Quest - This variable contains the @annoy level and the storyline (@talk)
-// Mirak_Bantime - Time you cannot come back to the NPC when you upset him
-// Mirak_Questtime - Time you cannot come back once you finished the quest
-// Update Dailyquest Points
-    callfunc "DailyQuestPoints";
+    callfunc "DailyQuestPointsFunc";
 
-// Bitmasks
-    set @Mirak_MASK, NIBBLE_0_MASK;
-    set @Mirak_SHIFT, NIBBLE_0_SHIFT;
+    @Mirak_MASK = NIBBLE_0_MASK;
+    @Mirak_SHIFT = NIBBLE_0_SHIFT;
 
-    set @talk, ((QUEST_Mirak & @Mirak_MASK) >> @Mirak_SHIFT);
+    @talk = ((QUEST_Mirak & @Mirak_MASK) >> @Mirak_SHIFT);
 
-    set @Mirak_Annoy_MASK, NIBBLE_1_MASK;
-    set @Mirak_Annoy_SHIFT, NIBBLE_1_SHIFT;
+    @Mirak_Annoy_MASK = NIBBLE_1_MASK;
+    @Mirak_Annoy_SHIFT = NIBBLE_1_SHIFT;
 
-    set @annoy, ((QUEST_Mirak & @Mirak_Annoy_MASK) >> @Mirak_Annoy_SHIFT);
+    @annoy = ((QUEST_Mirak & @Mirak_Annoy_MASK) >> @Mirak_Annoy_SHIFT);
 
-// Bitmasks END
 
     if (Mirak_Questtime > gettimetick(2))
         goto L_TooSoon;
@@ -41,8 +29,8 @@ L_Ban:
     goto L_Kill;
 
 L_Talk:
-    set Mirak_Bantime, 0;
-    set Mirak_Questtime, 0;
+    Mirak_Bantime = 0;
+    Mirak_Questtime = 0;
     if (@talk == 1)
         goto L_Talk1;
     if (@talk == 2)
@@ -60,14 +48,14 @@ L_Talk:
     mes "[Mirak]";
     mes "\"Eh... Ah! That's why I bought this house in this goddamn woods. I hoped nobody would come by here. It seems I was wrong. I believe that you did not read the notes I left behind. Read them on your way out.\"";
     mes "He looks down on his book and ignores you.";
-    set @talk, 1;
+    @talk = 1;
     callsub S_Update_Mask;
     close;
 
 L_Talk1:
     mes "[Mirak]";
     mes "\"What?! You again? Get going!\"";
-    set @talk, 2;
+    @talk = 2;
     callsub S_Update_Mask;
     close;
 
@@ -81,14 +69,14 @@ L_Talk2:
 L_Nothing:
     mes "[Mirak]";
     mes "\"Ahhhh! Get lost, or you'll regret it!\"";
-    set @annoy, @annoy+1;
+    @annoy = @annoy+1;
     callsub S_Update_Mask_Annoy;
     close;
 
 L_Quest:
-    set @dq_cost, DailyQuestPoints;
-    set @dq_money, 20;
-    set @dq_exp, 20;
+    @dq_cost = DailyQuestPoints;
+    @dq_money = 20;
+    @dq_exp = 20;
     mes "[Mirak]";
     mes "\"If you have some energy left, which I need, I can give you money for it. But only if you will leave me alone!\"";
     menu
@@ -104,10 +92,10 @@ L_TooSoon:
 L_Kill:
     misceffect sfx_magic_war, strcharinfo(0);
     percentheal -100, 0;
-    set @annoy, 0;
+    @annoy = 0;
     callsub S_Update_Mask_Annoy;
-    set Mirak_Bantime, gettimetick(2) + 86400;
-    set Mirak_Questtime, 0;
+    Mirak_Bantime = gettimetick(2) + 86400;
+    Mirak_Questtime = 0;
     mes "The old man stands up and looks at you angrier than ever. He mumbles something and your head explodes.";
     next;
     mes "[Mirak]";
@@ -120,15 +108,15 @@ L_Kill:
 L_Trade:
     if (DailyQuestPoints == 0)
         goto L_NoPoints;
-    set Zeny, Zeny + (@dq_money * @dq_cost);
+    Zeny = Zeny + (@dq_money * @dq_cost);
     getexp @dq_exp * @dq_cost, 0;
-    set DailyQuestPoints, DailyQuestPoints - @dq_cost;
+    DailyQuestPoints = DailyQuestPoints - @dq_cost;
 
     mes "[" + @dq_money * @dq_cost + " money]";
     mes "[" + @dq_exp * @dq_cost + " experience points]";
     mes "\"Now leave or you'll regret it. Don't come back!\"";
-    set Mirak_Questtime, gettimetick(2) + 86400;
-    set Mirak_Bantime, 0;
+    Mirak_Questtime = gettimetick(2) + 86400;
+    Mirak_Bantime = 0;
     close;
 
 L_NoPoints:
@@ -136,7 +124,6 @@ L_NoPoints:
     mes "\"Why do you bother me!? You have no energy left!\"";
     goto L_Kill;
 
-// Bitmasks
 
 S_Update_Mask_Annoy:
     set QUEST_Mirak,

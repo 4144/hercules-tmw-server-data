@@ -1,53 +1,50 @@
-//
 
-function|script|ElanoreFix
-{
-    set @Q_MASK, NIBBLE_1_MASK;
-    set @Q_SHIFT, NIBBLE_1_SHIFT;
+function	script	ElanoreFix	{
+    @Q_MASK = NIBBLE_1_MASK;
+    @Q_SHIFT = NIBBLE_1_SHIFT;
 
     set @Q_STATUS_MAX, 3; // FIXME once level 3 magic was released
 
-    set @Q_status, (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
+    @Q_status = (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
     if (@Q_status > @Q_STATUS_MAX)
-    set @Q_status, @STATUS_INITIAL;
+    @Q_status = @STATUS_INITIAL;
     if (@Q_status > 1 && (getskilllv(SKILL_MAGIC_LIFE) < 2))
-    set @Q_status, @STATUS_INITIAL;
+    @Q_status = @STATUS_INITIAL;
 
-    set QUEST_MAGIC2, (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
+    QUEST_MAGIC2 = (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
     return;
 }
 
-001-1.gat,58,68,0|script|Elanore#_M|108
-{
-    set @has_magic, getskilllv(SKILL_MAGIC);
+001-1.gat,58,68,0	script	Elanore#_M	108,{
+    @has_magic = getskilllv(SKILL_MAGIC);
 
-    set @Q_MASK, NIBBLE_1_MASK;
-    set @Q_SHIFT, NIBBLE_1_SHIFT;
+    @Q_MASK = NIBBLE_1_MASK;
+    @Q_SHIFT = NIBBLE_1_SHIFT;
 
-    set @Q_status, (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
-    set @Q_heal_exp, MAGIC_EXPERIENCE >> 24;
+    @Q_status = (QUEST_MAGIC2 & @Q_MASK) >> @Q_SHIFT;
+    @Q_heal_exp = MAGIC_EXPERIENCE >> 24;
 
     // Set up SkillUp function
-    set @SUP_id, SKILL_MAGIC_LIFE;
-    set @SUP_name$, "Life Magic";
+    @SUP_id = SKILL_MAGIC_LIFE;
+    @SUP_name$ = "Life Magic";
 
-    set @STATUS_INITIAL, 0;
-    set @STATUS_LEARNED_LIGHT_HEAL, 1;
-    set @STATUS_MASTERED_LIGHT_HEAL, 2;
-    set @STATUS_LEARNED_LAY_ON_HANDS, 3;
-    set @STATUS_WAITING_FOR_KADIYA, 4;
-    set @STATUS_READY_TO_LEARN_CURE_POISON, 5;
-    set @STATUS_LEARNED_CURE_POISON, 6;
+    @STATUS_INITIAL = 0;
+    @STATUS_LEARNED_LIGHT_HEAL = 1;
+    @STATUS_MASTERED_LIGHT_HEAL = 2;
+    @STATUS_LEARNED_LAY_ON_HANDS = 3;
+    @STATUS_WAITING_FOR_KADIYA = 4;
+    @STATUS_READY_TO_LEARN_CURE_POISON = 5;
+    @STATUS_LEARNED_CURE_POISON = 6;
 
     callfunc "ElanoreFix";
 
     // This operation works around an earlier possible corruption of this state
     if (@Q_status > @Q_STATUS_MAX)
-    set @Q_status, @STATUS_INITIAL;
-    callsub S_update_var;
-    if (sc_check(sc_poison)) goto L_CurePoison;
+    @Q_status = @STATUS_INITIAL;
+    callsub S_Update_Var;
+    if (sc_check(SC_POISON)) goto L_CurePoison;
     if (BaseLevel > 10) goto L_NoHeal;
-    set @TEMP,rand(4);
+    @TEMP = rand(4);
     if(@TEMP == 1) goto L_Heal2;
     if(@TEMP == 2) goto L_Heal3;
     if(@TEMP == 3) goto L_Heal4;
@@ -82,7 +79,7 @@ L_Heal4:
     goto L_Heal_L;
 
 L_Heal_L:
-    set @TEMP,rand(3);
+    @TEMP = rand(3);
     if(@TEMP == 1) goto L_Heal_2;
     if(@TEMP == 2) goto L_Heal_3;
     if(@TEMP == 3) goto L_Heal_4;
@@ -158,17 +155,17 @@ L_Main:
 OnPCKillEvent:
     if (attachrid(@killerrid) == 0)
         end;
-    set @Q_heal_exp, MAGIC_EXPERIENCE >> 24;
+    @Q_heal_exp = MAGIC_EXPERIENCE >> 24;
     if (@Q_heal_exp < 8) goto L_OnPcKillWipe;
-    set @Q_heal_exp, @Q_heal_exp - 8;
+    @Q_heal_exp = @Q_heal_exp - 8;
     goto L_OnPcKillFinish;
 
 L_OnPcKillWipe:
-    set @Q_heal_exp, 0;
+    @Q_heal_exp = 0;
     goto L_OnPcKillFinish;
 
 L_OnPcKillFinish:
-    set MAGIC_EXPERIENCE, (MAGIC_EXPERIENCE & ~(255 << 24)) | (@Q_heal_exp << 24);
+    MAGIC_EXPERIENCE = (MAGIC_EXPERIENCE & ~(255 << 24)) | (@Q_heal_exp << 24);
     goto L_Close;
 
 L_Lifestones:
@@ -182,16 +179,16 @@ L_Lifestones:
         "Can I make them myself?", L_Lifestones_MakeSelf;
 
 L_Lifestones_Trade:
-    if (countitem("MauveHerb") < 10) goto L_Lifestones_Trade_Missing;
-    if (countitem("GambogeHerb") < 10) goto L_Lifestones_Trade_Missing;
-    if (countitem("AlizarinHerb") < 10) goto L_Lifestones_Trade_Missing;
-    if (countitem("CobaltHerb") < 10) goto L_Lifestones_Trade_Missing;
+    if (countitemcolor("MauveHerb") < 10) goto L_Lifestones_Trade_Missing;
+    if (countitemcolor("GambogeHerb") < 10) goto L_Lifestones_Trade_Missing;
+    if (countitemcolor("AlizarinHerb") < 10) goto L_Lifestones_Trade_Missing;
+    if (countitemcolor("CobaltHerb") < 10) goto L_Lifestones_Trade_Missing;
     getinventorylist;
-    if (@inventorylist_count == 100 && countitem("Lifestone") == 0
-        && countitem("MauveHerb") > 10
-        && countitem("GambogeHerb") > 10
-        && countitem("AlizarinHerb") > 10
-        && countitem("CobaltHerb") > 10) goto L_Lifestones_NoRoom;
+    if (@inventorylist_count == 100 && countitemcolor("Lifestone") == 0
+        && countitemcolor("MauveHerb") > 10
+        && countitemcolor("GambogeHerb") > 10
+        && countitemcolor("AlizarinHerb") > 10
+        && countitemcolor("CobaltHerb") > 10) goto L_Lifestones_NoRoom;
 
     delitem "MauveHerb", 10;
     delitem "GambogeHerb", 10;
@@ -274,10 +271,10 @@ L_Teach_Initial:
     mes "\"Let me give you a lifestone to get started with.\"";
     next;
     getinventorylist;
-    if ((@inventorylist_count == 100) && (countitem("Lifestone") == 0)) goto L_Teach_Initial_Noroom;
+    if ((@inventorylist_count == 100) && (countitemcolor("Lifestone") == 0)) goto L_Teach_Initial_Noroom;
     getitem "Lifestone", 1;
-    set @Q_status, @STATUS_LEARNED_LIGHT_HEAL;
-    callsub S_update_var;
+    @Q_status = @STATUS_LEARNED_LIGHT_HEAL;
+    callsub S_Update_Var;
 
     mes "[Elanore the Healer]";
     mes "Elanore hands you the crystal.";
@@ -314,10 +311,10 @@ L_Teach_AdvanceTo2_skip:
     next;
     mes "[Elanore the Healer]";
     mes "You feel a strange, tingling kind of warmth spread through your body.";
-    set @Q_status, @STATUS_MASTERED_LIGHT_HEAL;
-    callsub S_update_var;
-    set @SUP_xp, 5000;
-    set @SUP_lvl, 2;
+    @Q_status = @STATUS_MASTERED_LIGHT_HEAL;
+    callsub S_Update_Var;
+    @SUP_xp = 5000;
+    @SUP_lvl = 2;
     callfunc "SkillUp";
     goto L_Close;
 
@@ -345,8 +342,8 @@ L_Teach_CheckAdvanceToLOH:
     mes "\"This will let your own life force flow into the person you are healing. If you are badly injured yourself, you will not be able to do this.\"";
     mes "[1000 experience points]";
     getexp 1000, 0;
-    set @Q_status, @STATUS_LEARNED_LAY_ON_HANDS;
-    callsub S_update_var;
+    @Q_status = @STATUS_LEARNED_LAY_ON_HANDS;
+    callsub S_Update_Var;
     goto L_Close;
 
 L_Teach_LOH_advance_abort0:
@@ -367,8 +364,8 @@ L_Teach_Explain3:
     mes "Elanore smiles.";
     mes "\"You seem to be ready to advance as a healer. There is one favour I must ask of you first, though.\"";
     set QUEST_MAGIC2, (QUEST_MAGIC2 & ~(NIBBLE_3_MASK)); // Initialise Kadiya quest
-    set @Q_status, @STATUS_WAITING_FOR_KADIYA;
-    callsub S_update_var;
+    @Q_status = @STATUS_WAITING_FOR_KADIYA;
+    callsub S_Update_Var;
     next;
 
     mes "[Elanore the Healer]";
@@ -457,19 +454,19 @@ L_Teach_AdvanceTo3Ready:
     mes "[Elanore the Healer]";
     mes "Elanor turns towards you, rises up on her toes and kisses you on the forehead.";
     next;
-    set @xp, 30000;
+    @xp = 30000;
     if (@Q_kadiya_status == @Q_STATUS_COMPLETED_ELANORE)
-        set @xp, 50000;
+        @xp = 50000;
     mes "[Elanore the Healer]";
     mes "You feel a strange, tingling kind of warmth spread through your body.";
     mes "[" + @xp + " experience points]";
     mes "[Level 3 in Life Magic]";
 
-    set @Q_status, @STATUS_READY_TO_LEARN_CURE_POISON;
-    callsub S_update_var;
+    @Q_status = @STATUS_READY_TO_LEARN_CURE_POISON;
+    callsub S_Update_Var;
     getexp @xp, 0;
     if (getskilllv(SKILL_MAGIC_LIFE) < 3)
-        setskill SKILL_MAGIC_LIFE, 3;
+        addtoskill SKILL_MAGIC_LIFE, 3;
     next;
 
     if (@Q_kadiya_status != @Q_STATUS_COMPLETED_ELANORE) goto L_Main;
@@ -479,7 +476,7 @@ L_Teach_AdvanceTo3Ready:
     mes "She hands you a handful of lifestones.";
     mes "\"Please come back soon; there is more that I would like to teach you.\"";
     next;
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_ELANORE_OMAR;
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_ELANORE_OMAR;
     getitem "Lifestone", 20;
 
     goto L_Main;
@@ -502,8 +499,8 @@ L_Teach_CurePosion:
     mes "\"Once again, the invocation is `" + getspellinvocation("cure-poison") + "'.\"";
     mes "\"Come back again soon; there is another spell I would like to teach you.\"";
     next;
-    set @Q_status, @STATUS_LEARNED_CURE_POISON;
-    callsub S_update_var;
+    @Q_status = @STATUS_LEARNED_CURE_POISON;
+    callsub S_Update_Var;
     goto L_Main;
 
 L_Teach_dunno:
@@ -514,7 +511,7 @@ L_Teach_dunno:
 
 L_Question:
     callfunc "MagicTalkOptionsSetup";
-    set @ignore, @QQ_ELANORE;
+    @ignore = @QQ_ELANORE;
     callfunc "MagicTalkMenu";
 
     if (@c == 0) goto L_Main;
@@ -579,8 +576,8 @@ L_CurePoison:
     mes "[Elanore the Healer]";
     mes "\"Oh dear!  That looks like poison; hang on...\"";
     mes "She performs a complicated gesture.";
-        sc_end(sc_poison);
-        sc_end(sc_slowpoison);
+        sc_end(SC_POISON);
+        sc_end(SC_SLOWPOISON);
     misceffect sfx_magic_life, strcharinfo(0);
     misceffect sfx_magic_life;
     next;
@@ -594,26 +591,26 @@ L_bye:
     goto L_Close;
 
 L_Close:
-    set @Q_MASK, 0;
-    set @Q_SHIFT, 0;
-    set @has_magic, 0;
-    set @Q_STATUS_MAX, 0;
-    set @Q_heal_exp, 0;
-    set @Q_status, 0;
-    set @SUP_id, 0;
-    set @SUP_name$, "";
-    set @ignore, 0;
-    set @STATUS_LEARNED_LIGHT_HEAL, 0;
-    set @STATUS_MASTERED_LIGHT_HEAL, 0;
-    set @STATUS_LEARNED_LAY_ON_HANDS, 0;
-    set @STATUS_WAITING_FOR_KADIYA, 0;
-    set @STATUS_READY_TO_LEARN_CURE_POISON, 0;
-    set @STATUS_LEARNED_CURE_POISON, 0;
-    set @TEMP,0;
-    set @xp, 0;
+    @Q_MASK = 0;
+    @Q_SHIFT = 0;
+    @has_magic = 0;
+    @Q_STATUS_MAX = 0;
+    @Q_heal_exp = 0;
+    @Q_status = 0;
+    @SUP_id = 0;
+    @SUP_name$ = "";
+    @ignore = 0;
+    @STATUS_LEARNED_LIGHT_HEAL = 0;
+    @STATUS_MASTERED_LIGHT_HEAL = 0;
+    @STATUS_LEARNED_LAY_ON_HANDS = 0;
+    @STATUS_WAITING_FOR_KADIYA = 0;
+    @STATUS_READY_TO_LEARN_CURE_POISON = 0;
+    @STATUS_LEARNED_CURE_POISON = 0;
+    @TEMP = 0;
+    @xp = 0;
     close;
 
-S_update_var:
-    set QUEST_MAGIC2, (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
+S_Update_Var:
+    QUEST_MAGIC2 = (QUEST_MAGIC2 & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
     return;
 }

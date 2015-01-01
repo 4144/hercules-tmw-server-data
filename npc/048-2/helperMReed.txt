@@ -1,14 +1,8 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Kullervo asks for Reed Bundles to create paper for repairing the books
-// can give second hint about both Peetu and visitor in investigation subquest
 
-048-2.gat,104,78,0|script|Kullervo|366
-{
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @reed_amount, 20;
-    set @reed_exp, 10000;
+048-2.gat,104,78,0	script	Kullervo	366,{
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @reed_amount = 20;
+    @reed_exp = 10000;
 
     if (QUEST_BlueSage & $@Q_BlueSageMaterialReed) goto L_Done;
 
@@ -27,11 +21,11 @@ L_Foo:
         "Too bad.",L_Investigate;
 
 L_TurnIn:
-    if(countitem("ReedBundle") < @reed_amount)
+    if(countitemcolor("ReedBundle") < @reed_amount)
         goto L_NoItem;
     delitem "ReedBundle", @reed_amount;
     getexp @reed_exp, 0;
-    set QUEST_BlueSage, (QUEST_BlueSage | $@Q_BlueSageMaterialReed);
+    QUEST_BlueSage = (QUEST_BlueSage | $@Q_BlueSageMaterialReed);
     mes "[Kullervo]";
     mes "\"Thank you! That's very generous of you.\"";
     goto L_Investigate;
@@ -75,7 +69,7 @@ L_Visitor:
     mes "\"Maybe he was confused, not sure. He talked very strangely.\"";
     if ((@investigate != 3) && (@investigate != 6) && (@investigate != 9))
         goto L_Close;
-    set @investigate, @investigate + 1;
+    @investigate = @investigate + 1;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
@@ -87,13 +81,13 @@ L_Helper:
     mes "\"I don't understand what went wrong with that spell, but it just has to have another cause than Peetu. I'm worried about him. He must feel very miserable. But I can't leave my duty here.\"";
     if ((@investigate != 5) && (@investigate != 6) && (@investigate != 7))
         goto L_Close;
-    set @investigate, @investigate + 3;
+    @investigate = @investigate + 3;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @reed_amount, 0;
-    set @reed_exp, 0;
+    @investigate = 0;
+    @reed_amount = 0;
+    @reed_exp = 0;
     close;
 }

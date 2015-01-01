@@ -1,18 +1,12 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Eevert asks for material to create inks for the illustrations in the new books
-// can give second hint about Peetu in investigation subquest
 
-048-2.gat,95,103,0|script|Eevert|365
-{
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
-    set @water_amount, 5;
-    set @spectre_amount, 3;
-    set @poltergeist_amount, 3;
-    set @wisp_amount, 3;
-    set @ironpowder_amount, 4;
-    set @ink_exp, 7000;
+048-2.gat,95,103,0	script	Eevert	365,{
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+    @water_amount = 5;
+    @spectre_amount = 3;
+    @poltergeist_amount = 3;
+    @wisp_amount = 3;
+    @ironpowder_amount = 4;
+    @ink_exp = 7000;
 
     if (QUEST_BlueSage & $@Q_BlueSageMaterialInk) goto L_Done;
 
@@ -36,7 +30,7 @@ L_Need:
         "Too bad.",L_Investigate;
 
 L_TurnIn:
-    if ((countitem("BottleOfWater") < @water_amount) || (countitem("SpectrePowder") < @spectre_amount) || (countitem("PoltergeistPowder") < @poltergeist_amount) || (countitem("WispPowder") < @wisp_amount) || (countitem("IronPowder") < @ironpowder_amount))
+    if ((countitemcolor("BottleOfWater") < @water_amount) || (countitemcolor("SpectrePowder") < @spectre_amount) || (countitemcolor("PoltergeistPowder") < @poltergeist_amount) || (countitemcolor("WispPowder") < @wisp_amount) || (countitemcolor("IronPowder") < @ironpowder_amount))
         goto L_NoItem;
     delitem "BottleOfWater", @water_amount;
     delitem "SpectrePowder", @spectre_amount;
@@ -44,7 +38,7 @@ L_TurnIn:
     delitem "WispPowder", @wisp_amount;
     delitem "IronPowder", @ironpowder_amount;
     getexp @ink_exp, 0;
-    set QUEST_BlueSage, (QUEST_BlueSage | $@Q_BlueSageMaterialInk);
+    QUEST_BlueSage = (QUEST_BlueSage | $@Q_BlueSageMaterialInk);
     mes "[Eevert]";
     mes "\"Wonderful! Now I can prepare the ink for magnificent illustrations! You're very generous.\"";
     goto L_Investigate;
@@ -93,17 +87,17 @@ L_Helper:
     mes "\"That's why I'm really confused about this situation, since he was the one performing the sealing of the slimes. I wonder what went wrong.\"";
     if ((@investigate != 5) && (@investigate != 6) && (@investigate != 7))
         goto L_Close;
-    set @investigate, @investigate + 3;
+    @investigate = @investigate + 3;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @water_amount, 0;
-    set @spectre_amount, 0;
-    set @poltergeist_amount, 0;
-    set @wisp_amount, 0;
-    set @ironpowder_amount, 0;
-    set @ink_exp, 0;
+    @investigate = 0;
+    @water_amount = 0;
+    @spectre_amount = 0;
+    @poltergeist_amount = 0;
+    @wisp_amount = 0;
+    @ironpowder_amount = 0;
+    @ink_exp = 0;
     close;
 }

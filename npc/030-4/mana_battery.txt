@@ -1,35 +1,15 @@
-// Annual Xmas Battle
-// Author: Jenalya, shamelessly adapted by Chayenne, wushin
 
-// Variables:
-// @xmas_battle_side: if set its "naughty path" if not set "nice path"
-// XmasBattleStatus:
-// 0 battle not started
-// 1 battle easy good
-// 2 battle hard good
-// 3 battle easy bad
-// 4 battle hard bad
-// 5 battle time out
-// basically its this:
-// Announcements depend on wether starter was naughty/nice path
-// mobs are not yet balanced, they also depend on battle mode
-// only nutcrackers need to be killed ( I hope )
 
-// player gets state set to finished for winning the battle once and mode bit set on easy/hard accordingly
-// every player *is* allowed to restart the quest ONCE himself if he hasnt started it himself yet
 
-//TODO Add an icreasing particle effect to the chest, move it half a tile right
-// and make it one of those lab tables from the slime quests
 
-030-4.gat,32,21,0|script|AniManOMat|400
-{
-    set $@XmasBattleStatusClone, 0;
+030-4.gat,32,21,0	script	AniManOMat	400,{
+    $@XmasBattleStatusClone = 0;
     callfunc "XmasStates";
-    set @xmas_battle_side, 0;
+    @xmas_battle_side = 0;
     if ($@XmasBattleCoolDown)
         goto L_CoolDown;
     if (@xmas_side)
-        set @xmas_battle_side, 1;
+        @xmas_battle_side = 1;
     if ($@XmasBattleStatus)
         goto L_BattleInProgress;
     if (@xmas_state < $@xmas_boss_door_open_state)
@@ -87,7 +67,7 @@ L_BattleGood:
 L_StartGood:
     if ($@XmasBattleStatus)
         goto L_BattleInProgress;
-    set @xmas_battle_status, 1;
+    @xmas_battle_status = 1;
     goto L_Start;
 
 L_StartGoodHard:
@@ -96,13 +76,13 @@ L_StartGoodHard:
     callsub S_CheckHardReq;
     delitem $@xmas_boss_req$[ @xmas_battle_side ], $@xmas_boss_amount[ @xmas_battle_side ];
     mes "You pour a handfull of " + $@xmas_boss_req$[@xmas_battle_side] + " over the Mana Battery.";
-    set @xmas_battle_status, 2;
+    @xmas_battle_status = 2;
     goto L_Start;
 
 L_StartBad:
     if ($@XmasBattleStatus)
         goto L_BattleInProgress;
-    set @xmas_battle_status, 3;
+    @xmas_battle_status = 3;
     goto L_Start;
 
 L_StartBadHard:
@@ -111,7 +91,7 @@ L_StartBadHard:
     callsub S_CheckHardReq;
     delitem $@xmas_boss_req$[ @xmas_battle_side ], $@xmas_boss_amount[ @xmas_battle_side ];
     mes "You pour a handfull of " + $@xmas_boss_req$[@xmas_battle_side] + " over the Mana Battery.";
-    set @xmas_battle_status, 4;
+    @xmas_battle_status = 4;
     goto L_Start;
 
 L_Start:
@@ -126,11 +106,11 @@ L_Start:
     npctalk "The Guards are out of control!";
     if ($@XmasBattleStatus)
         goto L_BattleAlreadyStarted;
-    set $@XmasBattleStatus, @xmas_battle_status;
-    set $@XmasBattleStatusClone, $@XmasBattleStatus;
-    set $@XmasBossRound, 0;
-    set $@XmasBossPlayerCount, getmapusers("030-4.gat");
-    areamonster "030-4.gat", 20, 21, 40, 40, "", 1114, 1, "AniManOMat::OnGuardDeath";
+    $@XmasBattleStatus = @xmas_battle_status;
+    $@XmasBattleStatusClone = $@XmasBattleStatus;
+    $@XmasBossRound = 0;
+    $@XmasBossPlayerCount = getmapusers("030-4");
+    areamonster "030-4", 20, 21, 40, 40, "", 1114, 1, "AniManOMat::OnGuardDeath";
     initnpctimer;
     goto L_Close;
 
@@ -163,7 +143,7 @@ L_Repeat:
         goto L_BattleInProgress;
     callsub S_CheckHardReq;
     delitem $@xmas_boss_req$[ @xmas_battle_side ], $@xmas_boss_amount[ @xmas_battle_side ];
-    set @xmas_battle_status, (2 * (@xmas_battle_side)) + 2;
+    @xmas_battle_status = (2 * (@xmas_battle_side)) + 2;
     goto L_Start;
 
 L_Quit:
@@ -196,81 +176,81 @@ OnTimer5000:
     goto L_CleanUp;
 
 L_Return_1:
-    set $@XmasBossPlayerCount, 0;
-    areatimer "030-4.gat", 0, 0, 60, 60, 10, "AniManOMat::OnTick";
+    $@XmasBossPlayerCount = 0;
+    areatimer "030-4", 0, 0, 60, 60, 10, "AniManOMat::OnTick";
     end;
 
 L_CaveLogic:
     if ($@XmasBossPlayerCount < 1)
         goto L_AllDead;
     set $@BombTimer, $@BombTimer + 5; // Advance 5 seconds
-    if ((mobcount("030-4.gat", "AniManOMat::OnGuardDeath") + 1) == 0)
+    if ((mobcount("030-4", "AniManOMat::OnGuardDeath") + 1) == 0)
         goto L_NextWave;
     if ($@BombTimer >= 120)
         goto L_NextWave;
     goto L_Return_1;
 
 L_NextWave:
-    set $@BombTimer, 0;
-    set $@DangerCellNumber, rand(8);
-    set $@XmasBossRound, $@XmasBossRound + 1;
-    if (($@XmasBossRound > 10)  && ((mobcount("030-4.gat", "AniManOMat::OnGuardDeath") + 1) == 0))
+    $@BombTimer = 0;
+    $@DangerCellNumber = rand(8);
+    $@XmasBossRound = $@XmasBossRound + 1;
+    if (($@XmasBossRound > 10)  && ((mobcount("030-4", "AniManOMat::OnGuardDeath") + 1) == 0))
         goto L_Finished;
     // Break/LastChance(s)
     if (($@XmasBossRound > 10)  && ($@XmasBossRound <= 16))
         goto L_Return_1;
     //KillerWaves
     if ($@XmasBossRound > 16)
-        areamonster "030-4.gat", 0, 0, 50, 50, "", 1114, $@XmasBossRound*2 + $@XmasBossPlayerCount*3, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 0, 0, 50, 50, "", 1114, $@XmasBossRound*2 + $@XmasBossPlayerCount*3, "AniManOMat::OnGuardDeath";
     //Normal Waves 1 to 10
     // Guard Amount doubles if on hard mode
-    set $@GuardAmount, 1 + (6 + ($@XmasBossRound) + (2 * $@XmasBossPlayerCount)) / 7;
-    set $@SkullAmount, 1 + ($@GuardAmount * $@GuardAmount) / 4;
+    $@GuardAmount = 1 + (6 + ($@XmasBossRound) + (2 * $@XmasBossPlayerCount)) / 7;
+    $@SkullAmount = 1 + ($@GuardAmount * $@GuardAmount) / 4;
 
     if ($@GuardAmount > 15)
-        set $@GuardAmount, 15;
+        $@GuardAmount = 15;
 
     //Obliatory Guard Of Honour in the Southern Hallway
-    areamonster "030-4.gat", 30, 43, 39, 49, "", 1114, $@GuardAmount, "AniManOMat::OnGuardDeath";
+    areamonster "030-4", 30, 43, 39, 49, "", 1114, $@GuardAmount, "AniManOMat::OnGuardDeath";
     //CopperSlimes, I love Copper Slimes anywhere anytime
-    areamonster "030-4.gat", 20, 21, 49, 49, "", 1098, rand(2,7), "AniManOMat::OnGuardDeath";
+    areamonster "030-4", 20, 21, 49, 49, "", 1098, rand(2,7), "AniManOMat::OnGuardDeath";
     //IceSkulls for hard mode in room 3 and 4
     if ($@XmasBattleStatus == 2 || $@XmasBattleStatus == 4)
-        areamonster "030-4.gat", 20, 32, 28, 39, "", 1085, $@SkullAmount / 2, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 20, 32, 28, 39, "", 1085, $@SkullAmount / 2, "AniManOMat::OnGuardDeath";
     if ($@XmasBattleStatus == 2 || $@XmasBattleStatus == 4)
-        areamonster "030-4.gat", 41, 32, 49, 39, "", 1085, $@SkullAmount / 2 + 1, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 41, 32, 49, 39, "", 1085, $@SkullAmount / 2 + 1, "AniManOMat::OnGuardDeath";
     //Angry Sea Slimes for Easy Mode in Nice Version in Room 3,4,5,6
     if ($@XmasBattleStatus == 1)
-        areamonster "030-4.gat", 20, 32, 28, 49, "", 1109, $@SkullAmount, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 20, 32, 28, 49, "", 1109, $@SkullAmount, "AniManOMat::OnGuardDeath";
     if ($@XmasBattleStatus == 1)
-        areamonster "030-4.gat", 41, 32, 49, 49, "", 1109, $@SkullAmount, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 41, 32, 49, 49, "", 1109, $@SkullAmount, "AniManOMat::OnGuardDeath";
     //Candied Slimes for Nice Mode in Rooms 1 and 2
     if ($@XmasBattleStatus == 1 || $@XmasBattleStatus == 2)
-        areamonster "030-4.gat", 20, 21, 28, 28, "", 1111, ($@XmasBossRound / 2) + 1, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 20, 21, 28, 28, "", 1111, ($@XmasBossRound / 2) + 1, "AniManOMat::OnGuardDeath";
     if ($@XmasBattleStatus == 1 || $@XmasBattleStatus == 2)
-        areamonster "030-4.gat", 41, 21, 49, 28, "", 1111, ($@XmasBossRound / 2) + 2, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 41, 21, 49, 28, "", 1111, ($@XmasBossRound / 2) + 2, "AniManOMat::OnGuardDeath";
     //Bluepars for Easy mode in Naughty Variant in Rooms 3,4,5,6
     if ($@XmasBattleStatus == 3)
-        areamonster "030-4.gat", 20, 32, 28, 49, "", 1107, $@SkullAmount, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 20, 32, 28, 49, "", 1107, $@SkullAmount, "AniManOMat::OnGuardDeath";
     if ($@XmasBattleStatus == 3)
-        areamonster "030-4.gat", 41, 32, 49, 49, "", 1107, $@SkullAmount, "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 41, 32, 49, 49, "", 1107, $@SkullAmount, "AniManOMat::OnGuardDeath";
     // Wicked Mushrooms for Naughty Mode in Rooms 1 and 2
     if ($@XmasBattleStatus == 3 || $@XmasBattleStatus == 4)
-        areamonster "030-4.gat", 20, 21, 28, 28, "", 1106, $@XmasBossRound + ($@XmasBossRound / 2), "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 20, 21, 28, 28, "", 1106, $@XmasBossRound + ($@XmasBossRound / 2), "AniManOMat::OnGuardDeath";
     if ($@XmasBattleStatus == 3 || $@XmasBattleStatus == 4)
-        areamonster "030-4.gat", 41, 21, 49, 28, "", 1106, $@XmasBossRound + ($@XmasBossRound / 2), "AniManOMat::OnGuardDeath";
+        areamonster "030-4", 41, 21, 49, 28, "", 1106, $@XmasBossRound + ($@XmasBossRound / 2), "AniManOMat::OnGuardDeath";
 
-    set $@msgnumber, (2 * $@XmasBossRound) + (($@XmasBattleStatus - 1) >> 1);
-    set $@msg$, $@XmasBossMes$[ $@msgnumber ];
-    set $@msgnumber, 0;
+    $@msgnumber = (2 * $@XmasBossRound) + (($@XmasBattleStatus - 1) >> 1);
+    $@msg$ = $@XmasBossMes$[ $@msgnumber ];
+    $@msgnumber = 0;
     if ($@XmasBossRound > 10) goto L_Return_1;
     callsub S_Announce;
     goto L_Return_1;
 
 OnTick:
     if (isdead()) end;
-    set $@XmasBossPlayerCount, $@XmasBossPlayerCount + 1;
-    if(isin("030-4.gat", $@DangerCellX1[$@DangerCellNumber], $@DangerCellY1[$@DangerCellNumber], $@DangerCellX2[$@DangerCellNumber], $@DangerCellY2[$@DangerCellNumber]))
+    $@XmasBossPlayerCount = $@XmasBossPlayerCount + 1;
+    if(isin("030-4", $@DangerCellX1[$@DangerCellNumber], $@DangerCellY1[$@DangerCellNumber], $@DangerCellX2[$@DangerCellNumber], $@DangerCellY2[$@DangerCellNumber]))
         goto L_DangerCell;
     end;
 
@@ -284,23 +264,23 @@ OnGuardDeath:
     end;
 
 L_AllDead:
-    set $@msg$, $@xmas_final_announce$[ ($@XmasBattleStatus - 1) / 2 ];
+    $@msg$ = $@xmas_final_announce$[ ($@XmasBattleStatus - 1) / 2 ];
     callsub S_Announce;
     goto L_CleanUp;
 
 L_Finished:
-    set $@msg$, $@xmas_final_announce$[ (($@XmasBattleStatus - 1) / 2) + 2 ];
+    $@msg$ = $@xmas_final_announce$[ (($@XmasBattleStatus - 1) / 2) + 2 ];
     callsub S_Announce;
     goto L_CleanUp;
 
 L_CleanUp:
-    areatimer "030-4.gat", 0, 0, 50, 50, 10, "AniManOMat::OnReward";
-    set $@XmasBossPlayerCount, 0;
-    set $@XmasBossRound, 0;
-    set $@BombTimer, 0;
-    set $@GuardAmount, 0;
-    set $@SkullAmount, 0;
-    killmonster "030-4.gat", "AniManOMat::OnGuardDeath";
+    areatimer "030-4", 0, 0, 50, 50, 10, "AniManOMat::OnReward";
+    $@XmasBossPlayerCount = 0;
+    $@XmasBossRound = 0;
+    $@BombTimer = 0;
+    $@GuardAmount = 0;
+    $@SkullAmount = 0;
+    killmonster "030-4", "AniManOMat::OnGuardDeath";
     stopnpctimer;
     cmdothernpc "#XmasChamberCooler", "CoolDown";
     end;
@@ -309,17 +289,17 @@ OnReward:
     if (isdead())
         end;
     if (($@XmasBattleStatusClone % 2) == 0)
-        set XMASTIME, XMASTIME | $@xmas_boss_hero_bit;
-    set @xmas_state, (XMASTIME & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT;
-    set @bonus, (55 - (BaseLevel / 2));
-    set DailyQuestBonus, DailyQuestBonus + @bonus;
+        XMASTIME = XMASTIME | $@xmas_boss_hero_bit;
+    @xmas_state = (XMASTIME & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT;
+    @bonus = (55 - (BaseLevel / 2));
+    DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action.";
     if (@xmas_state != $@xmas_boss_door_open_state )
         goto L_End;
-    set @xmas_state, $@xmas_reward_start;
+    @xmas_state = $@xmas_reward_start;
     callfunc "XmasSetState";
-    set @xmas_state, 0;
-    set @karma_bonus, $@xmas_boss_bonus;
+    @xmas_state = 0;
+    @karma_bonus = $@xmas_boss_bonus;
     message strcharinfo(0), "Wow, what happened here?.";
     goto L_End;
 
@@ -338,14 +318,14 @@ L_EndNice:
     end;
 
 OnCommandChamberReset:
-    areatimer "030-4.gat", 0, 0, 50, 50, 10, "AniManOMat::OnReward";
-    set $@XmasBattleStatus, 0;
-    set $@XmasBossPlayerCount, 0;
-    set $@XmasBossRound, 0;
-    set $@BombTimer, 0;
-    set $@GuardAmount, 0;
-    set $@SkullAmount, 0;
-    killmonster "030-4.gat", "AniManOMat::OnGuardDeath";
+    areatimer "030-4", 0, 0, 50, 50, 10, "AniManOMat::OnReward";
+    $@XmasBattleStatus = 0;
+    $@XmasBossPlayerCount = 0;
+    $@XmasBossRound = 0;
+    $@BombTimer = 0;
+    $@GuardAmount = 0;
+    $@SkullAmount = 0;
+    killmonster "030-4", "AniManOMat::OnGuardDeath";
     stopnpctimer;
     setnpctimer 0;
     goto L_Restart;
@@ -354,7 +334,7 @@ OnInit:
     goto L_Restart;
 
 L_Restart:
-    set $@XmasBattleStatus, 0;
+    $@XmasBattleStatus = 0;
     setarray $@XmasBossMes$,
     "", // unused
     "", // unused
@@ -405,16 +385,16 @@ L_Restart:
     end;
 
 S_Announce:
-    mapannounce "030-4.gat", "Danger Cell Activated. Zone " + $@DangerCellNumber + " activated.", 0;
-    mapannounce "030-4.gat", $@msg$, 0;
-    mapannounce "030-2.gat", $@msg$, 0;
-    set $@msg$, "";
+    mapannounce "030-4", "Danger Cell Activated. Zone " + $@DangerCellNumber + " activated.", 0;
+    mapannounce "030-4", $@msg$, 0;
+    mapannounce "030-2", $@msg$, 0;
+    $@msg$ = "";
     return;
 
 S_CheckHardReq:
     if (BaseLevel < $@BossHardLevel)
         goto L_NotHighEnough;
-    if (countitem($@xmas_boss_req$[ @xmas_battle_side ]) < $@xmas_boss_amount[ @xmas_battle_side ])
+    if (countitemcolor($@xmas_boss_req$[ @xmas_battle_side ]) < $@xmas_boss_amount[ @xmas_battle_side ])
         goto L_NotEnoughItems;
     goto L_Return;
 
@@ -430,25 +410,24 @@ L_Return:
     return;
 
 S_ClearVariables:
-    set @xmas_battle_side, 0;
-    set @bonus, 0;
-    set @xmas_state, 0;
-    set @xmas_battle_status, 0;
-    set @karma_bonus, 0;
+    @xmas_battle_side = 0;
+    @bonus = 0;
+    @xmas_state = 0;
+    @xmas_battle_status = 0;
+    @karma_bonus = 0;
     return;
 }
 
-030-4.gat,0,0,0|script|#XmasChamberCooler|-1
-{
+030-4.gat,0,0,0	script	#XmasChamberCooler	-1,{
     end;
 OnCommandCoolDown:
-    set $@XmasBattleStatus, 0;
-    set $@XmasBattleCoolDown, 1;
+    $@XmasBattleStatus = 0;
+    $@XmasBattleCoolDown = 1;
     initnpctimer;
     end;
     
 OnTimer120000:
-    set $@XmasBattleCoolDown, 0;
+    $@XmasBattleCoolDown = 0;
     stopnpctimer;
     end;
 }

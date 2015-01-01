@@ -1,7 +1,4 @@
-// This file is part of the Tutorial
-// Author: Jenalya
-042-2.gat,28,26,0|script|Sorfina|154,1,4
-{
+042-2.gat,28,26,0	script	Sorfina	154,1,4,{
     setarray @npc_loc, 28, 26, 4;
     callfunc "PCtoNPCRange";
     if (@npc_check)
@@ -72,7 +69,7 @@ L_Carpet:
     mes "Just use the ###keyMoveUp; to move up, press ###keyMoveDown; to move down, ";
     mes "press ###keyMoveLeft; to move left, press ###keyMoveRight; to move right ";
     mes " or click on the place you want to go to.\"";
-    set @tutorial_tmp, 1;
+    @tutorial_tmp = 1;
     callfunc "SetTutorialMask";
     goto L_Close;
 
@@ -117,8 +114,8 @@ L_Clothes:
     mes "\"[Sorfina]\"";
     mes "\"And here is some money for you. At least you can buy yourself something to eat.";
     mes "Good luck!\"";
-    set Zeny, Zeny + 30;
-    set @tutorial_tmp, 4;
+    Zeny = Zeny + 30;
+    @tutorial_tmp = 4;
     callfunc "SetTutorialMask";
     goto L_Close;
 
@@ -239,7 +236,7 @@ L_Next:
     next;
     mes "\"However, the scorpions poison caused a bad fever and once Hasan had recovered from that, he was even more malicious than before.\"";
     mes "She sighs.";
-    set @tutorial_tmp, 11;
+    @tutorial_tmp = 11;
     callfunc "SetTutorialMask";
     goto L_Close;
 
@@ -259,8 +256,8 @@ L_Bye:
     getitem "HitchhikersTowel", 1;
     getitem "CottonShirt", 1;
     getitem "RaggedShorts", 1;
-    set Zeny, Zeny + 50;
-    set @tutorial_tmp, 8;
+    Zeny = Zeny + 50;
+    @tutorial_tmp = 8;
     callfunc "SetTutorialMask";
     mes "Good luck.\"";
     goto L_Close;
@@ -275,8 +272,7 @@ OnTouch:
     goto L_Start;
 }
 
-042-2.gat,33,27,0|script|#Carpet|32767,1,1
-{
+042-2.gat,33,27,0	script	#Carpet	32767,1,1,{
     end;
 
 OnTouch:
@@ -295,13 +291,12 @@ OnTouch:
     mes "\"To interact with things in your environment or talk to NPCs you can either click on it or press N to focus and T to talk/activate.\"";
     next;
     mes "\"Now get the clothes out of the chest.\"";
-    set @tutorial_tmp, 2;
+    @tutorial_tmp = 2;
     callfunc "SetTutorialMask";
     close;
 }
 
-042-2.gat,29,23,0|script|Chest#tutorial|111
-{
+042-2.gat,29,23,0	script	Chest#tutorial	111,{
     callfunc "TutorialState";
     if (@tutorial > 2) goto L_Empty;
     if (@tutorial == 2) goto L_Shirt;
@@ -320,7 +315,7 @@ L_Shirt:
     mes "\"You can open your inventory by pressing F3 or clicking on the 'Inventory' button in the bar at the upper right corner.\"";
     next;
     mes "\"After we finish talking, click on the clothes and press the equip button.\"";
-    set @tutorial_tmp, 3;
+    @tutorial_tmp = 3;
     callfunc "SetTutorialMask";
     close;
 
@@ -329,15 +324,14 @@ L_Empty:
     close;
 }
 
-042-2.gat,44,31,0|script|#DoorOutTut1|45,0,0
-{
+042-2.gat,44,31,0	script	#DoorOutTut1	45,0,0,{
     end;
 
 OnTouch:
     callfunc "TutorialState";
     if (@tutorial < 4)
             goto L_Block;
-    warp "042-1.gat", 51, 44;
+    warp "042-1", 51, 44;
     end;
 
 L_Block:

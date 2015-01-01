@@ -1,11 +1,9 @@
-//# see detailed description at orum.txt
-function|script|GetTorchColor
-{
+function	script	GetTorchColor	{
     if (@Torch < 0 || @Torch > 2) goto L_Error;
 
-    set @Mask, 15;
-    set @Shift, 4 * @Torch;
-    set @TorchColor, (OrumQuestTorch >> @Shift) & @Mask;
+    @Mask = 15;
+    @Shift = 4 * @Torch;
+    @TorchColor = (OrumQuestTorch >> @Shift) & @Mask;
     return;
 
 L_Error:
@@ -13,13 +11,12 @@ L_Error:
     close;
 }
 
-function|script|SetTorchColor
-{
+function	script	SetTorchColor	{
     if (@Torch < 0 || @Torch > 2) goto L_Error;
     if (@TorchColor < 1 || @TorchColor > 12) goto L_Error2;
 
-    set @Mask, (15 << (4 * @Torch));
-    set OrumQuestTorch, (OrumQuestTorch & (~(@Mask))) | @TorchColor << (4 * @Torch);
+    @Mask = (15 << (4 * @Torch));
+    OrumQuestTorch = (OrumQuestTorch & (~(@Mask))) | @TorchColor << (4 * @Torch);
     return;
 
 L_Error:
@@ -31,13 +28,12 @@ L_Error2:
     close;
 }
 
-function|script|GetTorchIntensity
-{
+function	script	GetTorchIntensity	{
     if (@Torch < 0 || @Torch > 2) goto L_Error;
 
-    set @Mask, 15;
-    set @Shift, 4 * (@Torch + 3);
-    set @TorchIntensity, (OrumQuestTorch >> @Shift) & @Mask;
+    @Mask = 15;
+    @Shift = 4 * (@Torch + 3);
+    @TorchIntensity = (OrumQuestTorch >> @Shift) & @Mask;
     return;
 
 L_Error:
@@ -45,13 +41,12 @@ L_Error:
     close;
 }
 
-function|script|SetTorchIntensity
-{
+function	script	SetTorchIntensity	{
     if (@Torch < 0 || @Torch > 2) goto L_Error;
     if (@TorchIntensity < 0 || @TorchIntensity > 2) goto L_Error2;
 
-    set @Mask, (15 << (4 * (@Torch + 3)));
-    set OrumQuestTorch, (OrumQuestTorch & (~(@Mask))) | @TorchIntensity << (4 * (@Torch + 3));
+    @Mask = (15 << (4 * (@Torch + 3)));
+    OrumQuestTorch = (OrumQuestTorch & (~(@Mask))) | @TorchIntensity << (4 * (@Torch + 3));
     return;
 
 L_Error:
@@ -63,8 +58,7 @@ L_Error2:
     close;
 }
 
-function|script|DoneWithTorches
-{
+function	script	DoneWithTorches	{
     if (OrumQuest < 11 && OrumQuest >= 8)
         goto L_Return;
 
@@ -79,17 +73,15 @@ function|script|DoneWithTorches
 
 L_Different:
     mes "The flame on this torch looks different than the rest. You better tell Orum about it before doing anything.";
-    set OrumQuest, 6;
+    OrumQuest = 6;
     close;
 
 L_Return:
     return;
 }
 
-// To make sure in range of torches
-function|script|InRangeTorch1
-{
-    if (isin("009-4.gat",67,20,69,25))
+function	script	InRangeTorch1	{
+    if (isin("009-4",67,20,69,25))
         goto L_Return;
     mes "You're too far away to do anything with that torch.";
     close;
@@ -97,9 +89,8 @@ function|script|InRangeTorch1
 L_Return:
     return;
 }
-function|script|InRangeTorch2
-{
-    if (isin("009-4.gat",65,41,69,46))
+function	script	InRangeTorch2	{
+    if (isin("009-4",65,41,69,46))
         goto L_Return;
     mes "You're too far away to do anything with that torch.";
     close;
@@ -107,9 +98,8 @@ function|script|InRangeTorch2
 L_Return:
     return;
 }
-function|script|InRangeTorch3
-{
-    if (isin("009-4.gat",33,84,37,88))
+function	script	InRangeTorch3	{
+    if (isin("009-4",33,84,37,88))
         goto L_Return;
     mes "You're too far away to do anything with that torch.";
     close;
@@ -118,8 +108,7 @@ L_Return:
     return;
 }
 
-function|script|TorchLoop
-{
+function	script	TorchLoop	{
     // Variables used here:
     // @Torch - pass before calling
     // @TorchColor - initialized here, updated throughout
@@ -147,7 +136,7 @@ L_Leave:
     close;
 
 L_Use_Red:
-    if (countitem("RedPowder") < 1)
+    if (countitemcolor("RedPowder") < 1)
         goto L_No_Powder;
     delitem "RedPowder", 1;
 
@@ -169,11 +158,11 @@ L_Use_Red:
 
     // work around an old bug
     if (@TorchColor == 0)
-        set @TorchColor, 1;
+        @TorchColor = 1;
     goto L_Show_Color;
 
 L_Use_Yellow:
-    if (countitem("YellowPowder") < 1)
+    if (countitemcolor("YellowPowder") < 1)
         goto L_No_Powder;
     delitem "YellowPowder", 1;
 
@@ -195,11 +184,11 @@ L_Use_Yellow:
 
     // work around an old bug
     if (@TorchColor == 0)
-        set @TorchColor, 5;
+        @TorchColor = 5;
     goto L_Show_Color;
 
 L_Use_Blue:
-    if (countitem("BluePowder") < 1)
+    if (countitemcolor("BluePowder") < 1)
         goto L_No_Powder;
     delitem "BluePowder", 1;
 
@@ -223,7 +212,7 @@ L_Use_Blue:
 
     // work around an old bug
     if (@TorchColor == 0)
-        set @TorchColor, 9;
+        @TorchColor = 9;
     goto L_Show_Color;
 
 L_No_Powder:
@@ -231,27 +220,27 @@ L_No_Powder:
     close;
 
 L_Color_Dec:
-    set @TorchColor, @TorchColor - 1;
+    @TorchColor = @TorchColor - 1;
     if (@TorchColor == 0)
-        set @TorchColor, 12;
+        @TorchColor = 12;
     goto L_Show_Color;
 
 L_Color_Dec_Wrong:
-    set @TorchColor, @TorchColor - 1;
+    @TorchColor = @TorchColor - 1;
     if (@TorchColor == 0)
-        set @TorchColor, 12;
+        @TorchColor = 12;
     goto L_WrongColor;
 
 L_Color_Inc_Wrong:
-    set @TorchColor, @TorchColor + 1;
+    @TorchColor = @TorchColor + 1;
     if (@TorchColor == 13)
-        set @TorchColor, 1;
+        @TorchColor = 1;
     goto L_WrongColor;
 
 L_Color_Inc:
-    set @TorchColor, @TorchColor + 1;
+    @TorchColor = @TorchColor + 1;
     if (@TorchColor == 13)
-        set @TorchColor, 1;
+        @TorchColor = 1;
     goto L_Show_Color;
 
 L_Show_Color:
@@ -262,7 +251,7 @@ L_Show_Color:
 
 L_WrongColor:
     callfunc "SetTorchColor";
-    set @TorchIntensity, @TorchIntensity + 1;
+    @TorchIntensity = @TorchIntensity + 1;
     if (@TorchIntensity > 2)
         goto L_Failed;
     callfunc "SetTorchIntensity";
@@ -274,43 +263,37 @@ L_Failed:
     mes "As you pour the powder into the flame it flares violently before bursting into your face!";
     misceffect 5;
     misceffect 16;
-    set @TorchIntensity, 0;
+    @TorchIntensity = 0;
     callfunc "SetTorchIntensity";
     heal -Hp, 0;
     close;
 }
 
-// First Torch
-009-4.gat,68,21,0|script|Torch#1|400
-{
+009-4.gat,68,21,0	script	Torch#1	400,{
     callfunc "InRangeTorch1";
     callfunc "DoneWithTorches";
 
-    set @Torch, 0;
+    @Torch = 0;
     callfunc "TorchLoop";
     // unreachable
     end;
 }
 
-// Second Torch
-009-4.gat,67,42,0|script|Torch#2|400
-{
+009-4.gat,67,42,0	script	Torch#2	400,{
     callfunc "InRangeTorch2";
     callfunc "DoneWithTorches";
 
-    set @Torch, 1;
+    @Torch = 1;
     callfunc "TorchLoop";
     // unreachable
     end;
 }
 
-// Third Torch
-009-4.gat,33,86,0|script|Torch#3|400
-{
+009-4.gat,33,86,0	script	Torch#3	400,{
     callfunc "InRangeTorch3";
     callfunc "DoneWithTorches";
 
-    set @Torch, 2;
+    @Torch = 2;
     callfunc "TorchLoop";
     // unreachable
     end;

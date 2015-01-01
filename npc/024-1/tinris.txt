@@ -1,38 +1,19 @@
-// Anwar needs a magic fertilizer for his field
-// Quest uses Nibble 3 of QUEST_NorthTulimshar
-// Author: Jenalya
-// state 1: Anwar sent to Tinris for help to get a magic fertilizer
-// state 2: Tinris asked for chocolate cake as present for his girlfriend
-// state 3: Tinris asked for ingredients for the fertilizer
-// state 4: Tinris gave you the fertilizer
-// state 5: Anwar tried it out and it doesn't work well, sent you back to Tinris
-// state 6: Tinris asked for more ingredients for a new try
-// state 7: Tinris says it's really hard, gives you the fertilizer and tells you to ask Eomie to cast a spell on it
-// state 8: Eomie sends you to get some stuff so she can interrupt her spell on the spot of grass
-// state 9: Eomie casted a spell on the fertilizer
-// state 10: Anwar used it and it worked. he asks you to help him preparing a thank-you-gift for each Tinris and Eomis
-// state 11: Anwar asked to bring present to Tinris
-// state 12: gave present to Tinris
-// state 13: Anwar asked to bring present to Eomie
-// state 14: gave present to Eomie
-// state 15: reported back to Anwar and done
 
-024-1.gat,82,64,0|script|Tinris|160
-{
-    set @state, ((QUEST_NorthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+024-1.gat,82,64,0	script	Tinris	160,{
+    @state = ((QUEST_NorthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
-    set @cake_exp, 50;
-    set @sweater_exp, 400;
+    @cake_exp = 50;
+    @sweater_exp = 400;
 
-    set @slime_amount1, 6;
-    set @slime_amount2, 4;
-    set @bugleg_amount1, 4;
-    set @bugleg_amount2, 5;
-    set @stinger_amount1, 3;
-    set @stinger_amount2, 2;
-    set @ash_amount1, 1;
-    set @ash_amount2, 2;
-    set @cactusp_amount, 1;
+    @slime_amount1 = 6;
+    @slime_amount2 = 4;
+    @bugleg_amount1 = 4;
+    @bugleg_amount2 = 5;
+    @stinger_amount1 = 3;
+    @stinger_amount2 = 2;
+    @ash_amount1 = 1;
+    @ash_amount2 = 2;
+    @cactusp_amount = 1;
 
     if (@state >= 12) goto L_Done;
     if (@state == 11) goto L_GiveGift;
@@ -59,7 +40,7 @@ L_Next:
     mes "Please go to the bakery and buy a Chocolate Cake for me. She loves Chocolate Cakes.\"";
     next;
     mes "\"When I have a present for her I can focus on creating some magic fertilizer.\"";
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -71,11 +52,11 @@ L_Annual: // @state == 2
         "I didn't get it yet.",L_Close;
 
 L_FreshFrom:
-    if (countitem("ChocolateCake") < 1)
+    if (countitemcolor("ChocolateCake") < 1)
         goto L_NoItem;
     delitem "ChocolateCake", 1;
     getexp @cake_exp, 0;
-    set @state, 3;
+    @state = 3;
     callsub S_Update_Mask;
     mes "[Tinris]";
     mes "\"Oh, thank you! You saved me!";
@@ -93,13 +74,13 @@ L_FirstTry:
         "Ok, I'll go and get it.",L_Close;
 
 L_Continue:
-    if ((countitem("MaggotSlime") < @slime_amount1) || (countitem("BugLeg") < @bugleg_amount1) || (countitem("ScorpionStinger") < @stinger_amount1) || (countitem("PileOfAsh") < @ash_amount1))
+    if ((countitemcolor("MaggotSlime") < @slime_amount1) || (countitemcolor("BugLeg") < @bugleg_amount1) || (countitemcolor("ScorpionStinger") < @stinger_amount1) || (countitemcolor("PileOfAsh") < @ash_amount1))
         goto L_NoItem;
     delitem "MaggotSlime", @slime_amount1;
     delitem "BugLeg", @bugleg_amount1;
     delitem "ScorpionStinger", @stinger_amount1;
     delitem "PileOfAsh", @ash_amount1;
-    set @state, 4;
+    @state = 4;
     callsub S_Update_Mask;
     mes "Tinris takes the things and starts to mix them together while mumbling some invocations.";
     misceffect sfx_magic_nature;
@@ -119,7 +100,7 @@ L_FirstTryDone: // @state >= 4 but below 6
         "I did, the plants went brown and shriveled.",L_More;
 
 L_More:
-    set @state, 6;
+    @state = 6;
     callsub S_Update_Mask;
     goto L_SecondTry;
 
@@ -133,14 +114,14 @@ L_SecondTry:
         "Ok, I'll go and get it.",L_Close;
 
 L_HereItIs:
-    if ((countitem("MaggotSlime") < @slime_amount2) || (countitem("BugLeg") < @bugleg_amount2) || (countitem("ScorpionStinger") < @stinger_amount2) || (countitem("PileOfAsh") < @ash_amount2) || (countitem("CactusPotion") < @cactusp_amount))
+    if ((countitemcolor("MaggotSlime") < @slime_amount2) || (countitemcolor("BugLeg") < @bugleg_amount2) || (countitemcolor("ScorpionStinger") < @stinger_amount2) || (countitemcolor("PileOfAsh") < @ash_amount2) || (countitemcolor("CactusPotion") < @cactusp_amount))
         goto L_NoItem;
     delitem "MaggotSlime", @slime_amount2;
     delitem "BugLeg", @bugleg_amount2;
     delitem "ScorpionStinger", @stinger_amount2;
     delitem "PileOfAsh", @ash_amount2;
     delitem "CactusPotion", @cactusp_amount;
-    set @state, 7;
+    @state = 7;
     callsub S_Update_Mask;
     mes "Tinris takes the things and starts to mix and mumble again.";
     misceffect sfx_magic_nature;
@@ -176,11 +157,11 @@ L_GiveGift:
         "Not yet.",L_Close;
 
 L_ItWorksGreat:
-    if (countitem("GreenVNeckSweater") < 1)
+    if (countitemcolor("GreenVNeckSweater") < 1)
         goto L_NoItem;
     delitem "GreenVNeckSweater", 1;
     getexp @sweater_exp, 0;
-    set @state, 12;
+    @state = 12;
     callsub S_Update_Mask;
     mes "[Tinris]";
     mes "\"Hey, that's really nice. Tell him my thanks.\"";
@@ -201,19 +182,19 @@ L_NoItem:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
-    set @slime_amount1, 0;
-    set @slime_amount2, 0;
-    set @bugleg_amount1, 0;
-    set @bugleg_amount2, 0;
-    set @stinger_amount1, 0;
-    set @stinger_amount2, 0;
-    set @ash_amount1, 0;
-    set @ash_amount2, 0;
-    set @cactusp_amount, 0;
+    @state = 0;
+    @slime_amount1 = 0;
+    @slime_amount2 = 0;
+    @bugleg_amount1 = 0;
+    @bugleg_amount2 = 0;
+    @stinger_amount1 = 0;
+    @stinger_amount2 = 0;
+    @ash_amount1 = 0;
+    @ash_amount2 = 0;
+    @cactusp_amount = 0;
     close;
 
 S_Update_Mask:
-    set QUEST_NorthTulimshar, (QUEST_NorthTulimshar & ~(NIBBLE_3_MASK)) | (@state << NIBBLE_3_SHIFT);
+    QUEST_NorthTulimshar = (QUEST_NorthTulimshar & ~(NIBBLE_3_MASK)) | (@state << NIBBLE_3_SHIFT);
     return;
 }

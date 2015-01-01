@@ -1,10 +1,8 @@
-//
 
-018-2.gat,50,24,0|script|Receptionist#mine|108
-{
+018-2.gat,50,24,0	script	Receptionist#mine	108,{
     callfunc "ClearVariables";
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     mes "[Receptionist]";
     mes "\"Welcome to the mining camp!";
@@ -65,6 +63,6 @@ L_Question_End:
     goto L_Menu;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 }

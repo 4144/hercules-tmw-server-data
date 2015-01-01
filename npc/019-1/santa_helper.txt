@@ -1,9 +1,5 @@
-// Author: accoring to git history probably Jaxad
-// and extended by wushin to be included in the annual
-// quest made seasonal and adapted to new scripting standards by Jenalya
 
-019-1.gat,74,75,0|script|Santa's Helper|105
-{
+019-1.gat,74,75,0	script	Santa's Helper	105,{
     callfunc "ClearVariables";
     callfunc "XmasStates";
 
@@ -40,14 +36,14 @@ L_Yes:
     mes "[Santa's Helper]";
     mes "\"Hmm, let me check what you have.\"";
     next;
-    if (countitem("PurplePresentBox") < $@xmas_sh_purple_amount)
+    if (countitemcolor("PurplePresentBox") < $@xmas_sh_purple_amount)
         goto L_NoItem;
-    if (countitem("BluePresentBox") < $@xmas_sh_blue_amount)
+    if (countitemcolor("BluePresentBox") < $@xmas_sh_blue_amount)
         goto L_NoItem;
-    if (countitem("GreenPresentBox") < $@xmas_sh_green_amount)
+    if (countitemcolor("GreenPresentBox") < $@xmas_sh_green_amount)
         goto L_NoItem;
     getinventorylist;
-    set @SantasHelper_Reward$, $@SantasHelper_Annual_Reward$[ rand(getarraysize($@SantasHelper_Annual_Reward$)) ];
+    @SantasHelper_Reward$ = $@SantasHelper_Annual_Reward$[ rand(getarraysize($@SantasHelper_Annual_Reward$)) ];
     if ((@inventorylist_count > 99) || (checkweight(@SantasHelper_Reward$, 1) == 0))
         goto L_TooMany;
     mes "[Santa's Helper]";
@@ -56,9 +52,9 @@ L_Yes:
     delitem "BluePresentBox", $@xmas_sh_blue_amount;
     delitem "GreenPresentBox", $@xmas_sh_green_amount;
     getitem @SantasHelper_Reward$, 1;
-    set @SantasHelper_Reward$, "";
-    set XMASTIME, XMASTIME | $@xmas_sh_bit;
-    set @karma_bonus, $@xmas_karma_bonus;
+    @SantasHelper_Reward$ = "";
+    XMASTIME = XMASTIME | $@xmas_sh_bit;
+    @karma_bonus = $@xmas_karma_bonus;
     callfunc "XmasNice";
     goto L_Close;
 

@@ -1,8 +1,5 @@
-// 
-// Author: Wushin
 
-042-2.gat,103,56,0|script|#MagicBasement|400,0,0
-{
+042-2.gat,103,56,0	script	#MagicBasement	400,0,0,{
     callfunc "MorganState";
     if (@morgan < 4)
         goto L_Close;

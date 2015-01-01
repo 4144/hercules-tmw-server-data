@@ -1,43 +1,32 @@
-// author: Jenalya
-// love triangle quest, involved npcs: Reid's Ghost, Hamond, Savaric, Aldred, Golbenez
-// state 0: just talking, if lovers state is >= 2, go on
-// state 1: ignores you until lovers state is >= 3, player can ask about the inn. needs if woman >= 7, lover >= 3 and husband >= 4 to go on
-// state 2: shows reids memory if the player brings @ROTTENRAGS_AMOUNT rotten rags and an orange cake
-// state 3: shows hamonds memory if the player brings @UNDEADEAR_AMOUNT undead ears and a chocolate cake
-// state 4: shows savarics memory if the player brings @UNDEADEYE_AMOUNT undead eyes and an apple cake
-// state 5: shows all memories again if asked for them. if @lover == 6, player can ask for savarics soul
-// state 6: wants jackOsouls, random chance of 1/50 to success, small amount of exp for fail
-// state 7: done
 
-027-2.gat,39,91,0|script|Golbenez|307
-{
-    set @Graveyard_Inn_MASK, NIBBLE_4_MASK;
-    set @Graveyard_Inn_SHIFT, NIBBLE_4_SHIFT;
+027-2.gat,39,91,0	script	Golbenez	307,{
+    @Graveyard_Inn_MASK = NIBBLE_4_MASK;
+    @Graveyard_Inn_SHIFT = NIBBLE_4_SHIFT;
 
-    set @state, ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
+    @state = ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
 
-    set @Graveyard_Inn_Woman_MASK, NIBBLE_0_MASK;
-    set @Graveyard_Inn_Woman_SHIFT, NIBBLE_0_SHIFT;
+    @Graveyard_Inn_Woman_MASK = NIBBLE_0_MASK;
+    @Graveyard_Inn_Woman_SHIFT = NIBBLE_0_SHIFT;
 
-    set @woman, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Woman_MASK) >> @Graveyard_Inn_Woman_SHIFT);
+    @woman = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Woman_MASK) >> @Graveyard_Inn_Woman_SHIFT);
 
-    set @Graveyard_Inn_Lover_MASK, NIBBLE_1_MASK;
-    set @Graveyard_Inn_Lover_SHIFT, NIBBLE_1_SHIFT;
+    @Graveyard_Inn_Lover_MASK = NIBBLE_1_MASK;
+    @Graveyard_Inn_Lover_SHIFT = NIBBLE_1_SHIFT;
 
-    set @lover, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Lover_MASK) >> @Graveyard_Inn_Lover_SHIFT);
+    @lover = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Lover_MASK) >> @Graveyard_Inn_Lover_SHIFT);
 
-    set @Graveyard_Inn_Husband_MASK, NIBBLE_3_MASK;
-    set @Graveyard_Inn_Husband_SHIFT, NIBBLE_3_SHIFT;
+    @Graveyard_Inn_Husband_MASK = NIBBLE_3_MASK;
+    @Graveyard_Inn_Husband_SHIFT = NIBBLE_3_SHIFT;
 
-    set @husband, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Husband_MASK) >> @Graveyard_Inn_Husband_SHIFT);
+    @husband = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Husband_MASK) >> @Graveyard_Inn_Husband_SHIFT);
 
-    set @ROTTENRAGS_AMOUNT, 50;
-    set @ROTTENRAGS_EXP, 100000;
-    set @UNDEADEAR_AMOUNT, 15;
-    set @UNDEADEAR_EXP, 150000;
-    set @UNDEADEYE_AMOUNT, 10;
-    set @UNDEADEYE_EXP, 150000;
-    set @JACKOSOUL_EXP, 2000;
+    @ROTTENRAGS_AMOUNT = 50;
+    @ROTTENRAGS_EXP = 100000;
+    @UNDEADEAR_AMOUNT = 15;
+    @UNDEADEAR_EXP = 150000;
+    @UNDEADEYE_AMOUNT = 10;
+    @UNDEADEYE_EXP = 150000;
+    @JACKOSOUL_EXP = 2000;
 
     if (@state >= 7) goto L_Done;
     if (@state == 6) goto L_Soul;
@@ -82,7 +71,7 @@ L_WantGoOn:
     mes "[Golbenez]";
     mes "\"As I said, you do not understand. You are starting to bore me. Leave.\"";
 
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -126,14 +115,14 @@ L_WantsSoul:
     mes "\"You should have seen your face. Really, mortals can be so funny.\"";
     next;
     mes "\"Very well, I will show you the birdbrained woman's memories if you bring me " + @ROTTENRAGS_AMOUNT + " Rotten Rags. And an Orange Cake.\"";
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Mask;
     goto L_Close;
 
 L_Reid:
     mes "[Golbenez]";
     mes "\"So, do you have the " + @ROTTENRAGS_AMOUNT + " Rotten Rags I want?\"";
-    if (countitem("RottenRags") < @ROTTENRAGS_AMOUNT)
+    if (countitemcolor("RottenRags") < @ROTTENRAGS_AMOUNT)
         menu
             "What do you need them for?",L_Why_Stuff,
             "I'm working on that.",L_Close;
@@ -142,9 +131,9 @@ L_Reid:
         "I'm working on that.",L_Close;
 
 L_GiveRags:
-    if (countitem("OrangeCake") < 1)
+    if (countitemcolor("OrangeCake") < 1)
         goto L_No_Cake;
-    if (countitem("RottenRags") < @ROTTENRAGS_AMOUNT)
+    if (countitemcolor("RottenRags") < @ROTTENRAGS_AMOUNT)
         goto L_Betray;
     delitem "RottenRags", @ROTTENRAGS_AMOUNT;
     delitem "OrangeCake", 1;
@@ -156,7 +145,7 @@ L_GiveRags:
     mes "\"You hesitate but then take a step towards Golbenez. He grabs your head with his claw-like fingers.\"";
     next;
     callsub S_Reidsmem;
-    set @state, 3;
+    @state = 3;
     callsub S_Update_Mask;
     menu
         "Can I see it again?",L_CollectMem,
@@ -175,7 +164,7 @@ L_CollectMem:
 L_Hamond:
     mes "[Golbenez]";
     mes "\"Ah, mortal. Do you have the " + @UNDEADEAR_AMOUNT + " Undead Ears I want?\"";
-    if (countitem("UndeadEar") < @UNDEADEAR_AMOUNT)
+    if (countitemcolor("UndeadEar") < @UNDEADEAR_AMOUNT)
         menu
             "I want to see Reid's memory again.",L_R_Again,
             "What will you do with them?",L_Why_Stuff,
@@ -186,9 +175,9 @@ L_Hamond:
         "I'm working on that.",L_Close;
 
 L_GiveEar:
-    if (countitem("ChocolateCake") < 1)
+    if (countitemcolor("ChocolateCake") < 1)
         goto L_No_Cake;
-    if (countitem("UndeadEar") < @UNDEADEAR_AMOUNT)
+    if (countitemcolor("UndeadEar") < @UNDEADEAR_AMOUNT)
         goto L_Betray;
     delitem "UndeadEar", @UNDEADEAR_AMOUNT;
     delitem "ChocolateCake", 1;
@@ -198,7 +187,7 @@ L_GiveEar:
     next;
     mes "You step closer to Golbenez and he holds your head again.";
     callsub S_Hamondsmem;
-    set @state, 4;
+    @state = 4;
     callsub S_Update_Mask;
     mes "[Golbenez]";
     mes "\"It is really interesting how illogical humans behave.\"";
@@ -211,7 +200,7 @@ L_GiveEar:
 L_Savaric:
     mes "[Golbenez]";
     mes "\"I hope you are bringing me the " + @UNDEADEYE_AMOUNT + " Undead Eyes I want.\"";
-    if (countitem("UndeadEye") < @UNDEADEYE_AMOUNT)
+    if (countitemcolor("UndeadEye") < @UNDEADEYE_AMOUNT)
         menu
             "I want to see Reid's memory again.",L_R_Again,
             "I want to see Hamond's memory again.",L_H_Again,
@@ -224,9 +213,9 @@ L_Savaric:
         "I'm working on that.",L_Close;
 
 L_GiveEye:
-    if (countitem("AppleCake") < 1)
+    if (countitemcolor("AppleCake") < 1)
         goto L_No_Cake;
-    if (countitem("UndeadEye") < @UNDEADEYE_AMOUNT)
+    if (countitemcolor("UndeadEye") < @UNDEADEYE_AMOUNT)
         goto L_Betray;
     delitem "UndeadEye", @UNDEADEYE_AMOUNT;
     delitem "AppleCake", 1;
@@ -236,7 +225,7 @@ L_GiveEye:
     next;
     mes "He holds your head and everything goes black again.";
     callsub S_Savaricsmem;
-    set @state, 5;
+    @state = 5;
     callsub S_Update_Mask;
     mes "[Golbenez]";
     mes "\"Humans can be so amusing!\"";
@@ -286,7 +275,7 @@ L_WantSoulBack:
 L_GetSoul:
     mes "[Golbenez]";
     mes "\"Bring me a soul of at least equal power to the mage's. I do not care about its origin.\"";
-    set @state, 6;
+    @state = 6;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -296,7 +285,7 @@ L_Soul:
     goto L_Soul_Try;
 
 L_Soul_Try:
-    if (countitem("Soul") < 1)
+    if (countitemcolor("Soul") < 1)
         menu
             "I'll go and get one.",L_Close;
     menu
@@ -304,10 +293,10 @@ L_Soul_Try:
         "I'll go and try to find a soul.",L_Close;
 
 L_TryThisSoul:
-    if (countitem("Soul") < 1)
+    if (countitemcolor("Soul") < 1)
         goto L_Betray;
     delitem "Soul", 1;
-    set @soul, rand(50);
+    @soul = rand(50);
     if (@soul == 0)
         goto L_Soul_Success;
     mes "[Golbenez]";
@@ -321,7 +310,7 @@ L_Soul_Success:
     mes "\"Yes! This one is full of energy.\"";
     next;
     mes "\"So be it, mortal. I will release Savaric's soul in exchange for this one.\"";
-    set @state, 7;
+    @state = 7;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -380,26 +369,26 @@ L_No_Cake:
     goto L_Close;
 
 L_Close:
-    set @Graveyard_Inn_MASK, 0;
-    set @Graveyard_Inn_SHIFT, 0;
-    set @state, 0;
-    set @Graveyard_Inn_Woman_MASK, 0;
-    set @Graveyard_Inn_Woman_SHIFT, 0;
-    set @woman, 0;
-    set @Graveyard_Inn_Lover_MASK, 0;
-    set @Graveyard_Inn_Lover_SHIFT, 0;
-    set @lover, 0;
-    set @Graveyard_Inn_Husband_MASK, 0;
-    set @Graveyard_Inn_Husband_SHIFT, 0;
-    set @husband, 0;
-    set @ROTTENRAGS_AMOUNT, 0;
-    set @ROTTENRAGS_EXP, 0;
-    set @UNDEADEAR_AMOUNT, 0;
-    set @UNDEADEAR_EXP, 0;
-    set @UNDEADEYE_AMOUNT, 0;
-    set @UNDEADEYE_EXP, 0;
-    set @JACKOSOUL_EXP, 0;
-    set @soul, 0;
+    @Graveyard_Inn_MASK = 0;
+    @Graveyard_Inn_SHIFT = 0;
+    @state = 0;
+    @Graveyard_Inn_Woman_MASK = 0;
+    @Graveyard_Inn_Woman_SHIFT = 0;
+    @woman = 0;
+    @Graveyard_Inn_Lover_MASK = 0;
+    @Graveyard_Inn_Lover_SHIFT = 0;
+    @lover = 0;
+    @Graveyard_Inn_Husband_MASK = 0;
+    @Graveyard_Inn_Husband_SHIFT = 0;
+    @husband = 0;
+    @ROTTENRAGS_AMOUNT = 0;
+    @ROTTENRAGS_EXP = 0;
+    @UNDEADEAR_AMOUNT = 0;
+    @UNDEADEAR_EXP = 0;
+    @UNDEADEYE_AMOUNT = 0;
+    @UNDEADEYE_EXP = 0;
+    @JACKOSOUL_EXP = 0;
+    @soul = 0;
     close;
 
 S_Reidsmem:

@@ -1,8 +1,5 @@
-// Halloween Debug 
-// Author: Wushin
 
-function|script|HalloweenDebug
-{
+function	script	HalloweenDebug	{
     if(debug)
         goto L_Debug;
     goto L_Live;
@@ -37,8 +34,8 @@ L_DebugTime:
     goto L_Debug;
 
 L_LastReset:
-    set HALLOWEENTIME, 255;
-    set HALLOWEENYEAR, 2012;
+    HALLOWEENTIME = 255;
+    HALLOWEENYEAR = 2012;
     goto L_Debug;
 
 L_HalloweenTimeKey:
@@ -80,29 +77,29 @@ L_SetNewKey:
 
 L_QuestState:
     mes "Karma: " + (HALLOWEENTIME & 65535);
-    set @big_reward_status$, " No.";
+    @big_reward_status$ = " No.";
     if (HALLOWEENTIME & $@halloween_got_big_reward)
-        set @big_reward_status$, " Yes.";
+        @big_reward_status$ = " Yes.";
     mes "Big Reward: " + @big_reward_status$;
-    set @charm_reward_status$, " No.";
+    @charm_reward_status$ = " No.";
     if (HALLOWEENTIME & $@halloween_got_charm_reward)
-        set @charm_reward_status$, " Yes.";
+        @charm_reward_status$ = " Yes.";
     mes "Charm Reward:" + @charm_reward_status$;
-    set @npc_check_loop, 0;
+    @npc_check_loop = 0;
     goto L_NpcCheckLoop;
 
 L_NpcCheckLoop:
-    set @display_mes$, "NPC ID " + @npc_check_loop + ":" + $@halloween_npc_names$[@npc_check_loop];
-    set @npc_status$, " Needed";
+    @display_mes$ = "NPC ID " + @npc_check_loop + ":" + $@halloween_npc_names$[@npc_check_loop];
+    @npc_status$ = " Needed";
     if (HALLOWEENTIME & (1 << (31 - @npc_check_loop)))
-        set @npc_status$, " Complete";
-    set @display_mes$, @display_mes$ + @npc_status$;
+        @npc_status$ = " Complete";
+    @display_mes$ = @display_mes$ + @npc_status$;
     mes @display_mes$;
-    set @display_mes$, "";
+    @display_mes$ = "";
     goto L_NpcCheckInc;
 
 L_NpcCheckInc:
-    set @npc_check_loop, (@npc_check_loop + 1);
+    @npc_check_loop = (@npc_check_loop + 1);
     if (@npc_check_loop >= getarraysize($@halloween_npc_names$))
         goto L_TrickOrTreatCount;
     goto L_NpcCheckLoop;
@@ -116,31 +113,30 @@ L_TrickOrTreatCount:
 L_SetTrickOrTreats:
     mes "Enter NPC to set";
     input @halloween_npc_id;
-    set HALLOWEENTIME, HALLOWEENTIME | (1 << (31 - @halloween_npc_id));
+    HALLOWEENTIME = HALLOWEENTIME | (1 << (31 - @halloween_npc_id));
     goto L_Debug;
 
 L_ResetMe:
-    set HALLOWEENTIME, 0;
-    set HALLOWEENYEAR, $HALLOWEEN_TIME_KEY[5];
+    HALLOWEENTIME = 0;
+    HALLOWEENYEAR = $HALLOWEEN_TIME_KEY[5];
     goto L_Debug;
 
 L_ResetMask:
     mes "Enter NPC to reset:";
     input @halloween_npc_id;
-    set $@halloween_maskmemory[8 * @halloween_npc_id], 0;
+    $@halloween_maskmemory[8 * @halloween_npc_id] = 0;
     goto L_Debug;
 
 L_Close:
-    set @tmp, 0;
-    set @mask, 0;
-    set @karma, 0;
-    set @loop, 0;
-    set @menu, 0;
-    set @halloween_npc_id, 0;
+    @tmp = 0;
+    @mask = 0;
+    @karma = 0;
+    @loop = 0;
+    @menu = 0;
+    @halloween_npc_id = 0;
     close;
 }
-009-1.gat,51,38,0|script|HalloweenDebug#1|409
-{
+009-1.gat,51,38,0	script	HalloweenDebug#1	409,{
     callfunc "HalloweenDebug";
     goto L_End;
 
@@ -152,8 +148,7 @@ OnInit:
 L_End:
     end;
 }
-001-1.gat,38,26,0|script|HalloweenDebug#2|409
-{
+001-1.gat,38,26,0	script	HalloweenDebug#2	409,{
     callfunc "HalloweenDebug";
     goto L_End;
 
@@ -165,8 +160,7 @@ OnInit:
 L_End:
     end;
 }
-026-1.gat,23,37,0|script|HalloweenDebug#3|409
-{
+026-1.gat,23,37,0	script	HalloweenDebug#3	409,{
     callfunc "HalloweenDebug";
     goto L_End;
 

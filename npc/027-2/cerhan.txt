@@ -1,7 +1,5 @@
-// Author: Jenalya
 
-027-2.gat,70,77,0|script|Cerhan|311
-{
+027-2.gat,70,77,0	script	Cerhan	311,{
     mes "[Cerhan]";
     mes "\"Ah, hello! It's good to see another normal human at this strange place!\"";
     next;
@@ -15,7 +13,7 @@ L_Story:
     next;
     mes "\"I'm an experienced weapon master and I was thinking about establishing a smithy here. I'll need some more equipment, though.\"";
     next;
-    if (countitem("MylarinDust") > 0)
+    if (countitemcolor("MylarinDust") > 0)
         menu
             "Do you know something about 'Mylarin Dust'?", L_Mylarin,
             "Good luck with that.",L_GoodLuckWith;

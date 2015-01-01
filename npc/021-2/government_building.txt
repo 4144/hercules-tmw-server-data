@@ -1,19 +1,16 @@
-// The government builing in the south west
 
-// A clerk
-021-2.gat,27,17,0|script|Estard|107
-{
+021-2.gat,27,17,0	script	Estard	107,{
     mes "[Estard]";
     mes "\"Hello what can I do for you?\"";
     next;
     if (getpartnerid2())
-        goto L_main_married;
+        goto L_Main_married;
 
     menu
         "I'm looking at getting married.", L_marry,
         "Nothing, I guess.", L_Close;
 
-L_main_married:
+L_Main_married:
     menu
         "I'd like a divorce.", L_divorce,
         "Nothing, I guess.", L_Close;
@@ -72,7 +69,7 @@ L_get_rings_pay:
     close;
 
 L_divorce:
-    set @divorce_cost, DIVORCE_FEE_PER_LEVEL * BaseLevel;
+    @divorce_cost = DIVORCE_FEE_PER_LEVEL * BaseLevel;
 
     if (Zeny < @divorce_cost)
         goto L_divorce_not_enough;
@@ -98,7 +95,7 @@ L_do_divorce:
     close;
 
 L_divorce_done:
-    set Zeny, Zeny - @divorce_cost;
+    Zeny = Zeny - @divorce_cost;
 
     mes "[Estard]";
     mes "\"You have been divorced. Come again.\"";
@@ -129,19 +126,18 @@ S_give_rings:
     if (@inventorylist_count > 98)
         goto L_no_room_for_rings;
 
-    set Zeny, Zeny - WEDDING_FEE;
+    Zeny = Zeny - WEDDING_FEE;
     getitem "WeddingRing", 1;
     getitem "WeddingRing", 1;
     return;
 }
 
-021-2.gat,36,17,0|script|Tathin|107
-{
+021-2.gat,36,17,0	script	Tathin	107,{
     mes "[Tathin]";
     mes "\"Hello what Can I do for you?\"";
     next;
 
-    set @halloween_npc_id, $@halloween_npc_tathin;
+    @halloween_npc_id = $@halloween_npc_tathin;
     callfunc "TrickOrTreat";
 
     goto L_Base_Menu;
@@ -171,9 +167,7 @@ L_Close:
     close;
 }
 
-// Guard
-021-2.gat,20,19,0|script|Guard#govt_in|123,1,1
-{
+021-2.gat,20,19,0	script	Guard#govt_in	123,1,1,{
     mes "[Guard]";
     mes "\"You can't come back here.\"";
     close;

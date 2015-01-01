@@ -1,11 +1,9 @@
-// Variables used: nibble 1 of QUEST_SouthTulimshar
 
-001-1.gat,137,78,0|script|Sarah|106
-{
+001-1.gat,137,78,0	script	Sarah	106,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
+    @state = ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
 
     if (@state >= 2) goto L_Done;
     if (@state == 1) goto L_Progress;
@@ -14,7 +12,7 @@
     mes "\"Boy, am I hungry or what!\"";
     next;
 
-    set @TEMP, rand(2);
+    @TEMP = rand(2);
     if(@TEMP == 1) goto L_Opening1;
     goto L_Opening0;
 
@@ -38,14 +36,14 @@ L_Req0:
     mes "[Sarah]";
     mes "\"Yippee!  Bring me a piece of Cherry Cake, and I'll give you a nice hat!\"";
     next;
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Var;
     mes "[Sarah]";
     mes "\"Please bring it to me!\"";
     goto L_Close;
 
 L_Progress:
-    if (countitem("CherryCake") < 1)
+    if (countitemcolor("CherryCake") < 1)
         goto L_NotEnough;
     mes "[Sarah]";
     mes "\"Whee!\"";
@@ -53,10 +51,10 @@ L_Progress:
     mes "You brought me Cherry Cake!  Here is your new hat, as promised.\"";
     emotion EMOTE_TONGUE;
     getinventorylist;
-    if ((@inventorylist_count - (countitem("CherryCake") == 1)) > 99) goto L_TooMany;
+    if ((@inventorylist_count - (countitemcolor("CherryCake") == 1)) > 99) goto L_TooMany;
     delitem "CherryCake", 1;
     getitem "SerfHat", 1;
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Var;
     goto L_Close;
 
@@ -72,8 +70,8 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    set @TEMP, 0;
-    set @state, 0;
+    @TEMP = 0;
+    @state = 0;
     close;
 
 L_TooMany:
@@ -83,6 +81,6 @@ L_TooMany:
     goto L_Close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(NIBBLE_1_MASK) | (@state << NIBBLE_1_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(NIBBLE_1_MASK) | (@state << NIBBLE_1_SHIFT));
     return;
 }

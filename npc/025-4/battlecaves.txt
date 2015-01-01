@@ -1,9 +1,6 @@
-// Authors: alastrim, Ali-g, Dark Mage
 
-// ---------------------------------    Cave 1    -----------------------------------
 
-025-4.gat,41,85,0|script|#StartCaveFight1|324
-{
+025-4.gat,41,85,0	script	#StartCaveFight1	324,{
     if ($@battlecave1 == 2 && $@cave1fighter$ == strcharinfo(0))
         end;
     if ($@battlecave1 == 2 && $@cave1fighter$ != strcharinfo(0))
@@ -25,20 +22,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave1, 2;
+    $@battlecave1 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave1_loop, $@cave1_loop + 1;
-    areamonster "025-4.gat",26,63,60,97,"",$@cave1_monsters_IDS[$@cave1_loop],$@cave1_monsters_QTY[$@cave1_loop],"#StartCaveFight1::OnMonsterDeath";
+    $@cave1_loop = $@cave1_loop + 1;
+    areamonster "025-4",26,63,60,97,"",$@cave1_monsters_IDS[$@cave1_loop],$@cave1_monsters_QTY[$@cave1_loop],"#StartCaveFight1::OnMonsterDeath";
     if ($@cave1_loop <= getarraysize($@cave1_monsters_IDS))
         goto L_Summon;
-    set $@cave1_loop, 0;
+    $@cave1_loop = 0;
     end;
 
 L_Abort:
@@ -46,24 +43,22 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave1, $@wave_cave1 + 1;
-    set $@cave1_kills, 0;
+    $@wave_cave1 = $@wave_cave1 + 1;
+    $@cave1_kills = 0;
     if (attachrid(getcharid(3,$@cave1fighter$)) == 0) goto L_Abort;
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave1 == 1)
         message strcharinfo(0), "As soon as you kill the last monster, your vision blacks out and you feel a strange sensation... Maybe it is not healthy to stay in this cave.";
 
     if ($@wave_cave1 < $@cave1_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE1);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE1);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS    + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave1_kills, $@cave1_kills + 1;
+    $@cave1_kills = $@cave1_kills + 1;
     if ($@cave1_kills >= $@cave1_monsters_QTY[1] + $@cave1_monsters_QTY[2] + $@cave1_monsters_QTY[3] + $@cave1_monsters_QTY[4])
         goto L_Done;
     end;
@@ -77,10 +72,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 1 Checker  ----------------------------
 
-025-4.gat,41,97,0|script|#CheckCaveFight1|45,1,1
-{
+025-4.gat,41,97,0	script	#CheckCaveFight1	45,1,1,{
     if (cavefights & BATTLE_CAVE1 || $@battlecave1 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -91,11 +84,9 @@ L_Done:
     end;
 }
 
-// ---------------------------------    Cave 2   ---------------------------------------
 
 
-025-4.gat,115,77,0|script|#StartCaveFight2|324
-{
+025-4.gat,115,77,0	script	#StartCaveFight2	324,{
     if ($@battlecave2 == 2 && $@cave2fighter$ == strcharinfo(0))
         end;
     if ($@battlecave2 == 2 && $@cave2fighter$ != strcharinfo(0))
@@ -117,20 +108,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave2, 2;
+    $@battlecave2 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave2_loop, $@cave2_loop + 1;
-    areamonster "025-4.gat",97, 62, 126, 96,"",$@cave2_monsters_IDS[$@cave2_loop],$@cave2_monsters_QTY[$@cave2_loop],"#StartCaveFight2::OnMonsterDeath";
+    $@cave2_loop = $@cave2_loop + 1;
+    areamonster "025-4",97, 62, 126, 96,"",$@cave2_monsters_IDS[$@cave2_loop],$@cave2_monsters_QTY[$@cave2_loop],"#StartCaveFight2::OnMonsterDeath";
     if ($@cave2_loop <= getarraysize($@cave2_monsters_IDS))
         goto L_Summon;
-    set $@cave2_loop, 0;
+    $@cave2_loop = 0;
     end;
 
 L_Abort:
@@ -138,25 +129,23 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave2, $@wave_cave2 + 1;
-    set $@cave2_kills, 0;
+    $@wave_cave2 = $@wave_cave2 + 1;
+    $@cave2_kills = 0;
     if (attachrid(getcharid(3,$@cave2fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave2 == 1)
         message strcharinfo(0), "As soon as you kill the last monster, your vision blacks out and you feel a strange sensation... Maybe it is not healthy to stay in this cave.";
 
     if ($@wave_cave2 < $@cave2_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE2);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE2);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave2_kills, $@cave2_kills + 1;
+    $@cave2_kills = $@cave2_kills + 1;
     if ($@cave2_kills >= $@cave2_monsters_QTY[1] + $@cave2_monsters_QTY[2] + $@cave2_monsters_QTY[3] + $@cave2_monsters_QTY[4])
         goto L_Done;
     end;
@@ -169,10 +158,8 @@ L_no_root:
     close;
 }
 
-// ---------------------  Cave 2 Checker  ----------------------------
 
-025-4.gat,110,96,0|script|#CheckCaveFight2|45,1,1
-{
+025-4.gat,110,96,0	script	#CheckCaveFight2	45,1,1,{
     if (cavefights & BATTLE_CAVE2 || $@battlecave2 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -183,9 +170,7 @@ L_Done:
     end;
 }
 
-// ------------------------------------    Cave 3    --------------------------------------
-025-4.gat,164,103,0|script|#StartCaveFight3|324
-{
+025-4.gat,164,103,0	script	#StartCaveFight3	324,{
     if ($@battlecave3 == 2 && $@cave3fighter$ == strcharinfo(0))
         end;
     if ($@battlecave3 == 2 && $@cave3fighter$ != strcharinfo(0))
@@ -207,20 +192,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave3, 2;
+    $@battlecave3 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave3_loop, $@cave3_loop + 1;
-    areamonster "025-4.gat",150, 84, 177, 117,"",$@cave3_monsters_IDS[$@cave3_loop],$@cave3_monsters_QTY[$@cave3_loop],"#StartCaveFight3::OnMonsterDeath";
+    $@cave3_loop = $@cave3_loop + 1;
+    areamonster "025-4",150, 84, 177, 117,"",$@cave3_monsters_IDS[$@cave3_loop],$@cave3_monsters_QTY[$@cave3_loop],"#StartCaveFight3::OnMonsterDeath";
     if ($@cave3_loop <= getarraysize($@cave3_monsters_IDS))
         goto L_Summon;
-    set $@cave3_loop, 0;
+    $@cave3_loop = 0;
     end;
 
 L_Abort:
@@ -228,25 +213,23 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave3, $@wave_cave3 + 1;
-    set $@cave3_kills, 0;
+    $@wave_cave3 = $@wave_cave3 + 1;
+    $@cave3_kills = 0;
     if (attachrid(getcharid(3,$@cave3fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave3 == 1)
         message strcharinfo(0), "As soon as you kill the last monster, your vision blacks out and you feel a strange sensation... Maybe it is not healthy to stay in this cave.";
 
     if ($@wave_cave3 < $@cave3_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE3);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE3);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave3_kills, $@cave3_kills + 1;
+    $@cave3_kills = $@cave3_kills + 1;
     if ($@cave3_kills >= $@cave3_monsters_QTY[1] + $@cave3_monsters_QTY[2] + $@cave3_monsters_QTY[3] + $@cave3_monsters_QTY[4])
         goto L_Done;
     end;
@@ -260,10 +243,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 3 Checker  ----------------------------
 
-025-4.gat,168,117,0|script|#CheckCaveFight3|45,1,1
-{
+025-4.gat,168,117,0	script	#CheckCaveFight3	45,1,1,{
     if (cavefights & BATTLE_CAVE3 || $@battlecave3 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -274,9 +255,7 @@ L_Done:
     end;
 }
 
-// ---------------------------    Cave 4    --------------------------------
-025-4.gat,39,143,0|script|#StartCaveFight4|324
-{
+025-4.gat,39,143,0	script	#StartCaveFight4	324,{
     if ($@battlecave4 == 2 && $@cave4fighter$ == strcharinfo(0))
         end;
     if ($@battlecave4 == 2 && $@cave4fighter$ != strcharinfo(0))
@@ -298,20 +277,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave4, 2;
+    $@battlecave4 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave4_loop, $@cave4_loop + 1;
-    areamonster "025-4.gat",28, 124, 57, 156,"",$@cave4_monsters_IDS[$@cave4_loop],$@cave4_monsters_QTY[$@cave4_loop],"#StartCaveFight4::OnMonsterDeath";
+    $@cave4_loop = $@cave4_loop + 1;
+    areamonster "025-4",28, 124, 57, 156,"",$@cave4_monsters_IDS[$@cave4_loop],$@cave4_monsters_QTY[$@cave4_loop],"#StartCaveFight4::OnMonsterDeath";
     if ($@cave4_loop <= getarraysize($@cave4_monsters_IDS))
         goto L_Summon;
-    set $@cave4_loop, 0;
+    $@cave4_loop = 0;
     end;
 
 L_Abort:
@@ -319,12 +298,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave4, $@wave_cave4 + 1;
-    set $@cave4_kills, 0;
+    $@wave_cave4 = $@wave_cave4 + 1;
+    $@cave4_kills = 0;
     if (attachrid(getcharid(3,$@cave4fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave4 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -333,13 +310,13 @@ L_Done:
 
     if ($@wave_cave4 < $@cave4_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE4);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE4);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave4_kills, $@cave4_kills + 1;
+    $@cave4_kills = $@cave4_kills + 1;
     if ($@cave4_kills >= $@cave4_monsters_QTY[1] + $@cave4_monsters_QTY[2] + $@cave4_monsters_QTY[3] + $@cave4_monsters_QTY[4])
         goto L_Done;
     end;
@@ -353,10 +330,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 4 Checker  ----------------------------
 
-025-4.gat,32,156,0|script|#CheckCaveFight4|45,1,1
-{
+025-4.gat,32,156,0	script	#CheckCaveFight4	45,1,1,{
     if (cavefights & BATTLE_CAVE4 || $@battlecave4 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -367,10 +342,8 @@ L_Done:
     end;
 }
 
-// ----------------------------    Cave 5    ------------------------------
 
-025-4.gat,109,143,0|script|#StartCaveFight5|324
-{
+025-4.gat,109,143,0	script	#StartCaveFight5	324,{
     if ($@battlecave5 == 2 && $@cave5fighter$ == strcharinfo(0))
         end;
     if ($@battlecave5 == 2 && $@cave5fighter$ != strcharinfo(0))
@@ -392,20 +365,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave5, 2;
+    $@battlecave5 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave5_loop, $@cave5_loop + 1;
-    areamonster "025-4.gat",91, 131, 124, 160,"",$@cave5_monsters_IDS[$@cave5_loop],$@cave5_monsters_QTY[$@cave5_loop],"#StartCaveFight5::OnMonsterDeath";
+    $@cave5_loop = $@cave5_loop + 1;
+    areamonster "025-4",91, 131, 124, 160,"",$@cave5_monsters_IDS[$@cave5_loop],$@cave5_monsters_QTY[$@cave5_loop],"#StartCaveFight5::OnMonsterDeath";
     if ($@cave5_loop <= getarraysize($@cave5_monsters_IDS))
         goto L_Summon;
-    set $@cave5_loop, 0;
+    $@cave5_loop = 0;
     end;
 
 L_Abort:
@@ -413,12 +386,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave5, $@wave_cave5 + 1;
-    set $@cave5_kills, 0;
+    $@wave_cave5 = $@wave_cave5 + 1;
+    $@cave5_kills = 0;
     if (attachrid(getcharid(3,$@cave5fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave5 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -427,13 +398,13 @@ L_Done:
 
     if ($@wave_cave5 < $@cave5_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE5);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE5);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave5_kills, $@cave5_kills + 1;
+    $@cave5_kills = $@cave5_kills + 1;
     if ($@cave5_kills >= $@cave5_monsters_QTY[1] + $@cave5_monsters_QTY[2] + $@cave5_monsters_QTY[3] + $@cave5_monsters_QTY[4])
         goto L_Done;
     end;
@@ -447,10 +418,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 5 Checker  ----------------------------
 
-025-4.gat,100,160,0|script|#CheckCaveFight5|45,1,1
-{
+025-4.gat,100,160,0	script	#CheckCaveFight5	45,1,1,{
     if (cavefights & BATTLE_CAVE5 || $@battlecave5 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -461,10 +430,8 @@ L_Done:
     end;
 }
 
-// --------------------------------    Cave 6    -----------------------------------------
 
-025-4.gat,162,162,0|script|#StartCaveFight6|324
-{
+025-4.gat,162,162,0	script	#StartCaveFight6	324,{
     if ($@battlecave6 == 2 && $@cave6fighter$ == strcharinfo(0))
         end;
     if ($@battlecave6 == 2 && $@cave6fighter$ != strcharinfo(0))
@@ -486,20 +453,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave6, 2;
+    $@battlecave6 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave6_loop, $@cave6_loop + 1;
-    areamonster "025-4.gat",153, 143, 178, 174,"",$@cave6_monsters_IDS[$@cave6_loop],$@cave6_monsters_QTY[$@cave6_loop],"#StartCaveFight6::OnMonsterDeath";
+    $@cave6_loop = $@cave6_loop + 1;
+    areamonster "025-4",153, 143, 178, 174,"",$@cave6_monsters_IDS[$@cave6_loop],$@cave6_monsters_QTY[$@cave6_loop],"#StartCaveFight6::OnMonsterDeath";
     if ($@cave6_loop <= getarraysize($@cave6_monsters_IDS))
         goto L_Summon;
-    set $@cave6_loop, 0;
+    $@cave6_loop = 0;
     end;
 
 L_Abort:
@@ -507,12 +474,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave6, $@wave_cave6 + 1;
-    set $@cave6_kills, 0;
+    $@wave_cave6 = $@wave_cave6 + 1;
+    $@cave6_kills = 0;
     if (attachrid(getcharid(3,$@cave6fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave6 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -521,13 +486,13 @@ L_Done:
 
     if ($@wave_cave6 < $@cave6_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE6);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE6);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave6_kills, $@cave6_kills + 1;
+    $@cave6_kills = $@cave6_kills + 1;
     if ($@cave6_kills >= $@cave6_monsters_QTY[1] + $@cave6_monsters_QTY[2] + $@cave6_monsters_QTY[3] + $@cave6_monsters_QTY[4])
         goto L_Done;
     end;
@@ -541,10 +506,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 6 Checker  ----------------------------
 
-025-4.gat,159,174,0|script|#CheckCaveFight6|45,1,1
-{
+025-4.gat,159,174,0	script	#CheckCaveFight6	45,1,1,{
     if (cavefights & BATTLE_CAVE6 || $@battlecave6 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -555,10 +518,8 @@ L_Done:
     end;
 }
 
-// --------------------------------    Cave 7    -----------------------------------
 
-025-4.gat,44,202,0|script|#StartCaveFight7|324
-{
+025-4.gat,44,202,0	script	#StartCaveFight7	324,{
     if ($@battlecave7 == 2 && $@cave7fighter$ == strcharinfo(0))
         end;
     if ($@battlecave7 == 2 && $@cave7fighter$ != strcharinfo(0))
@@ -580,20 +541,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave7, 2;
+    $@battlecave7 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave7_loop, $@cave7_loop + 1;
-    areamonster "025-4.gat",27, 185, 61, 219,"",$@cave7_monsters_IDS[$@cave7_loop],$@cave7_monsters_QTY[$@cave7_loop],"#StartCaveFight7::OnMonsterDeath";
+    $@cave7_loop = $@cave7_loop + 1;
+    areamonster "025-4",27, 185, 61, 219,"",$@cave7_monsters_IDS[$@cave7_loop],$@cave7_monsters_QTY[$@cave7_loop],"#StartCaveFight7::OnMonsterDeath";
     if ($@cave7_loop <= getarraysize($@cave7_monsters_IDS))
         goto L_Summon;
-    set $@cave7_loop, 0;
+    $@cave7_loop = 0;
     end;
 
 L_Abort:
@@ -601,12 +562,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave7, $@wave_cave7 + 1;
-    set $@cave7_kills, 0;
+    $@wave_cave7 = $@wave_cave7 + 1;
+    $@cave7_kills = 0;
     if (attachrid(getcharid(3,$@cave7fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave7 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -617,13 +576,13 @@ L_Done:
 
     if ($@wave_cave7 < $@cave7_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE7);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE7);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave7_kills, $@cave7_kills + 1;
+    $@cave7_kills = $@cave7_kills + 1;
     if ($@cave7_kills >= $@cave7_monsters_QTY[1] + $@cave7_monsters_QTY[2] + $@cave7_monsters_QTY[3] + $@cave7_monsters_QTY[4])
         goto L_Done;
     end;
@@ -637,10 +596,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 7 Checker  ----------------------------
 
-025-4.gat,42,219,0|script|#CheckCaveFight7|45,1,1
-{
+025-4.gat,42,219,0	script	#CheckCaveFight7	45,1,1,{
     if (cavefights & BATTLE_CAVE7 || $@battlecave7 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -651,10 +608,8 @@ L_Done:
     end;
 }
 
-// ---------------------------    Cave 8    -------------------------------
 
-025-4.gat,105,210,0|script|#StartCaveFight8|324
-{
+025-4.gat,105,210,0	script	#StartCaveFight8	324,{
     if ($@battlecave8 == 2 && $@cave8fighter$ == strcharinfo(0))
         end;
     if ($@battlecave8 == 2 && $@cave8fighter$ != strcharinfo(0))
@@ -676,20 +631,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave8, 2;
+    $@battlecave8 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave8_loop, $@cave8_loop + 1;
-    areamonster "025-4.gat",90, 193, 119, 216,"",$@cave8_monsters_IDS[$@cave8_loop],$@cave8_monsters_QTY[$@cave8_loop],"#StartCaveFight8::OnMonsterDeath";
+    $@cave8_loop = $@cave8_loop + 1;
+    areamonster "025-4",90, 193, 119, 216,"",$@cave8_monsters_IDS[$@cave8_loop],$@cave8_monsters_QTY[$@cave8_loop],"#StartCaveFight8::OnMonsterDeath";
     if ($@cave8_loop <= getarraysize($@cave8_monsters_IDS))
         goto L_Summon;
-    set $@cave8_loop, 0;
+    $@cave8_loop = 0;
     end;
 
 L_Abort:
@@ -697,12 +652,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave8, $@wave_cave8 + 1;
-    set $@cave8_kills, 0;
+    $@wave_cave8 = $@wave_cave8 + 1;
+    $@cave8_kills = 0;
     if (attachrid(getcharid(3,$@cave8fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave8 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -713,13 +666,13 @@ L_Done:
 
     if ($@wave_cave8 < $@cave8_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE8);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE8);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave8_kills, $@cave8_kills + 1;
+    $@cave8_kills = $@cave8_kills + 1;
     if ($@cave8_kills >= $@cave8_monsters_QTY[1] + $@cave8_monsters_QTY[2] + $@cave8_monsters_QTY[3] + $@cave8_monsters_QTY[4])
         goto L_Done;
     end;
@@ -733,10 +686,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 8 Checker  ----------------------------
 
-025-4.gat,105,216,0|script|#CheckCaveFight8|45,1,1
-{
+025-4.gat,105,216,0	script	#CheckCaveFight8	45,1,1,{
     if (cavefights & BATTLE_CAVE8 || $@battlecave8 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -747,10 +698,8 @@ L_Done:
     end;
 }
 
-// ---------------------------    Cave 9    -------------------------------
 
-025-4.gat,157,220,0|script|#StartCaveFight9|324
-{
+025-4.gat,157,220,0	script	#StartCaveFight9	324,{
     if ($@battlecave9 == 2 && $@cave9fighter$ == strcharinfo(0))
         end;
     if ($@battlecave9 == 2 && $@cave9fighter$ != strcharinfo(0))
@@ -772,20 +721,20 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave9, 2;
+    $@battlecave9 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave9_loop, $@cave9_loop + 1;
-    areamonster "025-4.gat",144, 192, 173, 226,"",$@cave9_monsters_IDS[$@cave9_loop],$@cave9_monsters_QTY[$@cave9_loop],"#StartCaveFight9::OnMonsterDeath";
+    $@cave9_loop = $@cave9_loop + 1;
+    areamonster "025-4",144, 192, 173, 226,"",$@cave9_monsters_IDS[$@cave9_loop],$@cave9_monsters_QTY[$@cave9_loop],"#StartCaveFight9::OnMonsterDeath";
     if ($@cave9_loop <= getarraysize($@cave9_monsters_IDS))
         goto L_Summon;
-    set $@cave9_loop, 0;
+    $@cave9_loop = 0;
     end;
 
 L_Abort:
@@ -793,12 +742,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave9, $@wave_cave9 + 1;
-    set $@cave9_kills, 0;
+    $@wave_cave9 = $@wave_cave9 + 1;
+    $@cave9_kills = 0;
     if (attachrid(getcharid(3,$@cave9fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave9 == 1)
         message strcharinfo(0), "Oh no, more monsters?!";
@@ -809,13 +756,13 @@ L_Done:
 
     if ($@wave_cave9 < $@cave9_waves)
         goto L_Summon;
-    set cavefights, (cavefights | BATTLE_CAVE9);
-    set BOSS_POINTS, BOSS_POINTS + 10;
+    cavefights = (cavefights | BATTLE_CAVE9);
+    BOSS_POINTS = BOSS_POINTS + 10;
     message strcharinfo(0), "You gain 10 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
 OnMonsterDeath:
-    set $@cave9_kills, $@cave9_kills + 1;
+    $@cave9_kills = $@cave9_kills + 1;
     if ($@cave9_kills >= $@cave9_monsters_QTY[1] + $@cave9_monsters_QTY[2] + $@cave9_monsters_QTY[3] + $@cave9_monsters_QTY[4])
         goto L_Done;
     end;
@@ -829,10 +776,8 @@ L_no_root:
 
 }
 
-// ---------------------  Cave 9 Checker  ----------------------------
 
-025-4.gat,157,226,0|script|#CheckCaveFight9|45,1,1
-{
+025-4.gat,157,226,0	script	#CheckCaveFight9	45,1,1,{
     if (cavefights & BATTLE_CAVE9 || $@battlecave9 == 1)
         goto L_Done;
     message strcharinfo(0), "You can't get out! Seems like a barrier was created when the energy transmuted itself into monsters.";
@@ -843,10 +788,8 @@ L_Done:
     end;
 }
 
-// ---------------------  Boss Cave  ----------------------------
 
-025-4.gat,157,30,0|script|#StartBossCaveFight|325
-{
+025-4.gat,157,30,0	script	#StartBossCaveFight	325,{
     if ($@battlecave10 == 2 && $@cave10fighter$ == strcharinfo(0))
         end;
     if (Rossy_Quest >= 16)
@@ -863,25 +806,25 @@ L_Start:
         "I am not prepared yet!", L_Close;
 
 L_PlaceCenter:
-    if ((countitem("Root")<1))
+    if ((countitemcolor("Root")<1))
         goto L_no_root;
     close2;
     delitem "Root", 1;
     message strcharinfo(0), "As you place the root on the energy source, earth monsters seem to emerge from the ground.";
-    set $@battlecave10, 2;
+    $@battlecave10 = 2;
     goto L_Summon;
 
 L_Summon:
-    set $@cave10_loop, $@cave10_loop + 1;
-    areamonster "025-4.gat",142, 24, 172, 48,"",$@cave10_monsters_IDS[$@cave10_loop],$@cave10_monsters_QTY[$@cave10_loop],"#StartBossCaveFight::OnMonsterDeath";
+    $@cave10_loop = $@cave10_loop + 1;
+    areamonster "025-4",142, 24, 172, 48,"",$@cave10_monsters_IDS[$@cave10_loop],$@cave10_monsters_QTY[$@cave10_loop],"#StartBossCaveFight::OnMonsterDeath";
     if ($@cave10_loop <= getarraysize($@cave10_monsters_IDS))
         goto L_Summon;
-    set $@cave10_loop, 0;
+    $@cave10_loop = 0;
     end;
 
 L_SummonBoss:
     if (attachrid(getcharid(3,$@cave10fighter$)) == 0) goto L_Abort;
-    areamonster "025-4.gat",142, 24, 172, 48,"",$@cave10_boss_ID,1,"#StartBossCaveFight::OnBossDeath";
+    areamonster "025-4",142, 24, 172, 48,"",$@cave10_boss_ID,1,"#StartBossCaveFight::OnBossDeath";
     stopnpctimer;
     end;
 
@@ -890,12 +833,10 @@ L_Abort:
     end;
 
 L_Done:
-    set $@wave_cave10, $@wave_cave10 + 1;
-    set $@cave10_kills, 0;
+    $@wave_cave10 = $@wave_cave10 + 1;
+    $@cave10_kills = 0;
     if (attachrid(getcharid(3,$@cave10fighter$)) == 0) goto L_Abort;
 
-// Here you can define the messages to be shown for the players on the beginning of each wave.
-// Remember to adjust the number of conditionals according to the number of waves.
 
     if ($@wave_cave10 == 1)
         message strcharinfo(0), "I can't give up now!";
@@ -908,14 +849,14 @@ L_Done:
 
     if ($@wave_cave10 < $@cave10_waves)
         goto L_Summon;
-    set $@wave_cave10, 5;
-    set @boss, 0;
+    $@wave_cave10 = 5;
+    @boss = 0;
     initnpctimer;
     end;
 
 OnTimer4000:
     if (attachrid(getcharid(3,$@cave10fighter$)) == 0) goto L_Abort;
-    set @boss, @boss + 1;
+    @boss = @boss + 1;
     if (@boss == 1)
         message strcharinfo(0), "You feel something strange... Looks like something terrible is about to show up in this cave.";
     if (@boss == 2)
@@ -924,7 +865,7 @@ OnTimer4000:
     end;
 
 OnMonsterDeath:
-    set $@cave10_kills, $@cave10_kills + 1;
+    $@cave10_kills = $@cave10_kills + 1;
     if ($@cave10_kills >= $@cave10_monsters_QTY[1] + $@cave10_monsters_QTY[2] + $@cave10_monsters_QTY[3] + $@cave10_monsters_QTY[4])
         goto L_Done;
     end;
@@ -932,9 +873,9 @@ OnMonsterDeath:
 OnBossDeath:
     if (attachrid(getcharid(3,$@cave10fighter$)) == 0) goto L_Abort;
     message strcharinfo(0), "What a harsh battle... You should hurry and save Julia!";
-    set Rossy_Quest, 16;
+    Rossy_Quest = 16;
     getexp 100000, 0;
-    set BOSS_POINTS, BOSS_POINTS + 50;
+    BOSS_POINTS = BOSS_POINTS + 50;
     message strcharinfo(0), "You gain 50 Boss Points giving you a total of " + BOSS_POINTS  + ".";
     end;
 
@@ -947,10 +888,8 @@ L_no_root:
 
 }
 
-// ---------------------  Boss Cave Checker  ----------------------------
 
-025-4.gat,157,48,0|script|#CheckCaveFightBoss|45,1,1
-{
+025-4.gat,157,48,0	script	#CheckCaveFightBoss	45,1,1,{
     if (Rossy_Quest >= 17)
         goto L_Done;
     if (Rossy_Quest == 16)
@@ -966,7 +905,7 @@ L_Julia:
     end;
 
 L_Done:
-    warp "025-3.gat", 77, 168;
+    warp "025-3", 77, 168;
     end;
 
 L_Out:
@@ -974,10 +913,8 @@ L_Out:
     end;
 }
 
-// ---------------------  Julia Cave Checker Outside  ----------------------------
 
-025-4.gat,157,24,0|script|#CheckJuliaCaveOutside|45,1,1
-{
+025-4.gat,157,24,0	script	#CheckJuliaCaveOutside	45,1,1,{
     if (Rossy_Quest > 15)
         goto L_Done;
     message strcharinfo(0), "As you try to walk through, you bump into a strong magical barrier.";
@@ -989,10 +926,8 @@ L_Done:
     end;
 }
 
-// ---------------------  Julia Cave Checker Inside  ----------------------------
 
-025-4.gat,93,35,0|script|#CheckJuliaCaveInside|45,1,1
-{
+025-4.gat,93,35,0	script	#CheckJuliaCaveInside	45,1,1,{
     if (Rossy_Quest >= 17)
         goto L_Done;
     if (Rossy_Quest == 16)
@@ -1008,7 +943,7 @@ L_Cheat:
 
 L_Done:
     message strcharinfo(0), "As you go back to the cave you close your eyes, terrified of the bloody battle you just fought in this place, and feel your way back to the entrance of the cave.";
-    warp "025-3.gat", 77, 168;
+    warp "025-3", 77, 168;
     end;
 
 L_Save:

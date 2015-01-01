@@ -1,11 +1,9 @@
-// Variables used: nibble 3 of QUEST_SouthTulimshar
 
-001-1.gat,110,71,0|script|Sandra|114
-{
+001-1.gat,110,71,0	script	Sandra	114,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @state = ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@state >= 2) goto L_Done;
     if (@state == 1) goto L_Progress;
@@ -14,7 +12,7 @@
     mes "\"Hunting monsters for potion ingredients can sometimes be a difficult task.\"";
     next;
 
-    set @TEMP, rand(4);
+    @TEMP = rand(4);
     if(@TEMP == 1) goto L_Opening1;
     if(@TEMP == 2) goto L_Opening2;
     if(@TEMP == 3) goto L_Opening3;
@@ -46,7 +44,7 @@ L_Ask:
         "No.", L_Close;
 
 L_Yes:
-    set @TEMP, rand(3);
+    @TEMP = rand(3);
     if(@TEMP == 1) goto L_Req1;
     if(@TEMP == 2) goto L_Req2;
     goto L_Req0;
@@ -70,24 +68,24 @@ L_Req2:
     goto L_Set;
 
 L_Set:
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Var;
     mes "\"Please get them for me!\"";
     goto L_Close;
 
 L_Progress:
-    if (countitem("ScorpionStinger") < 5)
+    if (countitemcolor("ScorpionStinger") < 5)
         goto L_NotEnough;
     mes "[Sandra]";
     mes "\"Excellent! You brought me 5 Scorpion Stingers!";
     mes "Here's something for you.\"";
     getinventorylist;
-    if (@inventorylist_count + (countitem("ScorpionStinger") == 5) - (countitem("Arrow") == 0) > 99)
+    if (@inventorylist_count + (countitemcolor("ScorpionStinger") == 5) - (countitemcolor("Arrow") == 0) > 99)
         goto L_TooMany;
     delitem "ScorpionStinger", 5;
     getitem "Bow", 1;
     getitem "Arrow", 100;
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Var;
     goto L_Close;
 
@@ -102,8 +100,8 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    set @TEMP, 0;
-    set @state, 0;
+    @TEMP = 0;
+    @state = 0;
     close;
 
 L_TooMany:
@@ -113,6 +111,6 @@ L_TooMany:
     goto L_Close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(NIBBLE_3_MASK) | (@state << NIBBLE_3_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(NIBBLE_3_MASK) | (@state << NIBBLE_3_SHIFT));
     return;
 }

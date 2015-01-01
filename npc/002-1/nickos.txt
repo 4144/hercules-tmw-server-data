@@ -1,12 +1,9 @@
-// Sandstorm mine guard
-// Variables used: nibble 4 and 5 of QUEST_SouthTulimshar
 
-002-1.gat,28,94,0|script|Nickos|123
-{
+002-1.gat,28,94,0	script	Nickos	123,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @state, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @state = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
 
     if (@state == 20) goto L_Nickos_UGQ;
     if (@state == 19) goto L_Nickos_AS_Done;
@@ -32,7 +29,7 @@ L_Nickos_See_Dausen_First:
     goto L_Close;
 
 L_Nickos_Orders:
-    set @state, 6;
+    @state = 6;
     callsub S_Update_Var;
     mes "[Nickos]";
     mes "\"I have to hold my post longer?  Argh!  I was looking forward to my break. Oh well, thanks for letting me know.\"";
@@ -58,7 +55,7 @@ L_Nickos_Disappoint:
     goto L_Close;
 
 L_Nickos_Mine_Open:
-    set @state, 8;
+    @state = 8;
     callsub S_Update_Var;
     mes "[Nickos]";
     mes "\"Excellent!  You now have my permission to enter the mine. Your assistance helps ease my worries.\"";
@@ -70,9 +67,9 @@ L_Nickos_Waits:
     goto L_Close;
 
 L_Nickos_Check_Happy:
-    set @state, 11;
+    @state = 11;
     callsub S_Update_Var;
-    set Zeny, Zeny + 500;
+    Zeny = Zeny + 500;
     mes "[Nickos]";
     mes "\"Oh, everything is okay?  That's great!  I think they are pretty busy and could use some help. Feel free to give them a hand. Here's some gold for your troubles.\"";
     goto L_Close;
@@ -85,7 +82,7 @@ L_Nickos_Guards:
     goto L_Close;
 
 L_Nickos_AS_Start:
-    set @state, 19;
+    @state = 19;
     callsub S_Update_Var;
     mes "[Nickos]";
     mes "\"Oh, the angry scorpions are becoming a problem?  We could thin down their numbers a bit. I can make it worth your time, but of course, I'll need something to show your work. Bring me 10 Angry Scorpion Stingers to demonstrate your effectiveness, and you will be rewarded for your efforts.\"";
@@ -95,9 +92,9 @@ L_Nickos_AS_Done:
     if (countitem ("AngryScorpionStinger") < 10)
         goto L_Nickos_AS_NotDone;
     getinventorylist;
-    if (@inventorylist_count - (countitem("AngryScorpionStinger") == 10) > 99)
+    if (@inventorylist_count - (countitemcolor("AngryScorpionStinger") == 10) > 99)
         goto L_Nickos_TooMany;
-    set @state, 20;
+    @state = 20;
     callsub S_Update_Var;
     delitem "AngryScorpionStinger", 10;
     getitem "LeatherShield", 1;
@@ -123,10 +120,10 @@ L_Nickos_UGQ:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
+    @state = 0;
     close;
 
 S_Update_Var:
-    set QUEST_SouthTulimshar, (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
+    QUEST_SouthTulimshar = (QUEST_SouthTulimshar & ~(BYTE_2_MASK) | (@state << BYTE_2_SHIFT));
     return;
 }

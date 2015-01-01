@@ -1,6 +1,4 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Beach warps
 
-043-1.gat,43,19|warp|To Beach|4,-1,003-1.gat,114,116
-043-1.gat,85,54|warp|To Mining Camp|-1,-1,002-3.gat,22,85
-043-1.gat,52,38|warp|To Sandy Dungeon|-1,-1,043-3.gat,31,35
+043-1,43,19,0	warp	To Beach	4,0,003-1,114,116
+043-1,85,54,0	warp	To Mining Camp	0,0,002-3,22,85
+043-1,52,38,0	warp	To Sandy Dungeon	0,0,043-3,31,35

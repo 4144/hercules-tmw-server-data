@@ -1,39 +1,26 @@
-//#################################################################################
-//#
-//# Nicholas the Smith.
-//# Participates in iron ore smithery and the following quests:
-//# - Together with Pachua: Iron Shield quest (repeatable)
-//#    (6 iron ingots, 2 infantry helmets, 20000 GP, leather patch) -> iron shield
-//# - Primary participant in the Setzer quest (monster oil/golden stinger subquests)
-//#
-//# Variables used:  @QUEST_Forestbow_state, nibble 3 (setzer quest)
-//#                  @QUEST_Forestbow_state, nibble 4 (iron shield quest)
-//#
-//#################################################################################
 
-009-2.gat,185,55,0|script|Nicholas|135
-{
-    set @SETZER_XP, 100000;
-    set @SHIELD_XP, 20000;
+009-2.gat,185,55,0	script	Nicholas	135,{
+    @SETZER_XP = 100000;
+    @SHIELD_XP = 20000;
 
-    set @SHIELD_INITIAL, 0;
+    @SHIELD_INITIAL = 0;
     set @SHIELD_KNOWS_PATCH, 1; // knows that a leather patch is needed
     set @SHIELD_COMPLETED, 2; // shield completed once
 
-    set @SETZER_INITIAL, 0;
-    set @SETZER_KNOWS_OIL, 1;
-    set @SETZER_KNOWS_STINGER, 2;
-    set @SETZER_FLAG_MADE_OIL, 4;
-    set @SETZER_FLAG_MADE_SETZER, 8;
+    @SETZER_INITIAL = 0;
+    @SETZER_KNOWS_OIL = 1;
+    @SETZER_KNOWS_STINGER = 2;
+    @SETZER_FLAG_MADE_OIL = 4;
+    @SETZER_FLAG_MADE_SETZER = 8;
 
-    set @Q_SETZER_MASK, NIBBLE_3_MASK;
-    set @Q_SETZER_SHIFT, NIBBLE_3_SHIFT;
+    @Q_SETZER_MASK = NIBBLE_3_MASK;
+    @Q_SETZER_SHIFT = NIBBLE_3_SHIFT;
 
-    set @Q_SHIELD_MASK, NIBBLE_4_MASK;
-    set @Q_SHIELD_SHIFT, NIBBLE_4_SHIFT;
+    @Q_SHIELD_MASK = NIBBLE_4_MASK;
+    @Q_SHIELD_SHIFT = NIBBLE_4_SHIFT;
 
-    set @Q_SETZER_status, (QUEST_Forestbow_state & @Q_SETZER_MASK) >> @Q_SETZER_SHIFT;
-    set @Q_SHIELD_status, (QUEST_Forestbow_state & @Q_SHIELD_MASK) >> @Q_SHIELD_SHIFT;
+    @Q_SETZER_status = (QUEST_Forestbow_state & @Q_SETZER_MASK) >> @Q_SETZER_SHIFT;
+    @Q_SHIELD_status = (QUEST_Forestbow_state & @Q_SHIELD_MASK) >> @Q_SHIELD_SHIFT;
 
     mes "[Nicholas]";
     mes "\"Hello, there!  I'm an expert blacksmith. If you get me some Coal and Iron Ingots, I could make you a very valuable shield or helmet.\"";
@@ -47,11 +34,11 @@ L_Check:
     mes "[Nicholas]";
     mes "\"Let me take a look at how much you have...\"";
     next;
-    if ( (countitem("IronIngot")<3) || (countitem("Coal") < 6) )
+    if ( (countitemcolor("IronIngot")<3) || (countitemcolor("Coal") < 6) )
         goto L_NoItem;
-    if ( (countitem("IronIngot")<6) || (countitem("Coal") < 12) )
+    if ( (countitemcolor("IronIngot")<6) || (countitemcolor("Coal") < 12) )
         goto L_StageA;
-    if ( (countitem("IronIngot")<9) || (countitem("Coal") < 18) )
+    if ( (countitemcolor("IronIngot")<9) || (countitemcolor("Coal") < 18) )
         goto L_StageB;
     goto L_StageC;
 
@@ -72,7 +59,7 @@ L_StageA:
     mes "[Nicholas]";
     mes "\"That's just enough for me to make you a winged Knight's Helmet, but it'll cost you 10,000GP, 6 Coal and 3 Iron Ingots.\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_StageB:
     mes "[Nicholas]";
@@ -80,7 +67,7 @@ L_StageB:
     mes "";
     mes "\"What would you like?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
 L_StageC:
     mes "[Nicholas]";
@@ -88,57 +75,57 @@ L_StageC:
     mes "";
     mes "\"Which will it be?\"";
     next;
-    goto L_main_menu;
+    goto L_Main_menu;
 
-L_main_menu:
+L_Main_menu:
 
-    set @CHOICE_KNIGHT, 1;
-    set @CHOICE_CRUSADE, 2;
-    set @CHOICE_WARLORD, 3;
-    set @CHOICE_SHIELD, 4;
-    set @CHOICE_SETZER, 5;
-    set @CHOICE_CANCEL, 6;
+    @CHOICE_KNIGHT = 1;
+    @CHOICE_CRUSADE = 2;
+    @CHOICE_WARLORD = 3;
+    @CHOICE_SHIELD = 4;
+    @CHOICE_SETZER = 5;
+    @CHOICE_CANCEL = 6;
 
     setarray @choice$, "", "", "", "", "", "";
-    set @choices_nr, 0;
+    @choices_nr = 0;
     setarray @choice_idx, 0, 0, 0, 0, 0, 0;
 
-    if (countitem("ShortSword") < 1)
-        goto L_main_menu_post_setzer;
-    set @choice$[@choices_nr], "Can you make my Short Sword better?";
-    set @choice_idx[@choices_nr], @CHOICE_SETZER;
-    set @choices_nr, 1 + @choices_nr;
-    goto L_main_menu_post_setzer;
+    if (countitemcolor("ShortSword") < 1)
+        goto L_Main_menu_post_setzer;
+    @choice$[@choices_nr] = "Can you make my Short Sword better?";
+    @choice_idx[@choices_nr] = @CHOICE_SETZER;
+    @choices_nr = 1 + @choices_nr;
+    goto L_Main_menu_post_setzer;
 
-L_main_menu_post_setzer:
+L_Main_menu_post_setzer:
 
-    if ( (countitem("IronIngot")<3) || (countitem("Coal") <6) )
+    if ( (countitemcolor("IronIngot")<3) || (countitemcolor("Coal") <6) )
         goto L_no_more_helmets;
-    set @choice$[@choices_nr], "Knight's Helmet (3 Iron Ingots & 6 Coal).";
-    set @choice_idx[@choices_nr], @CHOICE_KNIGHT;
-    set @choices_nr, 1 + @choices_nr;
+    @choice$[@choices_nr] = "Knight's Helmet (3 Iron Ingots & 6 Coal).";
+    @choice_idx[@choices_nr] = @CHOICE_KNIGHT;
+    @choices_nr = 1 + @choices_nr;
 
-    if ( (countitem("IronIngot")<6) || (countitem("Coal") < 12) )
+    if ( (countitemcolor("IronIngot")<6) || (countitemcolor("Coal") < 12) )
         goto L_no_more_helmets;
-    set @choice$[@choices_nr], "Crusade Helmet (6 Iron Ingots & 12 Coal).";
-    set @choice_idx[@choices_nr], @CHOICE_CRUSADE;
-    set @choices_nr, 1 + @choices_nr;
+    @choice$[@choices_nr] = "Crusade Helmet (6 Iron Ingots & 12 Coal).";
+    @choice_idx[@choices_nr] = @CHOICE_CRUSADE;
+    @choices_nr = 1 + @choices_nr;
 
-    set @choice$[@choices_nr], "Steel Shield (6 Iron Ingots & 12 Coal).";
-    set @choice_idx[@choices_nr], @CHOICE_SHIELD;
-    set @choices_nr, 1 + @choices_nr;
+    @choice$[@choices_nr] = "Steel Shield (6 Iron Ingots & 12 Coal).";
+    @choice_idx[@choices_nr] = @CHOICE_SHIELD;
+    @choices_nr = 1 + @choices_nr;
 
-    if ( (countitem("IronIngot")<9) || (countitem("Coal") < 18) )
+    if ( (countitemcolor("IronIngot")<9) || (countitemcolor("Coal") < 18) )
         goto L_no_more_helmets;
-    set @choice$[@choices_nr], "Warlord Helmet (9 Iron Ingots & 18 Coal).";
-    set @choice_idx[@choices_nr], @CHOICE_WARLORD;
-    set @choices_nr, 1 + @choices_nr;
+    @choice$[@choices_nr] = "Warlord Helmet (9 Iron Ingots & 18 Coal).";
+    @choice_idx[@choices_nr] = @CHOICE_WARLORD;
+    @choices_nr = 1 + @choices_nr;
     goto L_no_more_helmets;
 
 L_no_more_helmets:
-    set @choice$[@choices_nr], "No thanks.";
-    set @choice_idx[@choices_nr], @CHOICE_CANCEL;
-    set @choices_nr, 1 + @choices_nr;
+    @choice$[@choices_nr] = "No thanks.";
+    @choice_idx[@choices_nr] = @CHOICE_CANCEL;
+    @choices_nr = 1 + @choices_nr;
     menu
         @choice$[0], L_MenuItems,
         @choice$[1], L_MenuItems,
@@ -148,11 +135,11 @@ L_no_more_helmets:
         @choice$[5], L_MenuItems;
 
 L_MenuItems:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
     if (@menu >= @choices_nr)
     close;
 
-    set @choice, @choice_idx[@menu];
+    @choice = @choice_idx[@menu];
     if (@choice == @CHOICE_KNIGHT)
         goto L_YesKnight;
     if (@choice == @CHOICE_CRUSADE)
@@ -164,7 +151,7 @@ L_MenuItems:
     if (@choice == @CHOICE_SETZER)
         goto L_SetzerQuest;
     if (@choice == @CHOICE_CANCEL)
-        goto L_end;
+        goto L_End;
     close;
 
 L_NoItem:
@@ -180,12 +167,12 @@ L_NoMoney:
 L_YesKnight:
     if (Zeny < 10000)
         goto L_NoMoney;
-    if ( (countitem("IronIngot")<3) || (countitem("Coal") < 6) )
+    if ( (countitemcolor("IronIngot")<3) || (countitemcolor("Coal") < 6) )
         goto L_NoItem;
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_TooMany;
-    set Zeny, Zeny - 10000;
+    Zeny = Zeny - 10000;
     delitem "IronIngot", 3;
     delitem "Coal", 6;
     getitem "KnightsHelmet", 1;
@@ -193,12 +180,12 @@ L_YesKnight:
 
 L_YesCrusade:
     if (Zeny < 10000) goto L_NoMoney;
-    if ( (countitem("IronIngot")<6) || (countitem("Coal") < 12) )
+    if ( (countitemcolor("IronIngot")<6) || (countitemcolor("Coal") < 12) )
         goto L_NoItem;
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_TooMany;
-    set Zeny, Zeny-10000;
+    Zeny = Zeny-10000;
     delitem "IronIngot", 6;
     delitem "Coal", 12;
     getitem "CrusadeHelmet", 1;
@@ -206,12 +193,12 @@ L_YesCrusade:
 
 L_YesWarlord:
     if (Zeny < 10000) goto L_NoMoney;
-    if ( (countitem("IronIngot")<9) || (countitem("Coal") < 18) )
+    if ( (countitemcolor("IronIngot")<9) || (countitemcolor("Coal") < 18) )
         goto L_NoItem;
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_TooMany;
-    set Zeny, Zeny-10000;
+    Zeny = Zeny-10000;
     delitem "IronIngot", 9;
     delitem "Coal", 18;
     getitem "WarlordHelmet", 1;
@@ -227,16 +214,16 @@ L_YesShield:
         "No.", L_Pass;
 
 L_Next:
-    if (countitem("InfantryHelmet") == 1)
+    if (countitemcolor("InfantryHelmet") == 1)
         goto L_MoreInfantry;
-    if (countitem("InfantryHelmet") == 0)
+    if (countitemcolor("InfantryHelmet") == 0)
         goto L_NoInfantry;
 
     mes "[Nicholas]";
     mes "Nicholas pulls out two of your Infantry Helmets.";
     mes "\"I can use those... yes, that should work. Now all I need is a Leather Patch for the handle, and 20,000 GP.\"";
     if (@Q_SHIELD_status < @SHIELD_KNOWS_PATCH)
-        set @Q_SHIELD_status, @SHIELD_KNOWS_PATCH;
+        @Q_SHIELD_status = @SHIELD_KNOWS_PATCH;
     callsub L_Update_Var;
     next;
     menu
@@ -247,13 +234,13 @@ L_Next:
 L_Next1:
     if (Zeny < 20000)
         goto L_ShieldNoZeny;
-    if (countitem("InfantryHelmet") < 2)
+    if (countitemcolor("InfantryHelmet") < 2)
         goto L_ShieldNoInfantry;
-    if (countitem("IronIngot") < 6)
+    if (countitemcolor("IronIngot") < 6)
         goto L_ShieldNoIngot;
-    if (countitem("Coal") < 12)
+    if (countitemcolor("Coal") < 12)
         goto L_ShieldNoCoal;
-    if (countitem("LeatherPatch") < 1)
+    if (countitemcolor("LeatherPatch") < 1)
         goto L_ShieldNoLeatherPatch;
     // No inventory check needed, as infantry helms are removed, opening two slots
 
@@ -266,7 +253,7 @@ L_Next1:
     delitem "LeatherPatch", 1;
     delitem "IronIngot", 6;
     delitem "Coal", 12;
-    set Zeny, Zeny - 20000;
+    Zeny = Zeny - 20000;
 
     if (@Q_SHIELD_status < @SHIELD_COMPLETED)
         getexp @SHIELD_XP, 0;
@@ -326,7 +313,7 @@ L_SetzerQuest:
     mes "Nicholas examines your Short Sword, then nods.";
     mes "\"This is good quality. I can make something special out of it, with three ingot bars of iron, six lumps of coal and 50,000 GP -- but I will also need a potion of monster oil.\"";
     if (@Q_SETZER_status < @SETZER_KNOWS_OIL)
-        set @Q_SETZER_status, @SETZER_KNOWS_OIL;
+        @Q_SETZER_status = @SETZER_KNOWS_OIL;
     callsub L_Update_Var;
     next;
     menu
@@ -337,17 +324,17 @@ L_SetzerQuest:
 L_Next2:
     if (Zeny < 50000)
         goto L_SetzerNoZeny;
-    if ( (countitem("IronIngot") < 3) || (countitem("Coal") < 6) )
+    if ( (countitemcolor("IronIngot") < 3) || (countitemcolor("Coal") < 6) )
         goto L_SetzerNoIngot;
-    if (countitem("MonsterOilPotion") < 1)
+    if (countitemcolor("MonsterOilPotion") < 1)
         goto L_SetzerNoMonsterOil;
-    if (countitem("ShortSword") < 1)
+    if (countitemcolor("ShortSword") < 1)
         goto L_SetzerNoSword;
     // No inventory check needed, as the short sword is removed, opening a slot
 
     mes "[Nicholas]";
     mes "Nicholas takes the items, heats up your sword and pounds it with a heavy hammer. As you watch, it turns thinner and flatter. Finally he pours the monster oil over it, heats the metal up again and douses it in water.";
-    set Zeny, Zeny - 50000;
+    Zeny = Zeny - 50000;
     delitem "IronIngot", 3;
     delitem "Coal", 6;
     delitem "MonsterOilPotion", 1;
@@ -357,7 +344,7 @@ L_Next2:
         mes "[" + @SETZER_XP + " experience points]";
     if (!(@Q_SETZER_status & @SETZER_FLAG_MADE_SETZER))
         getexp @SETZER_XP, 1;
-    set @Q_SETZER_status, @Q_SETZER_status | @SETZER_FLAG_MADE_SETZER;
+    @Q_SETZER_status = @Q_SETZER_status | @SETZER_FLAG_MADE_SETZER;
     callsub L_Update_Var;
     next;
     mes "[Nicholas]";
@@ -393,7 +380,7 @@ L_SetzerNoSword:
     mes "\"I will need your old Short Sword as a basis. Please bring it to me first.\"";
     close;
 
-L_end:
+L_End:
     close;
 
 L_Done:
@@ -404,7 +391,7 @@ L_Done:
     close;
 
 L_Update_Var:
-    set QUEST_Forestbow_state, (QUEST_Forestbow_state & ~(@Q_SHIELD_MASK | @Q_SETZER_MASK) | (@Q_SHIELD_status << @Q_SHIELD_SHIFT) | (@Q_SETZER_status << @Q_SETZER_SHIFT));
+    QUEST_Forestbow_state = (QUEST_Forestbow_state & ~(@Q_SHIELD_MASK | @Q_SETZER_MASK) | (@Q_SHIELD_status << @Q_SHIELD_SHIFT) | (@Q_SETZER_status << @Q_SETZER_SHIFT));
     return;
 
 L_TooMany:

@@ -1,8 +1,5 @@
-// Annual Xmas and Year round info
-// Author: Jenalya, wushin
 
-030-2.gat,87,41,0|script|Eljas|328,5,1
-{
+030-2.gat,87,41,0	script	Eljas	328,5,1,{
     callfunc "XmasStates";
     callfunc "ThrowOutTheBum";
     goto L_Start;
@@ -79,7 +76,7 @@ L_Next:
     mes "\"Thank you for helping out!\"";
     mes "He looks up from his notes and gives you a broad smile";
 
-    set @xmas_state, $@xmas_list_both_state;
+    @xmas_state = $@xmas_list_both_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -116,7 +113,7 @@ L_StartQuest:
     mes "\"Thank you for helping out!\"";
     mes "He looks up from his notes and gives you a broad smile";
     next;
-    set @xmas_state, $@xmas_list_path1_state;
+    @xmas_state = $@xmas_list_path1_state;
     callfunc "XmasSetState";
     goto L_Close;
 
@@ -133,9 +130,9 @@ L_SantasList:
     if(!(@xmas_list_complete))
         goto L_NotComplete;
     mes "\"Awesome! Now please take those lists to Chief Warrick on the next floor.\"";
-    set @karma_bonus, @xmas_list_count;
+    @karma_bonus = @xmas_list_count;
     callfunc "XmasNice";
-    set @xmas_state, $@xmas_list_deliver_state;
+    @xmas_state = $@xmas_list_deliver_state;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_Close;
@@ -149,11 +146,11 @@ L_SantasFakeList:
     mes "\"THESE ARE NOT THE REAL LISTS!\"";
     mes "\"Guards! Toss this naughty one outside!\"";
     next;
-    set @karma_bonus, @xmas_list_count;
+    @karma_bonus = @xmas_list_count;
     callfunc "XmasNaughty";
     callfunc "XmasSetSide";
     callfunc "XmasThrowOut";
-    set @xmas_state, $@xmas_list_deliver_state;
+    @xmas_state = $@xmas_list_deliver_state;
     callfunc "XmasSetState";
     callfunc "XmasXpReward";
     goto L_NotWelcome;

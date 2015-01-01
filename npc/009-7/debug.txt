@@ -1,5 +1,4 @@
-function|script|fightclub_Debug
-{
+function	script	fightclub_Debug	{
     goto L_Menu;
 
 L_Menu:
@@ -36,68 +35,68 @@ L_Menu:
 
 L_DuelEnabled:
     if(@due < 1) goto L_DuelEnabled2;
-    set $SANGUINE, $SANGUINE | $@SV_FCDBit;
+    $SANGUINE = $SANGUINE | $@SV_FCDBit;
     goto L_Menu;
 L_DuelEnabled2:
-    set $SANGUINE, $SANGUINE &~ $@SV_FCDBit;
+    $SANGUINE = $SANGUINE &~ $@SV_FCDBit;
     goto L_Restart;
 
 L_BmEnabled:
     if(@bme < 1) goto L_BmEnabled2;
-    set $SANGUINE, $SANGUINE | $@SV_BMDBit;
+    $SANGUINE = $SANGUINE | $@SV_BMDBit;
     goto L_Menu;
 L_BmEnabled2:
-    set $SANGUINE, $SANGUINE &~ $@SV_BMDBit;
+    $SANGUINE = $SANGUINE &~ $@SV_BMDBit;
     goto L_Menu;
 
 L_DuelFighter:
     if(@Duel_Fighter < 1) goto L_DuelFighter2;
-    set @Duel_Fighter, 0;
+    @Duel_Fighter = 0;
     goto L_Menu;
 L_DuelFighter2:
-    set @Duel_Fighter, 1;
+    @Duel_Fighter = 1;
     goto L_Menu;
 
 L_TimeBeforeNext:
     mes "range: 1~500";
     input @time;
     if((@time < 1) || (@time > 500)) goto L_OutOfRange;
-    set $@Duel_TimeBeforeNext, @time;
+    $@Duel_TimeBeforeNext = @time;
     goto L_Menu;
 
 L_TimeBeforeWarp:
     mes "range: 1~500";
     input @time;
     if((@time < 1) || (@time > 500)) goto L_OutOfRange;
-    set $@Duel_TimeBeforeWarp, @time;
+    $@Duel_TimeBeforeWarp = @time;
     goto L_Menu;
 
 L_TimeBeforeStart:
     mes "range: 1~500";
     input @time;
     if((@time < 1) || (@time > 500)) goto L_OutOfRange;
-    set $@Duel_TimeBeforeStart, @time;
+    $@Duel_TimeBeforeStart = @time;
     goto L_Menu;
 
 L_TimeLimit:
     mes "range: 1~900";
     input @time;
     if((@time < 1) || (@time > 900)) goto L_OutOfRange;
-    set $@Duel_TimeLimit, @time;
+    $@Duel_TimeLimit = @time;
     goto L_Menu;
 
 L_QueueLimit:
     mes "range: 1~20";
     input @limit;
     if((@limit < 1) || (@limit > 20)) goto L_OutOfRange;
-    set $@Duel_QueueLimit, @limit;
+    $@Duel_QueueLimit = @limit;
     goto L_Menu;
 
 L_PlayerQueueLimit:
     mes "range: 1~5";
     input @limit;
     if((@limit < 1) || (@limit > 5)) goto L_OutOfRange;
-    set $@Duel_PlayerQueueLimit, @limit;
+    $@Duel_PlayerQueueLimit = @limit;
     goto L_Menu;
 
 L_LastDuel:
@@ -105,7 +104,7 @@ L_LastDuel:
     mes "[R] This will trigger a reboot";
     input @last;
     if(@last < 1) goto L_OutOfRange;
-    set $Duel_LastDuel, @last;
+    $Duel_LastDuel = @last;
     next;
     goto L_Restart;
 
@@ -123,8 +122,7 @@ L_End:
     return;
 }
 
-009-7.gat,41,45,0|script|Debug#Duels|181
-{
+009-7.gat,41,45,0	script	Debug#Duels	181,{
     mes "The debug menu can also be accessed by wearing a dev cap while talking to Rouge.";
     mes "For the documentation, @@https://wiki.themanaworld.org/index.php/User:Meko/FightClub/debug|click here@@##0";
     callfunc "fightclub_Debug";

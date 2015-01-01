@@ -1,8 +1,7 @@
-003-1.gat,35,25,0|script|Stranger|192
-{
-    set @IRONINGOT, 5;
-    set @PINKANTENNA, 21;
-    set @Exp, 20000;
+003-1.gat,35,25,0	script	Stranger	192,{
+    @IRONINGOT = 5;
+    @PINKANTENNA = 21;
+    @Exp = 20000;
     setarray @towelReq$, "WhiteHitchhikersTowel","RedHitchhikersTowel","GreenHitchhikersTowel","BlueHitchhikersTowel","YellowHitchhikersTowel","PurpleHitchhikersTowel","OrangeHitchhikersTowel","PinkHitchhikersTowel","TealHitchhikersTowel","LimeHitchhikersTowel","HitchhikersTowel";
 
     if (FLAGS & FLAG_TOWEL_COMPLETED) goto L_Event_Done;
@@ -23,12 +22,12 @@
         "No.",L_Close;
 
 L_Items:
-    if (countitem("IronIngot") < @IRONINGOT) goto L_No_Item;
-    if (countitem("PinkAntenna") < @PINKANTENNA) goto L_No_Item;
+    if (countitemcolor("IronIngot") < @IRONINGOT) goto L_No_Item;
+    if (countitemcolor("PinkAntenna") < @PINKANTENNA) goto L_No_Item;
     delitem "IronIngot", @IRONINGOT;
     delitem "PinkAntenna", @PINKANTENNA;
     getexp @Exp, 0;
-    set FLAGS, FLAGS | FLAG_TOWEL_HELPED;
+    FLAGS = FLAGS | FLAG_TOWEL_HELPED;
 
     mes "[Stranger]";
     mes "\"Great! Thank you!\"";
@@ -69,13 +68,13 @@ L_Towel:
 
     setarray @easy_answers_amount,2,2,2,2,2,4,4,2,4,2;
 
-    set @random, rand(10);
+    @random = rand(10);
     mes "\"" + @easy_questions$[@random] + "\"";
     input @answer$;
 
     if (@easy_answers_amount[@random] < 4)
         goto L_Easy_Skip4;
-    set @quizparam$, "towelanswer0" + @random + "d";
+    @quizparam$ = "towelanswer0" + @random + "d";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Easy;
@@ -84,19 +83,19 @@ L_Towel:
 L_Easy_Skip4:
     if (@easy_answers_amount[@random] < 3)
         goto L_Easy_Skip3;
-    set @quizparam$, "towelanswer0" + @random + "c";
+    @quizparam$ = "towelanswer0" + @random + "c";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Easy;
     goto L_Easy_Skip3;
 
 L_Easy_Skip3:
-    set @quizparam$, "towelanswer0" + @random + "b";
+    @quizparam$ = "towelanswer0" + @random + "b";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Easy;
 
-    set @quizparam$, "towelanswer0" + @random + "a";
+    @quizparam$ = "towelanswer0" + @random + "a";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Easy;
@@ -124,14 +123,14 @@ L_Right_Answer_Easy:
 
     setarray @medium_answers_amount,2,2,2,2,2,3,2,2,4,4,2,2;
 
-    set @random, rand(12);
+    @random = rand(12);
     mes "\"" + @medium_questions$[@random] + "\"";
     input @answer$;
 
     if (@medium_answers_amount[@random] < 4)
         goto L_Medium_Skip4;
 
-    set @quizparam$, "towelanswer1" + @random + "d";
+    @quizparam$ = "towelanswer1" + @random + "d";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Medium;
@@ -140,19 +139,19 @@ L_Right_Answer_Easy:
 L_Medium_Skip4:
     if (@medium_answers_amount[@random] < 3)
         goto L_Medium_Skip3;
-    set @quizparam$, "towelanswer1" + @random + "c";
+    @quizparam$ = "towelanswer1" + @random + "c";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Medium;
     goto L_Medium_Skip3;
 
 L_Medium_Skip3:
-    set @quizparam$, "towelanswer1" + @random + "b";
+    @quizparam$ = "towelanswer1" + @random + "b";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Medium;
 
-    set @quizparam$, "towelanswer1" + @random + "a";
+    @quizparam$ = "towelanswer1" + @random + "a";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Medium;
@@ -177,13 +176,13 @@ L_Right_Answer_Medium:
 
     setarray @hard_answers_amount,4,2,2,2,2,2,2,4,2;
 
-    set @random, rand(9);
+    @random = rand(9);
     mes "\"" + @hard_questions$[@random] + "\"";
     input @answer$;
 
     if (@hard_answers_amount[@random] < 4)
         goto L_Hard_Skip4;
-    set @quizparam$, "towelanswer2" + @random + "d";
+    @quizparam$ = "towelanswer2" + @random + "d";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Hard;
@@ -192,19 +191,19 @@ L_Right_Answer_Medium:
 L_Hard_Skip4:
     if (@hard_answers_amount[@random] < 3)
         goto L_Hard_Skip3;
-    set @quizparam$, "towelanswer2" + @random + "c";
+    @quizparam$ = "towelanswer2" + @random + "c";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Hard;
     goto L_Hard_Skip3;
 
 L_Hard_Skip3:
-    set @quizparam$, "towelanswer2" + @random + "b";
+    @quizparam$ = "towelanswer2" + @random + "b";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Hard;
 
-    set @quizparam$, "towelanswer2" + @random + "a";
+    @quizparam$ = "towelanswer2" + @random + "a";
     callfunc "StrangerQuiz";
     if (("###" + @answer$ == @quizanswer$))
         goto L_Right_Answer_Hard;
@@ -226,7 +225,7 @@ L_Right_Answer_Hard:
     mes "\"There you are! A towel is really the most important item for a hitchhiker to have.\"";
     next;
     mes "\"Please take this.\""; // no full inventory check, this is done before the game
-    set FLAGS, FLAGS | FLAG_TOWEL_COMPLETED;
+    FLAGS = FLAGS | FLAG_TOWEL_COMPLETED;
     next;
     goto L_Explain;
 
@@ -289,7 +288,6 @@ L_Event_Done:
 L_StartDyeTowel:
     mes "[Stranger]";
     mes "\"Alright, which color do you want?\"";
-// the other colors should be added when more places are released
     menu
         "Red",L_Red,
         "Yellow",L_Yellow,
@@ -305,70 +303,70 @@ L_StartDyeTowel:
 
 L_White:
     // Koga
-    set @warpTowelName$, "WhiteHitchhikersTowel";
+    @warpTowelName$ = "WhiteHitchhikersTowel";
     setarray @towelPowder$, "DiamondPowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Red:
     // Barbarians
-    set @warpTowelName$, "RedHitchhikersTowel";
+    @warpTowelName$ = "RedHitchhikersTowel";
     setarray @towelPowder$, "RubyPowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Green:
     // Candor
-    set @warpTowelName$, "GreenHitchhikersTowel";
+    @warpTowelName$ = "GreenHitchhikersTowel";
     setarray @towelPowder$, "EmeraldPowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Blue:
     // Blue Sages
-    set @warpTowelName$, "BlueHitchhikersTowel";
+    @warpTowelName$ = "BlueHitchhikersTowel";
     setarray @towelPowder$, "SapphirePowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Yellow:
     // Tulimshar Mines
-    set @warpTowelName$, "YellowHitchhikersTowel";
+    @warpTowelName$ = "YellowHitchhikersTowel";
     setarray @towelPowder$, "TopazPowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Purple:
     // Dimonds Inn
-    set @warpTowelName$, "PurpleHitchhikersTowel";
+    @warpTowelName$ = "PurpleHitchhikersTowel";
     setarray @towelPowder$, "AmethystPowder";
     setarray @towelPowderCnt, 2;
     goto L_DyeChecks;
 
 L_Orange:
     // Graveyard
-    set @warpTowelName$, "OrangeHitchhikersTowel";
+    @warpTowelName$ = "OrangeHitchhikersTowel";
     setarray @towelPowder$, "RubyPowder", "TopazPowder";
     setarray @towelPowderCnt, 1, 1;
     goto L_DyeChecks;
 
 L_Pink:
     // Terranite Cave
-    set @warpTowelName$, "PinkHitchhikersTowel";
+    @warpTowelName$ = "PinkHitchhikersTowel";
     setarray @towelPowder$, "RubyPowder", "DiamondPowder";
     setarray @towelPowderCnt, 1, 1;
     goto L_DyeChecks;
 
 L_Teal:
     // Mana Seed
-    set @warpTowelName$, "TealHitchhikersTowel";
+    @warpTowelName$ = "TealHitchhikersTowel";
     setarray @towelPowder$, "EmeraldPowder", "SapphirePowder";
     setarray @towelPowderCnt, 1, 1;
     goto L_DyeChecks;
 
 L_Lime:
     // Panchua
-    set @warpTowelName$, "LimeHitchhikersTowel";
+    @warpTowelName$ = "LimeHitchhikersTowel";
     setarray @towelPowder$, "EmeraldPowder", "TopazPowder";
     setarray @towelPowderCnt, 1, 1;
     goto L_DyeChecks;
@@ -379,8 +377,8 @@ L_DyeChecks:
     next;
     getinventorylist;
     if (@inventorylist_count == 100) goto L_Full_Inv;
-    if (countitem("BottleOfWater") < 1) goto L_No_Water;
-    set @powderCheckCount, 0;
+    if (countitemcolor("BottleOfWater") < 1) goto L_No_Water;
+    @powderCheckCount = 0;
     goto L_PowderChecks;
 
 L_PowderCheckAgain:
@@ -389,27 +387,27 @@ L_PowderCheckAgain:
     next;
     if((@powderCheckCount + 1) == getarraysize(@towelPowder$))
         goto L_TowelChecks;
-    set @powderCheckCount, (@powderCheckCount + 1);
+    @powderCheckCount = (@powderCheckCount + 1);
     goto L_PowderChecks;
 
 L_PowderChecks:
-    if (countitem(@towelPowder$[@powderCheckCount]) < @towelPowderCnt[@powderCheckCount])
+    if (countitemcolor(@towelPowder$[@powderCheckCount]) < @towelPowderCnt[@powderCheckCount])
         goto L_No_Powder;
     goto L_PowderCheckAgain;
 
 L_TowelCheckAgain:
-    set @towelCheckCount, (@towelCheckCount + 1);
+    @towelCheckCount = (@towelCheckCount + 1);
     if(@towelCheckCount >= getarraysize(@towelReq$))
         goto L_No_Towel;
     goto L_TowelChecks;
 
 L_TowelChecks:
-    if (countitem(@towelReq$[@towelCheckCount]) > 0)
+    if (countitemcolor(@towelReq$[@towelCheckCount]) > 0)
         goto L_DeletePowder;
     goto L_TowelCheckAgain;
 
 L_DeleteAgain:
-    set @powderCheckCount, (@powderCheckCount - 1);
+    @powderCheckCount = (@powderCheckCount - 1);
     goto L_DeletePowder;
 
 L_DeletePowder:
@@ -450,14 +448,14 @@ L_Full_Inv:
     goto L_Close;
 
 L_Close:
-    set @IRONINGOT, 0;
-    set @PINKANTENNA, 0;
-    set @Exp, 0;
-    set @random, 0;
-    set @quizparam$, "";
-    set @warpTowelName$, "";
-    set @powderCheckCount, 0;
-    set @towelCheckCount, 0;
+    @IRONINGOT = 0;
+    @PINKANTENNA = 0;
+    @Exp = 0;
+    @random = 0;
+    @quizparam$ = "";
+    @warpTowelName$ = "";
+    @powderCheckCount = 0;
+    @towelCheckCount = 0;
     cleararray @towelPowder$, "", getarraysize(@towelPowder$);
     cleararray @towelPowderCnt, "", getarraysize(@towelPowderCnt);
     close;

@@ -1,25 +1,15 @@
-//#################################################################################
-//#                                                                               #
-//# This script file contains the npc scripts for the quest to obtain a forestbow #
-//#                                                                               #
-//# Needed: 10 Raw Logs, 5000gp, some chatting, and running.                      #
-//#                                                                               #
-//# Reward: Forest Bow                                                            #
-//#################################################################################
 
-// Archer Shop Master
-009-2.gat,99,23,0|script|Alan|125
-{
+009-2.gat,99,23,0	script	Alan	125,{
     callfunc "ClearVariables";
 
-    set @Q_MASK, NIBBLE_0_MASK;
-    set @Q_SHIFT, NIBBLE_0_SHIFT;
+    @Q_MASK = NIBBLE_0_MASK;
+    @Q_SHIFT = NIBBLE_0_SHIFT;
 
-    set @Q_status, ((QUEST_Forestbow_state) & @Q_MASK) >> @Q_SHIFT;
+    @Q_status = ((QUEST_Forestbow_state) & @Q_MASK) >> @Q_SHIFT;
 
-    set @BROKENLOG_EXP, 15;
+    @BROKENLOG_EXP = 15;
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@Q_status == 1) goto L_State_1;
     if (@Q_status == 2) goto L_State_2;
@@ -59,7 +49,7 @@ L_State_0_2:
     mes "\"The problem is that I am short of material. My forestbows are not made of regular wood, you know.";
     mes "They are made of special living wood. And only the best logs of living wood are good enough for them.";
     mes "I used to get these logs from Jack, the lumberjack. But the last time I asked him for a new delivery he said that he would never again get any for me.\"";
-    set @Q_status, 1;
+    @Q_status = 1;
     callsub S_Update_Var;
     next;
     menu
@@ -110,14 +100,14 @@ L_Next1:
     mes "\"Oh, that's really bad news. Maybe you can do his job?";
     mes "When you kill some of these tree monsters and bring me their wood I can take a look at them.";
     mes "Maybe you will find a piece of wood that is strong enough to become one of my forest bows.\"";
-    set @Q_status, 3;
+    @Q_status = 3;
     callsub S_Update_Var;
     goto L_Close;
 
 L_State_3:
     mes "[Alan]";
     mes "\"How is the hunt going? Did you bring me any wood?\"";
-    if (countitem("RawLog") < 1)
+    if (countitemcolor("RawLog") < 1)
         goto L_Close;
     next;
     if (@inspector == 1)
@@ -130,21 +120,21 @@ L_State_3:
         "Yes, but I need it for something else.", L_Close;
 
 L_State_3_try:
-    if (countitem("RawLog") < 1)
+    if (countitemcolor("RawLog") < 1)
         goto L_No_Log;
     delitem "RawLog", 1;
     mes "[Alan]";
     mes "\"Hmmm... looks ok, but is it strong enough?\"";
     mes "Alan bends the log over his knee.";
     next;
-    set @Temp1, rand(20);
+    @Temp1 = rand(20);
     if (@Temp1 == 0) goto L_State_3_success;
     mes "The log breaks with a loud crack.";
     getexp @BROKENLOG_EXP, 0;
     next;
     mes "[Alan]";
     mes "\"Sorry, this log was too weak for one of my forest bows. Now it is junk. Give me another.\"";
-    if (countitem("RawLog") < 1)
+    if (countitemcolor("RawLog") < 1)
         goto L_Close;
     next;
     menu
@@ -157,7 +147,7 @@ L_State_3_success:
     mes "[Alan]";
     mes "\"Aaah! Yes! That is a really fine piece of wood you brought me. It will make an excellent bow!\"";
     next;
-    set @Q_status, 4;
+    @Q_status = 4;
     callsub S_Update_Var;
     goto L_State_4;
 
@@ -180,9 +170,9 @@ L_State_4_pay:
     getinventorylist;
     if (@inventorylist_count == 100)
         goto L_State_4_TooMany;
-    set Zeny, Zeny - 10000;
+    Zeny = Zeny - 10000;
     getitem "ForestBow", 1;
-    set @Q_status, 5;
+    @Q_status = 5;
     callsub S_Update_Var;
     mes "[Alan]";
     mes "\"Here you go - have fun with it.\"";
@@ -219,10 +209,10 @@ L_No_Log:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 
 S_Update_Var:
-    set QUEST_Forestbow_state, (QUEST_Forestbow_state & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
+    QUEST_Forestbow_state = (QUEST_Forestbow_state & ~(@Q_MASK) | (@Q_status << @Q_SHIFT));
     return;
 }

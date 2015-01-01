@@ -1,6 +1,4 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Woodland warps
 
-007-1.gat,20,54|warp|To Woodland|-1,0,010-1.gat,130,53
-007-1.gat,69,21|warp|To Hurnscald Outskirts|2,-1,008-1.gat,78,101
-007-1.gat,122,20|warp|To Hurnscald|1,-1,008-1.gat,132,98
+007-1,20,54,0	warp	To Woodland	0,0,010-1,130,53
+007-1,69,21,0	warp	To Hurnscald Outskirts	2,0,008-1,78,101
+007-1,122,20,0	warp	To Hurnscald	1,0,008-1,132,98

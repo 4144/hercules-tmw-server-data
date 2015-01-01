@@ -1,5 +1,4 @@
-function|script|SoulMenhir
-{
+function	script	SoulMenhir	{
     mes "[Soul Menhir]";
     mes "(A mystical aura surrounds this stone. You feel mysteriously attracted to it. Something tells you to touch it. What do you do?)";
     next;
@@ -13,7 +12,7 @@ L_Towel:
     if (TowelLastUsed > (gettimetick(2) - 1800))
         goto L_DontPanic;
     callfunc "MultiWarpTowel";
-    set TowelLastUsed, gettimetick(2);
+    TowelLastUsed = gettimetick(2);
     mes "[Soul Menhir]";
     mes "(You touch the mysterious stone. Somehow it feels hard and soft at the same time.)";
     next;
@@ -36,7 +35,7 @@ L_Bind:
     mes "(As suddenly as the feeling started it stops. The strange attraction is away from one moment to the next and the menhir feels like just an ordinary stone.)";
     next;
 
-    set Menhir_Activated, 1;
+    Menhir_Activated = 1;
     goto L_Save;
 
 L_Shortversion:
@@ -59,9 +58,9 @@ L_Do_Save:
     goto L_Return;
 
 L_FindPoint:
-    set @n, rand(getarraysize(@Xs));
-    set @x, @Xs[@n];
-    set @y, @Ys[@n];
+    @n = rand(getarraysize(@Xs));
+    @x = @Xs[@n];
+    @y = @Ys[@n];
     goto L_Do_Save;
 
 L_Return:

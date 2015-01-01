@@ -1,7 +1,5 @@
-//
 
-function|script|SlotMachine
-{
+function	script	SlotMachine	{
     mes "Pull the lever...";
     next;
     menu
@@ -9,12 +7,12 @@ function|script|SlotMachine
         "Maybe later", L_Close;
 
 L_Play:
-    if(countitem("CasinoCoins") < 1)
+    if(countitemcolor("CasinoCoins") < 1)
         goto L_NoCoin;
     delitem "CasinoCoins", 1;
-    set @Temp1,rand(7);
-    set @Temp2,rand(7);
-    set @Temp3,rand(7);
+    @Temp1 = rand(7);
+    @Temp2 = rand(7);
+    @Temp3 = rand(7);
     mes "Numbers: " + @Temp1 + "/" + @Temp2 + "/" + @Temp3 + ".";
     next;
 

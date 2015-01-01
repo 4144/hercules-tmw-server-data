@@ -1,17 +1,13 @@
-// author: Jenalya, wushin
-// Based off Cindy Fight
-// General Razha Fight
 
-027-7.gat,39,25,0|script|General Razha|400
-{
+027-7.gat,39,25,0	script	General Razha	400,{
     if ($@CRYPT_FIGHT2 != 0)
         end;
 
-    set @RAZHA_SOUL_REQ, 3;
-    set @RAZHA_ROTTEN_RAGS_REQ, 5;
-    set @RAZHA_UNDEAD_EYE_REQ, 5;
-    set @RAZHA_UNDEAD_EAR_REQ, 5;
-    set @minlevel, 70;
+    @RAZHA_SOUL_REQ = 3;
+    @RAZHA_ROTTEN_RAGS_REQ = 5;
+    @RAZHA_UNDEAD_EYE_REQ = 5;
+    @RAZHA_UNDEAD_EAR_REQ = 5;
+    @minlevel = 70;
 
     mes "[Tome]";
     mes "The Tome is open to a page about a summon ritual that can be performed in this chamber.";
@@ -38,10 +34,10 @@ L_MissingReagents:
 L_Ritual:
     if (BaseLevel < @minlevel)
         goto L_ToWeak;
-    if ( (countitem("Soul") < @RAZHA_SOUL_REQ)
-        || (countitem("RottenRags") < @RAZHA_ROTTEN_RAGS_REQ)
-        || (countitem("UndeadEye") < @RAZHA_UNDEAD_EYE_REQ)
-        || (countitem("UndeadEar") < @RAZHA_UNDEAD_EAR_REQ) )
+    if ( (countitemcolor("Soul") < @RAZHA_SOUL_REQ)
+        || (countitemcolor("RottenRags") < @RAZHA_ROTTEN_RAGS_REQ)
+        || (countitemcolor("UndeadEye") < @RAZHA_UNDEAD_EYE_REQ)
+        || (countitemcolor("UndeadEar") < @RAZHA_UNDEAD_EAR_REQ) )
         goto L_MissingReagents;
     delitem "Soul", @RAZHA_SOUL_REQ;
     delitem "RottenRags", @RAZHA_ROTTEN_RAGS_REQ;
@@ -54,12 +50,12 @@ L_Ritual:
         goto L_Close;
 
     // initialize fight
-    set $@CRYPT_FIGHT2, 1;
-    set $@CRYPT_FIGHT2_WAVE, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, 2;
-    set $@CRYPT_FIGHT2_PLAYER_COUNT, getmapusers("027-7.gat");
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1036, 1, "General Razha::OnPetDeath";
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1124, 1, "General Razha::OnPetDeath";
+    $@CRYPT_FIGHT2 = 1;
+    $@CRYPT_FIGHT2_WAVE = 0;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = 2;
+    $@CRYPT_FIGHT2_PLAYER_COUNT = getmapusers("027-7");
+    areamonster "027-7", 0, 0, 79, 84, "", 1036, 1, "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1124, 1, "General Razha::OnPetDeath";
 
     initnpctimer;
     goto L_Announce;
@@ -69,15 +65,14 @@ L_ToWeak:
     goto L_Close;
 
 L_Close:
-    set @bonus, 0;
-    set @minlevel, 0;
-    set @RAZHA_SOUL_REQ, 0;
-    set @RAZHA_ROTTEN_RAGS_REQ, 0;
-    set @RAZHA_UNDEAD_EYE_REQ, 0;
-    set @RAZHA_UNDEAD_EAR_REQ, 0;
+    @bonus = 0;
+    @minlevel = 0;
+    @RAZHA_SOUL_REQ = 0;
+    @RAZHA_ROTTEN_RAGS_REQ = 0;
+    @RAZHA_UNDEAD_EYE_REQ = 0;
+    @RAZHA_UNDEAD_EAR_REQ = 0;
     close;
 
-// Fight logic attached to npc
 OnTimer5000:
     setnpctimer 0;
     if ($@CRYPT_FIGHT2 != 0)
@@ -85,26 +80,26 @@ OnTimer5000:
     goto L_Return_1;
 
 L_Return_1:
-    set $@CRYPT_FIGHT2_PLAYER_COUNT, 0;
-    areatimer "027-7.gat", 0, 0, 79, 84, 10, "General Razha::OnTick";
+    $@CRYPT_FIGHT2_PLAYER_COUNT = 0;
+    areatimer "027-7", 0, 0, 79, 84, 10, "General Razha::OnTick";
     end;
 
 L_CryptLogic:
-    set $@CRYPT_FIGHT2_ROUND_PEN, $@CRYPT_FIGHT2_PLAYER_COUNT;
+    $@CRYPT_FIGHT2_ROUND_PEN = $@CRYPT_FIGHT2_PLAYER_COUNT;
     if ($@CRYPT_FIGHT2_ROUND_PEN > 60)
-        set $@CRYPT_FIGHT2_ROUND_PEN, 60;
+        $@CRYPT_FIGHT2_ROUND_PEN = 60;
     if ($@CRYPT_FIGHT2_PLAYER_COUNT <= 0)
         goto L_CleanUpLosers;
     set $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER, $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER + 5; // Advance 5 seconds
-    if (mobcount("027-7.gat", "General Razha::OnPetDeath") < 0)
+    if (mobcount("027-7", "General Razha::OnPetDeath") < 0)
         goto L_NextWave;
     if ($@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER + $@CRYPT_FIGHT2_ROUND_PEN >= 120)
         goto L_NextWave;
     goto L_Return_1;
 
 L_NextWave:
-    set $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT2_WAVE, $@CRYPT_FIGHT2_WAVE + 1;
+    $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT2_WAVE = $@CRYPT_FIGHT2_WAVE + 1;
     if ( ($@CRYPT_FIGHT2_WAVE > 10) && ($@CRYPT_FIGHT2_SUMMONS_COUNT == 0) )
         goto L_CleanUp;
     if ( ($@CRYPT_FIGHT2_WAVE > 10) && ($@CRYPT_FIGHT2_WAVE < 22) )
@@ -120,101 +115,100 @@ L_NextWave:
     goto L_SummonNuke;
 
 L_SummonNuke:
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT + $@CRYPT_FIGHT2_WAVE*2 + $@CRYPT_FIGHT2_PLAYER_COUNT*4;
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1036, $@CRYPT_FIGHT2_WAVE*2 + $@CRYPT_FIGHT2_PLAYER_COUNT*4, "General Razha::OnPetDeath";
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT + $@CRYPT_FIGHT2_WAVE*2 + $@CRYPT_FIGHT2_PLAYER_COUNT*4;
+    areamonster "027-7", 0, 0, 79, 84, "", 1036, $@CRYPT_FIGHT2_WAVE*2 + $@CRYPT_FIGHT2_PLAYER_COUNT*4, "General Razha::OnPetDeath";
     goto L_Announce;
 
 L_WeakSummons:
-    set $@CRYPT_FIGHT2_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
+    $@CRYPT_FIGHT2_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
 
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1045, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
     goto L_Announce;
 
 L_StrongSummons:
-    set $@CRYPT_FIGHT2_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
+    $@CRYPT_FIGHT2_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
 
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1124, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1124, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
     goto L_Announce;
 
 L_BossSummons:
-    set $@CRYPT_FIGHT2_SUMMONS_NUMBER, (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1124, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
-    areamonster "027-7.gat", 0, 0, 79, 84, "", 1128, 1, "General Razha::OnPetDeath";
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT + 1;
+    $@CRYPT_FIGHT2_SUMMONS_NUMBER = (5 + (1 * $@CRYPT_FIGHT2_WAVE) + (2 * $@CRYPT_FIGHT2_PLAYER_COUNT))/2;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2) + ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2);
+    areamonster "027-7", 0, 0, 79, 84, "", 1036, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1124, ($@CRYPT_FIGHT2_SUMMONS_NUMBER/2), "General Razha::OnPetDeath";
+    areamonster "027-7", 0, 0, 79, 84, "", 1128, 1, "General Razha::OnPetDeath";
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT + 1;
     goto L_Announce;
 
 L_Announce:
-    set $@msg$, $@CRYPT_FIGHT2_MESSAGES$[$@CRYPT_FIGHT2_WAVE];
+    $@msg$ = $@CRYPT_FIGHT2_MESSAGES$[$@CRYPT_FIGHT2_WAVE];
     if ($@msg$ == "")
         goto L_Return_1;
-    mapannounce "027-7.gat", $@msg$, 0;
-    mapannounce "027-4.gat", $@msg$, 0;
-    set $@msg$, "";
+    mapannounce "027-7", $@msg$, 0;
+    mapannounce "027-4", $@msg$, 0;
+    $@msg$ = "";
     goto L_Return_1;
 
-// Called on each player once every 5 seconds
 OnTick:
     if (isdead()) end;
-    set $@CRYPT_FIGHT2_PLAYER_COUNT, $@CRYPT_FIGHT2_PLAYER_COUNT + 1;
+    $@CRYPT_FIGHT2_PLAYER_COUNT = $@CRYPT_FIGHT2_PLAYER_COUNT + 1;
     end;
 
 OnPetDeath:
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, $@CRYPT_FIGHT2_SUMMONS_COUNT - 1;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = $@CRYPT_FIGHT2_SUMMONS_COUNT - 1;
     end;
 
 L_CleanUpLosers:
-    mapannounce "027-7.gat", "General Razha:* Oh where did you all go, I was beginning to have fun here.", 0;
-    mapannounce "027-4.gat", "The battle is lost.", 0;
-    set $@CRYPT_FIGHT2, 0;
-    set $@CRYPT_FIGHT2_PLAYER_COUNT, 0;
-    set $@CRYPT_FIGHT2_WAVE, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, 0;
-    set $@CRYPT_FIGHT2_ROUND_PEN, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_NUMBER, 0;
-    killmonster "027-7.gat", "General Razha::OnPetDeath";
+    mapannounce "027-7", "General Razha:* Oh where did you all go, I was beginning to have fun here.", 0;
+    mapannounce "027-4", "The battle is lost.", 0;
+    $@CRYPT_FIGHT2 = 0;
+    $@CRYPT_FIGHT2_PLAYER_COUNT = 0;
+    $@CRYPT_FIGHT2_WAVE = 0;
+    $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = 0;
+    $@CRYPT_FIGHT2_ROUND_PEN = 0;
+    $@CRYPT_FIGHT2_SUMMONS_NUMBER = 0;
+    killmonster "027-7", "General Razha::OnPetDeath";
     stopnpctimer;
     setnpctimer 0;
     end;
 
 L_CleanUp:
-    mapannounce "027-7.gat", "General Razha:* How in all hells could that happen? I am lost forever.", 0;
-    mapannounce "027-4.gat", "General Razha is defeated.", 0;
-    areatimer "027-7.gat", 0, 0, 79, 84, 10, "General Razha::OnReward";
-    set $@CRYPT_FIGHT2, 0;
-    set $@CRYPT_FIGHT2_PLAYER_COUNT, 0;
-    set $@CRYPT_FIGHT2_WAVE, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_COUNT, 0;
-    set $@CRYPT_FIGHT2_ROUND_PEN, 0;
-    set $@CRYPT_FIGHT2_SUMMONS_NUMBER, 0;
-    killmonster "027-7.gat", "General Razha::OnPetDeath";
+    mapannounce "027-7", "General Razha:* How in all hells could that happen? I am lost forever.", 0;
+    mapannounce "027-4", "General Razha is defeated.", 0;
+    areatimer "027-7", 0, 0, 79, 84, 10, "General Razha::OnReward";
+    $@CRYPT_FIGHT2 = 0;
+    $@CRYPT_FIGHT2_PLAYER_COUNT = 0;
+    $@CRYPT_FIGHT2_WAVE = 0;
+    $@CRYPT_FIGHT2_SUMMONS_ROUND_TIMER = 0;
+    $@CRYPT_FIGHT2_SUMMONS_COUNT = 0;
+    $@CRYPT_FIGHT2_ROUND_PEN = 0;
+    $@CRYPT_FIGHT2_SUMMONS_NUMBER = 0;
+    killmonster "027-7", "General Razha::OnPetDeath";
     stopnpctimer;
     setnpctimer 0;
     end;
 
 OnReward:
     if (isdead()) end;
-    set @bonus, (BaseLevel/2);
-    set DailyQuestBonus, DailyQuestBonus + @bonus;
+    @bonus = (BaseLevel/2);
+    DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action. " + @bonus + " daily bonus gained." ;
-    set BOSS_POINTS, BOSS_POINTS + 50;
+    BOSS_POINTS = BOSS_POINTS + 50;
     message strcharinfo(0), "You gain 50 Boss Points giving you a total of " + BOSS_POINTS + ".";
     goto L_End;
 
 L_End:
-    set @bonus, 0;
-    set @minlevel, 0;
-    set @RAZHA_SOUL_REQ, 0;
-    set @RAZHA_ROTTEN_RAGS_REQ, 0;
-    set @RAZHA_UNDEAD_EYE_REQ, 0;
-    set @RAZHA_UNDEAD_EAR_REQ, 0;
+    @bonus = 0;
+    @minlevel = 0;
+    @RAZHA_SOUL_REQ = 0;
+    @RAZHA_ROTTEN_RAGS_REQ = 0;
+    @RAZHA_UNDEAD_EYE_REQ = 0;
+    @RAZHA_UNDEAD_EAR_REQ = 0;
     end;
 
 OnInit:

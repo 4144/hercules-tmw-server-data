@@ -1,5 +1,3 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Sandy Dungeon Level 1 warps
 
-043-3.gat,32,36|warp|To Beach|0,-1,043-1.gat,52,39
-043-3.gat,77,30|warp|To Lower Level|-1,-1,043-4.gat,47,67
+043-3,32,36,0	warp	To Beach	0,0,043-1,52,39
+043-3,77,30,0	warp	To Lower Level	0,0,043-4,47,67

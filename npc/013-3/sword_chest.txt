@@ -1,7 +1,5 @@
-//
 
-013-3.gat,177,22,0|script|Chest#sword|111
-{
+013-3.gat,177,22,0	script	Chest#sword	111,{
     callfunc "ClearVariables";
     if (FLAGS & FLAG_HURNSMINE_CHEST) goto L_Finished;
 
@@ -13,17 +11,17 @@
         "No.", L_Close;
 
 L_Yes:
-    if(countitem("TreasureKey") < 10)
+    if(countitemcolor("TreasureKey") < 10)
         goto L_Not_Enough;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("TreasureKey") > 10)
+        && countitemcolor("TreasureKey") > 10)
             goto L_TooMany;
     delitem "TreasureKey", 10;
     getitem "ShortSword", 1;
     mes "[Chest]";
     mes "You opened it and found a short sword!";
-    set FLAGS, FLAGS | FLAG_HURNSMINE_CHEST;
+    FLAGS = FLAGS | FLAG_HURNSMINE_CHEST;
     close;
 
 L_Not_Enough:

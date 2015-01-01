@@ -1,13 +1,11 @@
-//
 
-035-2.gat,23,38,0|shop|Cooky|213,Beer:*175,Orange:*40,CasinoCoins:*10
+035-2,23,38,0	shop	Cooky	213,539:175,657:40,503:10
 
-035-2.gat,23,35,0|script|Bunkmaster Phict|212
-{
-    set @npcname$, "Bunkmaster Phict";
-    set @cost, 100;
+035-2.gat,23,35,0	script	Bunkmaster Phict	212,{
+    @npcname$ = "Bunkmaster Phict";
+    @cost = 100;
     callfunc "Inn";
-    set @npcname$, "";
-    set @cost, 0;
+    @npcname$ = "";
+    @cost = 0;
     close;
 }

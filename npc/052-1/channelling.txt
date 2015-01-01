@@ -1,16 +1,6 @@
-//-----------------------------------------------------------------------------
-// Illia Island
-// $@illia_progress = 4
-//
-// Level progress:
-//     0: Did not start the channelling, or previous channelling failed
-//     1: Channelling started
-//     2: Channelling completed
-//-----------------------------------------------------------------------------
 
-052-1.gat,25,44,0|script|#EnchantDoorTrigger|32767,3,4
-{
-    set @step, 4;
+052-1.gat,25,44,0	script	#EnchantDoorTrigger	32767,3,4,{
+    @step = 4;
     if ($@illia_progress < @step) goto L_ShouldNotBeHere;
     if (strcharinfo(0) == $@ILLIA_HERO$ &&
         $@illia_level_4_progress == 0) goto L_EnchantDoor;
@@ -26,13 +16,12 @@ L_ShouldNotBeHere:
 
 }
 
-052-1.gat,57,29,0|script|#Enchanted Door|369,1,1
-{
+052-1.gat,57,29,0	script	#Enchanted Door	369,1,1,{
     if ($@illia_level_4_progress != 2) goto L_PushBack;
     end;
 
 L_PushBack:
-    warp "052-1.gat", 57, 34;
+    warp "052-1", 57, 34;
     percentheal -20, 0;
     message strcharinfo(0), "You are pushed back violently. There is probably some way to break this barrier.";
     mes "You are pushed back violently.";
@@ -40,7 +29,7 @@ L_PushBack:
     close;
 
 OnCommandDS:
-    areamonster "052-1.gat", 56, 30, 60, 31, "", 1101, 2 + rand(3), "#Enchanted Door::OnSpawn";
+    areamonster "052-1", 56, 30, 60, 31, "", 1101, 2 + rand(3), "#Enchanted Door::OnSpawn";
     misceffect FX_EVIL_SUMMON;
     end;
 
@@ -49,13 +38,12 @@ OnSpawn:
 
 }
 
-052-1.gat,57,29,0|script|#Enchanted Door2|400,1,1
-{
+052-1.gat,57,29,0	script	#Enchanted Door2	400,1,1,{
     if ($@illia_level_4_progress == 2) goto L_Warp;
     end;
 
 L_Warp:
-    warp "052-2.gat", 33, 40;
+    warp "052-2", 33, 40;
     end;
 
 OnCommandDestroy:
@@ -64,8 +52,7 @@ OnCommandDestroy:
 
 }
 
-052-1.gat,51,38,0|script|Engravings|400
-{
+052-1.gat,51,38,0	script	Engravings	400,{
     mes "You can read some words engraved inside this rock, but some are erased by wind and time:";
     next;
     mes "\".. can use this .. power..´. . .´. . . amplify a spell ..´.";
@@ -92,16 +79,15 @@ L_SuggestChannelling:
 
 }
 
-function|script|StartChannelling
-{
-    if (isat("052-1.gat",53,38) == 0)
+function	script	StartChannelling	{
+    if (isat("052-1",53,38) == 0)
         end;
     if ($@illia_level_4_progress > 0)
         end;
-    set $@illia_level_4_progress, 1;
-    set $@illia_char_channelling$, strcharinfo(0);
+    $@illia_level_4_progress = 1;
+    $@illia_char_channelling$ = strcharinfo(0);
 
-    set @bonus, (readparam(bInt)+1) / 25;
+    @bonus = (readparam(bInt)+1) / 25;
     // Lazurite Stones power, will also depend on the Int of the channelling character
     setarray $@illia_lazurites_power,
         12 + @bonus, // small
@@ -114,15 +100,15 @@ function|script|StartChannelling
     setarray $@illia_large_lazurites, 21,40, 34,25;
 
     // amount of initial magic power
-    set $@illia_magic_power, 1811 + readparam(bInt)*2;
+    $@illia_magic_power = 1811 + readparam(bInt)*2;
     // Channelling required power depends on the base Int of the character
-    set $@illia_magic_power_required, 5707 - 2*readparam(bInt);
+    $@illia_magic_power_required = 5707 - 2*readparam(bInt);
     // magic power loss depends also on Int
-    set $@illia_magic_power_loss, 53 - ((readparam(bInt)+1)*2)/10;
+    $@illia_magic_power_loss = 53 - ((readparam(bInt)+1)*2)/10;
 
     // register the power status to display hints to the players
     // Statuses: 0=critical(below 300), 1=neutral, 2=almost there (max-300)
-    set $@illia_magic_power_status, 1;
+    $@illia_magic_power_status = 1;
 
     message strcharinfo(0), "Ok, let's stay focused now!";
     cmdothernpc "#Power Circle", "St";
@@ -130,12 +116,11 @@ function|script|StartChannelling
 
 }
 
-052-1.gat,53,38,0|script|#Power Circle|368
-{
-    set @step, 4;
+052-1.gat,53,38,0	script	#Power Circle	368,{
+    @step = 4;
     if ($@illia_progress < @step)
         goto L_ShouldNotBeHere;
-    if (isat("052-1.gat",53,38) == 0)
+    if (isat("052-1",53,38) == 0)
         goto L_Hint;
     end;
 
@@ -181,27 +166,27 @@ S_ItemSpawn:
     if (!(attachrid(getcharid(3, $@illia_char_channelling$))))
         goto L_Return;
     // spawn items at random
-    set $@illia_item_spawn_i, rand(getarraysize($@illia_small_lazurites)/2);
-    set $@illia_item_spawn_x, $@illia_small_lazurites[$@illia_item_spawn_i*2];
-    set $@illia_item_spawn_y, $@illia_small_lazurites[($@illia_item_spawn_i*2)+1];
+    $@illia_item_spawn_i = rand(getarraysize($@illia_small_lazurites)/2);
+    $@illia_item_spawn_x = $@illia_small_lazurites[$@illia_item_spawn_i*2];
+    $@illia_item_spawn_y = $@illia_small_lazurites[($@illia_item_spawn_i*2)+1];
     if (rand(10) > 0)
-        makeitem 873, rand(4,7), "052-1.gat", $@illia_item_spawn_x, $@illia_item_spawn_y;
+        makeitem 873, rand(4,7), "052-1", $@illia_item_spawn_x, $@illia_item_spawn_y;
 
-    set $@illia_item_spawn_i, rand(getarraysize($@illia_regular_lazurites)/2);
-    set $@illia_item_spawn_x, $@illia_regular_lazurites[$@illia_item_spawn_i*2];
-    set $@illia_item_spawn_y, $@illia_regular_lazurites[($@illia_item_spawn_i*2)+1];
+    $@illia_item_spawn_i = rand(getarraysize($@illia_regular_lazurites)/2);
+    $@illia_item_spawn_x = $@illia_regular_lazurites[$@illia_item_spawn_i*2];
+    $@illia_item_spawn_y = $@illia_regular_lazurites[($@illia_item_spawn_i*2)+1];
     if (rand(8) > 0)
-        makeitem 874, rand(3,4), "052-1.gat", $@illia_item_spawn_x, $@illia_item_spawn_y;
+        makeitem 874, rand(3,4), "052-1", $@illia_item_spawn_x, $@illia_item_spawn_y;
 
-    set $@illia_item_spawn_i, rand(getarraysize($@illia_large_lazurites)/2);
-    set $@illia_item_spawn_x, $@illia_large_lazurites[$@illia_item_spawn_i*2];
-    set $@illia_item_spawn_y, $@illia_large_lazurites[($@illia_item_spawn_i*2)+1];
+    $@illia_item_spawn_i = rand(getarraysize($@illia_large_lazurites)/2);
+    $@illia_item_spawn_x = $@illia_large_lazurites[$@illia_item_spawn_i*2];
+    $@illia_item_spawn_y = $@illia_large_lazurites[($@illia_item_spawn_i*2)+1];
     if (rand(4) > 0)
-        makeitem 875, rand(1,2), "052-1.gat", $@illia_item_spawn_x, $@illia_item_spawn_y;
+        makeitem 875, rand(1,2), "052-1", $@illia_item_spawn_x, $@illia_item_spawn_y;
 
-    set $@illia_item_spawn_i, 0;
-    set $@illia_item_spawn_x, 0;
-    set $@illia_item_spawn_y, 0;
+    $@illia_item_spawn_i = 0;
+    $@illia_item_spawn_x = 0;
+    $@illia_item_spawn_y = 0;
 
     detachrid;
     goto L_Return;
@@ -212,19 +197,19 @@ L_Return:
 S_CheckChannelling:
     // Remove stones inside the circle
     set $@illia_magic_power, $@illia_magic_power +
-        getareadropitem("052-1.gat", 52, 37, 54, 39, 873, 1)*$@illia_lazurites_power[0] +
-        getareadropitem("052-1.gat", 52, 37, 54, 39, 874, 1)*$@illia_lazurites_power[1] +
-        getareadropitem("052-1.gat", 52, 37, 54, 39, 875, 1)*$@illia_lazurites_power[2];
+        getareadropitem("052-1", 52, 37, 54, 39, 873, 1)*$@illia_lazurites_power[0] +
+        getareadropitem("052-1", 52, 37, 54, 39, 874, 1)*$@illia_lazurites_power[1] +
+        getareadropitem("052-1", 52, 37, 54, 39, 875, 1)*$@illia_lazurites_power[2];
 
     // magic power fades over time
-    set $@illia_magic_power, $@illia_magic_power - $@illia_magic_power_loss;
+    $@illia_magic_power = $@illia_magic_power - $@illia_magic_power_loss;
 
-    set $@illia_magic_power_last_status, $@illia_magic_power_status;
-    set $@illia_magic_power_status, 1;
+    $@illia_magic_power_last_status = $@illia_magic_power_status;
+    $@illia_magic_power_status = 1;
     if ($@illia_magic_power < 300)
-        set $@illia_magic_power_status, 0;
+        $@illia_magic_power_status = 0;
     if ($@illia_magic_power > $@illia_magic_power_required - 300)
-        set $@illia_magic_power_status, 2;
+        $@illia_magic_power_status = 2;
 
     // Player loses a part of his health while channelling
     if (!(attachrid(getcharid(3, $@illia_char_channelling$))))
@@ -235,7 +220,7 @@ S_CheckChannelling:
 
     if (isdead())
         goto L_ChannellingDead;
-    if (isat("052-1.gat",53,38) == 0)
+    if (isat("052-1",53,38) == 0)
         goto L_ChannellingMoved;
     // check the magic power
     if ($@illia_magic_power <= 0)
@@ -245,25 +230,25 @@ S_CheckChannelling:
 
     detachrid;
 
-    set $@illia_channelling_status_msg$, "";
+    $@illia_channelling_status_msg$ = "";
 
     if ($@illia_magic_power_last_status == 0 && $@illia_magic_power_status == 1)
-        set $@illia_channelling_status_msg$, $@illia_char_channelling$ + ": I think I'm controlling the spell again now. Keep up!";
+        $@illia_channelling_status_msg$ = $@illia_char_channelling$ + ": I think I'm controlling the spell again now. Keep up!";
     if ($@illia_magic_power_last_status == 1 && $@illia_magic_power_status == 0)
-        set $@illia_channelling_status_msg$, $@illia_char_channelling$ + ": Guys I'm loosing it! Hurry up!";
+        $@illia_channelling_status_msg$ = $@illia_char_channelling$ + ": Guys I'm loosing it! Hurry up!";
     if ($@illia_magic_power_last_status == 1 && $@illia_magic_power_status == 2)
-        set $@illia_channelling_status_msg$, $@illia_char_channelling$ + ": I almost have the power to cast it! One last effort!";
+        $@illia_channelling_status_msg$ = $@illia_char_channelling$ + ": I almost have the power to cast it! One last effort!";
     if ($@illia_magic_power_last_status == 2 && $@illia_magic_power_status == 1)
-        set $@illia_channelling_status_msg$, $@illia_char_channelling$ + ": Damn! It faded a little.";
+        $@illia_channelling_status_msg$ = $@illia_char_channelling$ + ": Damn! It faded a little.";
 
     if ($@illia_channelling_status_msg$ != "")
-        areatimer "052-1.gat", 1, 1, 100, 80, 0, "#Power Circle::OnMPSC";
+        areatimer "052-1", 1, 1, 100, 80, 0, "#Power Circle::OnMPSC";
 
     return;
 
 OnMPSC:
     message strcharinfo(0), $@illia_channelling_status_msg$;
-    set $@illia_channelling_status_msg$, "";
+    $@illia_channelling_status_msg$ = "";
     end;
 
 L_ChannellingComplete:
@@ -271,16 +256,16 @@ L_ChannellingComplete:
     detachrid;
     stopnpctimer;
     setnpctimer 0;
-    set $@illia_magic_power, 0;
-    set $@illia_magic_power_required, 0;
-    set $@illia_magic_power_last_status, 0;
-    set $@illia_magic_power_status, 0;
-    set $@illia_magic_power_loss, 0;
-    set $@illia_char_channelling$, "";
-    set $@illia_level_4_progress, 2;
-    set $@illia_progress, 5;
+    $@illia_magic_power = 0;
+    $@illia_magic_power_required = 0;
+    $@illia_magic_power_last_status = 0;
+    $@illia_magic_power_status = 0;
+    $@illia_magic_power_loss = 0;
+    $@illia_char_channelling$ = "";
+    $@illia_level_4_progress = 2;
+    $@illia_progress = 5;
     callfunc "UpdateIlliaProgress";
-    set $@illia_max_time, $@illia_max_time + 600;
+    $@illia_max_time = $@illia_max_time + 600;
     // Effect to display the disenchant is cast
     misceffect FX_CHANNELLING_CAST;
     // move away the enchanted door
@@ -296,7 +281,7 @@ L_ChannellingMoved:
     // kill the player as part of the process: the magic process drained his life.
     // But only if he is still in the island (otherwise, he probably got warped
     // and does not need being killed)
-    if (isin("052-1.gat",1,1,100,80) == 0)
+    if (isin("052-1",1,1,100,80) == 0)
         goto L_ChannellingFail;
     percentheal -100, 0;
     misceffect FX_MAGIC_DARK_EXPLOSION, strcharinfo(0);
@@ -314,13 +299,13 @@ L_ChannellingFail:
     detachrid;
     stopnpctimer;
     setnpctimer 0;
-    set $@illia_magic_power, 0;
-    set $@illia_magic_power_required, 0;
-    set $@illia_magic_power_last_status, 0;
-    set $@illia_magic_power_status, 0;
-    set $@illia_magic_power_loss, 0;
-    set $@illia_char_channelling$, "";
-    set $@illia_level_4_progress, 0;
+    $@illia_magic_power = 0;
+    $@illia_magic_power_required = 0;
+    $@illia_magic_power_last_status = 0;
+    $@illia_magic_power_status = 0;
+    $@illia_magic_power_loss = 0;
+    $@illia_char_channelling$ = "";
+    $@illia_level_4_progress = 0;
     end;
 
 L_ShouldNotBeHere:

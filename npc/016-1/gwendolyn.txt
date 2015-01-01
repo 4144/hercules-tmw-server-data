@@ -1,51 +1,28 @@
-// Authors: PjotrOrial, Jenalya
-// This script is for gaining the skill "Hawk's Eye"
-//
-// Needed: Forest Bow Quest
-//
-// Quest1: Proving Dexterity
-// Needed: 18 cave snake eggs, 15 snake eggs, 5 mountain snake eggs, 2 grass snake eggs
-// Reward: 10000 Exp
-// Quest2: Hitting the Target
-// Needed: win the minigame and hit the target depending on the wind, dex and agi
-// Reward: Skill Hawk's Eye
-//
-// Variables used: QUEST_Forestbow_state, nibble 6
-//
-// This nibble will have these values:
-// 0, state0: never talked to Gwendolyn
-// 1, state1: talked with her, but not a student yet
-// 2, state2: student, but no bow (from alan of course)
-// 3, state3: heard first lesson, she is waiting for the snake eggs
-// 4, state4: quest done, but too young, or having the ability for skills not learned
-// 5, state5: you are ready to do the targeting minigame
-// 6, state6: you did the minigame
 
-016-1.gat,33,45,0|script|Gwendolyn|182
-{
+016-1.gat,33,45,0	script	Gwendolyn	182,{
     // schoolfee in gp
-    set @SCHOOLFEE, 25000;
+    @SCHOOLFEE = 25000;
     // how many eggs do you need of each kind?
-    set @CAVE_EGGS_AMOUNT, 18;
-    set @SNAKE_EGGS_AMOUNT, 15;
-    set @MOUNTAIN_EGGS_AMOUNT, 5;
-    set @GRASS_EGGS_AMOUNT, 2;
+    @CAVE_EGGS_AMOUNT = 18;
+    @SNAKE_EGGS_AMOUNT = 15;
+    @MOUNTAIN_EGGS_AMOUNT = 5;
+    @GRASS_EGGS_AMOUNT = 2;
     // experience for eggs
-    set @QUEST_EGG_EXP, 10000;
+    @QUEST_EGG_EXP = 10000;
     // The needed level for the minigame:
-    set @BASELEVEL_GAME, 50;
+    @BASELEVEL_GAME = 50;
     // experience gained for hitting the bullseye:
-    set @QUEST_HAWK_EXP, 10000;
+    @QUEST_HAWK_EXP = 10000;
 
-    set @Q_hawkseye_MASK, NIBBLE_6_MASK;
-    set @Q_hawkseye_SHIFT, NIBBLE_6_SHIFT;
+    @Q_hawkseye_MASK = NIBBLE_6_MASK;
+    @Q_hawkseye_SHIFT = NIBBLE_6_SHIFT;
 
-    set @Q_hawkseye, (QUEST_Forestbow_state & @Q_hawkseye_MASK) >> @Q_hawkseye_SHIFT;
+    @Q_hawkseye = (QUEST_Forestbow_state & @Q_hawkseye_MASK) >> @Q_hawkseye_SHIFT;
 
-    set @Q_forestbow_MASK, NIBBLE_0_MASK;
-    set @Q_forestbow_SHIFT, NIBBLE_0_SHIFT;
+    @Q_forestbow_MASK = NIBBLE_0_MASK;
+    @Q_forestbow_SHIFT = NIBBLE_0_SHIFT;
 
-    set @FORESTBOW, ((QUEST_Forestbow_state) & @Q_forestbow_MASK) >> @Q_forestbow_SHIFT;
+    @FORESTBOW = ((QUEST_Forestbow_state) & @Q_forestbow_MASK) >> @Q_forestbow_SHIFT;
 
     if (@Q_hawkseye == 6) goto L_state6;
     if (@Q_hawkseye == 5) goto L_state5;
@@ -79,14 +56,14 @@ L_Next:
     if (Zeny < @SCHOOLFEE)
         goto L_no_money;
 
-    set Zeny, Zeny - @SCHOOLFEE;
-    set @Q_hawkseye, 2;
+    Zeny = Zeny - @SCHOOLFEE;
+    @Q_hawkseye = 2;
     callsub S_Update_Var;
 
     mes "[Gwendolyn Bowmaker]";
     mes "\"The first thing you need is, obviously, a bow. You should not use any you come across, but a high quality one. I think it would be best to go to Alan in Hurnscald. He is my cousin, and knows how to make Forest Bows of exquisite quality. \"";
 
-    if (countitem("ForestBow") < 1)
+    if (countitemcolor("ForestBow") < 1)
         goto L_Close;
     next;
     menu
@@ -97,12 +74,12 @@ L_state2:
     mes "\"Let me see your bow.\"";
     next;
 
-    if (countitem("ForestBow") < 1)
+    if (countitemcolor("ForestBow") < 1)
         goto L_no_bow;
     if (@FORESTBOW < 5)
         goto L_bow_bought;
 
-    set @Q_hawkseye, 3;
+    @Q_hawkseye = 3;
     callsub S_Update_Var;
     mes "[Gwendolyn Bowmaker]";
     mes "\"Very well, this looks fine. It is time for your first lesson. \"";
@@ -133,10 +110,10 @@ L_state3:
         "I have what you want.",L_Next1;
 
 L_Next1:
-    if (countitem("CaveSnakeEgg") < @CAVE_EGGS_AMOUNT
-        ||countitem("SnakeEgg") < @SNAKE_EGGS_AMOUNT
-        ||countitem("MountainSnakeEgg") < @MOUNTAIN_EGGS_AMOUNT
-        ||countitem("GrassSnakeEgg") < @GRASS_EGGS_AMOUNT)
+    if (countitemcolor("CaveSnakeEgg") < @CAVE_EGGS_AMOUNT
+        ||countitemcolor("SnakeEgg") < @SNAKE_EGGS_AMOUNT
+        ||countitemcolor("MountainSnakeEgg") < @MOUNTAIN_EGGS_AMOUNT
+        ||countitemcolor("GrassSnakeEgg") < @GRASS_EGGS_AMOUNT)
             goto L_not_enough_eggs;
 
     delitem "CaveSnakeEgg", @CAVE_EGGS_AMOUNT;
@@ -146,7 +123,7 @@ L_Next1:
 
     getexp @QUEST_EGG_EXP, 0;
 
-    set @Q_hawkseye, 4;
+    @Q_hawkseye = 4;
     callsub S_Update_Var;
 
     mes "[Gwendolyn Bowmaker]";
@@ -162,7 +139,7 @@ L_state4:
     mes "Gwendolyn takes an analyzing look at you. Then she nods.";
     next;
 
-    set @Q_hawkseye, 5;
+    @Q_hawkseye = 5;
     callsub S_Update_Var;
     mes "[Gwendolyn Bowmaker]";
     mes "\"Ok. You have made great progress. I think you are ready for further tasks.\"";
@@ -191,7 +168,7 @@ L_state5:
     //set @targetY, 20; // target position, const
     set @pointX, 0; // point the player hits, x-coordinate
     set @pointY, 0; // point the player hits, y-coordinate
-    set @wdIndex, 0;
+    @wdIndex = 0;
     //
     mes "[Gwendolyn Bowmaker]";
     mes "\"Show me what you can!\"";
@@ -202,20 +179,20 @@ L_state5:
         "I'm sorry, I will come back later.",L_Close;
 
 L_game:
-    if (countitem("ForestBow") < 1)
+    if (countitemcolor("ForestBow") < 1)
         goto L_no_bow;
-    if (countitem("Arrow") < 1)
+    if (countitemcolor("Arrow") < 1)
         goto L_no_arrows;
     delitem "Arrow", 1;
     mes "You go to the training field and stand exactly on the same level with the target. The target is located about 43 feet north of you.You take one arrow and look at Gwendolyn.";
     next;
 
     // possibility for wdX and wdY to become zero is reduced, so windless status is less often
-    set @wdX, rand(9) - 4;
+    @wdX = rand(9) - 4;
     if (@wdX != 2 && @wdX !=-2)  set @wdX, rand(9) - 4;
     if (@wdX == 0)  set @wdX, rand(9) - 4;
 
-    set @wdY, rand(9) - 4;
+    @wdY = rand(9) - 4;
     if (@wdY != 2 && @wdY !=-2)  set @wdY, rand(9) - 4;
     if (@wdY == 0)  set @wdY, rand(9) - 4;
 
@@ -225,12 +202,12 @@ L_game:
     // 789
     //here is where the wind comes from, that's why it is the opposite.
     setarray @wd$,"error1, please report", "southeast", "south", "southwest", "east", "error2, please report", "west", "northeast", "north", "northwest" ;
-    set @paramX, @wdX;
-    set @paramY, @wdY;
+    @paramX = @wdX;
+    @paramY = @wdY;
     callsub S_getDirection;
-    set @wdIndex, @returnIndex;
+    @wdIndex = @returnIndex;
 
-    set @wp_sq, (@wdX * @wdX) + (@wdY * @wdY);
+    @wp_sq = (@wdX * @wdX) + (@wdY * @wdY);
 
     if (@wp_sq == 0)
         goto L_wp0;
@@ -283,7 +260,7 @@ L_choose_start_pos:
         "I will try it later.",L_Close;
 
 L_step_no:
-    set @spX, 0;
+    @spX = 0;
     mes "You stay where you are..";
     next;
     goto L_choose_shotpower;
@@ -298,25 +275,25 @@ L_step_left:
         "4",L_step_left4;
 
 L_step_left1:
-    set @spX, -1;
+    @spX = -1;
     mes "You take one step to the left.";
     next;
     goto L_choose_shotpower;
 
 L_step_left2:
-    set @spX, -2;
+    @spX = -2;
     mes "You take two steps to the left.";
     next;
     goto L_choose_shotpower;
 
 L_step_left3:
-    set @spX, -3;
+    @spX = -3;
     mes "You take three steps to the left.";
     next;
     goto L_choose_shotpower;
 
 L_step_left4:
-    set @spX, -4;
+    @spX = -4;
     mes "You take four steps to the left.";
     next;
     goto L_choose_shotpower;
@@ -331,25 +308,25 @@ L_step_right:
         "4",L_step_right4;
 
 L_step_right1:
-    set @spX, 1;
+    @spX = 1;
     mes "You take one step to the right.";
     next;
     goto L_choose_shotpower;
 
 L_step_right2:
-    set @spX, 2;
+    @spX = 2;
     mes "You take two steps to the right.";
     next;
     goto L_choose_shotpower;
 
 L_step_right3:
-    set @spX, 3;
+    @spX = 3;
     mes "You take three steps to the right.";
     next;
     goto L_choose_shotpower;
 
 L_step_right4:
-    set @spX, 4;
+    @spX = 4;
     mes "You take four steps to the right.";
     next;
     goto L_choose_shotpower;
@@ -370,10 +347,10 @@ L_choose_shotpower:
 
 L_MenuItems:
     // we have 9 menu entries, so scale @menu, which is in range 1-9, to a scale in -4 to +4
-    set @sp, @menu - 5;
+    @sp = @menu - 5;
     // calculate where you hit. You range is in [-8, 8] in X and Y as well
-    set @pointX, @wdX + @spX;
-    set @pointY, @wdY + @sp;
+    @pointX = @wdX + @spX;
+    @pointY = @wdY + @sp;
 
     if( @pointX==0 && @pointY==0 )
         goto L_target_hit;
@@ -384,10 +361,10 @@ L_MenuItems:
     //7,8,9 for lower left,  below, lower right;
     setarray @target_direction$, "error3, please report", "left above", "above", "right above","left","error4, please report","right","lower left","below","lower right";
 
-    set @paramX , @pointX;
-    set @paramY , @pointY;
+    @paramX  = @pointX;
+    @paramY  = @pointY;
     callsub S_getDirection;
-    set @targethit, @returnIndex;
+    @targethit = @returnIndex;
 
     //now check how close
     //get the distance squared:
@@ -396,7 +373,7 @@ L_MenuItems:
     // < 5 is very close
     // <17 is close
     // rest is a quite fucking shot
-    set @target_dist_sq, (@pointX * @pointX) + (@pointY*@pointY);
+    @target_dist_sq = (@pointX * @pointX) + (@pointY*@pointY);
 
     if (@target_dist_sq < 5)
         goto L_target_veryclose;
@@ -444,10 +421,10 @@ L_target_hit:
     next;
     if( rand(500) > (2*readparam(bDex) + readparam(bAgi)))
         goto L_target_nohit;
-    set @Q_hawkseye, 6;
+    @Q_hawkseye = 6;
     callsub S_Update_Var;
 
-    setskill SKILL_MALLARDS_EYE, 1;
+    addtoskill SKILL_MALLARDS_EYE, 1;
     getexp @QUEST_HAWK_EXP, 0;
 
     mes "\"You proved that you are worthy to call yourself a graduate of the School of Archery.\"";
@@ -477,13 +454,13 @@ L_state1:
 
 L_no_student:
     mes "\"That's a pity. Well, if you change your mind, come back any time.\"";
-    set @Q_hawkseye, 1;
+    @Q_hawkseye = 1;
     callsub S_Update_Var;
     goto L_Close;
 
 L_no_money:
     mes "\"I am sorry, but it seems that you don't have enough money. Come back when you have reorganized your finances.\"";
-    set @Q_hawkseye, 1;
+    @Q_hawkseye = 1;
     callsub S_Update_Var;
     goto L_Close;
 
@@ -514,41 +491,41 @@ L_no_arrows:
     goto L_Close;
 
 L_Close:
-    set @SCHOOLFEE, 0;
-    set @CAVE_EGGS_AMOUNT, 0;
-    set @SNAKE_EGGS_AMOUNT, 0;
-    set @MOUNTAIN_EGGS_AMOUNT, 0;
-    set @GRASS_EGGS_AMOUNT, 0;
-    set @QUEST_EGG_EXP, 0;
-    set @BASELEVEL_GAME, 0;
-    set @QUEST_HAWK_EXP, 0;
-    set @Q_hawkseye_MASK, 0;
-    set @Q_hawkseye_SHIFT, 0;
-    set @Q_hawkseye, 0;
-    set @Q_forestbow_MASK, 0;
-    set @Q_forestbow_SHIFT, 0;
-    set @FORESTBOW, 0;
+    @SCHOOLFEE = 0;
+    @CAVE_EGGS_AMOUNT = 0;
+    @SNAKE_EGGS_AMOUNT = 0;
+    @MOUNTAIN_EGGS_AMOUNT = 0;
+    @GRASS_EGGS_AMOUNT = 0;
+    @QUEST_EGG_EXP = 0;
+    @BASELEVEL_GAME = 0;
+    @QUEST_HAWK_EXP = 0;
+    @Q_hawkseye_MASK = 0;
+    @Q_hawkseye_SHIFT = 0;
+    @Q_hawkseye = 0;
+    @Q_forestbow_MASK = 0;
+    @Q_forestbow_SHIFT = 0;
+    @FORESTBOW = 0;
 
-    set @wdX, 0;
-    set @wdY, 0;
-    set @spX, 0;
-    set @sp, 0;
-    set @pointX, 0;
-    set @pointY, 0;
-    set @wdIndex, 0;
-    set @paramX, 0;
-    set @paramY, 0;
-    set @returnIndex,0;
-    set @wp_sq, 0;
-    set @targethit, 0;
-    set @target_dist_sq, 0;
+    @wdX = 0;
+    @wdY = 0;
+    @spX = 0;
+    @sp = 0;
+    @pointX = 0;
+    @pointY = 0;
+    @wdIndex = 0;
+    @paramX = 0;
+    @paramY = 0;
+    @returnIndex = 0;
+    @wp_sq = 0;
+    @targethit = 0;
+    @target_dist_sq = 0;
     cleararray @target_direction, 0, 10;
     cleararray @wd, 0, 10;
 
     close;
 
 S_Update_Var:
-        set QUEST_Forestbow_state, (QUEST_Forestbow_state & ~(@Q_hawkseye_MASK) | (@Q_hawkseye << @Q_hawkseye_SHIFT));
+        QUEST_Forestbow_state = (QUEST_Forestbow_state & ~(@Q_hawkseye_MASK) | (@Q_hawkseye << @Q_hawkseye_SHIFT));
         return;
 
 S_getDirection:
@@ -579,14 +556,3 @@ S_getDirection:
     if( @paramX==0 && @paramY==0 ) set @returnIndex, 5;
     return;
 }
-////////////////////////////////////
-// rand(X) returns a random number uniformly distributed between in range [0; X-1]
-//
-// A=rand(2) => (0,1)  50% for 0  50% for 1
-// B=rand(2) => (0,1)  50% for 0  50% for 1
-// C=rand(2) => (0,1)  50% for 0  50% for 1
-// D=rand(2) => (0,1)  50% for 0  50% for 1
-//
-// A+B => 0+0, 1+0, 0+1, 1+1 => [0,1,2]    25% for 0    50 % for 1    25 % for 2
-//
-// rand(3) => [0,1,2]   33% for 0    33% for 1    33% for 2

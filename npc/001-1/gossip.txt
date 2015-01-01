@@ -1,15 +1,13 @@
-// NPC to provide hints on progression of linear quest chain in Tulimshar
 
-001-1.gat,49,31,0|script|Gladys|154
-{
+001-1.gat,49,31,0	script	Gladys	154,{
     // This NPC previously used the variable TMW_Quest
     callfunc "ClearVarTMW_Quest";
 
-    set @guards, ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
-    set @bermik, ((QUEST_SouthTulimshar & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
-    set @sarah, ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
-    set @vincent, ((QUEST_SouthTulimshar & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
-    set @sandra, ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @guards = ((QUEST_SouthTulimshar & BYTE_2_MASK) >> BYTE_2_SHIFT);
+    @bermik = ((QUEST_SouthTulimshar & NIBBLE_0_MASK) >> NIBBLE_0_SHIFT);
+    @sarah = ((QUEST_SouthTulimshar & NIBBLE_1_MASK) >> NIBBLE_1_SHIFT);
+    @vincent = ((QUEST_SouthTulimshar & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT);
+    @sandra = ((QUEST_SouthTulimshar & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     mes "[Gladys, Town Gossip]";
     mes "\"Hello deary!  I hear some of the most fascinating rumors and bits of news. I just heard a bit more today!\"";
@@ -89,11 +87,11 @@ L_Ferry:
     goto L_Close;
 
 L_Close:
-    set @person$, "";
-    set @guards, 0;
-    set @bermik, 0;
-    set @sarah, 0;
-    set @vincent, 0;
-    set @sandra, 0;
+    @person$ = "";
+    @guards = 0;
+    @bermik = 0;
+    @sarah = 0;
+    @vincent = 0;
+    @sandra = 0;
     close;
 }

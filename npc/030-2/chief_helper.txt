@@ -1,9 +1,5 @@
-// Annual Xmas
-// author: Jenalya, wushin
-// Warrick is the Chief of Santa's helpers
 
-030-2.gat,127,42,0|script|Chief Warrick|329
-{
+030-2.gat,127,42,0	script	Chief Warrick	329,{
     callfunc "XmasStates";
 
     if($@xmas_time)
@@ -61,7 +57,7 @@ L_Insist:
     mes "Go to the helpers all over the house and ask them what is needed.";
     mes "This will show you're hired as a co-helper.\"";
     mes "He stabs your chest with his finger and leaves a blinking mark.";
-    set XMASTIME, XMASTIME | $@xmas_helper_bit;
+    XMASTIME = XMASTIME | $@xmas_helper_bit;
     goto L_Close;
 
 L_HelpStatus:

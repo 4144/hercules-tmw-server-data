@@ -1,8 +1,5 @@
-// This file is part of the Tutorial
-// Author: Jenalya
 
-042-1.gat,109,87,0|script|Kaan|160
-{
+042-1.gat,109,87,0	script	Kaan	160,{
     setarray @npc_loc, 109, 87, 4;
     callfunc "PCtoNPCRange";
     if (@npc_check)
@@ -18,7 +15,7 @@
     goto L_Out;
 
 L_Tanisha:
-    set STARTAREA, STARTAREA | $@SpokeToKaan;
+    STARTAREA = STARTAREA | $@SpokeToKaan;
     mes "[Young Man]";
     mes "\"You're the person Tanisha brought here, right?";
     mes "My name is Kaan, I'm her brother.\"";
@@ -83,7 +80,7 @@ L_Next1:
     mes "He might listen to one of the adult men, but they're all off to work in Tulimshar during the day.\"";
     next;
     mes "\"We should think about some kind of trick. Ah, if only I knew his weak point.\"";
-    set @tutorial_tmp, 10;
+    @tutorial_tmp = 10;
     callfunc "SetTutorialMask";
     next;
     goto L_Trick;
@@ -106,7 +103,7 @@ L_Next2:
     mes "[Kaan]";
     mes "\"Scorpions?! Right! How could I forget?";
     mes "When he was a child, he nearly died because he fell into a scorpion nest.\"";
-    set @tutorial_tmp, 12;
+    @tutorial_tmp = 12;
     callfunc "SetTutorialMask";
     next;
     goto L_Explain;

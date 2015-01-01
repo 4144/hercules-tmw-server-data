@@ -1,9 +1,7 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Woodland Hills warps
 
-017-1.gat,46,105|warp|To Woodland Hills|2,-1,013-1.gat,45,21
-017-1.gat,43,32|warp|To Theater|-1,-1,017-2.gat,26,30
-017-1.gat,76,31|warp|To Woodland Hills Labyr|-1,-1,017-3.gat,51,48
-017-1.gat,98,20|warp|To Woodland Hills Labyr|-1,-1,017-3.gat,83,33
-017-1.gat,97,31|warp|To Woodland Hills Labyr|-1,-1,017-3.gat,72,67
-017-1.gat,135,56|warp|to Woods|-1,1,056-1.gat,24,28
+017-1,46,105,0	warp	To Woodland Hills	2,0,013-1,45,21
+017-1,43,32,0	warp	To Theater	0,0,017-2,26,30
+017-1,76,31,0	warp	To Woodland Hills Labyr	0,0,017-3,51,48
+017-1,98,20,0	warp	To Woodland Hills Labyr	0,0,017-3,83,33
+017-1,97,31,0	warp	To Woodland Hills Labyr	0,0,017-3,72,67
+017-1,135,56,0	warp	to Woods	0,1,056-1,24,28

@@ -1,5 +1,4 @@
-013-2.gat,25,37,0|script|Fabius|115
-{
+013-2.gat,25,37,0	script	Fabius	115,{
     mes "[Fabius]";
     mes "\"Hey! Wanna have a drink or something? High quality, low cost. A poor fella like me needs a bit of extra cash, ye know.\"";
     next;
@@ -44,10 +43,10 @@ L_Beer_yes:
         goto L_Low_money;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("Beer") == 0)
+        && countitemcolor("Beer") == 0)
             goto L_TooMany;
     getitem "Beer", 1;
-    set Zeny, Zeny - 175;
+    Zeny = Zeny - 175;
     goto L_Finish;
 
 L_Beer_no:
@@ -69,10 +68,10 @@ L_Milk_yes:
         goto L_Low_money;
     getinventorylist;
     if (@inventorylist_count == 100
-        && countitem("Milk") == 0)
+        && countitemcolor("Milk") == 0)
             goto L_TooMany;
     getitem "Milk", 1;
-    set Zeny, Zeny - 300;
+    Zeny = Zeny - 300;
     goto L_Finish;
 
 L_Milk_no:

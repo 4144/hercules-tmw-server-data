@@ -1,36 +1,15 @@
-// Author: Jenalya
-// Current state: only dialog, magic teaching not finished
-// Waric is intended to teach the player some dark magic spells
-// in case the player is not a follower of Sagatha and can't become
-// one anymore (killed the wounded mouboo or cut the druid tree).
-// Waric would teach the spells based on the progress in the pentagram
-// creation, but save which spells were taught in a different variable.
-// Author: tux9th
-// Editing a few things and creating the Quests for Dark Magic school and spells
-// OrumQuest State 32 - had the talk about Dark Magic with Waric.
-// OrumQuest State 33 - Completed the long talk with Waric
-// OrumQuest State 34 - Aborted the oath of dark magic once
-// OrumQuest State 35 - Aborted the oath of dark magic twice - cannot learn dark magic anymore.
-// OrumQuest State 36 - Learned Dark Magic Skill.
-// OrumQuest State 37 - Learned summon wicked mushroom.
-// OrumQuest State 38 - Learned toxic dart.
-// OrumQuest State 39 - Talked about summoning Snakes, get ingredients.
-// OrumQuest State 40 - Given ingredients for Snake spell.
-// OrumQuest State 41 - Learned Summon snake
-// When extending these Quest Variable to 51 all of the other dark magic spells will be available. Keep this in mind.
 
-017-4.gat,216,36,0|script|Waric|153
-{
-    set @mouboo_status, ((QUEST_MAGIC & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT) & 3;
-    set @killed_mouboo, 0;
+017-4.gat,216,36,0	script	Waric	153,{
+    @mouboo_status = ((QUEST_MAGIC & NIBBLE_2_MASK) >> NIBBLE_2_SHIFT) & 3;
+    @killed_mouboo = 0;
     if ((@mouboo_status == 1) || (@mouboo_status == 2))
-        set @killed_mouboo, 1;
-    set @mouboo_status, 0;
+        @killed_mouboo = 1;
+    @mouboo_status = 0;
 
     if (MAGIC_FLAGS & MFLAG_DID_CUTTREE)
-        set @cut_tree, 1;
+        @cut_tree = 1;
 
-    set @sagatha_follower, (QUEST_MAGIC & (NIBBLE_4_MASK | NIBBLE_5_MASK)) >> NIBBLE_4_SHIFT;
+    @sagatha_follower = (QUEST_MAGIC & (NIBBLE_4_MASK | NIBBLE_5_MASK)) >> NIBBLE_4_SHIFT;
     if (OrumQuest > 40) goto L_MoreMagic;
     if (OrumQuest > 39) goto L_SnakesSpell;
     if (OrumQuest > 38) goto L_SnakesIngredients;
@@ -131,7 +110,7 @@ L_Next1:
     mes "[Waric]";
     mes "\"So, now that you know more about Dark Magic, are you still willing to become my apprentice?\"";
     mes "\"Once you cross this line, there is no going back. Keep this in mind!\"";
-    set OrumQuest, 33;
+    OrumQuest = 33;
     menu
         "I'll have to think about it.", L_ComeBackLater,
         "Yes.", L_Oath;
@@ -209,24 +188,24 @@ L_Oath:
 
 L_Next3:
     mes "As you speak the words written in flames, you feel all of your positive feelings drain away. You no longer love, you're no longer happy. You feel indifferent to the world. But there is also a newfound feeling of power in you. You feel capable of doing anything.";
-    set @SUP_id, SKILL_MAGIC_DARK;
-    set @SUP_name$, "Dark Magic";
-    set @SUP_xp, 150000;
-    set @SUP_lvl, 2;
+    @SUP_id = SKILL_MAGIC_DARK;
+    @SUP_name$ = "Dark Magic";
+    @SUP_xp = 150000;
+    @SUP_lvl = 2;
     callfunc "SkillUp";
     next;
     percentheal 100, 0;
     percentheal -99, 0;
     mes "You feel completely exhausted.";
-    set OrumQuest, 36;
+    OrumQuest = 36;
     goto L_Close;
 
 L_NoOath:
     mes "Waric mumbles something. You guess it's a magic spell.";
-    warp "005-3.gat", 86 , 33;
+    warp "005-3", 86 , 33;
     percentheal 100, 0;
     percentheal -50, 0;
-    set OrumQuest, OrumQuest + 1;
+    OrumQuest = OrumQuest + 1;
     goto L_Close;
 
 L_Mushroom:
@@ -237,7 +216,7 @@ L_Mushroom:
     mes "\"The spell consumes a Small Mushroom and a Dark Crystal. Shove the Dark Crystal into the Small Mushroom and yell " + getspellinvocation("summon-wickedmushroom") +".\"";
     next;
     mes "\"A wicked mushroom will appear to fight for you.\"";
-    set OrumQuest, 37;
+    OrumQuest = 37;
     goto L_Close;
 
 L_ToxicDart:
@@ -257,7 +236,7 @@ L_Next4:
     mes "\"Once this is done you have to throw it in the air and scream " + getspellinvocation("toxic-dart") + " and the two roots will turn into toxic darts, a projectile you can throw.\"";
     next;
     mes "\"If you want to learn more, come back later.\"";
-    set OrumQuest, 38;
+    OrumQuest = 38;
     goto L_Close;
 
 L_Snakes:
@@ -274,11 +253,11 @@ L_Next5:
     mes "\"This one is so complex that I have to show it to you before explaining it further. Bring me a snake egg and a root.\"";
     next;
     mes "\"Off you go now. Bring me the ingredients.\"";
-    set OrumQuest, 39;
+    OrumQuest = 39;
     goto L_Close;
 
 L_SnakesIngredients:
-    set OrumQuest, 39;
+    OrumQuest = 39;
     mes "[Waric]";
     mes "\"Did you bring one Dark Crystal and a Snake Egg?\"";
     menu
@@ -286,8 +265,8 @@ L_SnakesIngredients:
         "No, I need more time.", L_NoItem;
 
 L_Next6:
-    if ((countitem("DarkCrystal") < 0)
-        || (countitem("SnakeEgg") < 0))
+    if ((countitemcolor("DarkCrystal") < 0)
+        || (countitemcolor("SnakeEgg") < 0))
         goto L_NoItem;
     delitem "DarkCrystal", 1;
     delitem "SnakeEgg", 1;
@@ -298,9 +277,9 @@ L_Next6:
     next;
     mes "The Egg cracks open and a living snake comes out of the egg.";
     next;
-    monster "017-4.gat", 217,36, "Evil", 1010, 1;
+    monster "017-4", 217,36, "Evil", 1010, 1;
     mes "The wizard looks at you, his eyes flashing, and laughs diabolically.";
-    set OrumQuest, 40;
+    OrumQuest = 40;
     goto L_Close;
 
 L_SnakesSpell:
@@ -314,7 +293,7 @@ L_Next7:
     mes "[Waric]";
     mes "\"I said " + getspellinvocation("summon-snakes") + ".\"";
     mes "\"Have fun with those spells and use them to cause hate, anger and death.\"";
-    set OrumQuest, 41;
+    OrumQuest = 41;
     goto L_Close;
 
 L_SnakesAgain:
@@ -373,18 +352,17 @@ L_NoItem:
     goto L_Close;
 
 L_Close:
-    set @killed_mouboo, 0;
-    set @cut_tree, 0;
-    set @sagatha_follower, 0;
-    set @SUP_id, 0;
-    set @SUP_name$, "";
-    set @SUP_lvl, 0;
-    set @SUP_xp, 0;
+    @killed_mouboo = 0;
+    @cut_tree = 0;
+    @sagatha_follower = 0;
+    @SUP_id = 0;
+    @SUP_name$ = "";
+    @SUP_lvl = 0;
+    @SUP_xp = 0;
     close;
 }
 
-017-1.gat,74,32,0|script|DebugFlowerP|153
-{
+017-1.gat,74,32,0	script	DebugFlowerP	153,{
     mes "Debug options for Orum's quest:";
     menu
         "Candle Helmet done.", L_CandleHelmet,
@@ -394,7 +372,7 @@ L_Close:
         "Nevermind.", L_Close;
 
 L_CandleHelmet:
-    set OrumQuest, 14;
+    OrumQuest = 14;
     goto L_Close;
 
 L_Var:
@@ -406,7 +384,7 @@ L_CurrentState:
     goto L_Close;
 
 L_Reset:
-    set OrumQuest, 0;
+    OrumQuest = 0;
     goto L_Close;
 
 L_Close:

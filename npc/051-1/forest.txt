@@ -1,19 +1,8 @@
-//-----------------------------------------------------------------------------
-// Forest
-// $@illia_progress = 1
-//
-// Level progress:
-//     0: Did not start the task yet
-//     1: Players are searching for the rock.
-//     2: Players found the rock
-//     3: Players unlocked the door
-//-----------------------------------------------------------------------------
 
-051-1.gat,64,46,0|script|Strange Stone|400
-{
-    set @step, 1;
+051-1.gat,64,46,0	script	Strange Stone	400,{
+    @step = 1;
     if ($@illia_progress < @step) goto L_ShouldNotBeHere;
-    if (isin("051-1.gat", 65,45, 67,48) == 0) end;
+    if (isin("051-1", 65,45, 67,48) == 0) end;
     if (strcharinfo(0) != $@ILLIA_HERO$) goto L_HandleHelper;
     if ($@illia_level_1_progress == 0) goto L_GiveTask;
     if ($@illia_level_1_progress == 1) goto L_TaskNotComplete;
@@ -41,8 +30,8 @@ L_GiveTask:
     menu
         "This rock must not be far... Let's look around.", L_Foo;
 L_Foo:
-    set $@illia_level_1_progress, 1;
-    set $@illia_level_1_num_deaths, 0;
+    $@illia_level_1_progress = 1;
+    $@illia_level_1_num_deaths = 0;
     close;
 
 L_TaskNotComplete:
@@ -51,19 +40,17 @@ L_TaskNotComplete:
     close;
 
 L_TaskComplete:
-    set $@illia_level_1_progress, 3;
-    set $@illia_progress, 2;
+    $@illia_level_1_progress = 3;
+    $@illia_progress = 2;
     callfunc "UpdateIlliaProgress";
-    set $@illia_max_time, $@illia_max_time + 360;
+    $@illia_max_time = $@illia_max_time + 360;
     mes "You insert the rock in the mechanism, then hear an unlock noise. The rocks move by themselves in a rumbling noise, making an opening in the wall.";
     close;
 
 }
 
-// Warp from the forest, to the cave
-051-1.gat,66,44,0|script|#ToCave|32767,1,1
-{
-    set @step, 1;
+051-1.gat,66,44,0	script	#ToCave	32767,1,1,{
+    @step = 1;
     if ($@illia_progress < @step) goto L_ShouldNotBeHere;
     if ($@illia_level_1_progress < 2) goto L_Blocked;
     if ($@illia_level_1_progress == 2 && strcharinfo(0) == $@ILLIA_HERO$) goto L_SeeStone;
@@ -83,7 +70,7 @@ L_SeeStone:
     end;
 
 L_Warp:
-    warp "051-3.gat", 24, 60;
+    warp "051-3", 24, 60;
     end;
 }
 

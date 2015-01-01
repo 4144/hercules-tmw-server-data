@@ -1,5 +1,3 @@
-// This file is generated automatically. All manually changes will be removed when running the Converter.
-// Beach warps
 
-041-1.gat,101,95|warp|To Beach|1,-1,004-1.gat,68,20
-041-1.gat,58,4|warp|To Tulimshar Suburbs|1,-1,042-1.gat,44,113
+041-1,101,95,0	warp	To Beach	1,0,004-1,68,20
+041-1,58,4,0	warp	To Tulimshar Suburbs	1,0,042-1,44,113

@@ -1,51 +1,28 @@
-//######################################################################################
-//# Nurse
-//# AUTHORS:         Jenalya and Pjotr Orial
-//# REVIEWED BY:
-//# heals player below level 20 for free and tells players about the doctor on the 3rd floor.
-//#
-//# gives the resist-poison skill, used global (!) variable: "$NPC_NURSE", split up in 4 bytes:
-//# byte0 (bit 0-7) = healing_needed, byte1 (bit 8-15) = venum_needed, byte2 (bit 16-23) = stabilizer_needed
-//# byte3 (bit 24-31) still unused
-//# used player-variable: QUEST_Forestbow, nibble7
-//# states:
-//# 0    if skills are available, she tells you about her plans of doing the antidote,
-//#     need black scorpion stingers and snake tongues
-//# 1    waits for ingredients: black scorpion stingers and snake tongues
-//# 2    waits for ingredients: acorns, apples, orange, healing potion, when these ingreds are there,
-//#     she mixes the stuff (modify global variable!)
-//# 3    you can start the minigame, 3 tries remaining
-//# 4    you can start the minigame, 2 tries remaining
-//# 5    you can start the minigame, 1 try   remaining
-//# 6    not enough stuff remaining, jump to state 1
-//# 7    yay! you made it!
 
 
-//######################################################################################
-009-2.gat,147,65,0|script|Nurse|119
-{
+009-2.gat,147,65,0	script	Nurse	119,{
     callfunc "ClearVariables";
-    set @halloween_npc_id, $@halloween_npc_nurse;
+    @halloween_npc_id = $@halloween_npc_nurse;
     callfunc "TrickOrTreat";
 
-    set @SNAKET_AMOUNT, 5;
-    set @BSCORPIONST_AMOUNT, 10;
+    @SNAKET_AMOUNT = 5;
+    @BSCORPIONST_AMOUNT = 10;
     // This quest can be done very often: so give less xp
-    set @QUEST1_EXP, 300;
-    set @ACORNS_AMOUNT, 10;
-    set @GREENAPPLE_AMOUNT, 5;
-    set @REDAPPLE_AMOUNT, 5;
-    set @ORANGE_AMOUNT, 5;
-    set @HEALING_AMOUNT, 3;
+    @QUEST1_EXP = 300;
+    @ACORNS_AMOUNT = 10;
+    @GREENAPPLE_AMOUNT = 5;
+    @REDAPPLE_AMOUNT = 5;
+    @ORANGE_AMOUNT = 5;
+    @HEALING_AMOUNT = 3;
     // This quest can be done very often: so give less xp
-    set @QUEST2_EXP, 700;
-    set @ANTIDOTE_EXP, 10000;
+    @QUEST2_EXP = 700;
+    @ANTIDOTE_EXP = 10000;
 
-    set @Q_poison_MASK, NIBBLE_7_MASK;
-    set @Q_poison_SHIFT, NIBBLE_7_SHIFT;
-    set @Q_poison, (QUEST_Forestbow_state & @Q_poison_MASK) >> @Q_poison_SHIFT;
+    @Q_poison_MASK = NIBBLE_7_MASK;
+    @Q_poison_SHIFT = NIBBLE_7_SHIFT;
+    @Q_poison = (QUEST_Forestbow_state & @Q_poison_MASK) >> @Q_poison_SHIFT;
 
-    set @inspector, ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
+    @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (@Q_poison == 7) goto L_state7;
     if (@Q_poison == 6) goto L_state6;
@@ -123,7 +100,7 @@ L_Next1:
     goto L_Usual;
 
 L_firstquest:
-    set @Q_poison, 1;
+    @Q_poison = 1;
     callsub S_Update_Var;
     mes "\"That's great! First, I need some parts of the poisonous creatures.\"";
     next;
@@ -144,12 +121,12 @@ L_state1:
         "I'm still working on that.", L_Close;
 
 L_Next2:
-    if (countitem("SnakeTongue") < @SNAKET_AMOUNT || countitem("BlackScorpionStinger") < @BSCORPIONST_AMOUNT)
+    if (countitemcolor("SnakeTongue") < @SNAKET_AMOUNT || countitemcolor("BlackScorpionStinger") < @BSCORPIONST_AMOUNT)
         goto L_NotEnough;
     delitem "SnakeTongue", @SNAKET_AMOUNT;
     delitem "BlackScorpionStinger", @BSCORPIONST_AMOUNT;
     getexp @QUEST1_EXP, 0;
-    set @Q_poison, 2;
+    @Q_poison = 2;
     callsub S_Update_Var;
     mes "[Nurse]";
     mes "\"Very good. Now I have to extract the poison from this, it will take some time.\"";
@@ -174,11 +151,11 @@ L_state2:
         "I will go and get it.", L_Close;
 
 L_Next3:
-    if (countitem("Acorn") < @ACORNS_AMOUNT
-        || countitem("GreenApple") < @GREENAPPLE_AMOUNT
-        || countitem("RedApple") < @REDAPPLE_AMOUNT
-        || countitem("Orange") < @ORANGE_AMOUNT
-        || countitem("SmallHealingPotion") < @HEALING_AMOUNT)
+    if (countitemcolor("Acorn") < @ACORNS_AMOUNT
+        || countitemcolor("GreenApple") < @GREENAPPLE_AMOUNT
+        || countitemcolor("RedApple") < @REDAPPLE_AMOUNT
+        || countitemcolor("Orange") < @ORANGE_AMOUNT
+        || countitemcolor("SmallHealingPotion") < @HEALING_AMOUNT)
             goto L_NotEnough;
     delitem "Acorn", @ACORNS_AMOUNT;
     delitem "GreenApple", @GREENAPPLE_AMOUNT;
@@ -186,7 +163,7 @@ L_Next3:
     delitem "Orange", @ORANGE_AMOUNT;
     delitem "SmallHealingPotion", @HEALING_AMOUNT;
     getexp @QUEST2_EXP, 0;
-    set @Q_poison, 3;
+    @Q_poison = 3;
     callsub S_Update_Var;
     goto L_Chemistry;
 
@@ -241,20 +218,20 @@ L_Exp_Game:
         "Alright.", L_Game;
 
 L_Game:
-    set @Q_poison, @Q_poison + 1;
+    @Q_poison = @Q_poison + 1;
     callsub S_Update_Var;
     // healing, venom, stabilizer
     callsub L_Load_Need;
     //descriptions
-    set @desc_length, 6;
+    @desc_length = 6;
 
     setarray @desc$,"very little","only a little", "little","much", "a lot", "very much", "a huge amount";
 
-    set @divisor, @count / @desc_length;
+    @divisor = @count / @desc_length;
 
-    set @hlIndex,  (@hlNeed-@offset) /@divisor;
-    set @vnIndex,  (@vnNeed-@offset) /@divisor;
-    set @stIndex,  (@stNeed-@offset) /@divisor;
+    @hlIndex = (@hlNeed-@offset) /@divisor;
+    @vnIndex = (@vnNeed-@offset) /@divisor;
+    @stIndex = (@stNeed-@offset) /@divisor;
 
     mes "[Nurse]";
     mes "\"I guess you need " + @desc$[@hlIndex] + " of the healing potion.\"";
@@ -287,8 +264,8 @@ L_Game:
     goto L_choosePut;
 
 L_choosePut:
-    set @max, @count+@offset-1;
-    set @min, @offset;
+    @max = @count+@offset-1;
+    @min = @offset;
     mes "\"My scale goes up to " + @max + ". I suggest to put at least " + @min +" drops on the scale.\"";
     next;
 
@@ -345,12 +322,12 @@ L_choosePut:
     mes "[Nurse]";
     mes "\"Oh yes, the concentration of the healing potions and the venom extracts seem to be right.\"";
     next;
-    set @hl_vn_ok, 1;
+    @hl_vn_ok = 1;
     goto L_check_st;
 
 L_m_hl_m_vn:
     //poison for 3 minutes
-    sc_start sc_poison, 1, 20;
+    sc_start SC_POISON, 1, 20;
     mes "You begin to feel really dizzy. And you feel so light - you can't help yourself and burst out with laughter. What a strange feeling!";
     next;
     mes "The nurse looks at you with a really worried look on her face. As you open your mouth to tell her that you feel alright, the content of your stomach finds its way out through your throat and on the floor.";
@@ -360,7 +337,7 @@ L_m_hl_m_vn:
 
 L_m_hl_l_vn:
     //poison for 1 minute
-    sc_start sc_poison, 1, 20;
+    sc_start SC_POISON, 1, 20;
     mes "You feel the pain of the poison weaken. This seems promising. The thought that you might have been successful makes you feel enormously happy.";
     next;
     mes "But a few seconds later, you wonder what was the reason for your happiness.";
@@ -381,7 +358,7 @@ L_m_hl_l_vn:
 
 L_hl_m_vn:
     // first poison for 10 minutes, player will die anyway
-    sc_start sc_poison, 1, 20;
+    sc_start SC_POISON, 1, 20;
     mes "You feel a sting in your stomach and your heart starts pounding loudly.";
     next;
     mes "The room is getting dark.";
@@ -397,7 +374,7 @@ L_hl_m_vn:
 
 L_hl_l_vn:
     //poison for 1 minute
-    sc_start sc_poison, 1, 20;
+    sc_start SC_POISON, 1, 20;
     mes "The antidote seems to have no effect.";
     goto L_check_st;
 
@@ -437,8 +414,8 @@ L_AllCorrect:
     mes "\"You should talk to someone who can help you to focus on your skills.\"";
     next;
     getexp @ANTIDOTE_EXP, 0;
-    setskill SKILL_RESIST_POISON, 1;
-    set @Q_poison, 7;
+    addtoskill SKILL_RESIST_POISON, 1;
+    @Q_poison = 7;
     callsub S_Update_Var;
     goto L_Close;
 
@@ -494,7 +471,7 @@ L_state6:
     mes "\"There is not enough stuff left for another try.\"";
     next;
     mes "\"We should try again, right?\"";
-    set @Q_poison, 1;
+    @Q_poison = 1;
     callsub S_Update_Var;
     goto L_ExplainAgain1;
 
@@ -517,23 +494,23 @@ L_NotEnough:
     goto L_Close;
 
 L_Close:
-    set @inspector, 0;
+    @inspector = 0;
     close;
 
 S_Update_Var:
-    set QUEST_Forestbow_state, (QUEST_Forestbow_state & ~(@Q_poison_MASK) | (@Q_poison << @Q_poison_SHIFT));
+    QUEST_Forestbow_state = (QUEST_Forestbow_state & ~(@Q_poison_MASK) | (@Q_poison << @Q_poison_SHIFT));
     return;
 
 L_Game_init_vars:
-    set @count, 24;
-    set @offset, 1;
+    @count = 24;
+    @offset = 1;
     return;
 
 L_Shuffle_Need:
     callsub L_Game_init_vars;
-    set @hlNeed, @offset + rand(@count);
-    set @vnNeed, @offset + rand(@count);
-    set @stNeed, @offset + rand(@count);
+    @hlNeed = @offset + rand(@count);
+    @vnNeed = @offset + rand(@count);
+    @stNeed = @offset + rand(@count);
 
     set $NPC_NURSE,
             ($NPC_NURSE & ~(BYTE_0_MASK | BYTE_1_MASK | BYTE_2_MASK)
@@ -544,9 +521,9 @@ L_Shuffle_Need:
 
 L_Load_Need:
     callsub L_Game_init_vars;
-    set @hlNeed, ($NPC_NURSE & BYTE_0_MASK) >> BYTE_0_SHIFT;
-    set @vnNeed, ($NPC_NURSE & BYTE_1_MASK) >> BYTE_1_SHIFT;
-    set @stNeed, ($NPC_NURSE & BYTE_2_MASK) >> BYTE_2_SHIFT;
+    @hlNeed = ($NPC_NURSE & BYTE_0_MASK) >> BYTE_0_SHIFT;
+    @vnNeed = ($NPC_NURSE & BYTE_1_MASK) >> BYTE_1_SHIFT;
+    @stNeed = ($NPC_NURSE & BYTE_2_MASK) >> BYTE_2_SHIFT;
     return;
 
 L_Game_tooless:

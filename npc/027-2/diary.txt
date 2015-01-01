@@ -1,14 +1,12 @@
-// Author: Jenalya
 
-027-2.gat,26,97,0|script|#Diary|400
-{
-    set @Graveyard_Inn_MASK, NIBBLE_0_MASK;
-    set @Graveyard_Inn_SHIFT, NIBBLE_0_SHIFT;
+027-2.gat,26,97,0	script	#Diary	400,{
+    @Graveyard_Inn_MASK = NIBBLE_0_MASK;
+    @Graveyard_Inn_SHIFT = NIBBLE_0_SHIFT;
 
-    set @reid, ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
+    @reid = ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
 
     if (@reid >= 6) goto L_Diary;
-    set @reid, 0;
+    @reid = 0;
     end;
 
 L_Diary:
@@ -35,12 +33,12 @@ L_Diary:
     if (@reid != 6)
         goto L_Close;
 
-    set @reid, 7;
+    @reid = 7;
     callsub S_Update_Mask;
     goto L_Close;
 
 L_Close:
-    set @reid, 0;
+    @reid = 0;
     close;
 
 S_Update_Mask:

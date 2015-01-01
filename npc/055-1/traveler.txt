@@ -1,11 +1,7 @@
-// This is a teleportation (warp) NPC. Its purpose is to offer expensive, fast trips throughout the world.
-// Author: Wombat, wushin
-// cost depending on level and adapted to new scripting guidelines: Jenalya
 
-055-1.gat,135,60,0|script|Sherman the Traveler|103
-{
-    set @NpcName$, "Sherman";
-    set @NpcTravelBit, $@hurns_farms_bit;
+055-1.gat,135,60,0	script	Sherman the Traveler	103,{
+    @NpcName$ = "Sherman";
+    @NpcTravelBit = $@hurns_farms_bit;
     callfunc "Traveler";
     end;
 }

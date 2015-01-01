@@ -1,9 +1,7 @@
-//
 
-012-1.gat,36,99,0|shop|#FlowerShop|127,RedRose:*80,PinkRose:*80,YellowRose:*80,WhiteRose:*80,OrangeRose:*80,DarkRedRose:*80,RedTulip:*80,PinkTulip:*80,YellowTulip:*80,WhiteTulip:*80,OrangeTulip:*80
+012-1,36,99,0	shop	#FlowerShop	127,661:80,664:80,665:80,662:80,667:80,663:80,671:80,673:80,669:80,672:80,674:80
 
-012-1.gat,36,99,0|script|Blossom|163
-{
+012-1.gat,36,99,0	script	Blossom	163,{
     mes "[Blossom]";
     mes "\"Hello, would you like to buy some flowers?\"";
     menu
@@ -16,7 +14,7 @@ L_Shop:
     shop "#FlowerShop";
 
 L_RoseHat:
-    set @base_id, 897;
+    @base_id = 897;
     mes "[Blossom]";
     mes "\"Certainly, which color do you have?\"";
     menu
@@ -28,7 +26,7 @@ L_RoseHat:
         "A blue one.", L_MenuItems;
 
 L_MenuItems:
-    set @have_id, @base_id + @menu - 1;
+    @have_id = @base_id + @menu - 1;
 
     mes "[Blossom]";
     mes "\"And which color would you like?\"";
@@ -41,11 +39,11 @@ L_MenuItems:
         "A blue one.", L_MenuItems1;
 
 L_MenuItems1:
-    set @receive_id, @base_id + @menu - 1;
+    @receive_id = @base_id + @menu - 1;
 
     if (@have_id == @receive_id)
         goto L_SameColor;
-    if (countitem(@have_id) < 1)
+    if (countitemcolor(@have_id) < 1)
         goto L_NoItem;
     delitem @have_id, 1;
     getitem @receive_id, 1;
@@ -70,8 +68,8 @@ L_SameColor:
         "No, I changed my mind.", L_Close;
 
 L_Close:
-    set @base_id, 0;
-    set @have_id, 0;
-    set @receive_id, 0;
+    @base_id = 0;
+    @have_id = 0;
+    @receive_id = 0;
     close;
 }

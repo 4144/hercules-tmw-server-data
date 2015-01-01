@@ -1,13 +1,7 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Arvo works on cleaning the library
-// can give second hint about the visitor in investigation subquest
 
-048-2.gat,139,99,0|script|Arvo|366
-{
-    set @slimes, ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+048-2.gat,139,99,0	script	Arvo	366,{
+    @slimes = ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
 
     if (@slimes == 255) goto L_Thank;
     if (@slimes > 0) goto L_Progress;
@@ -64,7 +58,7 @@ L_Visitor:
     mes "\"I tried to keep an eye on him after that, but when I got distracted by some newly arriving visitor he went over to the workshop again! Usually I enjoy my job, because I like talking to people, but this guy... was a pain, really.\"";
     if ((@investigate != 3) && (@investigate != 6) && (@investigate != 9))
         goto L_Close;
-    set @investigate, @investigate + 1;
+    @investigate = @investigate + 1;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
@@ -74,7 +68,7 @@ L_Helper:
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @slimes, 0;
+    @investigate = 0;
+    @slimes = 0;
     close;
 }

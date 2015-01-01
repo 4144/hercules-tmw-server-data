@@ -1,19 +1,17 @@
-// Authors: alastrim, Ali-g, Dark Mage
 
-009-2.gat,63,79,0|script|Olana|190
-{
-    set @MinLevel, 60;
+009-2.gat,63,79,0	script	Olana	190,{
+    @MinLevel = 60;
 
-    set @Cherry_Amount, 10;
-    set @Cherry_EXP, 1000;
-    set @Cherry_Money, 1000;
+    @Cherry_Amount = 10;
+    @Cherry_EXP = 1000;
+    @Cherry_Money = 1000;
 
-    set @RedRose_Amount, 15;
-    set @RedTulip_Amount, 15;
-    set @Flower_Money, 1500;
+    @RedRose_Amount = 15;
+    @RedTulip_Amount = 15;
+    @Flower_Money = 1500;
 
-    set @Finish_EXP, 5000;
-    set @Finish_Money, 5000;
+    @Finish_EXP = 5000;
+    @Finish_Money = 5000;
 
     if (FLAGS & FLAG_ROSSI_COMPLETED) goto L_FinalEnd;
     if (Rossy_Quest == 17 || Rossy_Quest == 18) goto L_End;
@@ -47,7 +45,7 @@
         "I am sorry, I don't usually go to that area.", L_No;
 
 L_Next:
-    set Rossy_Quest, 1;
+    Rossy_Quest = 1;
     close;
 
 L_Daughter:
@@ -74,7 +72,7 @@ L_Help:
 
 L_Next1:
     mes "\"Ok. They must be playing hide and seek. Thanks again... I can't express how grateful I am.\"";
-    set Rossy_Quest, 3;
+    Rossy_Quest = 3;
     close;
 
 L_Worried:
@@ -86,7 +84,7 @@ L_Worried:
 L_See:
     if (gotcherry == 1)
         goto L_Task;
-    if (countitem("Cherry") < @Cherry_Amount)
+    if (countitemcolor("Cherry") < @Cherry_Amount)
         goto L_Worried;
     delitem "Cherry", @Cherry_Amount;
     menu
@@ -96,8 +94,8 @@ L_Next2:
     mes "[Olana]";
     mes "\"Ohhh... How sweet... Sometimes Rossy impresses me with her kindness. Here... You are spending so much time helping us, and we give nothing back. Take this as a small reward.\"";
     getexp @Cherry_EXP, 0;
-    set Zeny, Zeny + @Cherry_Money;
-    set gotcherry, 1;
+    Zeny = Zeny + @Cherry_Money;
+    gotcherry = 1;
     goto L_Task;
 
 L_Task:
@@ -116,8 +114,8 @@ L_Cont:
 
 L_Let:
     mes "[Olana]";
-    set Rossy_Quest, 5;
-    set gotcherry, 0;
+    Rossy_Quest = 5;
+    gotcherry = 0;
     mes "\"Thank you again. Please, bring it to her as fast as you can.\"";
     close;
 
@@ -151,16 +149,16 @@ L_Next4:
 
 L_RG:
     if (Rossy_Quest == 8)
-        set Rossy_Quest, 9;
+        Rossy_Quest = 9;
     mes "[Olana]";
     mes "\"Please, bring me " + @RedRose_Amount + " Red Roses as soon as you can.\"";
     close;
 
 L_RC:
-    if(countitem("RedRose") < @RedRose_Amount)
+    if(countitemcolor("RedRose") < @RedRose_Amount)
         goto L_RG;
     mes "[Olana]";
-    set Rossy_Quest, 10;
+    Rossy_Quest = 10;
     mes "\"Great job! Please hand them to my brilliant daughter, Rossy.\"";
     close;
 
@@ -177,10 +175,10 @@ L_Allergic:
         "Well, you should have known that your daughter is allergic to roses.", L_Next5;
 
 L_Next5:
-    set Rossy_Quest, 12;
+    Rossy_Quest = 12;
     mes "[Olana]";
     mes "\"Oh, how stupid I am! Here, take some of my money and buy Red Tulips instead, the same amount. Keep the flowers.\"";
-    set Zeny, Zeny + @Flower_Money;
+    Zeny = Zeny + @Flower_Money;
     next;
     mes "\"Please, tell Rossy I am really sorry. My mind was on Julia when I asked you to bring the red roses, they are her favorite.\"";
     menu
@@ -216,20 +214,20 @@ L_End:
 L_Found:
     mes "[Olana]";
     if (Rossy_Quest == 17)
-        set Rossy_Quest, 18;
+        Rossy_Quest = 18;
     if (Rossy_Quest == 18)
-        set Rossy_Quest, 19;
+        Rossy_Quest = 19;
     mes "\"Thank you "+ strcharinfo(0) +", thank you! Here is a reward for you.\"";
     getexp @Finish_EXP, 0;
-    set Zeny, Zeny + @Finish_Money;
+    Zeny = Zeny + @Finish_Money;
     if (Rossy_Quest == 19)
         goto L_Clear;
     close;
 
 L_Clear:
-    set Rossy_Quest, 0;
-    set cavefights, 0;
-    set FLAGS, FLAGS | FLAG_ROSSI_COMPLETED;
+    Rossy_Quest = 0;
+    cavefights = 0;
+    FLAGS = FLAGS | FLAG_ROSSI_COMPLETED;
     close;
 
 L_FinalEnd:

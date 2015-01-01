@@ -1,21 +1,17 @@
-// A historian
-// takes part in quest given by 021-2/kylian.txt
 
-021-1.gat,130,125,0|script|Weellos|103
-{
-    set @halloween_npc_id, $@halloween_npc_weellos;
+021-1.gat,130,125,0	script	Weellos	103,{
+    @halloween_npc_id = $@halloween_npc_weellos;
     callfunc "TrickOrTreat";
 
-    set QUEST_NorthTulimshar, QUEST_NorthTulimshar | $@knowWeellosNT;
-    set @kylian, ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
+    QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@knowWeellosNT;
+    @kylian = ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
 
-    if isin("021-1.gat", 130, 120, 140, 125) goto L_In;
+    if isin("021-1", 130, 120, 140, 125) goto L_In;
 
     mes "[Weellos]";
     mes "\"This is a very historic building. One of the oldest in the area. It's been turned into a museum.\"";
     goto L_BeforeClose;
 
-// If the player is inside the fence with Weellos
 L_In:
     mes "[Weellos]";
     mes "\"What did you think of the historic building?\"";
@@ -29,6 +25,6 @@ L_BeforeClose:
     goto L_Close;
 
 L_Close:
-    set @kylian, 0;
+    @kylian = 0;
     close;
 }

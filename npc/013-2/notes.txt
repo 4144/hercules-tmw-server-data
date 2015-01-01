@@ -1,47 +1,40 @@
-//
 
-013-2.gat,23,32,0|script|Motto#wiz|400
-{
+013-2.gat,23,32,0	script	Motto#wiz	400,{
     mes "Mid pleasures and palaces though we may roam,";
     mes "Be it ever so humble, there's no place like home.";
     close;
 }
 
-013-2.gat,30,32,0|script|Note#wiz|400
-{
+013-2.gat,30,32,0	script	Note#wiz	400,{
     mes "Please do not open.";
     close;
 }
 
-013-2.gat,38,20,0|script|Saying#wiz|400
-{
+013-2.gat,38,20,0	script	Saying#wiz	400,{
     mes "The early bird catcheth the worm.";
     close;
 }
 
-013-2.gat,27,21,0|script|Mirror#wiz|400
-{
+013-2.gat,27,21,0	script	Mirror#wiz	400,{
     mes "You say: \"Mirror mirror on the wall, who has the nicest haircut of them all?\"";
     next;
     mes "\"Oh fair adventurer, your hair indeed looks nice. But wouldn't it look much better, after I have rolled my dice?\"";
     next;
     mes "Your looks suddenly change...";
     next;
-    set @fixedMirror, 1;
+    @fixedMirror = 1;
     callfunc "useMirror";
     close;
 }
 
-// Warp to wood clearings
-013-2.gat,25,23,0|script|Spell#wiz1|400
-{
+013-2.gat,25,23,0	script	Spell#wiz1	400,{
     mes "You read: \"I see trees of green, red roses too. I see them bloom for me and you. And I think to myself: \'What a wonderful world\'\"";
     next;
     mes "You think: \"Huh?\"";
     next;
     mes "The spell fulfills its inevitable purpose...";
     next;
-    set @dest, rand(BaseLevel);
+    @dest = rand(BaseLevel);
     if (@dest < 10)
         goto L_PlaceOne;
     if ((@dest >= 10) && (@dest <= 50))
@@ -49,30 +42,28 @@
     goto L_PlaceThree;
 
 L_PlaceOne:
-    warp "013-1.gat",128,28;
+    warp "013-1",128,28;
     goto L_Close;
 
 L_PlaceTwo:
-    warp "016-1.gat",62,89;
+    warp "016-1",62,89;
     goto L_Close;
 
 L_PlaceThree:
-    warp "014-1.gat",33,35;
+    warp "014-1",33,35;
     goto L_Close;
 
 L_Close:
-    set @dest, 0;
+    @dest = 0;
     close;
 }
 
-// Warp to desert
-013-2.gat,27,24,0|script|Spell#wiz2|400
-{
+013-2.gat,27,24,0	script	Spell#wiz2	400,{
     mes "You read: \"You must not fear, for it is the mind-killer. That and sharp pointy things.\"";
     next;
     mes "You feel the floor disappear below your feet...";
     next;
-    set @dest, rand(BaseLevel);
+    @dest = rand(BaseLevel);
     if (@dest < 10)
         goto L_PlaceOne;
     if ((@dest >= 10) && (@dest <= 50))
@@ -80,39 +71,36 @@ L_Close:
     goto L_PlaceThree;
 
 L_PlaceOne:
-    warp "006-1.gat",125,111;
+    warp "006-1",125,111;
     goto L_Close;
 
 L_PlaceTwo:
-    warp "032-1.gat",77,22;
+    warp "032-1",77,22;
     goto L_Close;
 
 L_PlaceThree:
-    warp "006-1.gat",33,93;
+    warp "006-1",33,93;
     if (QUEST_MIRIAM_start != 0) goto L_cheat;
     goto L_Close;
 
-// If you try to use the notes to warp to pachua the quest will fail.
 L_cheat:
-    set QUEST_MIRIAM_cheat, 1;
-    set QUEST_MIRIAM_run, gettimetick(2) - QUEST_MIRIAM_start;
-    set QUEST_MIRIAM_start, 0;
+    QUEST_MIRIAM_cheat = 1;
+    QUEST_MIRIAM_run = gettimetick(2) - QUEST_MIRIAM_start;
+    QUEST_MIRIAM_start = 0;
     message strcharinfo(0), "You were supposed to actually run to this place. You are not sure if this is going to work for Miriam...";
     goto L_Close;
 
 L_Close:
-    set @dest, 0;
+    @dest = 0;
     close;
 }
 
-// Warp to snow area
-013-2.gat,25,27,0|script|Spell#wiz3|400
-{
+013-2.gat,25,27,0	script	Spell#wiz3	400,{
     mes "You read: \"Snow-white flakes and eminent frost - I'll go there, whatever the cost!\"";
     next;
     mes "You feel yourself getting lighter...";
     next;
-    set @dest, rand(BaseLevel);
+    @dest = rand(BaseLevel);
     if (@dest < 10)
         goto L_FriendlyPlace;
     if ((@dest >= 10) && (@dest <= 50))
@@ -120,30 +108,28 @@ L_Close:
     goto L_Cave;
 
 L_FriendlyPlace:
-    warp "019-3.gat",102,77;
+    warp "019-3",102,77;
     goto L_Close;
 
 L_DeepCave:
-    warp "031-3.gat",135,163;
+    warp "031-3",135,163;
     goto L_Close;
 
 L_Cave:
-    warp "031-3.gat",37,213;
+    warp "031-3",37,213;
     goto L_Close;
 
 L_Close:
-    set @dest, 0;
+    @dest = 0;
     close;
 }
 
-// Warp to Inns
-013-2.gat,27,27,0|script|Spell#wiz4|400
-{
+013-2.gat,27,27,0	script	Spell#wiz4	400,{
     mes "You read: \"People and cosiness, lively and fun - that's where I've gone!\"";
     next;
     mes "The world around you slowly dissolves...";
     next;
-    set @dest, rand(BaseLevel);
+    @dest = rand(BaseLevel);
     if (@dest < 10)
         goto L_PlaceOne;
     if ((@dest >= 10) && (@dest <= 50))
@@ -151,30 +137,28 @@ L_Close:
     goto L_PlaceThree;
 
 L_PlaceOne:
-    warp "030-2.gat",88,24;
+    warp "030-2",88,24;
     goto L_Close;
 
 L_PlaceTwo:
-    warp "001-2.gat",30,29;
+    warp "001-2",30,29;
     goto L_Close;
 
 L_PlaceThree:
-    warp "010-2.gat",34,42;
+    warp "010-2",34,42;
     goto L_Close;
 
 L_Close:
-    set @dest, 0;
+    @dest = 0;
     close;
 }
 
-// Warp to mines 
-013-2.gat,26,28,0|script|Spell#wiz5|400
-{
+013-2.gat,26,28,0	script	Spell#wiz5	400,{
     mes "You read: \"Darkness and legs, eight of them each - I'd rather not go there, but now it's too late...\"";
     next;
     mes "For a moment everything turns black...";
     next;
-    set @dest, rand(BaseLevel);
+    @dest = rand(BaseLevel);
     if (@dest < 10)
         goto L_PlaceOne;
     if ((@dest >= 10) && (@dest <= 50))
@@ -182,25 +166,23 @@ L_Close:
     goto L_PlaceThree;
 
 L_PlaceOne:
-    warp "012-4.gat",431,36;
+    warp "012-4",431,36;
     goto L_Close;
 
 L_PlaceTwo:
-    warp "013-3.gat",134,54;
+    warp "013-3",134,54;
     goto L_Close;
 
 L_PlaceThree:
-    warp "013-3.gat",178,67;
+    warp "013-3",178,67;
     goto L_Close;
 
 L_Close:
-    set @dest, 0;
+    @dest = 0;
     close;
 }
 
-// Death
-013-2.gat,21,29,0|script|Spell#wiz6|400
-{
+013-2.gat,21,29,0	script	Spell#wiz6	400,{
     mes "You read: \"Heart stops pumping, breath begone - life is stopping, death has come!\"";
     next;
     mes "You're losing control of your body... everything turns black... while slipping to the floor, you hear a faraway scream... suddenly, you see THE LIGHT!";
@@ -209,9 +191,7 @@ L_Close:
     close;
 }
 
-// Naked
-013-2.gat,28,29,0|script|Spell#wiz7|400
-{
+013-2.gat,28,29,0	script	Spell#wiz7	400,{
     mes "You read: \"Cotton, steel, leather and wool - have I ever seen a greater fool?\"";
     next;
     mes "You suddenly feel naked; you ARE naked!";

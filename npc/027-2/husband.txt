@@ -1,42 +1,31 @@
-// author: Jenalya
-// love triangle quest, involved npcs: Reid's Ghost, Hamond, Savaric, Aldred, Golbenez
-// state 0: if BaseLevel >= 85, he asks for something to cool the drinks (ice cubes)
-// state 1: can be asked about the ring. needs @ICE_CUBE_AMOUNT ice cubes, then asks for bones and skulls.
-// state 2: wants @BONE_AMOUNT and @SKULL_AMOUNT bones and skulls
-// state 3: can be asked about the ring. needs @woman > 5 to be asked about savaric, tells, if crying child quest is completed
-// state 4: if @golbanez < 5, can be told about the memories, then asks the player to bring @RUBY_AMOUNT rubies to reid
-// state 5: waiting
-// state 6: is set in reid, gives as reward a special bowler hat
-// state 7: done
 
-027-2.gat,22,84,0|script|Hamond|319
-{
-    set @Graveyard_Inn_MASK, NIBBLE_3_MASK;
-    set @Graveyard_Inn_SHIFT, NIBBLE_3_SHIFT;
+027-2.gat,22,84,0	script	Hamond	319,{
+    @Graveyard_Inn_MASK = NIBBLE_3_MASK;
+    @Graveyard_Inn_SHIFT = NIBBLE_3_SHIFT;
 
-    set @state, ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
+    @state = ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
 
-    set @Graveyard_Inn_Woman_MASK, NIBBLE_0_MASK;
-    set @Graveyard_Inn_Woman_SHIFT, NIBBLE_0_SHIFT;
+    @Graveyard_Inn_Woman_MASK = NIBBLE_0_MASK;
+    @Graveyard_Inn_Woman_SHIFT = NIBBLE_0_SHIFT;
 
-    set @woman, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Woman_MASK) >> @Graveyard_Inn_Woman_SHIFT);
+    @woman = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Woman_MASK) >> @Graveyard_Inn_Woman_SHIFT);
 
-    set @Graveyard_Inn_Kid_MASK, NIBBLE_2_MASK;
-    set @Graveyard_Inn_Kid_SHIFT, NIBBLE_2_SHIFT;
+    @Graveyard_Inn_Kid_MASK = NIBBLE_2_MASK;
+    @Graveyard_Inn_Kid_SHIFT = NIBBLE_2_SHIFT;
 
-    set @kidstate, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Kid_MASK) >> @Graveyard_Inn_Kid_SHIFT);
+    @kidstate = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Kid_MASK) >> @Graveyard_Inn_Kid_SHIFT);
 
-    set @Graveyard_Inn_Golbenez_MASK, NIBBLE_4_MASK;
-    set @Graveyard_Inn_Golbenez_SHIFT, NIBBLE_4_SHIFT;
+    @Graveyard_Inn_Golbenez_MASK = NIBBLE_4_MASK;
+    @Graveyard_Inn_Golbenez_SHIFT = NIBBLE_4_SHIFT;
 
-    set @golbanez, ((QUEST_Graveyard_Inn & @Graveyard_Inn_Golbenez_MASK) >> @Graveyard_Inn_Golbenez_SHIFT);
+    @golbanez = ((QUEST_Graveyard_Inn & @Graveyard_Inn_Golbenez_MASK) >> @Graveyard_Inn_Golbenez_SHIFT);
 
-    set @minLevel, 85;
-    set @ICE_CUBE_AMOUNT, 100;
-    set @ICE_CUBE_EXP, 75000;
-    set @BONE_AMOUNT, 100;
-    set @SKULL_AMOUNT, 75;
-    set @BONE_EXP, 100000;
+    @minLevel = 85;
+    @ICE_CUBE_AMOUNT = 100;
+    @ICE_CUBE_EXP = 75000;
+    @BONE_AMOUNT = 100;
+    @SKULL_AMOUNT = 75;
+    @BONE_EXP = 100000;
     set @RUBY_AMOUNT, 25; // caution, this value needs to be the same as in the innkeepers script!
 
     if (@state >= 7) goto L_Thanks;
@@ -81,7 +70,7 @@ L_Continue:
     mes "[Hamond]";
     mes "\"Help me? Normally I would never ask you for this, but actually, I do need something to cool the drinks. Maybe you can find something.\"";
 
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
 
     goto L_Close;
@@ -92,7 +81,7 @@ L_Ice_Cube:
     next;
 
     if ((@kidstate == 4)
-        && countitem("IceCube") > 0)
+        && countitemcolor("IceCube") > 0)
             menu
                 "Maybe this never melting Ice Cube?", L_Check_Ice,
                 "I found this in the main hall. Do you know to whom it belongs?", L_Ring,
@@ -101,7 +90,7 @@ L_Ice_Cube:
         menu
             "I found this in the main hall. Do you know to whom it belongs?", L_Ring,
             "I'm still searching.", L_Close;
-    if (countitem("IceCube") > 0)
+    if (countitemcolor("IceCube") > 0)
         menu
             "Maybe this never melting Ice Cube?", L_Check_Ice,
             "I'm still searching.", L_Close;
@@ -109,13 +98,13 @@ L_Ice_Cube:
     goto L_Close;
 
 L_Check_Ice:
-    if (countitem("IceCube") < @ICE_CUBE_AMOUNT)
+    if (countitemcolor("IceCube") < @ICE_CUBE_AMOUNT)
         goto L_Not_Enough_Cubes;
     delitem "IceCube", @ICE_CUBE_AMOUNT;
 
     getexp @ICE_CUBE_EXP, 0;
 
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Mask;
 
     mes "[Hamond]";
@@ -150,15 +139,15 @@ L_More:
 L_Check_Bones:
     mes "[Hamond]";
     mes "\"Welcome back! Let me see what you have.\"";
-    if ((countitem("Bone") < @BONE_AMOUNT)
-        || (countitem("Skull") < @SKULL_AMOUNT))
+    if ((countitemcolor("Bone") < @BONE_AMOUNT)
+        || (countitemcolor("Skull") < @SKULL_AMOUNT))
             goto L_Not_Enough_B;
     delitem "Bone", @BONE_AMOUNT;
     delitem "Skull", @SKULL_AMOUNT;
 
     getexp @BONE_EXP, 0;
 
-    set @state, 3;
+    @state = 3;
     callsub S_Update_Mask;
     goto L_Brought_Bones;
 
@@ -219,7 +208,7 @@ L_Jealousy:
     mes "\"I already thought about throwing him out of the inn - but he is a patron! I can't be rude to a patron.\"";
     next;
     mes "\"Ah, this is annoying.\"";
-    set @state, 4;
+    @state = 4;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -243,7 +232,7 @@ L_Ring:
     mes "\"They say the ring increases 'magic attack' if you add a sapphire gem to it... But, in fact, I think these kids are delusional. Magic, pah.\"";
     next;
     mes "\"Anyway, I remember you could easily find one of these in a lot of small shops in town. I am pretty sure that whoever lost it won't bother coming all the way back to get it.\"";
-    set @kidstate, 5;
+    @kidstate = 5;
     callsub S_Update_Mask_Kid;
     goto L_Close;
 
@@ -281,7 +270,7 @@ L_HamondFate:
     mes "\"I- I need to apologize.\"";
     next;
     mes "\"" + strcharinfo(0) + "! Can you help me once more? Please get " + @RUBY_AMOUNT + " Rubies and bring them to her as a symbol of my love and my remorse.\"";
-    set @state, 5;
+    @state = 5;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -305,7 +294,7 @@ L_Apologize:
     if (@inventorylist_count == 100)
         goto L_Full_Inv;
     getitem "BowlerHatBrown", 1;
-    set @state, 7;
+    @state = 7;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -315,9 +304,9 @@ L_Thanks:
     goto L_Close;
 
 L_Not_Enough_B:
-    if (countitem("Bone") < @BONE_AMOUNT)
+    if (countitemcolor("Bone") < @BONE_AMOUNT)
         mes "\"I need more Bones than you have with you right now.\"";
-    if (countitem("Skull") < @SKULL_AMOUNT)
+    if (countitemcolor("Skull") < @SKULL_AMOUNT)
         mes "\"Maybe you should come back with more Skulls than you have now. I don't think it is enough.\"";
     goto L_Close;
 
@@ -332,25 +321,25 @@ L_Full_Inv:
     goto L_Close;
 
 L_Close:
-    set @Graveyard_Inn_MASK, 0;
-    set @Graveyard_Inn_SHIFT, 0;
-    set @state, 0;
-    set @Graveyard_Inn_Woman_MASK, 0;
-    set @Graveyard_Inn_Woman_SHIFT, 0;
-    set @woman, 0;
-    set @Graveyard_Inn_Kid_MASK, 0;
-    set @Graveyard_Inn_Kid_SHIFT, 0;
-    set @Graveyard_Inn_Golbenez_MASK, 0;
-    set @Graveyard_Inn_Golbenez_SHIFT, 0;
-    set @golbanez, 0;
-    set @kidstate, 0;
-    set @minLevel, 0;
-    set @ICE_CUBE_AMOUNT, 0;
-    set @ICE_CUBE_EXP, 0;
-    set @BONE_AMOUNT, 0;
-    set @SKULL_AMOUNT, 0;
-    set @BONE_EXP, 0;
-    set @RUBY_AMOUNT, 0;
+    @Graveyard_Inn_MASK = 0;
+    @Graveyard_Inn_SHIFT = 0;
+    @state = 0;
+    @Graveyard_Inn_Woman_MASK = 0;
+    @Graveyard_Inn_Woman_SHIFT = 0;
+    @woman = 0;
+    @Graveyard_Inn_Kid_MASK = 0;
+    @Graveyard_Inn_Kid_SHIFT = 0;
+    @Graveyard_Inn_Golbenez_MASK = 0;
+    @Graveyard_Inn_Golbenez_SHIFT = 0;
+    @golbanez = 0;
+    @kidstate = 0;
+    @minLevel = 0;
+    @ICE_CUBE_AMOUNT = 0;
+    @ICE_CUBE_EXP = 0;
+    @BONE_AMOUNT = 0;
+    @SKULL_AMOUNT = 0;
+    @BONE_EXP = 0;
+    @RUBY_AMOUNT = 0;
     close;
 
 S_Update_Mask_Kid:

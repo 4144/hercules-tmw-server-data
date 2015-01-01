@@ -1,13 +1,7 @@
-// Part of Blue Sage quests
-// author: Jenalya
-// see bluesageConfig for detailed quest description
-// Kristian works on cleaning the library
-// can give second hint about the visitor in investigation subquest
 
-048-2.gat,131,119,0|script|Kristian|366
-{
-    set @slimes, ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
-    set @investigate, ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
+048-2.gat,131,119,0	script	Kristian	366,{
+    @slimes = ((QUEST_BlueSage & $@Q_BlueSageSlimes_MASK) >> $@Q_BlueSageSlimes_SHIFT);
+    @investigate = ((QUEST_BlueSage & $@Q_BlueSageInvestigate_MASK) >> $@Q_BlueSageInvestigate_SHIFT);
 
     if (@slimes == 255) goto L_Thank;
     if (@slimes > 0) goto L_Progress;
@@ -55,7 +49,7 @@ L_Visitor:
     mes "\"But still, he can't just walk in there, fiddle with the experiments and disturb the helpers doing their work.\"";
     if ((@investigate != 3) && (@investigate != 6) && (@investigate != 9))
         goto L_Close;
-    set @investigate, @investigate + 1;
+    @investigate = @investigate + 1;
     callfunc "updateBlueSageInvestigate";
     goto L_Close;
 
@@ -65,7 +59,7 @@ L_Helper:
     goto L_Close;
 
 L_Close:
-    set @investigate, 0;
-    set @slimes, 0;
+    @investigate = 0;
+    @slimes = 0;
     close;
 }

@@ -1,16 +1,14 @@
-// author: Jenalya
 
-027-2.gat,118,23,0|script|Wolfgang|305
-{
-    set @Graveyard_Inn_MASK, NIBBLE_5_MASK;
-    set @Graveyard_Inn_SHIFT, NIBBLE_5_SHIFT;
+027-2.gat,118,23,0	script	Wolfgang	305,{
+    @Graveyard_Inn_MASK = NIBBLE_5_MASK;
+    @Graveyard_Inn_SHIFT = NIBBLE_5_SHIFT;
 
-    set @state, ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
+    @state = ((QUEST_Graveyard_Inn & @Graveyard_Inn_MASK) >> @Graveyard_Inn_SHIFT);
 
-    set @ANIMALBONES_AMOUNT, 30;
-    set @ANIMALBONES_EXP, 40000;
-    set @money, 1000;
-    set @minLevel, 80;
+    @ANIMALBONES_AMOUNT = 30;
+    @ANIMALBONES_EXP = 40000;
+    @money = 1000;
+    @minLevel = 80;
 
     if (@state > 1) goto L_Happy;
     if (@state == 1) goto L_Bones;
@@ -25,7 +23,7 @@
     mes "\"I like bones from big animals, the best would be with some raw flesh on it. But just the bones are fine too.\"";
     next;
     mes "\"Can you bring me " + @ANIMALBONES_AMOUNT + " of them?\"";
-    set @state, 1;
+    @state = 1;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -33,17 +31,17 @@ L_Bones:
     mes "[Wolfgang]";
     mes "\"Do you have " + @ANIMALBONES_AMOUNT + " bones of an animal for me?\"";
     next;
-    if ((countitem("Bone") > 0)
-        && (countitem("AnimalBones") >= @ANIMALBONES_AMOUNT))
+    if ((countitemcolor("Bone") > 0)
+        && (countitemcolor("AnimalBones") >= @ANIMALBONES_AMOUNT))
             menu
                 "Yes, here they are.",L_Bring,
                 "What about this normal bone?",L_Human,
                 "Not yet.",L_Close;
-    if (countitem("Bone") > 0)
+    if (countitemcolor("Bone") > 0)
         menu
             "What about this normal bone?",L_Human,
             "Not yet.",L_Close;
-    if (countitem("AnimalBones") >= @ANIMALBONES_AMOUNT)
+    if (countitemcolor("AnimalBones") >= @ANIMALBONES_AMOUNT)
         menu
             "Yes, here they are.",L_Bring,
             "Not yet.",L_Close;
@@ -51,13 +49,13 @@ L_Bones:
         "Not yet.",L_Close;
 
 L_Bring:
-    if (countitem("AnimalBones") < @ANIMALBONES_AMOUNT)
+    if (countitemcolor("AnimalBones") < @ANIMALBONES_AMOUNT)
         goto L_Not_Enough;
     delitem "AnimalBones", @ANIMALBONES_AMOUNT;
     getexp @ANIMALBONES_EXP, 0;
     mes "[Wolfgang]";
     mes "\"Ah! Wonderful! Thank you.\"";
-    set @state, 2;
+    @state = 2;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -87,7 +85,6 @@ L_Happy:
         "Sure, why not?",L_Game,
         "No, thanks.",L_Close;
 
-//The game mechanics is copied from casino.txt
 L_Game:
     if (Zeny < @money)
         goto L_No_Money;
@@ -95,10 +92,10 @@ L_Game:
     mes "\"Very nice. Let's start.\"";
     mes "He shuffles the cards.";
     next;
-    set Zeny, Zeny - @money;
-    set @croupier, rand(0, 4);
-    set @croupier, @croupier + 17;
-    set @player, rand(4, 21);
+    Zeny = Zeny - @money;
+    @croupier = rand(0, 4);
+    @croupier = @croupier + 17;
+    @player = rand(4, 21);
     mes "\"You got " + @player + " with your cards.";
     if (@player == 21)
         goto L_End;
@@ -109,10 +106,10 @@ L_Game:
         "No.", L_End;
 
 L_Another:
-    set @tempace, rand(2, 11);
+    @tempace = rand(2, 11);
     if (@tempace == 11)
         goto L_Ace;
-    set @player, @player + @tempace;
+    @player = @player + @tempace;
     if (@player > 21)
         goto L_Lost;
     if (@player == 21)
@@ -128,7 +125,7 @@ L_End:
     if (@player <= @croupier)
         goto L_Lost;
     mes "\"You won! Hrm, here is your money.\"";
-    set Zeny, Zeny + (3 * @money);
+    Zeny = Zeny + (3 * @money);
     goto L_Close;
 
 L_No_Money:
@@ -143,9 +140,9 @@ L_Lost:
     goto L_Close;
 
 L_Ace:
-    set @player, @player + 11;
+    @player = @player + 11;
     if (@player > 21)
-        set @player, @player - 10;
+        @player = @player - 10;
     if (@player > 21)
         goto L_Lost;
     if (@player == 21)
@@ -158,17 +155,17 @@ L_Ace:
         "No", L_End;
 
 L_Close:
-    set @Graveyard_Inn_MASK, 0;
-    set @Graveyard_Inn_SHIFT, 0;
-    set @state, 0;
-    set @ANIMALBONES_AMOUNT, 0;
-    set @ANIMALBONES_EXP, 0;
-    set @money, 0;
-    set @minLevel, 0;
+    @Graveyard_Inn_MASK = 0;
+    @Graveyard_Inn_SHIFT = 0;
+    @state = 0;
+    @ANIMALBONES_AMOUNT = 0;
+    @ANIMALBONES_EXP = 0;
+    @money = 0;
+    @minLevel = 0;
 
-    set @croupier, 0;
-    set @player, 0;
-    set @tempace, 0;
+    @croupier = 0;
+    @player = 0;
+    @tempace = 0;
     close;
 
 S_Update_Mask:

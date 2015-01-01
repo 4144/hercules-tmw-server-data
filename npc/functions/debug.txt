@@ -1,13 +1,11 @@
-// Authors: alastrim, Jenalya, Ali-G
 
-function|script|Debug
-{
+function	script	Debug	{
     goto L_Begin;
 
 L_Begin:
-    set @debug_mask, 65535;
-    set @debug_shift, 0;
-    set @mexp, ((MAGIC_EXPERIENCE & @debug_mask) >> @debug_shift);
+    @debug_mask = 65535;
+    @debug_shift = 0;
+    @mexp = ((MAGIC_EXPERIENCE & @debug_mask) >> @debug_shift);
     mes "What do you want to do?";
     menu
         "Change my level.", L_Level,
@@ -28,7 +26,7 @@ L_Level:
         goto L_LevelTooHigh;
     if (BaseLevel == @lvl)
         goto L_SameLevel;
-    set BaseLevel, @lvl;
+    BaseLevel = @lvl;
     resetstatus;
     mes "You are now level " + BaseLevel + ".";
     goto L_Begin;
@@ -237,9 +235,9 @@ L_ResetStatusPoints:
     goto L_Begin;
 
 L_BasicSkills:
-    set @emote, getskilllv(SKILL_EMOTE);
-    set @trade, getskilllv(SKILL_TRADE);
-    set @party, getskilllv(SKILL_PARTY);
+    @emote = getskilllv(SKILL_EMOTE);
+    @trade = getskilllv(SKILL_TRADE);
+    @party = getskilllv(SKILL_PARTY);
     menu
         "Overview of my basic skills.", L_BasicSkillsOverview,
         "Add basic skills.", L_AddBasicSkills,
@@ -271,13 +269,13 @@ L_ChangeEmoteSkill:
 
 L_Next:
     if (@menu == 1)
-        setskill SKILL_EMOTE, 0;
+        addtoskill SKILL_EMOTE, 0;
     mes "Emote skill changed to level 0.";
     next;
     goto L_BasicSkills;
 
 L_ChangeEmoteSkill1:
-    setskill SKILL_EMOTE, 1;
+    addtoskill SKILL_EMOTE, 1;
     mes "Emote skill changed to level 1.";
     next;
     goto L_BasicSkills;
@@ -290,13 +288,13 @@ L_ChangeTradeSkill:
 
 L_Next1:
     if (@menu == 1)
-        setskill SKILL_TRADE, 0;
+        addtoskill SKILL_TRADE, 0;
     mes "Trade skill changed to level 0.";
     next;
     goto L_BasicSkills;
 
 L_ChangeTradeSkill1:
-    setskill SKILL_TRADE, 1;
+    addtoskill SKILL_TRADE, 1;
     mes "Trade skill changed to level 1.";
     next;
     goto L_BasicSkills;
@@ -310,47 +308,47 @@ L_ChangePartySkill:
 
 L_Next2:
     if (@menu == 1)
-        setskill SKILL_PARTY, 0;
+        addtoskill SKILL_PARTY, 0;
     mes "Party skill changed to level 0.";
     next;
     goto L_BasicSkills;
 
 L_ChangePartySkill1:
-    setskill SKILL_PARTY, 1;
+    addtoskill SKILL_PARTY, 1;
     mes "Party skill changed to level 1.";
     next;
     goto L_BasicSkills;
 
 L_ChangePartySkill2:
-    setskill SKILL_PARTY, 2;
+    addtoskill SKILL_PARTY, 2;
     mes "Party skill changed to level 2.";
     next;
     goto L_BasicSkills;
 
 L_AllBasicSkills:
-    setskill SKILL_EMOTE, 1;
-    setskill SKILL_TRADE, 1;
-    setskill SKILL_PARTY, 2;
+    addtoskill SKILL_EMOTE, 1;
+    addtoskill SKILL_TRADE, 1;
+    addtoskill SKILL_PARTY, 2;
     mes "Basic skills added.";
     next;
     goto L_BasicSkills;
 
 L_ResetBasicSkills:
-    setskill SKILL_EMOTE, 0;
-    setskill SKILL_TRADE, 0;
-    setskill SKILL_PARTY, 0;
+    addtoskill SKILL_EMOTE, 0;
+    addtoskill SKILL_TRADE, 0;
+    addtoskill SKILL_PARTY, 0;
     mes "Basic skills removed.";
     next;
     goto L_BasicSkills;
 
 L_FocusSkills:
-    set @pool, getskilllv(SKILL_POOL);
-    set @mallard, getskilllv(SKILL_MALLARDS_EYE);
-    set @brawling, getskilllv(SKILL_BRAWLING);
-    set @speed, getskilllv(SKILL_SPEED);
-    set @poison, getskilllv(SKILL_RESIST_POISON);
-    set @astralsoul, getskilllv(SKILL_ASTRAL_SOUL);
-    set @raging, getskilllv(SKILL_RAGING);
+    @pool = getskilllv(SKILL_POOL);
+    @mallard = getskilllv(SKILL_MALLARDS_EYE);
+    @brawling = getskilllv(SKILL_BRAWLING);
+    @speed = getskilllv(SKILL_SPEED);
+    @poison = getskilllv(SKILL_RESIST_POISON);
+    @astralsoul = getskilllv(SKILL_ASTRAL_SOUL);
+    @raging = getskilllv(SKILL_RAGING);
     menu
         "Overview of my focus skills.", L_SeeFocusSkills,
         "Focus or unfocus.", L_Unfocus,
@@ -390,7 +388,7 @@ L_Unfocus:
     cleararray @skilllist_id[0], 0, 8;
     cleararray @skilllist_count[0], 0, 8;
     if (getskilllv(SKILL_POOL) == 0)
-        setskill SKILL_POOL, 1;
+        addtoskill SKILL_POOL, 1;
     getactivatedpoolskilllist;
     if (@skilllist_count == 0)
         goto L_Focus;
@@ -407,8 +405,8 @@ L_Focus:
     getunactivatedpoolskilllist;
     if (@skilllist_count == 0)
         goto L_NoFocusSkills;
-    set @skilllist_id[@skilllist_count], 0;
-    set @skilllist_name$[@skilllist_count], "Back to the focus skills menu.";
+    @skilllist_id[@skilllist_count] = 0;
+    @skilllist_name$[@skilllist_count] = "Back to the focus skills menu.";
     mes "You are not focused on any focus skill right now. Which one do you want to focus on?";
     menu
         @skilllist_name$[0], L_MenuItems,
@@ -421,7 +419,7 @@ L_Focus:
         @skilllist_name$[7], L_MenuItems;
 
 L_MenuItems:
-    set @menu, @menu - 1;
+    @menu = @menu - 1;
     poolskill @skilllist_id[@menu];
     goto L_FocusSkills;
 
@@ -462,7 +460,7 @@ L_ChangeFocusingSkill:
     input @lvl;
     if (@lvl > 1)
         goto L_BadSkillLevel;
-    setskill SKILL_POOL, @lvl;
+    addtoskill SKILL_POOL, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -471,7 +469,7 @@ L_ChangeMallardsEyeSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_MALLARDS_EYE, @lvl;
+    addtoskill SKILL_MALLARDS_EYE, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -480,7 +478,7 @@ L_ChangeBrawlingSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_BRAWLING, @lvl;
+    addtoskill SKILL_BRAWLING, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -489,7 +487,7 @@ L_ChangeSpeedSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_SPEED, @lvl;
+    addtoskill SKILL_SPEED, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -498,7 +496,7 @@ L_ChangeResistPoisonSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_RESIST_POISON, @lvl;
+    addtoskill SKILL_RESIST_POISON, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -507,7 +505,7 @@ L_ChangeAstralSoulSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_ASTRAL_SOUL, @lvl;
+    addtoskill SKILL_ASTRAL_SOUL, @lvl;
     next;
     goto L_FocusSkills;
 
@@ -516,42 +514,42 @@ L_ChangeRagingSkill:
     input @lvl;
     if (@lvl > 9)
         goto L_BadSkillLevel;
-    setskill SKILL_RAGING, @lvl;
+    addtoskill SKILL_RAGING, @lvl;
     next;
     goto L_FocusSkills;
 
 L_AllFocusSkills:
-    setskill SKILL_POOL, 1;
-    setskill SKILL_MALLARDS_EYE, 9;
-    setskill SKILL_BRAWLING, 9;
-    setskill SKILL_SPEED, 9;
-    setskill SKILL_RESIST_POISON, 9;
-    setskill SKILL_ASTRAL_SOUL, 9;
-    setskill SKILL_RAGING, 9;
+    addtoskill SKILL_POOL, 1;
+    addtoskill SKILL_MALLARDS_EYE, 9;
+    addtoskill SKILL_BRAWLING, 9;
+    addtoskill SKILL_SPEED, 9;
+    addtoskill SKILL_RESIST_POISON, 9;
+    addtoskill SKILL_ASTRAL_SOUL, 9;
+    addtoskill SKILL_RAGING, 9;
     mes "Focus skills added.";
     next;
     goto L_FocusSkills;
 
 L_ResetFocusSkills:
-    setskill SKILL_POOL, 0;
-    setskill SKILL_MALLARDS_EYE, 0;
-    setskill SKILL_BRAWLING, 0;
-    setskill SKILL_SPEED, 0;
-    setskill SKILL_RESIST_POISON, 0;
-    setskill SKILL_ASTRAL_SOUL, 0;
-    setskill SKILL_RAGING, 0;
+    addtoskill SKILL_POOL, 0;
+    addtoskill SKILL_MALLARDS_EYE, 0;
+    addtoskill SKILL_BRAWLING, 0;
+    addtoskill SKILL_SPEED, 0;
+    addtoskill SKILL_RESIST_POISON, 0;
+    addtoskill SKILL_ASTRAL_SOUL, 0;
+    addtoskill SKILL_RAGING, 0;
     mes "Focus skills removed.";
     next;
     goto L_FocusSkills;
 
 L_MagicSkills:
-    set @general, getskilllv(SKILL_MAGIC);
-    set @life, getskilllv(SKILL_MAGIC_LIFE);
-    set @war, getskilllv(SKILL_MAGIC_WAR);
-    set @trans, getskilllv(SKILL_MAGIC_TRANSMUTE);
-    set @nature, getskilllv(SKILL_MAGIC_NATURE);
-    set @astral, getskilllv(SKILL_MAGIC_ASTRAL);
-    set @dark, getskilllv(SKILL_MAGIC_DARK);
+    @general = getskilllv(SKILL_MAGIC);
+    @life = getskilllv(SKILL_MAGIC_LIFE);
+    @war = getskilllv(SKILL_MAGIC_WAR);
+    @trans = getskilllv(SKILL_MAGIC_TRANSMUTE);
+    @nature = getskilllv(SKILL_MAGIC_NATURE);
+    @astral = getskilllv(SKILL_MAGIC_ASTRAL);
+    @dark = getskilllv(SKILL_MAGIC_DARK);
     menu
         "Overview of my magical skills.", L_MagicSkillsOverview,
         "Get magic skills.", L_ChangeMagicSkills,
@@ -595,7 +593,7 @@ L_ChangeMagicExperience:
     input @value;
     if (@value < 0 || @value > 8000)
         goto L_WrongMagicExperience;
-    set @mexp, @value;
+    @mexp = @value;
     callsub S_Update_Mask;
     mes "You now have " + @mexp + " magic experience points.";
     goto L_MagicSkills;
@@ -625,21 +623,21 @@ L_ChangeGeneralMagicSkill:
 
 L_Next4:
     if (@menu == 1)
-        setskill SKILL_MAGIC, 0;
+        addtoskill SKILL_MAGIC, 0;
     mes "General Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeGeneralMagicSkill1:
-    setskill SKILL_MAGIC, 1;
+    addtoskill SKILL_MAGIC, 1;
     mes "General Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeGeneralMagicSkill2:
-    setskill SKILL_MAGIC, 2;
+    addtoskill SKILL_MAGIC, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "General Magic skill changed to level 2.";
     next;
@@ -654,21 +652,21 @@ L_ChangeLifeMagicSkill:
 
 L_Next5:
     if (@menu == 1)
-        setskill SKILL_MAGIC_LIFE, 0;
+        addtoskill SKILL_MAGIC_LIFE, 0;
     mes "Life Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeLifeMagicSkill1:
-    setskill SKILL_MAGIC_LIFE, 1;
+    addtoskill SKILL_MAGIC_LIFE, 1;
     mes "Life Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeLifeMagicSkill2:
-    setskill SKILL_MAGIC_LIFE, 2;
+    addtoskill SKILL_MAGIC_LIFE, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "Life Magic skill changed to level 2.";
     next;
@@ -683,21 +681,21 @@ L_ChangeWarMagicSkill:
 
 L_Next6:
     if (@menu == 1)
-        setskill SKILL_MAGIC_WAR, 0;
+        addtoskill SKILL_MAGIC_WAR, 0;
     mes "War Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeWarMagicSkill1:
-    setskill SKILL_MAGIC_WAR, 1;
+    addtoskill SKILL_MAGIC_WAR, 1;
     mes "War Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeWarMagicSkill2:
-    setskill SKILL_MAGIC_WAR, 2;
+    addtoskill SKILL_MAGIC_WAR, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "War Magic skill changed to level 2.";
     next;
@@ -712,21 +710,21 @@ L_ChangeTransmutationMagicSkill:
 
 L_Next7:
     if (@menu == 1)
-        setskill SKILL_MAGIC_TRANSMUTE, 0;
+        addtoskill SKILL_MAGIC_TRANSMUTE, 0;
     mes "Transmutation Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeTransmutationMagicSkill1:
-    setskill SKILL_MAGIC_TRANSMUTE, 1;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 1;
     mes "Transmutation Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeTransmutationMagicSkill2:
-    setskill SKILL_MAGIC_TRANSMUTE, 2;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "Transmutation Magic skill changed to level 2.";
     next;
@@ -741,21 +739,21 @@ L_ChangeNatureMagicSkill:
 
 L_Next8:
     if (@menu == 1)
-        setskill SKILL_MAGIC_NATURE, 0;
+        addtoskill SKILL_MAGIC_NATURE, 0;
     mes "Nature Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeNatureMagicSkill1:
-    setskill SKILL_MAGIC_NATURE, 1;
+    addtoskill SKILL_MAGIC_NATURE, 1;
     mes "Nature Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeNatureMagicSkill2:
-    setskill SKILL_MAGIC_NATURE, 2;
+    addtoskill SKILL_MAGIC_NATURE, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "Nature Magic skill changed to level 2.";
     next;
@@ -770,21 +768,21 @@ L_ChangeAstralMagicSkill:
 
 L_Next9:
     if (@menu == 1)
-        setskill SKILL_MAGIC_ASTAL, 0;
+        addtoskill SKILL_MAGIC_ASTAL, 0;
     mes "Astral Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeAstralMagicSkill1:
-    setskill SKILL_MAGIC_ASTRAL, 1;
+    addtoskill SKILL_MAGIC_ASTRAL, 1;
     mes "Astral Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeAstralMagicSkill2:
-    setskill SKILL_MAGIC_ASTRAL, 2;
+    addtoskill SKILL_MAGIC_ASTRAL, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "Astral Magic skill changed to level 2.";
     next;
@@ -799,21 +797,21 @@ L_ChangeDarkMagicSkill:
 
 L_Next10:
     if (@menu == 1)
-        setskill SKILL_MAGIC_DARK, 0;
+        addtoskill SKILL_MAGIC_DARK, 0;
     mes "Dark Magic skill changed to level 0.";
     next;
     goto L_MagicSkills;
 
 L_ChangeDarkMagicSkill1:
-    setskill SKILL_MAGIC_DARK, 1;
+    addtoskill SKILL_MAGIC_DARK, 1;
     mes "Dark Magic skill changed to level 1.";
     next;
     goto L_MagicSkills;
 
 L_ChangeDarkMagicSkill2:
-    setskill SKILL_MAGIC_DARK, 2;
+    addtoskill SKILL_MAGIC_DARK, 2;
     if (@mexp < 100)
-        set @mexp, 100;
+        @mexp = 100;
     callsub S_Update_Mask;
     mes "Dark Magic skill changed to level 2.";
     next;
@@ -826,54 +824,54 @@ S_Update_Mask:
     return;
 
 L_GetAllMagic:
-    setskill SKILL_MAGIC, 2;
-    setskill SKILL_MAGIC_LIFE, 2;
-    setskill SKILL_MAGIC_WAR, 2;
-    setskill SKILL_MAGIC_TRANSMUTE, 2;
-    setskill SKILL_MAGIC_NATURE, 2;
-    setskill SKILL_MAGIC_ASTRAL, 2;
-    setskill SKILL_MAGIC_DARK, 2;
-    set @mexp, 8000;
+    addtoskill SKILL_MAGIC, 2;
+    addtoskill SKILL_MAGIC_LIFE, 2;
+    addtoskill SKILL_MAGIC_WAR, 2;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 2;
+    addtoskill SKILL_MAGIC_NATURE, 2;
+    addtoskill SKILL_MAGIC_ASTRAL, 2;
+    addtoskill SKILL_MAGIC_DARK, 2;
+    @mexp = 8000;
     callsub S_Update_Mask;
     mes "Magic skills added.";
     next;
     goto L_MagicSkills;
 
 L_ResetMagicSkills:
-    setskill SKILL_MAGIC, 0;
-    setskill SKILL_MAGIC_LIFE, 0;
-    setskill SKILL_MAGIC_WAR, 0;
-    setskill SKILL_MAGIC_TRANSMUTE, 0;
-    setskill SKILL_MAGIC_NATURE, 0;
-    setskill SKILL_MAGIC_ASTRAL, 0;
-    setskill SKILL_MAGIC_DARK, 0;
-    set @mexp, 0;
+    addtoskill SKILL_MAGIC, 0;
+    addtoskill SKILL_MAGIC_LIFE, 0;
+    addtoskill SKILL_MAGIC_WAR, 0;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 0;
+    addtoskill SKILL_MAGIC_NATURE, 0;
+    addtoskill SKILL_MAGIC_ASTRAL, 0;
+    addtoskill SKILL_MAGIC_DARK, 0;
+    @mexp = 0;
     callsub S_Update_Mask;
     mes "Magic skills removed.";
     next;
     goto L_MagicSkills;
 
 L_AddAll:
-    setskill SKILL_EMOTE, 1;
-    setskill SKILL_TRADE, 1;
-    setskill SKILL_PARTY, 2;
-    setskill SKILL_POOL, 1;
-    setskill SKILL_MALLARDS_EYE, 9;
-    setskill SKILL_BRAWLING, 9;
-    setskill SKILL_SPEED, 9;
-    setskill SKILL_RESIST_POISON, 9;
-    setskill SKILL_ASTRAL_SOUL, 9;
-    setskill SKILL_RAGING, 9;
-    setskill SKILL_MAGIC, 2;
-    setskill SKILL_MAGIC_LIFE, 2;
-    setskill SKILL_MAGIC_WAR, 2;
-    setskill SKILL_MAGIC_TRANSMUTE, 2;
-    setskill SKILL_MAGIC_NATURE, 2;
-    setskill SKILL_MAGIC_ASTRAL, 2;
-    setskill SKILL_MAGIC_DARK, 2;
-    set @mexp, 8000;
+    addtoskill SKILL_EMOTE, 1;
+    addtoskill SKILL_TRADE, 1;
+    addtoskill SKILL_PARTY, 2;
+    addtoskill SKILL_POOL, 1;
+    addtoskill SKILL_MALLARDS_EYE, 9;
+    addtoskill SKILL_BRAWLING, 9;
+    addtoskill SKILL_SPEED, 9;
+    addtoskill SKILL_RESIST_POISON, 9;
+    addtoskill SKILL_ASTRAL_SOUL, 9;
+    addtoskill SKILL_RAGING, 9;
+    addtoskill SKILL_MAGIC, 2;
+    addtoskill SKILL_MAGIC_LIFE, 2;
+    addtoskill SKILL_MAGIC_WAR, 2;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 2;
+    addtoskill SKILL_MAGIC_NATURE, 2;
+    addtoskill SKILL_MAGIC_ASTRAL, 2;
+    addtoskill SKILL_MAGIC_DARK, 2;
+    @mexp = 8000;
     resetstatus;
-    set BaseLevel, 99;
+    BaseLevel = 99;
     mes "All skills added to their maximum level.";
     mes "Maximum number of Magic Experience points.";
     mes "You are now level " + BaseLevel + ".";
@@ -884,27 +882,27 @@ L_ResetAll:
     cleararray @skilllist_name$[0], "", 8;
     cleararray @skilllist_id[0], 0, 8;
     cleararray @skilllist_count[0], 0, 8;
-    setskill SKILL_EMOTE, 0;
-    setskill SKILL_TRADE, 0;
-    setskill SKILL_PARTY, 0;
-    setskill SKILL_POOL, 0;
-    setskill SKILL_MALLARDS_EYE, 0;
-    setskill SKILL_BRAWLING, 0;
-    setskill SKILL_SPEED, 0;
-    setskill SKILL_RESIST_POISON, 0;
-    setskill SKILL_ASTRAL_SOUL, 0;
-    setskill SKILL_RAGING, 0;
-    setskill SKILL_MAGIC, 0;
-    setskill SKILL_MAGIC_LIFE, 0;
-    setskill SKILL_MAGIC_WAR, 0;
-    setskill SKILL_MAGIC_TRANSMUTE, 0;
-    setskill SKILL_MAGIC_NATURE, 0;
-    setskill SKILL_MAGIC_ASTRAL, 0;
-    setskill SKILL_MAGIC_DARK, 0;
-    set @mexp, 0;
+    addtoskill SKILL_EMOTE, 0;
+    addtoskill SKILL_TRADE, 0;
+    addtoskill SKILL_PARTY, 0;
+    addtoskill SKILL_POOL, 0;
+    addtoskill SKILL_MALLARDS_EYE, 0;
+    addtoskill SKILL_BRAWLING, 0;
+    addtoskill SKILL_SPEED, 0;
+    addtoskill SKILL_RESIST_POISON, 0;
+    addtoskill SKILL_ASTRAL_SOUL, 0;
+    addtoskill SKILL_RAGING, 0;
+    addtoskill SKILL_MAGIC, 0;
+    addtoskill SKILL_MAGIC_LIFE, 0;
+    addtoskill SKILL_MAGIC_WAR, 0;
+    addtoskill SKILL_MAGIC_TRANSMUTE, 0;
+    addtoskill SKILL_MAGIC_NATURE, 0;
+    addtoskill SKILL_MAGIC_ASTRAL, 0;
+    addtoskill SKILL_MAGIC_DARK, 0;
+    @mexp = 0;
     callsub S_Update_Mask;
     resetstatus;
-    set BaseLevel, 1;
+    BaseLevel = 1;
     mes "All skills removed.";
     mes "Minimum number of Magic Experience points.";
     mes "You are now level " + BaseLevel + ".";
@@ -916,8 +914,7 @@ L_Close:
 
 }
 
-042-2.gat,30,26,0|script|Debug#0|154
-{
+042-2.gat,30,26,0	script	Debug#0	154,{
     callfunc "Debug";
     end;
 OnInit:
@@ -926,8 +923,7 @@ OnInit:
     end;
 }
 
-001-1.gat,41,29,0|script|Debug#1|154
-{
+001-1.gat,41,29,0	script	Debug#1	154,{
     callfunc "Debug";
     end;
 OnInit:
@@ -936,8 +932,7 @@ OnInit:
     end;
 }
 
-009-1.gat,52,33,0|script|Debug#2|154
-{
+009-1.gat,52,33,0	script	Debug#2	154,{
     callfunc "Debug";
     end;
 OnInit:
@@ -946,8 +941,7 @@ OnInit:
     end;
 }
 
-020-1.gat,75,85,0|script|Debug#3|154
-{
+020-1.gat,75,85,0	script	Debug#3	154,{
     callfunc "Debug";
     end;
 OnInit:
@@ -956,8 +950,7 @@ OnInit:
     end;
 }
 
-017-9.gat,21,24,0|script|Debug#4|154
-{
+017-9.gat,21,24,0	script	Debug#4	154,{
     callfunc "Debug";
     end;
 OnInit:
@@ -966,8 +959,7 @@ OnInit:
     end;
 }
 
-027-2.gat,125,103,0|script|Debug#5|154
-{
+027-2.gat,125,103,0	script	Debug#5	154,{
     callfunc "Debug";
     end;
 OnInit:

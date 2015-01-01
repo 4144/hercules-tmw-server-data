@@ -1,11 +1,10 @@
-033-1.gat,72,27,0|script|Birrod|217
-{
-    set @state, ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
+033-1.gat,72,27,0	script	Birrod	217,{
+    @state = ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
 
     set @wolvern_level, 40;    // minimum level to do the wolvern hunting
-    set @wolvern_exp, 5000;
+    @wolvern_exp = 5000;
 
-    set @minigame_exp, 5000;
+    @minigame_exp = 5000;
 
     if (@state >= 6) goto L_Impressed;
     if (@state == 5) goto L_Questions;
@@ -47,7 +46,7 @@ L_Hunting:
     next;
     mes "\"There are also some Wolverns that behave normally and attack you only when you come too close to them.";
     mes "Those are not the ones I mean, but those that seek the battle themselves.\"";
-    set @state, 4;
+    @state = 4;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -62,9 +61,9 @@ L_Wolverns:
     goto L_Close;
 
 L_Wolverns_Done:
-    set @state, 5;
+    @state = 5;
     callsub S_Update_Mask;
-    set wolvern_count, 0;
+    wolvern_count = 0;
     mes "[Birrod]";
     mes "\"" + strcharinfo(0) + "!";
     mes "Good work. This area is much safer now.\"";
@@ -213,8 +212,8 @@ L_Success52:
 
 L_Success5:
     getexp @minigame_exp, 0;
-    setskill SKILL_RAGING, 1;
-    set @state, 6;
+    addtoskill SKILL_RAGING, 1;
+    @state = 6;
     callsub S_Update_Mask;
     mes "You feel an exciting energy inside you.";
     mes "[Birrod]";
@@ -251,10 +250,10 @@ L_Weak:
     goto L_Close;
 
 L_Close:
-    set @state, 0;
-    set @wolvern_level, 0;
-    set @wolvern_exp, 0;
-    set @minigame_exp, 0;
+    @state = 0;
+    @wolvern_level = 0;
+    @wolvern_exp = 0;
+    @minigame_exp = 0;
     close;
 
 S_Update_Mask:

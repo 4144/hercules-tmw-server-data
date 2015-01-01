@@ -1,7 +1,6 @@
-020-1.gat,57,123,0|script|Knox the Traveler|103
-{
-    set @NpcName$, "Knox";
-    set @NpcTravelBit, $@nivalis_bit;
+020-1.gat,57,123,0	script	Knox the Traveler	103,{
+    @NpcName$ = "Knox";
+    @NpcTravelBit = $@nivalis_bit;
     callfunc "Traveler";
     end;
 }

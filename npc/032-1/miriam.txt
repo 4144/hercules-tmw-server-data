@@ -1,31 +1,11 @@
-//#############################################
-// author: alastrim, PjotrOrial
-//#############################################
-// This npc teaches you the speed skill.
-// used variables:
-// QUEST_MIRIAM:
-//  0  either fully completed the quests in here, or not started.
-//  1  you said the wrong words, she is insulted. (so you excuse and goto 2)
-//  2  waiting for the ingredients
-//  3  you brought the needed stuff. if you meet other criteria (BaseLevel, agi) you will be taught the skill
-//  4  you have met the criteria of 3, but declined to take the speed test.
-//  5  you tried the quest but you failed
-// QUEST_MIRIAM_start
-//  a time in ticks. This is only !=0 if you started running to pachua.
-// QUEST_MIRIAM_run
-//  when you reach pachua, he stores the difference of start and arrival in here.
-//#############################################
-// after you gained the speed skill, all variables are reset to zero.
-//#############################################
 
-032-1.gat,55,20,0|script|Miriam|175
-{
+032-1.gat,55,20,0	script	Miriam	175,{
     if (getskilllv(SKILL_SPEED)) goto L_fast;
     if (getequipid(equip_torso) < 0) goto L_naked;
     if (QUEST_MIRIAM == 0) goto L_intro;
     if (QUEST_MIRIAM == 1) goto L_ask1;
     if (QUEST_MIRIAM == 2) goto L_ask2;
-    if (QUEST_MIRIAM == 3) goto L_teach;
+    if (QUEST_MIRIAM == 3) goto L_Teach;
     if (QUEST_MIRIAM == 4) goto L_testoffer;
     if (QUEST_MIRIAM_run != 0) goto L_checktime;
     if (QUEST_MIRIAM_start != 0) goto L_wasting;
@@ -76,13 +56,13 @@ L_WallText:
 L_MoreTalking:
     mes "[Miriam]";
     mes "\"ah, ah, ah... I know what I am doing! Now run and get what I asked.\"";
-    set QUEST_MIRIAM, 2;
+    QUEST_MIRIAM = 2;
     close;
 
 L_canthelp:
     mes "[Miriam]";
     mes "\"Oh, really? So you better pray to not need my help in the future!\"";
-    set QUEST_MIRIAM, 1;
+    QUEST_MIRIAM = 1;
     close;
 
 L_canthelp2:
@@ -103,7 +83,7 @@ L_ask1:
         "No, I have no time right now.",L_canthelp2;
 
 L_WillGetItems:
-    set QUEST_MIRIAM, 2;
+    QUEST_MIRIAM = 2;
     mes "\"Good. So, run and get it!\"";
     close;
 
@@ -130,12 +110,12 @@ L_ask3:
     close;
 
 L_getitems:
-    if (countitem("SnakeTongue") < 10
-        || countitem("ConcentrationPotion") < 5)
+    if (countitemcolor("SnakeTongue") < 10
+        || countitemcolor("ConcentrationPotion") < 5)
             goto L_notenough;
     delitem "SnakeTongue", 10;
     delitem "ConcentrationPotion", 5;
-    set QUEST_MIRIAM, 3;
+    QUEST_MIRIAM = 3;
     mes "[Miriam]";
     mes "\"Good job! Now I have enough food to stay in this desert for days!\"";
     next;
@@ -147,7 +127,7 @@ L_notenough:
     mes "\"Hey, you don't have all that I asked. Come back when you have everything.\"";
     close;
 
-L_teach:
+L_Teach:
     mes "[Miriam]";
     mes "\"Hmm... do you think you can learn the special Speed skill?\"";
     next;
@@ -156,25 +136,25 @@ L_teach:
         "I am already fast.", L_notfast;
 
 L_Prepared:
-    set @agi, readparam(bAgi);
-    set @torso$, getitemname(getequipid(equip_torso));
-    set @weight, MaxWeight/Weight;
+    @agi = readparam(bAgi);
+    @torso$ = getitemname(getequipid(equip_torso));
+    @weight = MaxWeight/Weight;
     if (@weight < 3)
         goto L_heavyweight;
     if (@agi < 60)
         goto L_slow;
     if (BaseLevel < 60)
         goto L_lowlevel;
-    if (countitem("SteelShield") > 0
-        || countitem("WarlordHelmet") > 0
-        || countitem("CrusadeHelmet") > 0
-        || countitem("WarlordPlate") > 0
-        || countitem("KnightsHelmet") > 0
-        || countitem("InfantryHelmet") > 0
-        || countitem("ChainmailShirt") > 0
-        || countitem("WarlordBoots") > 0
-        || countitem("LightPlatemail") > 0
-        || countitem("CandleHelmet") > 0)
+    if (countitemcolor("SteelShield") > 0
+        || countitemcolor("WarlordHelmet") > 0
+        || countitemcolor("CrusadeHelmet") > 0
+        || countitemcolor("WarlordPlate") > 0
+        || countitemcolor("KnightsHelmet") > 0
+        || countitemcolor("InfantryHelmet") > 0
+        || countitemcolor("ChainmailShirt") > 0
+        || countitemcolor("WarlordBoots") > 0
+        || countitemcolor("LightPlatemail") > 0
+        || countitemcolor("CandleHelmet") > 0)
             goto L_heavymetal;
     goto L_offer;
 
@@ -235,11 +215,11 @@ L_LetsDoThis:
     close2;
     message strcharinfo(0), "Miriam quickly grabs your arm and pull you to the place where she is sitting.";
     // Warp the player to the place where the NPC is defined, so he can't cheat.
-    warp "032-1.gat",55,21;
+    warp "032-1",55,21;
     npctalk "Run " +strcharinfo(0)+ ", run!";
-    set QUEST_MIRIAM, 5;
-    set QUEST_MIRIAM_start, gettimetick(2);
-    set QUEST_MIRIAM_cheat, 0;
+    QUEST_MIRIAM = 5;
+    QUEST_MIRIAM_start = gettimetick(2);
+    QUEST_MIRIAM_cheat = 0;
     end;
 
 L_naked:
@@ -260,7 +240,7 @@ L_noskill:
 L_giveup:
     mes "[Miriam]";
     mes "\"Oh, that is too bad... But if you change your mind, come back!\"";
-    set QUEST_MIRIAM, 4;
+    QUEST_MIRIAM = 4;
     close;
 
 L_testoffer:
@@ -283,7 +263,7 @@ L_warning:
 L_stretch:
     mes "[Miriam]";
     mes "\"Ok. Good idea... Stretching exercises can increase your flexibility and even prevent injuries!\"";
-    set QUEST_MIRIAM, 4;
+    QUEST_MIRIAM = 4;
     close;
 
 L_wasting:
@@ -301,7 +281,7 @@ L_checktime:
 L_tryagain:
     mes "[Miriam]";
     mes "\"You needed " + QUEST_MIRIAM_run + " seconds to reach Pachua. It is not enough.\"";
-    set QUEST_MIRIAM_run, 0;
+    QUEST_MIRIAM_run = 0;
     close;
 
 L_goodjob:
@@ -314,14 +294,14 @@ L_goodjob:
     next;
     mes "You feel dizzy and as soon as you move your head and look to the ground, Miriam pushes you hard, sending you meters away from her.";
     close2;
-    warp "032-1.gat",55,22;
+    warp "032-1",55,22;
     // free all used player variables. This can be done, since there is a conditional on the speedskill at the beginning.
-    set QUEST_MIRIAM_start, 0;
-    set QUEST_MIRIAM_run, 0;
-    set QUEST_MIRIAM, 0;
+    QUEST_MIRIAM_start = 0;
+    QUEST_MIRIAM_run = 0;
+    QUEST_MIRIAM = 0;
     message strcharinfo(0), "[You gain 2500 experience points]";
     message strcharinfo(0), "[You learned Speed Skill]";
-    setskill SKILL_SPEED, 1;
+    addtoskill SKILL_SPEED, 1;
     getexp 2500, 0;
     set QUEST_MIRIAM_cheat, 0; // reset just in case it is still set.
     close;

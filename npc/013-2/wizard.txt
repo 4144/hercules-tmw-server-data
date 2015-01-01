@@ -1,10 +1,9 @@
-013-2.gat,66,39,0|script|Old Wizard#_W|116
-{
-    set @has_magic, getskilllv(SKILL_MAGIC);
-    set MAGIC_FLAGS, MAGIC_FLAGS | MFLAG_KNOWS_OLD_WIZARD;
+013-2.gat,66,39,0	script	Old Wizard#_W	116,{
+    @has_magic = getskilllv(SKILL_MAGIC);
+    MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_OLD_WIZARD;
 
-    set @run, ((QUEST_NorthTulimshar & TWOBIT_8_MASK) >> TWOBIT_8_SHIFT);
-    set @state, ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
+    @run = ((QUEST_NorthTulimshar & TWOBIT_8_MASK) >> TWOBIT_8_SHIFT);
+    @state = ((QUEST_NorthTulimshar & NIBBLE_5_MASK) >> NIBBLE_5_SHIFT);
     if ((@run == 2) && (@state == 13))
         goto L_Deliver;
     goto L_Start;
@@ -16,7 +15,7 @@ L_Deliver:
 L_Delivery:
     mes "[Old Wizard]";
     mes "\"Good now I can get to work on some stronger brew..\"";
-    set @state, 14;
+    @state = 14;
     callfunc "SetKylianQuest";
     goto L_Close;
 
@@ -103,7 +102,7 @@ L_AstralSoul:
         "Ok be right back. I'll get them", L_Decline;
 
 L_Next:
-    if (countitem("Pearl") < 1 || countitem("Acorn") < 100) goto L_NotEnough;
+    if (countitemcolor("Pearl") < 1 || countitemcolor("Acorn") < 100) goto L_NotEnough;
     delitem "Pearl", 1;
     delitem "Acorn", 100;
     mes "[Old Wizard]";
@@ -115,10 +114,10 @@ L_Next:
     next;
     mes "The old wizard mumbles some invocations";
     next;
-    set @SUP_lvl, 1;
-    set @SUP_id, SKILL_ASTRAL_SOUL;
-    set @SUP_name$, "Astral Soul";
-    set @SUP_xp, 2500;
+    @SUP_lvl = 1;
+    @SUP_id = SKILL_ASTRAL_SOUL;
+    @SUP_name$ = "Astral Soul";
+    @SUP_xp = 2500;
     callfunc "SkillUp";
     mes "\"Now go and try to find someone who can actually activate that focus.\"";
     next;
@@ -140,6 +139,6 @@ L_Agree:
     goto L_Close;
 
 L_Close:
-    set @has_magic, 0;
+    @has_magic = 0;
     close;
 }

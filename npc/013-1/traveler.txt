@@ -1,7 +1,6 @@
-013-1.gat,120,90,0|script|Faris the Traveler|103
-{
-    set @NpcName$, "Faris";
-    set @NpcTravelBit, $@magic_house_bit;
+013-1.gat,120,90,0	script	Faris the Traveler	103,{
+    @NpcName$ = "Faris";
+    @NpcTravelBit = $@magic_house_bit;
     callfunc "Traveler";
     end;
 }

@@ -1,17 +1,11 @@
-// author: Jenalya
-// state0: Angela is to upset to tell you anything, needs a concentration potion
-// state1: got the mission to save Cindy
-// state2 and state3: Cindy is saved Angela invites you to visit them for giving a reward
-// state greater than 3: Angela invites and asks you to bring present boxes
 
-031-1.gat,79,24,0|script|Angela|195
-{
-    set @Q_Nivalis_state_MASK, NIBBLE_5_MASK;
-    set @Q_Nivalis_state_SHIFT, NIBBLE_5_SHIFT;
+031-1.gat,79,24,0	script	Angela	195,{
+    @Q_Nivalis_state_MASK = NIBBLE_5_MASK;
+    @Q_Nivalis_state_SHIFT = NIBBLE_5_SHIFT;
 
-    set @rescue_Cindy, ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
+    @rescue_Cindy = ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
 
-    set @minlevel, 70;
+    @minlevel = 70;
 
     if (@rescue_Cindy > 3) goto L_Please_Visit_Again;
     if (@rescue_Cindy > 1) goto L_Please_Visit;
@@ -22,7 +16,7 @@
     next;
     mes "\"It's terrible, oh my dear child!\"";
     next;
-    if (countitem("ConcentrationPotion") > 0 && BaseLevel >= @minlevel)
+    if (countitemcolor("ConcentrationPotion") > 0 && BaseLevel >= @minlevel)
         goto L_Menu_Potion;
 
     menu
@@ -59,7 +53,7 @@ L_Menu_Potion:
         "Leave", L_Close;
 
 L_Calm_Down:
-    if (countitem("ConcentrationPotion") == 0)
+    if (countitemcolor("ConcentrationPotion") == 0)
         goto L_No_Potion;
     delitem "ConcentrationPotion", 1;
     mes "She drinks the concentration potions and calms down.";
@@ -75,7 +69,7 @@ L_Calm_Down:
     mes "\"Oh my poor little girl. I'm so worried - what might they do with her? Oh no!\"";
     next;
     mes "\"You look like an adventurer! Please, can you go in that cave and rescue my little Cindy? I beg you for help!\"";
-    set @rescue_Cindy, 1;
+    @rescue_Cindy = 1;
     callsub S_Update_Mask;
     goto L_Close;
 
@@ -103,10 +97,10 @@ L_Please_Visit_Again:
     goto L_Close;
 
 L_Close:
-    set @Q_Nivalis_state_MASK, 0;
-    set @Q_Nivalis_state_SHIFT, 0;
-    set @rescue_Cindy, 0;
-    set @minlevel, 0;
+    @Q_Nivalis_state_MASK = 0;
+    @Q_Nivalis_state_SHIFT = 0;
+    @rescue_Cindy = 0;
+    @minlevel = 0;
     close;
 
 S_Update_Mask:

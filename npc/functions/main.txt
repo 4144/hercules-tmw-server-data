@@ -54,3 +54,15 @@ function	script	mapexit	{
 function	script	cmdothernpc	{
     donpcevent getarg(0) + "::OnCommand" + getarg(1);
 }
+
+function	script	getx	{
+    if (getmapxy(.@mapName$, .@xpos, .@ypos, 0) != 0)
+        return 0;
+    return .@xpos;
+}
+
+function	script	gety	{
+    if (getmapxy(.@mapName$, .@xpos, .@ypos, 0) != 0)
+        return 0;
+    return .@ypos;
+}

@@ -286,7 +286,7 @@ OnTick:
     @time = @time + 1;
     if (@time > 300)
         goto L_Sleep;
-    if (isdead())
+    if (ispcdead())
         end;
     if (Hp > 20)
         end;

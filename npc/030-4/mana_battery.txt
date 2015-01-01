@@ -248,7 +248,7 @@ L_NextWave:
     goto L_Return_1;
 
 OnTick:
-    if (isdead()) end;
+    if (ispcdead()) end;
     $@XmasBossPlayerCount = $@XmasBossPlayerCount + 1;
     if(isin("030-4", $@DangerCellX1[$@DangerCellNumber], $@DangerCellY1[$@DangerCellNumber], $@DangerCellX2[$@DangerCellNumber], $@DangerCellY2[$@DangerCellNumber]))
         goto L_DangerCell;
@@ -286,7 +286,7 @@ L_CleanUp:
     end;
 
 OnReward:
-    if (isdead())
+    if (ispcdead())
         end;
     if (($@XmasBattleStatusClone % 2) == 0)
         XMASTIME = XMASTIME | $@xmas_boss_hero_bit;

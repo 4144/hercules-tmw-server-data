@@ -210,7 +210,7 @@ L_Announce:
     goto L_Return_1;
 
 OnTick:
-    if (isdead())
+    if (ispcdead())
         end;
     $@CRYPT_FIGHT3_PLAYER_COUNT = $@CRYPT_FIGHT3_PLAYER_COUNT + 1;
     end;
@@ -258,7 +258,7 @@ L_CleanUp:
     end;
 
 OnReward:
-    if (isdead())
+    if (ispcdead())
         end;
     @bonus = (BaseLevel/2);
     DailyQuestBonus = DailyQuestBonus + @bonus;

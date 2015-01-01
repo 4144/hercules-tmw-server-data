@@ -185,7 +185,7 @@ L_Check:
     goto L_End;
 
 OnReward:
-    if (isdead())
+    if (ispcdead())
         goto L_Dead;
     message strcharinfo(0), "Congratulations you won!";
     Zeny = Zeny + ($@BRODOMIR_MONEY + 150 * $@BRODOMIR_PLAYERS);

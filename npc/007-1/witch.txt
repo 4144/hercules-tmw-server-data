@@ -831,7 +831,7 @@ L_Check:
         (isin("052-1",1,1,100,80 ) == 0) &&
         (isin("052-2",1,1,150,100) == 0)
         ) goto L_HeroEscape;
-    if (isdead())
+    if (ispcdead())
         goto L_HeroDead;
     // If the quest lasts more than $@illia_max_time seconds, abort it
     if (gettimetick(2) - $@illia_begin_time > $@illia_max_time)

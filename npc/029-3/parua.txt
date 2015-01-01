@@ -283,12 +283,12 @@ L_MOB6:
     goto L_Summon;
 
 OnTick:
-    if (isdead()) end;
+    if (ispcdead()) end;
     $@FIGHT_CAVE_PLAYER_COUNT = $@FIGHT_CAVE_PLAYER_COUNT + 1;
     end;
 
 OnNewRound:
-    if (isdead())
+    if (ispcdead())
         end;
     if ($@FIGHT_CAVE_LEVEL < 600)
         end;
@@ -354,7 +354,7 @@ L_IdleCheckPassed:
     end;
 
 OnReward:
-    if (isdead())
+    if (ispcdead())
         end;
     BOSS_POINTS = BOSS_POINTS + 100;
     message strcharinfo(0), "You gain 100 Boss Points giving you a total of " + BOSS_POINTS + ".";

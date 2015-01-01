@@ -218,7 +218,7 @@ S_CheckChannelling:
     misceffect FX_CHANNELLING_RAISE;
     percentheal -4, 0;
 
-    if (isdead())
+    if (ispcdead())
         goto L_ChannellingDead;
     if (isat("052-1",53,38) == 0)
         goto L_ChannellingMoved;

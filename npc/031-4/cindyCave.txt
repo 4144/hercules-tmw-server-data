@@ -181,7 +181,7 @@ L_NextWave:
     goto L_Return_1;
 
 OnTick:
-    if (isdead()) end;
+    if (ispcdead()) end;
     $@FIGHT_YETI_PLAYER_COUNT = $@FIGHT_YETI_PLAYER_COUNT + 1;
     end;
 
@@ -204,7 +204,7 @@ L_CleanUp:
     end;
 
 OnReward:
-    if (isdead()) end;
+    if (ispcdead()) end;
     @bonus = (BaseLevel/2);
     DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action. " + @bonus + " daily bonus gained." ;

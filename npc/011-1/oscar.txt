@@ -389,7 +389,7 @@ L_AllPumpkinsDead:
 S_CheckPlayer:
     if (attachrid(getcharid(3, $@HalloweenQuest_PumpkinHunter$)) == 0)
         goto L_PlayerOff;
-    if (isdead())
+    if (ispcdead())
         goto L_PlayerDead;
     if (isin("011-1",20,5,130,110) == 0)
         goto L_PlayerLeft;

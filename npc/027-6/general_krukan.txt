@@ -154,7 +154,7 @@ L_Announce:
     goto L_Return_1;
 
 OnTick:
-    if (isdead()) end;
+    if (ispcdead()) end;
     $@CRYPT_FIGHT1_PLAYER_COUNT = $@CRYPT_FIGHT1_PLAYER_COUNT + 1;
     end;
 
@@ -190,7 +190,7 @@ L_CleanUp:
     end;
 
 OnReward:
-    if (isdead()) end;
+    if (ispcdead()) end;
     @bonus = (BaseLevel/4);
     DailyQuestBonus = DailyQuestBonus + @bonus;
     message strcharinfo(0), "You feel a temporary rush of power and zest for action. " + @bonus + " daily bonus gained." ;

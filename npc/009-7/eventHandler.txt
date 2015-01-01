@@ -99,10 +99,10 @@ OnTimer2000:
     if ($@Duel_Started != 1) goto L_StartTimer; // no intrusion and no duel ongoing so loop again
     if (attachrid($@Duel_BluePlayer) == 0) goto L_BlueMissing;
     if (isin("009-7", $@fightclub_x1, $@fightclub_y1, $@fightclub_x2, $@fightclub_y2) == 0) goto L_BlueMissing;
-    if (isdead() == 1) goto L_IAmACorpse;
+    if (ispcdead() == 1) goto L_IAmACorpse;
     if (attachrid($@Duel_RedPlayer) == 0) goto L_RedMissing;
     if (isin("009-7", $@fightclub_x1, $@fightclub_y1, $@fightclub_x2, $@fightclub_y2) == 0) goto L_RedMissing;
-    if (isdead() == 1) goto L_IAmACorpse;
+    if (ispcdead() == 1) goto L_IAmACorpse;
     detachrid;
     goto L_StartTimer;
 

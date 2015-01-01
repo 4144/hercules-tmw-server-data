@@ -50,3 +50,7 @@ function	script	npcwarp	{
 function	script	mapexit	{
     mes "here must be quit?";
 }
+
+function	script	cmdothernpc	{
+    donpcevent getarg(0) + "::OnCommand" + getarg(1);
+}

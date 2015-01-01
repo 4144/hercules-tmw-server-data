@@ -10,8 +10,8 @@
     if(@state == 2) goto L_Done1;
     if(@state == 1) goto L_Progress;
 
-    @TEMP = rand(2);
-    if(@TEMP == 1) goto L_Opening1;
+    @temp = rand(2);
+    if(@temp == 1) goto L_Opening1;
     goto L_Opening0;
 
 L_Opening0:
@@ -32,8 +32,8 @@ L_Ask:
         "No.", L_Close;
 
 L_Yes:
-    @TEMP = rand(2);
-    if(@TEMP == 1) goto L_Req1;
+    @temp = rand(2);
+    if(@temp == 1) goto L_Req1;
     goto L_Req0;
 
 L_Req0:
@@ -114,7 +114,7 @@ L_Done2:
     goto L_Close;
 
 L_Close:
-    @TEMP = 0;
+    @temp = 0;
     @state = 0;
     close;
 

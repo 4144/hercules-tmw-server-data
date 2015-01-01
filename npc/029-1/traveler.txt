@@ -1,6 +1,6 @@
 
 029-1.gat,69,67,0	script	Knitra the Traveler	103,{
-    @NpcName$ = "Knitra";
+    @npcname$ = "Knitra";
     @NpcTravelBit = $@candor_bit;
     callfunc "Traveler";
     end;

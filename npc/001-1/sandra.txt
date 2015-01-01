@@ -12,10 +12,10 @@
     mes "\"Hunting monsters for potion ingredients can sometimes be a difficult task.\"";
     next;
 
-    @TEMP = rand(4);
-    if(@TEMP == 1) goto L_Opening1;
-    if(@TEMP == 2) goto L_Opening2;
-    if(@TEMP == 3) goto L_Opening3;
+    @temp = rand(4);
+    if(@temp == 1) goto L_Opening1;
+    if(@temp == 2) goto L_Opening2;
+    if(@temp == 3) goto L_Opening3;
     goto L_Opening0;
 
 L_Opening0:
@@ -44,9 +44,9 @@ L_Ask:
         "No.", L_Close;
 
 L_Yes:
-    @TEMP = rand(3);
-    if(@TEMP == 1) goto L_Req1;
-    if(@TEMP == 2) goto L_Req2;
+    @temp = rand(3);
+    if(@temp == 1) goto L_Req1;
+    if(@temp == 2) goto L_Req2;
     goto L_Req0;
 
 L_Req0:
@@ -100,7 +100,7 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    @TEMP = 0;
+    @temp = 0;
     @state = 0;
     close;
 

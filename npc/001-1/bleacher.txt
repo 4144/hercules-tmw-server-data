@@ -20,7 +20,7 @@ L_bleach_menu:
 
     menu
         "Cotton shirt.", L_cottonshirt,
-        "Contributor shirt.", L_contributor,
+        "Contributor shirt.", L_Contributor,
         "V-Neck sweater.", L_vneck,
         "Turtleneck sweater.", L_tneck,
         "Cotton shorts.", L_shorts,
@@ -43,7 +43,7 @@ L_bleach_menu:
         "Cotton cloth.", L_cotton_cloth,
         "Nevermind.", L_Close;
 
-L_contributor:
+L_Contributor:
     @normal = 1178;
     @dyeBase = 5131;
     goto L_choose_color;
@@ -241,7 +241,7 @@ L_choose_color:
 L_MenuItems:
     @del = @dyeBase + @menu - 1;
 
-    if (countitemcolor(@del) == 0) goto L_no_item;
+    if (countitemcolor(@del) == 0) goto L_No_Item;
 
     if (countitemcolor("PileOfAsh") < 3) goto L_no_ash;
 
@@ -262,7 +262,7 @@ L_again:
         "Yes.", L_bleach_menu,
         "No.", L_Close;
 
-L_no_item:
+L_No_Item:
     mes "[Candide]";
     mes "\"You don't have one of those.\"";
     next;

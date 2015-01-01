@@ -1,6 +1,6 @@
 
 001-1.gat,39,67,0	script	Nina the Traveler	103,{
-    @NpcName$ = "Nina";
+    @npcname$ = "Nina";
     @NpcTravelBit = $@tulimshar_bit;
     callfunc "Traveler";
     end;

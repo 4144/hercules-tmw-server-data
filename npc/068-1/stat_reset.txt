@@ -2,7 +2,7 @@
 068-1.gat,79,94,0	script	Malivox	103,{
 
 
-    @cost = BaseLevel * 100;
+    @Cost = BaseLevel * 100;
 
     mes "[Rogue Mage]";
     mes "\"I have come across a spell that will";
@@ -10,19 +10,19 @@
     mes "Normally this spell is expensive, but";
     mes "due to an unusual constellation of the";
     mes "stars I can cast it very cheaply!";
-    mes "For you it will cost only "+@cost+" gp.\"";
+    mes "For you it will cost only "+@Cost+" gp.\"";
     next;
     menu
         "Reset my stats",L_Next,
         "Forget about it",L_Pass;
 
 L_Next:
-    if (Zeny<@cost) goto L_NoMoney;
+    if (Zeny<@Cost) goto L_NoMoney;
     goto L_Reset;
 
 
 L_Reset:
-    Zeny = Zeny-@cost;
+    Zeny = Zeny-@Cost;
     resetstatus;
 
     mes "[Rogue Mage]";
@@ -44,6 +44,6 @@ L_NoMoney:
     goto L_Close;
 
 L_Close:
-    @cost = 0;
+    @Cost = 0;
     close;
 }

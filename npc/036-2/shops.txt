@@ -4,9 +4,9 @@
 
 036-2.gat,23,35,0	script	Bunkmaster Daban	212,{
     @npcname$ = "Bunkmaster Daban";
-    @cost = 100;
+    @Cost = 100;
     callfunc "Inn";
     @npcname$ = "";
-    @cost = 0;
+    @Cost = 0;
     close;
 }

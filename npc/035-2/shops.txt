@@ -3,9 +3,9 @@
 
 035-2.gat,23,35,0	script	Bunkmaster Phict	212,{
     @npcname$ = "Bunkmaster Phict";
-    @cost = 100;
+    @Cost = 100;
     callfunc "Inn";
     @npcname$ = "";
-    @cost = 0;
+    @Cost = 0;
     close;
 }

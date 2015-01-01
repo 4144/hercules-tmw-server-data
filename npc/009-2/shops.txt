@@ -3,7 +3,7 @@
 
 009-2.gat,50,48,0	script	Receptionist#inn	108,{
     @npcname$ = "Receptionist";
-    @cost = 100;
+    @Cost = 100;
     callfunc "Inn";
     end;
 }

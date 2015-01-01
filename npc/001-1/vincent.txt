@@ -16,10 +16,10 @@ L_Convince_Vincent_First:
     mes "\"I'm making an action figure. I'm almost done with it.\"";
     next;
 
-    @TEMP = rand(4);
-    if(@TEMP == 1) goto L_Opening2;
-    if(@TEMP == 2) goto L_Opening3;
-    if(@TEMP == 3) goto L_Opening4;
+    @temp = rand(4);
+    if(@temp == 1) goto L_Opening2;
+    if(@temp == 2) goto L_Opening3;
+    if(@temp == 3) goto L_Opening4;
     goto L_Opening1;
 
 L_Opening1:
@@ -52,10 +52,10 @@ L_Ask:
 L_Sure:
     @state = 1;
     callsub S_Update_Var;
-    @TEMP = rand(4);
-    if(@TEMP == 1) goto L_Req2;
-    if(@TEMP == 2) goto L_Req3;
-    if(@TEMP == 3) goto L_Req4;
+    @temp = rand(4);
+    if(@temp == 1) goto L_Req2;
+    if(@temp == 2) goto L_Req3;
+    if(@temp == 3) goto L_Req4;
     goto L_Req1;
 
 L_Req1:
@@ -116,7 +116,7 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    @TEMP = 0;
+    @temp = 0;
     @state = 0;
     close;
 

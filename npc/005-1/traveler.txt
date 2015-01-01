@@ -1,6 +1,6 @@
 
 005-1.gat,73,36,0	script	Kieron the Traveler	103,{
-    @NpcName$ = "Kieron";
+    @npcname$ = "Kieron";
     @NpcTravelBit = $@druid_tree_bit;
     callfunc "Traveler";
     end;

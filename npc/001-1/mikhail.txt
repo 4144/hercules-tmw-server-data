@@ -23,10 +23,10 @@ L_Start:
     next;
     mes "\"You look like a nice person. Would you go get them for me?\"";
     menu
-        "Of course, I'll go get them for you.", L_accept,
+        "Of course, I'll go get them for you.", L_Accept,
         "I've got other things to do right now.", L_Close;
 
-L_accept:
+L_Accept:
     mes "[Mikhail]";
     mes "\"Thank you so much!  I'll wait for you here.\"";
     @state = 5;

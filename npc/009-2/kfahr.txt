@@ -924,9 +924,9 @@ L_golden_scorpion_wrestle:
 L_wrestle_loop:
     mes "[Arm-wrestling with Kfahr]";
     mes @positions$[@position];
-    if ((@PC_STAMINA * 2 <= @PC_MAX_STAMINA) && (@PC_STAMINA * 4 > @PC_MAX_STAMINA))
+    if ((@pc_stamina * 2 <= @PC_MAX_STAMINA) && (@pc_stamina * 4 > @PC_MAX_STAMINA))
         mes "You feel a little exhausted.";
-    if (@PC_STAMINA * 4 <= @PC_MAX_STAMINA)
+    if (@pc_stamina * 4 <= @PC_MAX_STAMINA)
         mes "You feel very exhausted.";
     next;
     menu
@@ -954,7 +954,7 @@ L_wrestle_info:
 L_wrestle_push:
     @kfahr_def = @KFAHR_STR;
     @attack = @PC_STR;
-    @cost_factor = 2;
+    @Cost_factor = 2;
     callsub L_wrestle_attack;
     if (@result < -1) set @result, -1; // can't push back further than one
     goto L_wrestle_next;
@@ -962,7 +962,7 @@ L_wrestle_push:
 L_wrestle_hold:
     @kfahr_def = @KFAHR_STR;
     @attack = @PC_STR;
-    @cost_factor = 1;
+    @Cost_factor = 1;
     callsub L_wrestle_attack;
     if (@result < 0) set @result, 0; // hold only
     goto L_wrestle_next;
@@ -972,7 +972,7 @@ L_wrestle_slam:
         goto L_quick_slam;
     @kfahr_def = @KFAHR_AGI;
     @attack = @PC_AGI;
-    @cost_factor = 4;
+    @Cost_factor = 4;
     callsub L_wrestle_attack;
     goto L_wrestle_next;
 
@@ -997,11 +997,11 @@ L_wrestle_attack:
     if (@result < 0)
         @kfahr_stamina = @kfahr_stamina - 8;
     if (@result < 0)
-        @pc_stamina = @pc_stamina - (6 * @cost_factor);
+        @pc_stamina = @pc_stamina - (6 * @Cost_factor);
     if (@result == 0)
-        @pc_stamina = @pc_stamina - (8 * @cost_factor);
+        @pc_stamina = @pc_stamina - (8 * @Cost_factor);
     if (@result > 0)
-        @pc_stamina = @pc_stamina - (4 * @cost_factor);
+        @pc_stamina = @pc_stamina - (4 * @Cost_factor);
     if (@kfahr_stamina < 0)
         @kfahr_stamina = 0;
     if (@kfahr_stamina < 0)

@@ -3,30 +3,30 @@ function	script	EvilObelisk	{
     mes "(A mystical aura surrounds this stone. It seems to crave money.)";
     next;
 
-    @cost_jacko = 6500;
-    @cost_gy1 = 4000;
-    @cost_gy2 = 3000;
-    @cost_skull = 2800;
-    @cost_snake = 2500;
+    @Cost_jacko = 6500;
+    @Cost_gy1 = 4000;
+    @Cost_gy2 = 3000;
+    @Cost_skull = 2800;
+    @Cost_snake = 2500;
 
     menu
         "Don't pay it anything.", L_Close,
-        "Pay it " + @cost_jacko + " gold.", L_JACKO,
-        "Pay it " + @cost_gy1 + " gold.", L_GRAVEYARD1,
-        "Pay it " + @cost_gy2 + " gold.", L_GRAVEYARD2,
-        "Pay it " + @cost_skull + " gold.", L_SKULL,
-        "Pay it " + @cost_snake + " gold.", L_SNAKE;
+        "Pay it " + @Cost_jacko + " gold.", L_JACKO,
+        "Pay it " + @Cost_gy1 + " gold.", L_GRAVEYARD1,
+        "Pay it " + @Cost_gy2 + " gold.", L_GRAVEYARD2,
+        "Pay it " + @Cost_skull + " gold.", L_SKULL,
+        "Pay it " + @Cost_snake + " gold.", L_SNAKE;
 
 L_JACKO:
-    if (Zeny < @cost_jacko)
+    if (Zeny < @Cost_jacko)
         goto L_NotEnough;
-    Zeny = Zeny - @cost_jacko;
+    Zeny = Zeny - @Cost_jacko;
     @mob_id = 1022;
     @mob_count = rand(1,2);
     goto L_Summon;
 
 L_GRAVEYARD1:
-    if (Zeny < @cost_gy1)
+    if (Zeny < @Cost_gy1)
         goto L_NotEnough;
     @temp = rand(2);
     if(@temp == 0)
@@ -34,11 +34,11 @@ L_GRAVEYARD1:
     if(@temp == 1)
         set @mob_id, 1045;  // Fallen
     @mob_count = rand(1,2);
-    Zeny = Zeny - @cost_gy1;
+    Zeny = Zeny - @Cost_gy1;
     goto L_Summon;
 
 L_GRAVEYARD2:
-    if (Zeny < @cost_gy2)
+    if (Zeny < @Cost_gy2)
         goto L_NotEnough;
     @temp = rand(2);
     if(@temp == 0)
@@ -46,11 +46,11 @@ L_GRAVEYARD2:
     if(@temp == 1)
         set @mob_id, 1043;  // Normal Skelly
     @mob_count = rand(1,2);
-    Zeny = Zeny - @cost_gy2;
+    Zeny = Zeny - @Cost_gy2;
     goto L_Summon;
 
 L_SKULL:
-    if (Zeny < @cost_skull)
+    if (Zeny < @Cost_skull)
         goto L_NotEnough;
     @temp = rand(2);
     if(@temp == 0)
@@ -58,11 +58,11 @@ L_SKULL:
     if(@temp == 1)
         set @mob_id, 1023;  // Fire
     @mob_count = rand(1,4);
-    Zeny = Zeny - @cost_skull;
+    Zeny = Zeny - @Cost_skull;
     goto L_Summon;
 
 L_SNAKE:
-    if (Zeny < @cost_snake)
+    if (Zeny < @Cost_snake)
         goto L_NotEnough;
     @temp = rand(4);
     if(@temp == 0)
@@ -74,7 +74,7 @@ L_SNAKE:
     if(@temp == 3)
         set @mob_id, 1021;  // Cave
     @mob_count = rand(1,4);
-    Zeny = Zeny - @cost_snake;
+    Zeny = Zeny - @Cost_snake;
     goto L_Summon;
 
 L_Summon:
@@ -86,11 +86,11 @@ L_NotEnough:
     goto L_Close;
 
 L_Close:
-    @cost_jacko = 0;
-    @cost_gy1 = 0;
-    @cost_gy2 = 0;
-    @cost_skull = 0;
-    @cost_snake = 0;
+    @Cost_jacko = 0;
+    @Cost_gy1 = 0;
+    @Cost_gy2 = 0;
+    @Cost_skull = 0;
+    @Cost_snake = 0;
     return;
 
 }

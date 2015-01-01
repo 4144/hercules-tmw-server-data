@@ -32,11 +32,11 @@ L_clothes_choice:
         "Sorcerer robe.", L_sorcererrobe,
         "Bowler hat (brown).", L_bowlerhatbrown,
         "Fine dress.", L_finedress,
-        "Contributor Shirt.", L_contributor,
+        "Contributor Shirt.", L_Contributor,
         "About these sorcerer robes...", L_asksorcererrobe,
         "I'm fine for now, thanks.", L_Close;
 
-L_contributor:
+L_Contributor:
     @del = 1178;
     @new = 5131;
     @name$ = "contributor shirt";

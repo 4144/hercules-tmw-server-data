@@ -1,5 +1,5 @@
 020-1.gat,57,123,0	script	Knox the Traveler	103,{
-    @NpcName$ = "Knox";
+    @npcname$ = "Knox";
     @NpcTravelBit = $@nivalis_bit;
     callfunc "Traveler";
     end;

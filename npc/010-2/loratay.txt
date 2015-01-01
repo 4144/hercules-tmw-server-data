@@ -195,7 +195,7 @@ L_agostine_5:
     mes "\"Good for you.  That arrogant good-for-nothing couldn't tell a piece of cotton from chain mail if he wiped his nose with it!\"";
     goto L_Close;
 
-L_no_water:
+L_No_Water:
     mes "Checking more closely, you realize that you are out of water.";
     mes "You apologise to Lora, though it fortunately seems that her cough is subsiding.";
     mes "She waves you out of the room.";
@@ -211,7 +211,7 @@ L_regular_intro:
 
 L_give_water:
     if (countitemcolor("BottleOfWater") == 0)
-        goto L_no_water;
+        goto L_No_Water;
     delitem "BottleOfWater", 1;
     @wg_state = 11;
     callsub S_Update;

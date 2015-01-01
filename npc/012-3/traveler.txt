@@ -1,6 +1,6 @@
 
 012-3.gat,439,62,0	script	Meridith the Traveler	103,{
-    @NpcName$ = "Meridith";
+    @npcname$ = "Meridith";
     @NpcTravelBit = $@terranite_cave_bit;
     callfunc "Traveler";
     end;

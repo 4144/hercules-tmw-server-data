@@ -14,12 +14,12 @@
     @month = 1;
     @start_day = 24;
     @end_day = 26;
-    if (gettime(6) != @month) goto L_no_event;
-    if (gettime(5) < @start_day) goto L_no_event;
-    if (gettime(5) > @end_day) goto L_no_event;
+    if (gettime(6) != @month) goto L_No_Event;
+    if (gettime(5) < @start_day) goto L_No_Event;
+    if (gettime(5) > @end_day) goto L_No_Event;
     if (gettimetick(2)-TUT_var < 2*7*86400 ) //player must be created at least 2 weeks ago
-        goto L_no_event;
-    if (FLAGS & FLAG_HAS_BOWLER_BURNSDAY ) goto L_event_done;
+        goto L_No_Event;
+    if (FLAGS & FLAG_HAS_BOWLER_BURNSDAY ) goto L_Event_Done;
     getinventorylist;
     if (@inventorylist_count == 100) goto L_Full_Inv;
 
@@ -189,12 +189,12 @@ L_Next:
     FLAGS = FLAGS | FLAG_HAS_BOWLER_BURNSDAY;
     close;
 
-L_no_event:
+L_No_Event:
     mes "[Shannon]";
     mes "\"I'm a traveling poet and admirer of Robert Burns.\"";
     close;
 
-L_event_done:
+L_Event_Done:
     mes "[Shannon]";
     mes "\"Ah, my dear friend. Good to see you again in this remarkable time of the year.\"";
     next;
@@ -404,13 +404,13 @@ L_noredapple:
 
 L_nogreenapple:
     if (countitemcolor("Beer") == 0)
-        goto L_nobeer;
+        goto L_NoBeer;
     @choice_idx[@choices_nr] = @C_beer;
     @choice$[@choices_nr] = "Offer him a beer.";
     @choices_nr = @choices_nr + 1;
-    goto L_nobeer;
+    goto L_NoBeer;
 
-L_nobeer:
+L_NoBeer:
     @choice_idx[@choices_nr] = @C_nevermind;
     @choice$[@choices_nr] = "Leave";
 
@@ -536,7 +536,7 @@ L_Close:
 
 010-2.gat,75,68,0	script	Basil	107,{
     @npcname$ = "Basil the Inn Keeper";
-    @cost = 200;
+    @Cost = 200;
     callfunc "Inn";
     end;
 }

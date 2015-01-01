@@ -1,6 +1,6 @@
 
 006-1.gat,25,95,0	script	Rhutan the Traveler	103,{
-    @NpcName$ = "Rhutan";
+    @npcname$ = "Rhutan";
     @NpcTravelBit = $@pachua_bit;
     callfunc "Traveler";
     end;

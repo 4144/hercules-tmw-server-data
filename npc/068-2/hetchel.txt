@@ -198,7 +198,7 @@ L_Spants_Steal_Cont:
         "No, not yet", L_Close;
 
 L_Spants_Steal_Cont2:
-    if @spants_state < 7 goto L_Spants_No_Item;
+    if(@spants_state < 7) goto L_Spants_No_Item;
     @spants_state = 8;
     callsub S_Update_Spants;
     mes "[Hetchel the weaver]";

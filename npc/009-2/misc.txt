@@ -11,17 +11,17 @@
 
 009-2.gat,109,44,0	script	#Book	400,{
     if (getskilllv(SKILL_MAGIC))
-        goto L_magic;
+        goto L_Magic;
     mes "[Bookshelf]";
     mes "This bookshelf seems to have a selection of diaries and manuscripts, though you can't find anything that strikes you as being particularly interesting.";
     close;
 
-L_magic:
+L_Magic:
     mes "[Bookshelf]";
     mes "Browsing through the books, you come across a manuscript entitled 'Notes of Potaffe, On Transmutation.'";
     next;
     if (getskilllv(SKILL_MAGIC_TRANSMUTE) < 2)
-        goto L_magic_boring;
+        goto L_Magic_boring;
     mes "[Bookshelf]";
     mes "Leafing through the manuscript, you find that you can read little of the tiny handwriting and understand only a fraction of what is said.";
     next;
@@ -44,7 +44,7 @@ L_magic:
     mes "You can't make out anything else of value, so you place the manuscript back in the bookshelf.";
     close;
 
-L_magic_boring:
+L_Magic_boring:
     mes "[Bookshelf]";
     mes "Leafing through the manuscript, you find that you understand too little of what is written to make any sense of it.";
     close;

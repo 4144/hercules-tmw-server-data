@@ -1,6 +1,6 @@
 
 048-2.gat,23,46,0	script	Drake the Traveler	103,{
-    @NpcName$ = "Drake";
+    @npcname$ = "Drake";
     @NpcTravelBit = $@blue_sage_bit;
     callfunc "Traveler";
     end;

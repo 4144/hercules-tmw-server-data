@@ -1,6 +1,6 @@
 
 044-1.gat,151,17,0	script	Klaus the Traveler	103,{
-    @NpcName$ = "Klaus";
+    @npcname$ = "Klaus";
     @NpcTravelBit = $@nivalis_snow_hills_bit;
     callfunc "Traveler";
     end;

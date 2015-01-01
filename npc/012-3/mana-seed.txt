@@ -49,7 +49,7 @@
     @SUP_name$ = "Magic";
 
     if (@has_magic)
-        goto L_magic_start;
+        goto L_Magic_start;
     if (@knows_seed)
         goto L_quick_nomagic;
 
@@ -102,7 +102,7 @@ L_nomagic_throwrock:
 L_nomagic_touch:
     mes "[Mana Seed]";
     if (@drank_potion)
-        goto L_magic_level_1;
+        goto L_Magic_level_1;
     mes "As you touch the orb, you feel a terrible force within, separated from you by only the thinnest of membranes – like a tempest, all packed up in one tiny waterskin.";
     next;
     mes "[Mana Seed]";
@@ -111,7 +111,7 @@ L_nomagic_touch:
     next;
     goto L_nomagic_mainmenu;
 
-L_magic_level_1:
+L_Magic_level_1:
     if (getskilllv(SKILL_MAGIC))
         goto L_End; // shouldn't be happening
     mes "Again you feel the tempest rushing through the Mana Seed's membrane, into your body. You only manage to hold on to it for an instant and find yourself forced to pull your hands away again quickly.";
@@ -134,28 +134,28 @@ L_nomagic_destroy:
     next;
     goto L_nomagic_mainmenu;
 
-L_magic_start:
+L_Magic_start:
     mes "[Mana Seed]";
     mes "The Mana Seed is still in the same place as during your last visit, spreading its light throughout the cavern.";
     mes "What would you like to do?";
     next;
-    goto L_magic_mainmenu;
+    goto L_Magic_mainmenu;
 
-L_magic_mainmenu:
+L_Magic_mainmenu:
     menu
-        "Touch it", L_magic_touch,
-        "Destroy it", L_magic_destroy,
+        "Touch it", L_Magic_touch,
+        "Destroy it", L_Magic_destroy,
         "Leave it alone", L_End;
 
-L_magic_touch:
+L_Magic_touch:
     mes "[Mana Seed]";
     mes "You touch the Mana Seed again.";
     if (getskilllv(SKILL_MAGIC) >= @max_magic)
-        goto L_magic_maxed_out;
+        goto L_Magic_maxed_out;
     @exp_needed = @magic_exp_needed[getskilllv(SKILL_MAGIC) + 1];
     @magic_exp = MAGIC_EXPERIENCE & 65535;
     if (@magic_exp >= @exp_needed)
-        goto L_magic_levelup;
+        goto L_Magic_levelup;
     @prev_exp_needed = @magic_exp_needed[getskilllv(SKILL_MAGIC)];
     @exp_diff = @exp_needed - @prev_exp_needed;
     @index = ((@magic_exp - @prev_exp_needed) * 5) / @exp_diff;
@@ -167,9 +167,9 @@ L_magic_touch:
         "The orb's energy only barely evades your attempts at containing it. Soon you will be able to extract more power from it.";
     mes @messages$[@index];
     next;
-    goto L_magic_mainmenu;
+    goto L_Magic_mainmenu;
 
-L_magic_levelup:
+L_Magic_levelup:
     @baselevel_needed = @min_level[getskilllv(SKILL_MAGIC) + 1];
     if (BaseLevel < @baselevel_needed)
         goto L_insufficient_baselevel;
@@ -214,23 +214,23 @@ L_magic_levelup:
     next;
     goto L_End;
 
-L_magic_maxed_out:
+L_Magic_maxed_out:
     mes "Strangely, you feel nothing, as if its membrane had closed towards you.";
     MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_MANASEED_MAXEDOUT;
     next;
-    goto L_magic_mainmenu;
+    goto L_Magic_mainmenu;
 
 L_insufficient_baselevel:
     mes "Its energies rush through you. You fight to keep them under control, to contain them in your body. Alas, your body is too frail – you have to let go.";
     mes "Frustrated, you give up. You have the skill needed to control this power, but you will have to grow up some more before your body can handle it.";
     next;
-    goto L_magic_mainmenu;
+    goto L_Magic_mainmenu;
 
-L_magic_destroy:
+L_Magic_destroy:
     mes "[Mana Seed]";
     mes "Try as you might, you cannot find a way, magical or physical, to destroy the seed. Frustrated, you give up.";
     next;
-    goto L_magic_mainmenu;
+    goto L_Magic_mainmenu;
 
 L_End:
     close;

@@ -5,7 +5,7 @@
     @inspector = ((QUEST_Hurnscald & NIBBLE_3_MASK) >> NIBBLE_3_SHIFT);
 
     if (getequipid(equip_head) == 616) goto L_Axe;
-    if (getequipid(equip_head) == 621) goto L_Eyepatch;
+    if (getequipid(equip_head) == 621) goto L_EyePatch;
 
     mes "[Doctor]";
     mes "\"Hello, can I help you?\"";
@@ -55,12 +55,12 @@ L_Axe:
     mes "\"Wait. Thats just a fake. Shame on you!\"";
     goto L_Close;
 
-L_Eyepatch:
+L_EyePatch:
     mes "[Doctor]";
     mes "\"Would you like a glass eye to replace that eye patch you have? We just got a whole load of them in today. I'll even let you keep the patch as a souvenir.\"";
     next;
     menu
-        "Yes, please.", L_Eyepatch_GlassEye,
+        "Yes, please.", L_EyePatch_GlassEye,
         "No thank you", L_Next1;
 
 L_Next1:
@@ -68,7 +68,7 @@ L_Next1:
     mes "\"If you change your mind, please come back and see me.\"";
     goto L_Close;
 
-L_Eyepatch_GlassEye:
+L_EyePatch_GlassEye:
     mes "[Doctor]";
     mes "\"Now, where did I put that box of eyes...\"";
     mes "He goes off to look for them and comes back empty handed.";

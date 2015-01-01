@@ -1,6 +1,6 @@
 
 008-1.gat,81,82,0	script	Diryn the Traveler	103,{
-    @NpcName$ = "Diryn";
+    @npcname$ = "Diryn";
     @NpcTravelBit = $@hurnscald_bit;
     callfunc "Traveler";
     end;

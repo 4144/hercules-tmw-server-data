@@ -9,9 +9,9 @@ function	script	QuestTreeTrigger	{
     if (@Q_status & @flag) goto L_Close;  // already did that
 
     if (@flag == 2) goto L_hug;
-    goto L_cont;
+    goto L_Cont;
 
-L_cont:
+L_Cont:
     @Q_status = @Q_status | @flag;
     callsub S_Update_Var;
 
@@ -29,7 +29,7 @@ L_cont:
 L_hug:
     mes "You hug the tree.";
     next;
-    goto L_cont;
+    goto L_Cont;
 
 L_Close:
     @Q_MASK = 0;
@@ -94,7 +94,7 @@ L_both:
         "Leave it alone", L_Close;
 
 L_givewater:
-    if (countitemcolor("BottleOfWater") < 1) goto L_no_water;
+    if (countitemcolor("BottleOfWater") < 1) goto L_No_Water;
     delitem "BottleOfWater", 1;
     getitem "EmptyBottle", 1;
 
@@ -102,7 +102,7 @@ L_givewater:
     mes "You pour a bottle of water into the sand. The water dissipates quickly, without any effect.";
     goto L_Close;
 
-L_no_water:
+L_No_Water:
     mes "[Dying Tree]";
     mes "You don't have any water.";
     goto L_Close;

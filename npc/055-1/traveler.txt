@@ -1,6 +1,6 @@
 
 055-1.gat,135,60,0	script	Sherman the Traveler	103,{
-    @NpcName$ = "Sherman";
+    @npcname$ = "Sherman";
     @NpcTravelBit = $@hurns_farms_bit;
     callfunc "Traveler";
     end;

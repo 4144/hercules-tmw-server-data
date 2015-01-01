@@ -7,12 +7,12 @@ function	script	WaterBottle	{
 
     if (@count == 0)
         close;
-    @cost = @count * @COST_PER_BOTTLE;
+    @Cost = @count * @COST_PER_BOTTLE;
     @empty = countitemcolor("EmptyBottle");
 
     if (@empty < @count)
         goto L_NotEnoughBottles;
-    if (Zeny < @cost)
+    if (Zeny < @Cost)
         goto L_NotEnoughMoney;
     getinventorylist;
     if (@inventorylist_count == 100
@@ -20,7 +20,7 @@ function	script	WaterBottle	{
         && @empty > @count)
             goto L_NotEnoughSlots;
 
-    Zeny = Zeny - @cost;
+    Zeny = Zeny - @Cost;
     delitem "EmptyBottle", @count;
     getitem "BottleOfWater", @count;
     close;
@@ -30,7 +30,7 @@ L_NotEnoughBottles:
     close;
 
 L_NotEnoughMoney:
-    mes "You don't have enough gp! You need " + @cost + "gp.";
+    mes "You don't have enough gp! You need " + @Cost + "gp.";
     close;
 
 L_NotEnoughSlots:

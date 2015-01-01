@@ -17,7 +17,7 @@
 
 027-2.gat,107,39,0	script	Barbara Grey	320,{
     @npcname$ = "Barbara Grey";
-    @cost = 1000;
+    @Cost = 1000;
 
     mes "[" + @npcname$ + "]";
     mes "\"Don't be shy, darling.";

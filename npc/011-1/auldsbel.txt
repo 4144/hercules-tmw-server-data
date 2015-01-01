@@ -181,8 +181,8 @@ L_ironpowder:
 
 L_sulphur:
     mes "[Auldsbel the Wizard]";
-    @cost = 400 - (@Q_component_quest * 30);
-    mes "\"Sulphur powder?  Ah, so we have picked up a little offensive magic, haven't we?  Good thinking, good thinking. And yes, of course I can transmute volcanic ashes into sulphur powder at a ratio of 1:5, for " + @cost + " GP.\"";
+    @Cost = 400 - (@Q_component_quest * 30);
+    mes "\"Sulphur powder?  Ah, so we have picked up a little offensive magic, haven't we?  Good thinking, good thinking. And yes, of course I can transmute volcanic ashes into sulphur powder at a ratio of 1:5, for " + @Cost + " GP.\"";
     next;
     if (@Q_main_status >= @Q_STATUS_STUDENT)
         menu
@@ -196,7 +196,7 @@ L_sulphur:
         "Here you are.", L_sulphur_buy;
 
 L_sulphur_buy:
-    if (Zeny < @cost)
+    if (Zeny < @Cost)
         goto L_sulphur_noZeny;
     if (countitemcolor("PileOfAsh") < 1)
         goto L_sulphur_noash;
@@ -206,7 +206,7 @@ L_sulphur_buy:
         && countitemcolor("PileOfAsh") == 0)
             goto L_sulphur_noroom;
 
-    Zeny = Zeny - @cost;
+    Zeny = Zeny - @Cost;
     delitem "PileOfAsh", 1;
     getitem "SulphurPowder", 5;
     mes "[Auldsbel the Wizard]";
@@ -1200,7 +1200,7 @@ L_Next12:
 
 L_student_3:
     if (getskilllv(SKILL_MAGIC) < 3)
-        goto L_magic_skill_insufficient;
+        goto L_Magic_skill_insufficient;
     mes "[Auldsbel the Wizard]";
     mes "\"I believe that you may be ready for the next level of transmutation magic!  Let me teach you one last spell that you can handle before your promotion, and if you can cast this one, I will advance you.\"";
     next;
@@ -1272,7 +1272,7 @@ L_student_5:
     mes "\"Hmm. Come back some other time, please; I still haven't figured out what to teach you next.\"";
     close;
 
-L_magic_skill_insufficient:
+L_Magic_skill_insufficient:
     mes "[Auldsbel the Wizard]";
     mes "\"No, not at this time. You will have to advance in your overall magic skill before I can teach you more.\"";
     next;

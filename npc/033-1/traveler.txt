@@ -1,6 +1,6 @@
 
 033-1.gat,63,30,0	script	Khoenan the Traveler	103,{
-    @NpcName$ = "Khoenan";
+    @npcname$ = "Khoenan";
     @NpcTravelBit = $@barbarians_bit;
     callfunc "Traveler";
     end;

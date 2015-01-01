@@ -12,8 +12,8 @@
     mes "\"Boy, am I hungry or what!\"";
     next;
 
-    @TEMP = rand(2);
-    if(@TEMP == 1) goto L_Opening1;
+    @temp = rand(2);
+    if(@temp == 1) goto L_Opening1;
     goto L_Opening0;
 
 L_Opening0:
@@ -70,7 +70,7 @@ L_Done:
     goto L_Close;
 
 L_Close:
-    @TEMP = 0;
+    @temp = 0;
     @state = 0;
     close;
 

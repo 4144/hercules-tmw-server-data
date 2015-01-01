@@ -44,10 +44,10 @@ function	script	ElanoreFix	{
     callsub S_Update_Var;
     if (sc_check(SC_POISON)) goto L_CurePoison;
     if (BaseLevel > 10) goto L_NoHeal;
-    @TEMP = rand(4);
-    if(@TEMP == 1) goto L_Heal2;
-    if(@TEMP == 2) goto L_Heal3;
-    if(@TEMP == 3) goto L_Heal4;
+    @temp = rand(4);
+    if(@temp == 1) goto L_Heal2;
+    if(@temp == 2) goto L_Heal3;
+    if(@temp == 3) goto L_Heal4;
     goto L_Heal1;
 
 L_Heal1:
@@ -79,10 +79,10 @@ L_Heal4:
     goto L_Heal_L;
 
 L_Heal_L:
-    @TEMP = rand(3);
-    if(@TEMP == 1) goto L_Heal_2;
-    if(@TEMP == 2) goto L_Heal_3;
-    if(@TEMP == 3) goto L_Heal_4;
+    @temp = rand(3);
+    if(@temp == 1) goto L_Heal_2;
+    if(@temp == 2) goto L_Heal_3;
+    if(@temp == 3) goto L_Heal_4;
     goto L_Heal_1;
 
 L_Heal_1:
@@ -137,19 +137,19 @@ L_Main:
             "Can you heal me?", L_NoHealMessage,
             "Can you teach me magic?", L_Teach,
             "What do you know about...", L_Question,
-            "Goodbye!", L_bye;
+            "Goodbye!", L_Bye;
     if (@has_magic && (@Q_status > @STATUS_INITIAL))
         menu
             "Can you heal me?", L_NoHealMessage,
             "Can you teach me more?", L_Teach,
             "Where can I get more lifestones?", L_Lifestones,
             "What do you know about...", L_Question,
-            "Goodbye!", L_bye;
+            "Goodbye!", L_Bye;
     if (!@has_magic)
         menu
             "Can you heal me?", L_NoHealMessage,
             "What do you know about...", L_Question,
-            "Goodbye!", L_bye;
+            "Goodbye!", L_Bye;
     goto L_Close;
 
 OnPCKillEvent:
@@ -585,7 +585,7 @@ L_CurePoison:
     mes "\"There you are, right as rain!  Now you take care, all right?\"";
     goto L_Close;
 
-L_bye:
+L_Bye:
     mes "[Elanore the Healer]";
     mes "\"Goodbye!\"";
     goto L_Close;
@@ -606,7 +606,7 @@ L_Close:
     @STATUS_WAITING_FOR_KADIYA = 0;
     @STATUS_READY_TO_LEARN_CURE_POISON = 0;
     @STATUS_LEARNED_CURE_POISON = 0;
-    @TEMP = 0;
+    @temp = 0;
     @xp = 0;
     close;
 

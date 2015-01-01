@@ -1,16 +1,16 @@
 
 function	script	Inn	{
     mes "[" + @npcname$ + "]";
-    mes "\"Would you like to rest? It's only " + @cost + " gp.\"";
+    mes "\"Would you like to rest? It's only " + @Cost + " gp.\"";
     next;
     menu
         "Yes", L_Next,
         "No", L_No;
 
 L_Next:
-    if (Zeny < @cost)
+    if (Zeny < @Cost)
         goto L_NoMoney;
-    Zeny = Zeny - @cost;
+    Zeny = Zeny - @Cost;
     heal 10000, 10000;
 
     mes "[" + @npcname$ + "]";

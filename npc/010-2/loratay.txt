@@ -24,21 +24,21 @@
     if (@wg_state >= 23) goto L_regular_intro;
 
     @t = rand(3);
-    if (@t == 0) goto L_intro_0;
-    if (@t == 1) goto L_intro_1;
+    if (@t == 0) goto L_Intro_0;
+    if (@t == 1) goto L_Intro_1;
 
     mes "You see a middle-aged woman furiously sewing away at what appears to be a very expensive dress.  Her fingers are moving so nimbly that you find it near-impossible to follow the needle.";
-    goto L_intro_over;
+    goto L_Intro_over;
 
-L_intro_0:
+L_Intro_0:
     mes "You notice a middle-aged woman carefully drawing lines on a large sheet of cotton.";
-    goto L_intro_over;
+    goto L_Intro_over;
 
-L_intro_1:
+L_Intro_1:
     mes "You see a middle-aged woman cautiously but surprisingly swiftly cutting out shapes from a huge cotton sheet.  The scissors glide along the cloth as if it were butter, never leaving the premarked lines.";
-    goto L_intro_over;
+    goto L_Intro_over;
 
-L_intro_over:
+L_Intro_over:
     next;
     mes "She suddenly stops and looks up.";
     next;
@@ -162,7 +162,7 @@ L_agostine_2:
         menu
             "(sneak out of the room)", L_End,
             "Are you alright?", L_NextMenu,
-            "Here, have a bottle of water...", L_give_water,
+            "Here, have a bottle of water...", L_Give_water,
             "Can I help you?", L_NextMenu;
     goto L_NextMenu;
 
@@ -209,7 +209,7 @@ L_regular_intro:
         goto L_Main_menu2;
     goto L_Main_menu;
 
-L_give_water:
+L_Give_water:
     if (countitemcolor("BottleOfWater") == 0)
         goto L_No_Water;
     delitem "BottleOfWater", 1;
@@ -240,7 +240,7 @@ L_Main_menu:
     menu
         "Can you trim something for me?", L_trim,
         "Can you lengthen something for me?", L_lengthen,
-        "Can you make me a shirt?", L_shirt,
+        "Can you make me a shirt?", L_Shirt,
         "Can you make me a tank top?", L_tanktop,
         "Can you make me a cape?", L_cape,
         "Can you make fur boots for me?", L_Fur,
@@ -260,7 +260,7 @@ L_Main_menu2:
     menu
         "Can you trim something for me?", L_trim,
         "Can you lengthen something for me?", L_lengthen,
-        "Can you make me a shirt?", L_shirt,
+        "Can you make me a shirt?", L_Shirt,
         "Can you make me a tank top?", L_tanktop,
         "Can you make me a cape?", L_cape,
         "Can you make fur boots for me?", L_Fur1,
@@ -632,7 +632,7 @@ L_lengthen_impossible:
     next;
     goto L_Main_menu;
 
-L_shirt:
+L_Shirt:
     mes "[Lora Tay the Seamstress]";
     mes "\"Oh, how silly.  You can buy those everywhere.  Please don't bore me with such trifles, dear.\"";
     next;
@@ -762,7 +762,7 @@ L_Next11:
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress puts your cocoons and GP away, takes your measurements and pulls out several silk sheets.  She asks you to stretch out your arms, then pins the silk sheets in place all over your body.";
     next;
-    goto L_get_robe;
+    goto L_Get_robe;
 
 L_robe_sheets:
     @Robe_with_sheets = 1;
@@ -786,9 +786,9 @@ L_Next12:
     mes "[Lora Tay the Seamstress]";
     mes "The seamstress puts your GP away, takes your measurements and puts the silk sheets on the table.  She asks you to stretch out your arms, then pins the silk sheets in place all over your body.";
     next;
-    goto L_get_robe;
+    goto L_Get_robe;
 
-L_get_robe:
+L_Get_robe:
     mes "[Lora Tay the Seamstress]";
     mes "She proceeds to make a number of mysterious marks on the sheets with a charcoal pen.  Meanwhile, your arms are getting tired, but you're afraid to lower them-- she used a lot of pins to put everything into place, and you lost track of where they went...";
     next;

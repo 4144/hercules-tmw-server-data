@@ -10,13 +10,13 @@
 
     if (Sex == 0) set @madamsir$, "Madam";
     if (Sex == 1) set @madamsir$, "Sir";
-    if (@state == 7) goto L_return5;
-    if (@state == 6) goto L_return4;
-    if (@state == 4 || @state == 5) goto L_return3;
-    if (@state == 3) goto L_return2;
-    if (@state == 2) goto L_return1;
-    if (@state == 1) goto L_return;
-    if (BaseLevel >= @minLevel) goto L_intro;
+    if (@state == 7) goto L_Return5;
+    if (@state == 6) goto L_Return4;
+    if (@state == 4 || @state == 5) goto L_Return3;
+    if (@state == 3) goto L_Return2;
+    if (@state == 2) goto L_Return1;
+    if (@state == 1) goto L_Return;
+    if (BaseLevel >= @minLevel) goto L_Intro;
     goto L_cry;
 
 L_cry:
@@ -24,7 +24,7 @@ L_cry:
     mes "\"Waaahhhhh!\"";
     goto L_Close;
 
-L_intro:
+L_Intro:
     mes "[Crying Child]";
     mes "\"Waaah!\"";
     next;
@@ -86,13 +86,13 @@ L_DontWorryFind:
     callsub S_Update_Mask;
     goto L_Close;
 
-L_return:
+L_Return:
     mes "[Aldred]";
     mes "\"Please, help me " +@madamsir$+ ". If you find that ring, I think things will be a little better between me and my parents.\"";
     goto L_Close;
 
 
-L_return1:
+L_Return1:
     menu
         "Hi Aldred. I found the ring!",L_RingFoundHere;
 
@@ -117,7 +117,7 @@ L_ErrKindOf:
     callsub S_Update_Mask;
     goto L_Close;
 
-L_return2:
+L_Return2:
     mes "[Aldred]";
     mes "\"Hi "+strcharinfo(0)+ "! I was thinking... you were sooo nice helping me find the ring... I think I should give you a gift, but I'm just a dead kid, I have nothing to give you!\"";
     next;
@@ -142,12 +142,12 @@ L_WhereParents:
     message strcharinfo(0), "Aldred hands you the ring and you keep it in a small pocket on your backpack.";
     goto L_Close;
 
-L_return3:
+L_Return3:
     mes "[Aldred]";
     mes "\"I hope this ring doesn't mean a lot to my parents. That way you can keep it as a gift and I won't feel guilty about taking it.\"";
     goto L_Close;
 
-L_return4:
+L_Return4:
     menu
         "Hi, I talked to your parents.",L_TalkParents;
 
@@ -176,19 +176,19 @@ L_MakesHerSad:
     mes "\"Well, I guess you can keep it, but don't show it to my mother again, she's already very sad. But now I'm really curious. Who else would give a gift to my mother? There are so many strange things happening lately...\"";
     getinventorylist;
     if (@inventorylist_count == 100)
-        goto L_full;
+        goto L_Full;
     getitem "SimpleRing", 1;
     @state = 7;
     callsub S_Update_Mask;
     mes "\"I'll tell my parents how great and helpful you are. Maybe they can even let you stay here at the inn for free!\"";
     goto L_Close;
 
-L_return5:
+L_Return5:
     mes "[Aldred]";
     mes "\"Thank you for all your help.\"";
     goto L_Close;
 
-L_full:
+L_Full:
     mes "[Aldred]";
     mes "\"I dont think you can carry this ring... Your backpack is full! Throw something away and come back to get it.\"";
     goto L_Close;

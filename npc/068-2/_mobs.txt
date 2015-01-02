@@ -6,7 +6,7 @@
     end;
 
 On1035:
-    @mobID = 1035;
+    @mobId = 1035;
     callfunc "MobPoints";
     end;
 }

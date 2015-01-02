@@ -246,33 +246,33 @@ L_SpawnFluffies:
     goto L_ContinueTimer;
 
 OnIceGoblinDeath:
-    @MobID = 1058;
+    @mobId = 1058;
     if (getcharid(3) != $@Fluffy_FighterID)
         goto L_Punish;
-    @MobID = 0;
+    @mobId = 0;
     end;
 
 OnWolvernDeath:
-    @MobID = 1090;
+    @mobId = 1090;
     if (getcharid(3) != $@Fluffy_FighterID)
         goto L_Punish;
-    @MobID = 0;
+    @mobId = 0;
     end;
 
 OnYetiDeath:
-    @MobID = 1072;
+    @mobId = 1072;
     if (getcharid(3) != $@Fluffy_FighterID)
         goto L_Punish;
-    @MobID = 0;
+    @mobId = 0;
     end;
 
 OnFluffyDeath:
-    @MobID = 1089;
+    @mobId = 1089;
     if ($@Fluffy_Hunting == 0)
         end;
     if (getcharid(3) != $@Fluffy_FighterID)
         goto L_Punish;
-    @MobID = 0;
+    @mobId = 0;
     $@Fluffy_Kills = $@Fluffy_Kills + 1;
     $@Fluffy_Alive = $@Fluffy_Alive - 1;
     if ($@Fluffy_Alive != 0)
@@ -282,18 +282,18 @@ OnFluffyDeath:
     goto L_GotOut;
 
 L_Punish:
-    if (@MobID == 1089)
+    if (@mobId == 1089)
         areamonster "033-1", 79, 29, 88, 42, "", 1089, 1, "Kimarr::OnFluffyDeath";
-    if (@MobID == 1058)
+    if (@mobId == 1058)
         areamonster "033-1", 79, 29, 88, 42, "", 1058, 1, "Kimarr::OnIceGoblinDeath";
-    if (@MobID == 1090)
+    if (@mobId == 1090)
         areamonster "033-1", 79, 29, 88, 42, "", 1090, 1, "Kimarr::OnWolvernDeath";
-    if (@MobID == 1072)
+    if (@mobId == 1072)
         areamonster "033-1", 79, 29, 88, 42, "", 1072, 1, "Kimarr::OnYetiDeath";
 
     npctalk strcharinfo(0) + "! This hunt is for " + $@Fluffy_Fighter$ + " alone!";
     percentheal -100, 0;
-    @MobID = 0;
+    @mobId = 0;
     end;
 
 L_Killedall:

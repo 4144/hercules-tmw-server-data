@@ -53,11 +53,11 @@ function	script	QuestTreeTouch	{
     @Q_status = (QUEST_MAGIC & @Q_MASK) >> @Q_SHIFT;
     @Q_status = (@Q_status & 12) >> 2;
 
-    if (@Q_status == 3) goto L_happy;
+    if (@Q_status == 3) goto L_Happy;
 
     if ((MAGIC_FLAGS & (MFLAG_KNOWS_DRUIDTREE | MFLAG_KNOWS_CUTTREE)) == MFLAG_KNOWS_CUTTREE) goto L_cut;
 
-    if ((MAGIC_FLAGS & (MFLAG_KNOWS_DRUIDTREE | MFLAG_KNOWS_CUTTREE)) == MFLAG_KNOWS_DRUIDTREE) goto L_water;
+    if ((MAGIC_FLAGS & (MFLAG_KNOWS_DRUIDTREE | MFLAG_KNOWS_CUTTREE)) == MFLAG_KNOWS_DRUIDTREE) goto L_Water;
 
     if ((MAGIC_FLAGS & (MFLAG_KNOWS_DRUIDTREE | MFLAG_KNOWS_CUTTREE)) > 0)   //i.e., both are set
         goto L_both;
@@ -74,12 +74,12 @@ L_cut:
         "Cut off a branch", L_do_cut,
         "Leave it alone", L_Close;
 
-L_water:
+L_Water:
     mes "[Dying Tree]";
     mes "This must be the druid tree.";
     next;
     menu
-        "Water the tree", L_givewater,
+        "Water the tree", L_Givewater,
         "Kiss tree", L_kiss,
         "Leave it alone", L_Close;
 
@@ -88,12 +88,12 @@ L_both:
     mes "This must be the druid tree that Wyara and the earth spirit were talking about.";
     next;
     menu
-        "Water the tree", L_givewater,
+        "Water the tree", L_Givewater,
         "Kiss tree", L_kiss,
         "Cut off a branch", L_do_cut,
         "Leave it alone", L_Close;
 
-L_givewater:
+L_Givewater:
     if (countitemcolor("BottleOfWater") < 1) goto L_No_Water;
     delitem "BottleOfWater", 1;
     getitem "EmptyBottle", 1;
@@ -140,7 +140,7 @@ L_no_boneknife:
     mes "Try as you might, you can't seem to find a way to cut off a branch. Perhaps you need a different tool for cutting?";
     goto L_Close;
 
-L_happy:
+L_Happy:
     mes "[Druid Tree]";
     mes "The tree looks younger and healthier now.";
     goto L_Close;

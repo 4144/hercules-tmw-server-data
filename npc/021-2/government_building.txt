@@ -40,7 +40,7 @@ L_marry_too_young:
     next;
 
     menu
-        "Can I at least get wedding rings?", L_get_rings,
+        "Can I at least get wedding rings?", L_Get_rings,
         "Thanks anyways.", L_Close;
 
 L_marry_too_poor:
@@ -48,7 +48,7 @@ L_marry_too_poor:
     mes "\"You need " + WEDDING_FEE + " GP to get married. That covers all administrative fees for the marriage and provides two wedding rings.\"";
     close;
 
-L_get_rings:
+L_Get_rings:
     mes "[Estard]";
     mes "\"Yes. They are " + WEDDING_FEE + " GP. That covers all administrative fees for the marriage.\"";
 
@@ -57,11 +57,11 @@ L_get_rings:
             "Thanks anyways. I don't have enough with me.", L_Close;
     if (Zeny >= WEDDING_FEE)
         menu
-            "I'll buy a pair.", L_get_rings_pay,
+            "I'll buy a pair.", L_Get_rings_pay,
             "Thanks anyways.", L_Close;
-    goto L_get_rings_pay;
+    goto L_Get_rings_pay;
 
-L_get_rings_pay:
+L_Get_rings_pay:
     callsub S_give_rings;
 
     mes "[Estard]";

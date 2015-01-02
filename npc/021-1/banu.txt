@@ -1,7 +1,7 @@
 
 021-1.gat,102,54,0	script	Banu	154,{
     @state = ((QUEST_NorthTulimshar & TWOBIT_5_MASK) >> TWOBIT_5_SHIFT);
-    @EXP = 30;
+    @Exp = 30;
     @money_water = 200;
     @money_knife = 60;
 
@@ -37,7 +37,7 @@ L_Water:
         goto L_NoWater;
     delitem "BottleOfWater", 1;
     mes "She grabs the Bottle of Water and drinks.";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     Zeny = Zeny + @money_water;
     @state = 2;
     callsub S_Update_Mask;
@@ -60,7 +60,7 @@ L_Next1:
     if (countitemcolor("Knife") < 1)
         goto L_NoKnife;
     delitem "Knife", 1;
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     Zeny = Zeny + @money_knife;
     @state = 3;
     callsub S_Update_Mask;
@@ -96,7 +96,7 @@ L_FullInv:
 
 L_Close:
     @inventorylist_count = 0;
-    @EXP = 0;
+    @Exp = 0;
     @state = 0;
     @rand = 0;
     close;

@@ -102,7 +102,7 @@ L_Main:
     $@halloween_react_notscary$[$@n] = "\"Heheh, sucks, buddy. But there's always a risk.\"";
     $@halloween_trick_scary$[$@n] = "Look out! A scorpion!";
     $@halloween_react_scary$[$@n] = "\"Where? Darn things, I think they're what keep scaring away my customers.\"";
-    $@halloween_trick_veryscary$[$@n] = "I know about your hobby of performing numerous sex changes on yourself.";
+    $@halloween_trick_veryscary$[$@n] = "I know about your hobby of performing numerous Sex changes on yourself.";
     $@halloween_react_veryscary$[$@n] = "\"Shut up! Look, will you hold your tongue if I give you more treats...?\"";
 
     $@n = $@n + 1;

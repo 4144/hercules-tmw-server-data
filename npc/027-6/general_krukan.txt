@@ -7,7 +7,7 @@
     @KRUKAN_SKULL_REQ = 5;
     @KRUKAN_DARK_CRYSTAL_REQ = 5;
     @KRUKAN_BONE_REQ = 5;
-    @minlevel = 60;
+    @minLevel = 60;
 
     mes "[Tome]";
     mes "The Tome is open to a page about a summon ritual that can be performed in this chamber.";
@@ -32,7 +32,7 @@ L_MissingReagents:
     goto L_SummonReagents;
 
 L_Ritual:
-    if (BaseLevel < @minlevel)
+    if (BaseLevel < @minLevel)
         goto L_ToWeak;
     if ( (countitemcolor("Soul") < @KRUKAN_SOUL_REQ)
         || (countitemcolor("Skull") < @KRUKAN_SKULL_REQ)
@@ -66,7 +66,7 @@ L_ToWeak:
 
 L_Close:
     @bonus = 0;
-    @minlevel = 0;
+    @minLevel = 0;
     @KRUKAN_SOUL_REQ = 0;
     @KRUKAN_SKULL_REQ = 0;
     @KRUKAN_DARK_CRYSTAL_REQ = 0;
@@ -200,7 +200,7 @@ OnReward:
 
 L_End:
     @bonus = 0;
-    @minlevel = 0;
+    @minLevel = 0;
     @KRUKAN_SOUL_REQ = 0;
     @KRUKAN_SKULL_REQ = 0;
     @KRUKAN_DARK_CRYSTAL_REQ = 0;

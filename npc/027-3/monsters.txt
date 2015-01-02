@@ -8,13 +8,13 @@
     end;
 
 On1036:
-    @mobID = 1036;
+    @mobId = 1036;
     callsub S_MOBCOUNT_ZOMBIES;
     callfunc "MobPoints";
     end;
 
 On1045:
-    @mobID = 1045;
+    @mobId = 1045;
     callsub S_MOBCOUNT_FALLENS;
     callfunc "MobPoints";
     end;

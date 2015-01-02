@@ -1,8 +1,8 @@
 
 032-1.gat,55,20,0	script	Miriam	175,{
     if (getskilllv(SKILL_SPEED)) goto L_fast;
-    if (getequipid(equip_torso) < 0) goto L_naked;
-    if (QUEST_MIRIAM == 0) goto L_intro;
+    if (getequipid(equip_torso) < 0) goto L_Naked;
+    if (QUEST_MIRIAM == 0) goto L_Intro;
     if (QUEST_MIRIAM == 1) goto L_ask1;
     if (QUEST_MIRIAM == 2) goto L_ask2;
     if (QUEST_MIRIAM == 3) goto L_Teach;
@@ -10,9 +10,9 @@
     if (QUEST_MIRIAM_run != 0) goto L_checktime;
     if (QUEST_MIRIAM_start != 0) goto L_wasting;
     if (QUEST_MIRIAM == 5) goto L_testoffer;
-    goto L_intro;
+    goto L_Intro;
 
-L_intro:
+L_Intro:
     mes "You see a woman sitting in the hot sand with eyes wide open... But she does not seem to be looking at something in particular...";
     next;
     menu
@@ -92,7 +92,7 @@ L_ask2:
     mes "\"Did you get what I asked for?\"";
     next;
     menu
-        "Yes, here it is!",L_getitems,
+        "Yes, here it is!",L_Getitems,
         "What was that again?", L_ask3,
         "No, not yet.",L_Hurry;
 
@@ -109,10 +109,10 @@ L_ask3:
     mes "\"So, if you really want to help me now, bring me 5 Concentration Potions and 10 Snake Tongues.\"";
     close;
 
-L_getitems:
+L_Getitems:
     if (countitemcolor("SnakeTongue") < 10
         || countitemcolor("ConcentrationPotion") < 5)
-            goto L_notenough;
+            goto L_NotEnough;
     delitem "SnakeTongue", 10;
     delitem "ConcentrationPotion", 5;
     QUEST_MIRIAM = 3;
@@ -122,7 +122,7 @@ L_getitems:
     mes "\"Now, since you helped me, maybe I can teach you a basic skill, but only if you prove yourself to be a fast runner! Come back and talk to me when you think you are prepared to learn.\"";
     close;
 
-L_notenough:
+L_NotEnough:
     mes "[Miriam]";
     mes "\"Hey, you don't have all that I asked. Come back when you have everything.\"";
     close;
@@ -144,7 +144,7 @@ L_Prepared:
     if (@agi < 60)
         goto L_slow;
     if (BaseLevel < 60)
-        goto L_lowlevel;
+        goto L_LowLevel;
     if (countitemcolor("SteelShield") > 0
         || countitemcolor("WarlordHelmet") > 0
         || countitemcolor("CrusadeHelmet") > 0
@@ -156,7 +156,7 @@ L_Prepared:
         || countitemcolor("LightPlatemail") > 0
         || countitemcolor("CandleHelmet") > 0)
             goto L_heavymetal;
-    goto L_offer;
+    goto L_Offer;
 
 L_heavyweight:
     mes "[Miriam]";
@@ -175,12 +175,12 @@ L_slow:
     mes "Oh, wait, wait... " +@agi+ " Agility? Are you serious? What do you do with all your Character points? Put them all to 'Strength'? Really... I don't even want to know... Come back here when you have a decent character points distribution!\"";
     close;
 
-L_lowlevel:
+L_LowLevel:
     mes "[Miriam]";
     mes "\"Come back here when you are old enough. I even wonder how you could get here so unexperienced as you are.\"";
     close;
 
-L_offer:
+L_Offer:
     mes "[Miriam]";
     mes "\"Hmm! You look great in these clothes! They look very comfortable too... And it seems like you are not carrying too much weight.\"";
     next;
@@ -199,7 +199,7 @@ L_TorsoNext:
     next;
     menu
         "I'm in! What kind of test is it?",L_test,
-        "I don't think I need more speed right now",L_giveup;
+        "I don't think I need more speed right now",L_Giveup;
 
 L_test:
     mes "[Miriam]";
@@ -222,7 +222,7 @@ L_LetsDoThis:
     QUEST_MIRIAM_cheat = 0;
     end;
 
-L_naked:
+L_Naked:
     mes "[Miriam]";
     mes "\"Hmmm?! Please put on some clothes before talking to me.\"";
     close;
@@ -237,7 +237,7 @@ L_noskill:
     mes "\"For a person like you, I could even teach a useful skill! Too bad you don't have the basic abillities to learn it...\"";
     close;
 
-L_giveup:
+L_Giveup:
     mes "[Miriam]";
     mes "\"Oh, that is too bad... But if you change your mind, come back!\"";
     QUEST_MIRIAM = 4;
@@ -275,7 +275,7 @@ L_checktime:
     if (QUEST_MIRIAM_cheat != 0)
         goto L_warning;
     if (QUEST_MIRIAM_run <= 210)
-        goto L_goodjob;
+        goto L_Goodjob;
     goto L_tryagain;
 
 L_tryagain:
@@ -284,7 +284,7 @@ L_tryagain:
     QUEST_MIRIAM_run = 0;
     close;
 
-L_goodjob:
+L_Goodjob:
     mes "[Miriam]";
     mes "\"Great job! You needed " + QUEST_MIRIAM_run + " seconds to reach Pachua. Very impressive for a person like you.\"";
     next;

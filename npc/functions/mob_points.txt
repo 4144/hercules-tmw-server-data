@@ -1,6 +1,6 @@
 
 function	script	MobPoints	{
-    if (@mobID < 1002) goto L_Return;
+    if (@mobId < 1002) goto L_Return;
 
     setarray @points,
         1, // Maggot
@@ -134,10 +134,10 @@ function	script	MobPoints	{
         ; // END
 
     if (MPQUEST == 1)
-        Mobpt = Mobpt + @points[@mobID - 1002];
+        Mobpt = Mobpt + @points[@mobId - 1002];
 
     callfunc "ValonState";
-    if (((@valon_state >= 2) && (@valon_state < 6)) && (@mobID == $@ValonMob[@valon_mob]))
+    if (((@valon_state >= 2) && (@valon_state < 6)) && (@mobId == $@ValonMob[@valon_mob]))
         goto L_ValonMobKill;
     goto L_NatureKarma;
 
@@ -146,29 +146,29 @@ L_ValonMobKill:
     goto L_NatureKarma;
 
 L_NatureKarma:
-    if ((@mobID == 1003) || (@mobID == 1004) || (@mobID == 1009) || (@mobID == 1057)
-        || (@mobID == 1104) || (@mobID == 1105) || (@mobID == 1106) || (@mobID == 1107))
-            goto L_good;
+    if ((@mobId == 1003) || (@mobId == 1004) || (@mobId == 1009) || (@mobId == 1057)
+        || (@mobId == 1104) || (@mobId == 1105) || (@mobId == 1106) || (@mobId == 1107))
+            goto L_Good;
 
     // Attitude adjustment for the witch (can we refactor this to another function?  Not sure about max. recursion depth)
 
     @value = 0;
-    if (@mobID == 1018)
+    if (@mobId == 1018)
         @value = 3;
 
-    if (@mobID == 1020)
+    if (@mobId == 1020)
         @value = 3;
-    if (@mobID == 1027)
+    if (@mobId == 1027)
         @value = 3;
-    if (@mobID == 1028)
+    if (@mobId == 1028)
         @value = 4;
-    if (@mobID == 1038)
+    if (@mobId == 1038)
         @value = 2;
-    if (@mobID == 1094)
+    if (@mobId == 1094)
         @value = 3;
-    if (@mobID == 1112)
+    if (@mobId == 1112)
         @value = 3;
-    if (@mobID == 1113)
+    if (@mobId == 1113)
         @value = 3;
 
     if (@value == 0)
@@ -177,7 +177,7 @@ L_NatureKarma:
     callfunc "QuestSagathaAnnoy";
     goto L_End;
 
-L_good:
+L_Good:
     @value = 1;
     callfunc "QuestSagathaHappy";
     goto L_End;

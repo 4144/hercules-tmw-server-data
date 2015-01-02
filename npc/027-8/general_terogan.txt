@@ -7,7 +7,7 @@
     @TEROGAN_ROTTEN_RAGS_REQ = 5;
     @TEROGAN_UNDEAD_EYE_REQ = 5;
     @TEROGAN_UNDEAD_EAR_REQ = 5;
-    @minlevel = 80;
+    @minLevel = 80;
 
     mes "[Tome]";
     mes "The Tome is open to a page about a summon ritual that can be performed in this chamber.";
@@ -48,7 +48,7 @@ L_RitualMenu:
         "Right.", L_RitualRight;
 
 L_RitualLeft:
-    if (BaseLevel < @minlevel)
+    if (BaseLevel < @minLevel)
         goto L_ToWeak;
     if ( (countitemcolor("Soul") < @TEROGAN_SOUL_REQ)
         || (countitemcolor("RottenRags") < @TEROGAN_ROTTEN_RAGS_REQ)
@@ -80,7 +80,7 @@ L_RitualLeft:
     goto L_Announce;
 
 L_RitualRight:
-    if (BaseLevel < @minlevel)
+    if (BaseLevel < @minLevel)
         goto L_ToWeak;
     if ( (countitemcolor("Soul") < @TEROGAN_SOUL_REQ)
         || (countitemcolor("RottenRags") < @TEROGAN_ROTTEN_RAGS_REQ)
@@ -121,7 +121,7 @@ L_ToWeak:
 
 L_Close:
     @bonus = 0;
-    @minlevel = 0;
+    @minLevel = 0;
     @TEROGAN_SOUL_REQ = 0;
     @TEROGAN_ROTTEN_RAGS_REQ = 0;
     @TEROGAN_UNDEAD_EYE_REQ = 0;
@@ -269,7 +269,7 @@ OnReward:
 
 L_End:
     @bonus = 0;
-    @minlevel = 0;
+    @minLevel = 0;
     @TEROGAN_SOUL_REQ = 0;
     @TEROGAN_DISEASED_HEART_REQ = 0;
     @TEROGAN_UNDEAD_EYE_REQ = 0;

@@ -143,7 +143,7 @@ L_MenuItems:
 
 function	script	SkillUp	{
     if (getskilllv(@SUP_id) >= @SUP_lvl)
-        goto L_shortcut;
+        goto L_Shortcut;
 
     misceffect sfx_skillup, strcharinfo(0);
     addtoskill @SUP_id, @SUP_lvl;
@@ -153,7 +153,7 @@ function	script	SkillUp	{
     mes "[Level " + @SUP_lvl + " in " + @SUP_name$ + "]";
     return;
 
-L_shortcut:
+L_Shortcut:
     mes "[You already have level " + getskilllv(@SUP_id) + " in " + @SUP_name$ + "]";
     return;
 }

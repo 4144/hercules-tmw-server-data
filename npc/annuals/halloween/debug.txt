@@ -129,7 +129,7 @@ L_ResetMask:
 
 L_Close:
     @tmp = 0;
-    @mask = 0;
+    @Mask = 0;
     @karma = 0;
     @loop = 0;
     @menu = 0;

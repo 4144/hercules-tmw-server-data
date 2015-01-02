@@ -11,7 +11,7 @@
     next;
 
     mes "[Eurni the Surgeon]";
-    mes "\"Would you maybe be interested in a sex change?\"";
+    mes "\"Would you maybe be interested in a Sex change?\"";
     next;
 
     mes "[Server]";
@@ -25,7 +25,7 @@ L_Change:
     if (Zeny < 10000)
         goto L_NoMoney;
     Zeny = Zeny - 10000;
-    changesex;
+    changeSex;
     close;
 
 L_TooYoung:

@@ -12,44 +12,44 @@ L_Halloween:
         "[Go to normal NPC dialog]", L_QuickReturn;
 
 L_HWQuest:
-    @mask = getequipid(equip_head);
+    @Mask = getequipid(equip_head);
     goto L_Begin;
 
 L_Begin:
     @karma = (HALLOWEENTIME & 65535);
-    if (@mask > 0)
+    if (@Mask > 0)
         goto L_WearingMask;
     goto L_NoMask;
 
 L_WearingMask:
     // set the scare factor of the equipped mask
-    @mask_index = 0;
+    @Mask_index = 0;
     @scare_factor = 1;
     goto L_MaskLoop;
 
 L_MaskLoop:
-    if ($@halloween_mask_IDs[@mask_index] == @mask)
+    if ($@halloween_mask_IDs[@Mask_index] == @Mask)
         goto L_FoundMask;
-    @mask_index = @mask_index + 1;
-    if ($@halloween_mask_IDs[@mask_index])
+    @Mask_index = @Mask_index + 1;
+    if ($@halloween_mask_IDs[@Mask_index])
         goto L_MaskLoop;
     // not a mask in the list
-    @mask = 0;
+    @Mask = 0;
     goto L_MaskDone;
 
 L_FoundMask:
-    @scare_factor = $@halloween_scare_factors[@mask_index];
-    if (@mask != 616)
+    @scare_factor = $@halloween_scare_factors[@Mask_index];
+    if (@Mask != 616)
         goto L_MaskDone;
     mes "\"Aaargh... Gross! This is sick! I can't even look at your face...\"";
     goto L_MaskDone;
 
 L_MaskDone:
-    @mask_index = 0;
+    @Mask_index = 0;
     // check if the mask is in the memory
     @loop = 0;
     // Note: we don't handle remembered faces until they get their candy
-    if (!@mask)
+    if (!@Mask)
         goto L_MaskMemoryNo;
     // check if the mask is remembered
     goto L_MaskMemoryCheck;
@@ -58,7 +58,7 @@ L_MaskMemoryCheck:
     @tmp = $@halloween_maskmemory[8 * @halloween_npc_id + @loop];
     if (!@tmp)
         goto L_MaskMemoryNo;
-    if (@tmp == @mask)
+    if (@tmp == @Mask)
         goto L_MaskMemoryYes;
     @loop = @loop + 1;
     if (@loop != $@halloween_memory_count)
@@ -88,7 +88,7 @@ L_Check_Inventory:
     getinventorylist;
     if (@inventorylist_count + (@loop - @halloween_invy) > 100)
         goto L_Full_Inventory;
-    if (@mask)
+    if (@Mask)
         goto L_Check_Karma;
     // check if the player's face is remembered
     if (HALLOWEENTIME & (1 << (31 - @halloween_npc_id)))
@@ -184,7 +184,7 @@ L_SetRememberFace:
 L_Tricking_End:
     mes $@halloween_npc_names$[@halloween_npc_id];
     mes "\"That should be enough sweets for you. Thanks for participating!\"";
-    if (!@mask)
+    if (!@Mask)
         goto L_SetRememberFace;
     // add the player's mask to the list
     @loop = 7;
@@ -195,7 +195,7 @@ L_SetRememberMask:
     @loop = @loop - 1;
     if (@loop)
         goto L_SetRememberMask;
-    $@halloween_maskmemory[8 * @halloween_npc_id] = @mask;
+    $@halloween_maskmemory[8 * @halloween_npc_id] = @Mask;
     HALLOWEENTIME = HALLOWEENTIME + 1;
     goto L_Close;
 
@@ -211,7 +211,7 @@ L_NoMask:
 
 L_Close:
     @tmp = 0;
-    @mask = 0;
+    @Mask = 0;
     @karma = 0;
     @loop = 0;
     @menu = 0;

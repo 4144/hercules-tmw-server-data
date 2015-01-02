@@ -43,12 +43,12 @@ L_Progress:
 
 L_try:
     if (countitemcolor("MaggotSlime") >= 5)
-        goto L_get;
+        goto L_Get;
     mes "[Mikhail]";
     mes "\"It doesn't look like you have them all...\"";
     goto L_Close;
 
-L_get:
+L_Get:
     delitem "MaggotSlime", 5;
     getexp 100, 0;
     @state = 6;

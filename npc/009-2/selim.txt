@@ -155,26 +155,26 @@ L_sorcererrobe:
     mes "\"Which one?\"";
     next;
     menu
-        "A red lined one.", L_redlinedsorcererrobe,
-        "A green lined one.", L_greenlinedsorcererrobe,
+        "A red lined one.", L_Redlinedsorcererrobe,
+        "A green lined one.", L_Greenlinedsorcererrobe,
         "A dark blue lined one.", L_darkbluelinedsorcererrobe,
-        "A yellow lined one.", L_yellowlinedsorcererrobe,
+        "A yellow lined one.", L_Yellowlinedsorcererrobe,
         "A light blue lined one.", L_lightbluelinedsorcererrobe,
-        "A pink lined one.", L_pinklinedsorcererrobe,
+        "A pink lined one.", L_Pinklinedsorcererrobe,
         "A black lined one.", L_blacklinedsorcererrobe,
-        "An orange lined one.", L_orangelinedsorcererrobe,
-        "A purple lined one.", L_purplelinedsorcererrobe,
+        "An orange lined one.", L_Orangelinedsorcererrobe,
+        "A purple lined one.", L_Purplelinedsorcererrobe,
         "A dark green lined one.", L_darkgreenlinedsorcererrobe,
         "A white lined one.", L_whitelinedsorcererrobe,
         "I'm fine for now, thanks.", L_Close;
 
-L_redlinedsorcererrobe:
+L_Redlinedsorcererrobe:
     @del = 798;
     @new = 2220;
     @name$ = "red lined sorcerer robe";
     goto L_picked_item;
 
-L_greenlinedsorcererrobe:
+L_Greenlinedsorcererrobe:
     @del = 5010;
     @new = 5000;
     @name$ = "green lined sorcerer robe";
@@ -186,7 +186,7 @@ L_darkbluelinedsorcererrobe:
     @name$ = "dark blue lined sorcerer robe";
     goto L_picked_item;
 
-L_yellowlinedsorcererrobe:
+L_Yellowlinedsorcererrobe:
     @del = 5032;
     @new = 5022;
     @name$ = "yellow lined sorcerer robe";
@@ -198,7 +198,7 @@ L_lightbluelinedsorcererrobe:
     @name$ = "light blue lined sorcerer robe";
     goto L_picked_item;
 
-L_pinklinedsorcererrobe:
+L_Pinklinedsorcererrobe:
     @del = 5054;
     @new = 5044;
     @name$ = "pink lined sorcerer robe";
@@ -210,13 +210,13 @@ L_blacklinedsorcererrobe:
     @name$ = "black lined sorcerer robe";
     goto L_picked_item;
 
-L_orangelinedsorcererrobe:
+L_Orangelinedsorcererrobe:
     @del = 5076;
     @new = 5066;
     @name$ = "orange lined sorcerer robe";
     goto L_picked_item;
 
-L_purplelinedsorcererrobe:
+L_Purplelinedsorcererrobe:
     @del = 5087;
     @new = 5077;
     @name$ = "purple lined sorcerer robe";
@@ -299,7 +299,7 @@ L_MenuItems:
     @colour = @menu - 1;
     @vial = 690 + @colour;
     if (countitemcolor(@vial) == 0) goto L_no_dye;
-    goto L_finish;
+    goto L_Finish;
 
 L_no_dye:
     mes "[Selim]";
@@ -321,7 +321,7 @@ L_explain_dye:
     mes "But most alchemists can make dye; perhaps you can find one around here.\"";
     close;
 
-L_finish:
+L_Finish:
     if (countitemcolor(@del) == 0)
         goto L_havenone;
     delitem @vial, 1;

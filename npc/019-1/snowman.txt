@@ -10,15 +10,15 @@
 
 L_Quest:
     if (Sex == 0)
-        @sex$ = "lady";
+        @Sex$ = "lady";
     if (Sex == 1)
-        @sex$ = "man";
+        @Sex$ = "man";
     @candy_amount = 15;
     @chocolate_amount = 10;
     @cactus_amount = 5;
 
     mes "[Snowman]";
-    mes "\"Hello there young " + @sex$ + ".";
+    mes "\"Hello there young " + @Sex$ + ".";
     mes "Would you like a Christmas hat?\"";
     next;
     goto L_Menu;
@@ -82,7 +82,7 @@ L_TooMany:
     goto L_Close;
 
 L_Close:
-    @sex$ = "";
+    @Sex$ = "";
     @candy_amount = 0;
     @chocolate_amount = 0;
     @cactus_amount = 0;

@@ -5,7 +5,7 @@
     end;
 
 OnMaggotDeath:
-    @mobID = 1050;
+    @mobId = 1050;
     callfunc "MobPoints";
     end;
 }

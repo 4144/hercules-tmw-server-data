@@ -7,7 +7,7 @@
     if (FLAGS & FLAG_TOWEL_COMPLETED) goto L_Event_Done;
     if ((gettimetick(2)-TUT_var < 6*7*86400) || (BaseLevel < 42)) //player must be created at least 6 weeks ago and at least level 42
         goto L_No_Event;
-    if (FLAGS & FLAG_TOWEL_HELPED) goto L_Towel;
+    if (FLAGS & FLAG_TOWEL_HelpED) goto L_Towel;
 
     mes "[Stranger]";
     mes "\"Hello, hello! It's great to see you. Maybe you can help me with a little problem I have.\"";
@@ -27,7 +27,7 @@ L_Items:
     delitem "IronIngot", @IRONINGOT;
     delitem "PinkAntenna", @PINKANTENNA;
     getexp @Exp, 0;
-    FLAGS = FLAGS | FLAG_TOWEL_HELPED;
+    FLAGS = FLAGS | FLAG_TOWEL_HelpED;
 
     mes "[Stranger]";
     mes "\"Great! Thank you!\"";

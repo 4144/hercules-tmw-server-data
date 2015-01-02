@@ -104,8 +104,8 @@ L_Next:
     next;
     menu
         "Who are you?", L_Next,
-        "What's your name?", L_intro_name,
-        "Hello!  My name is " + strcharinfo(0) + ".", L_intro_givename,
+        "What's your name?", L_Intro_name,
+        "Hello!  My name is " + strcharinfo(0) + ".", L_Intro_givename,
         "Goodbye.", L_Close;
 
 L_Next:
@@ -113,8 +113,8 @@ L_Next:
     mes "\"I am what you humans call a witch. I am a human who has chosen all living creatures as what you call family.\"";
     next;
     menu
-        "No, I mean... what's your name?", L_intro_name,
-        "Hello!  My name is " + strcharinfo(0) + ".", L_intro_givename,
+        "No, I mean... what's your name?", L_Intro_name,
+        "Hello!  My name is " + strcharinfo(0) + ".", L_Intro_givename,
         "Uh.... goodbye.", L_Close;
 
 L_hat_attack:
@@ -133,19 +133,19 @@ L_hat_attack:
     heal -300, 0;
     close;
 
-L_intro_name:
+L_Intro_name:
     mes "[Sagatha the Witch]";
     mes "\"They call me Sagatha.\"";
     MAGIC_FLAGS = MAGIC_FLAGS | MFLAG_KNOWS_SAGATHA;
     next;
     goto L_Main;
 
-L_intro_givename:
+L_Intro_givename:
     mes "[Witch]";
     mes "\"Ah.\"";
     next;
     menu
-        "What's yours?", L_intro_name,
+        "What's yours?", L_Intro_name,
         "Uhm... bye.", L_Close;
 
 L_evil:
@@ -178,15 +178,15 @@ L_Main:
             "Goodbye.", L_Close;
     menu
         "Can you explain magic to me?", L_explain_magic,
-        "Can you teach me magic?", L_Teach_initial,
+        "Can you teach me magic?", L_Teach_Initial,
         "What do you know about...", L_Question,
         "Goodbye.", L_Close;
 
-L_Teach_initial:
+L_Teach_Initial:
     if (@good < 2)
-        goto L_Teach_initial_nogood;
+        goto L_Teach_Initial_nogood;
     if (getskilllv(SKILL_MAGIC_NATURE) < 2)
-        goto L_Teach_initial_nonature;
+        goto L_Teach_Initial_nonature;
     mes "[Sagatha the Witch]";
     mes "She nods.";
     mes "\"For now, yes. But you will have to prove that you really care about more than yourself.\"";
@@ -206,13 +206,13 @@ L_Teach_initial:
     next;
     goto L_Main;
 
-L_Teach_initial_nogood:
+L_Teach_Initial_nogood:
     mes "[Sagatha the Witch]";
     mes "\"I don't take strangers as students.\"";
     next;
     goto L_Main;
 
-L_Teach_initial_nonature:
+L_Teach_Initial_nonature:
     mes "[Sagatha the Witch]";
     mes "\"I might, but you don't even understand the basics of nature magic.\"";
     next;

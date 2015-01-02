@@ -80,10 +80,10 @@ L_PlaceTwo:
 
 L_PlaceThree:
     warp "006-1",33,93;
-    if (QUEST_MIRIAM_start != 0) goto L_cheat;
+    if (QUEST_MIRIAM_start != 0) goto L_Cheat;
     goto L_Close;
 
-L_cheat:
+L_Cheat:
     QUEST_MIRIAM_cheat = 1;
     QUEST_MIRIAM_run = gettimetick(2) - QUEST_MIRIAM_start;
     QUEST_MIRIAM_start = 0;

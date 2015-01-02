@@ -30,17 +30,17 @@
     @c = 0;
 
     @menuitems$[@c] = "Iron potion.";
-    @menuID[@c] = @CHOICE_IRON;
+    @menuid[@c] = @CHOICE_IRON;
     @c = @c + 1;
 
     @menuitems$[@c] = "Concentration potion.";
-    @menuID[@c] = @CHOICE_CONCENTRATION;
+    @menuid[@c] = @CHOICE_CONCENTRATION;
     @c = @c + 1;
 
     if (!(MAGIC_FLAGS & MFLAG_KNOWS_MANAPOTION))
         goto L_post_mana_potion_c;
     @menuitems$[@c] = "Mana potion.";
-    @menuID[@c] = @CHOICE_MANA_POTION;
+    @menuid[@c] = @CHOICE_MANA_POTION;
     @c = @c + 1;
     goto L_post_mana_potion_c;
 
@@ -62,13 +62,13 @@ L_skip_introducing:
     mes "\"Hello, welcome back! Are you interested in dyes again, or in one of my potions?\"";
     next;
     @menuitems$[@c] = "Dye, please.";
-    @menuID[@c] = @CHOICE_DYE;
+    @menuid[@c] = @CHOICE_DYE;
     @c = @c + 1;
     goto L_certain_condition;
 
 L_pre_dyeing:
     @menuitems$[@c] = "Actually, can you make dye?";
-    @menuID[@c] = @CHOICE_DYEING_INTRO;
+    @menuid[@c] = @CHOICE_DYEING_INTRO;
     @c = @c + 1;
     goto L_certain_condition;
 
@@ -76,7 +76,7 @@ L_certain_condition:
     if (!@wants_sulphur)
         goto L_post_sulphur_option;
     @menuitems$[@c] = "Can you make sulphur powder?";
-    @menuID[@c] = @CHOICE_SULPHUR_POWDER;
+    @menuid[@c] = @CHOICE_SULPHUR_POWDER;
     @c = @c + 1;
     goto L_post_sulphur_option;
 
@@ -84,7 +84,7 @@ L_post_sulphur_option:
     if (!@wants_ironpowder)
         goto L_post_ironpowder_option;
     @menuitems$[@c] = "Can you make iron powder?";
-    @menuID[@c] = @CHOICE_IRON_POWDER;
+    @menuid[@c] = @CHOICE_IRON_POWDER;
     @c = @c + 1;
     goto L_post_ironpowder_option;
 
@@ -92,13 +92,13 @@ L_post_ironpowder_option:
     if (@Q_status == @SETZER_INITIAL)
         goto L_post_monster_oil;
     @menuitems$[@c] = "Can you make monster oil?";
-    @menuID[@c] = @CHOICE_MONSTER_OIL;
+    @menuid[@c] = @CHOICE_MONSTER_OIL;
     @c = @c + 1;
     goto L_post_monster_oil;
 
 L_post_monster_oil:
     @menuitems$[@c] = "No thanks.";
-    @menuID[@c] = @CHOICE_ABORT;
+    @menuid[@c] = @CHOICE_ABORT;
     @c = @c + 1;
     goto L_Main_menu;
 
@@ -118,45 +118,45 @@ L_MenuItems:
     @menu = @menu - 1;
 
     if (@menu >= @c)
-        goto L_abort;
-    if (@menuID[@menu] == @CHOICE_IRON)
-        goto L_iron;
-    if (@menuID[@menu] == @CHOICE_CONCENTRATION)
+        goto L_Abort;
+    if (@menuid[@menu] == @CHOICE_IRON)
+        goto L_Iron;
+    if (@menuid[@menu] == @CHOICE_CONCENTRATION)
         goto L_concentration;
-    if (@menuID[@menu] == @CHOICE_DYEING_INTRO)
+    if (@menuid[@menu] == @CHOICE_DYEING_INTRO)
         goto L_dyeing_intro;
-    if (@menuID[@menu] == @CHOICE_DYE)
+    if (@menuid[@menu] == @CHOICE_DYE)
         goto L_pick_colour;
-    if (@menuID[@menu] == @CHOICE_MONSTER_OIL)
+    if (@menuid[@menu] == @CHOICE_MONSTER_OIL)
         goto L_monster_oil;
-    if (@menuID[@menu] == @CHOICE_MANA_POTION)
+    if (@menuid[@menu] == @CHOICE_MANA_POTION)
         goto L_mana_potion;
-    if (@menuID[@menu] == @CHOICE_SULPHUR_POWDER)
-        goto L_sulphur;
-    if (@menuID[@menu] == @CHOICE_IRON_POWDER)
-        goto L_iron_powder;
-    if (@menuID[@menu] == @CHOICE_ABORT)
-        goto L_abort;
-    goto L_abort;
+    if (@menuid[@menu] == @CHOICE_SULPHUR_POWDER)
+        goto L_Sulphur;
+    if (@menuid[@menu] == @CHOICE_IRON_POWDER)
+        goto L_Iron_powder;
+    if (@menuid[@menu] == @CHOICE_ABORT)
+        goto L_Abort;
+    goto L_Abort;
 
-L_iron_powder:
+L_Iron_powder:
     mes "[Rauk the Alchemist]";
     mes "\"Iron powder?  Hmm, I can extract some iron powder out of a chunk of iron ore, but that will require me to dissolve it. If you give me a chunk of iron ore and 100 GP for the acid, I can do it.\"";
     next;
     menu
-        "Never mind.", L_abort,
+        "Never mind.", L_Abort,
         "Here you are!", L_Next;
 
 L_Next:
     if (countitemcolor("IronOre") < 1)
-        goto L_iron_powder_noore;
+        goto L_Iron_powder_noore;
     if (Zeny < 100)
-        goto L_iron_powder_noZeny;
+        goto L_Iron_powder_noZeny;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("IronOre") > 1
         && countitemcolor("IronPowder") < 1)
-            goto L_iron_powder_full;
+            goto L_Iron_powder_full;
     delitem "IronOre", 1;
     Zeny = Zeny - 100;
     getitem "IronPowder", 4;
@@ -168,41 +168,41 @@ L_Next:
     mes "\"This is about as fine as I can make it without mechanical help.\"";
     close;
 
-L_iron_powder_noore:
+L_Iron_powder_noore:
     mes "[Rauk the Alchemist]";
     mes "\"I do need a chunk of iron ore. Please return when you have one.\"";
     close;
 
-L_iron_powder_noZeny:
+L_Iron_powder_noZeny:
     mes "[Rauk the Alchemist]";
     mes "\"I'm sorry, but I must ask that you pay 100 GP – the acid I use is not cheap.\"";
     close;
 
-L_iron_powder_full:
+L_Iron_powder_full:
     mes "[Rauk the Alchemist]";
     mes "\"I don't think that you have room to carry this. Please come back later.\"";
     close;
 
-L_sulphur:
+L_Sulphur:
     mes "[Rauk the Alchemist]";
     mes "\"Oh, that is easy. Bring me three piles of volcanic ash and three mauve leaves, and I will extract twelve piles of sulphur ash for you.\"";
     next;
     menu
-        "I will be back.", L_abort,
-        "No, I won't!", L_abort,
+        "I will be back.", L_Abort,
+        "No, I won't!", L_Abort,
         "Here you are!", L_Next1;
 
 L_Next1:
     if (countitemcolor("PileOfAsh") < 3)
-        goto L_sulphur_noash;
+        goto L_Sulphur_noash;
     if (countitemcolor("MauveHerb") < 3)
-        goto L_sulphur_nomauve;
+        goto L_Sulphur_nomauve;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("SulphurPowder") == 0
         && countitemcolor("PileOfAsh") > 3
         && countitemcolor("MauveHerb") > 3)
-            goto L_sulphur_nospace;
+            goto L_Sulphur_nospace;
 
     delitem "PileOfAsh", 3;
     delitem "MauveHerb", 3;
@@ -215,17 +215,17 @@ L_Next1:
     mes "\"This should be precisely twelve half-ounces of sulphur powder.\"";
     close;
 
-L_sulphur_noash:
+L_Sulphur_noash:
     mes "[Rauk the Alchemist]";
     mes "\"You don't seem to have all three piles of volcanic ash.\"";
     close;
 
-L_sulphur_nomauve:
+L_Sulphur_nomauve:
     mes "[Rauk the Alchemist]";
     mes "\"You don't seem to have the three mauve leaves I asked for.\"";
     close;
 
-L_sulphur_nospace:
+L_Sulphur_nospace:
     mes "[Rauk the Alchemist]";
     mes "\"Oh dear. You don't seem to be able to carry the sulphur powder.\"";
     close;
@@ -240,10 +240,10 @@ L_mana_potion:
     mes "\"I shall need one pearl, one bottle of water, thirty mauve leaves, twenty gamboge leaves, and five piles of volcanic ash.\"";
     next;
     menu
-        "Here you are!", L_get_mana_potion,
+        "Here you are!", L_Get_mana_potion,
         "Never mind.", L_Main_menu;
 
-L_get_mana_potion:
+L_Get_mana_potion:
     if(countitemcolor("MauveHerb") < 30)
         goto L_mana_potion_lacking;
     if(countitemcolor("GambogeHerb") < 20)
@@ -293,7 +293,7 @@ L_mana_potion_lacking:
     next;
     goto L_Main_menu;
 
-L_iron:
+L_Iron:
     @COST_PER_IRON_POTION = 2;
 
     mes "\" To make them, I'm going to need " + @COST_PER_IRON_POTION + " Small Mushrooms per Iron Potion. How many Iron Potions would you like?\"";
@@ -354,7 +354,7 @@ L_dyeing_intro:
         "I only want to dye clothes, though...", L_Next2,
         "What's a 'Wumpus egg'?", L_wumpus_egg_intro,
         "What's an 'Obsidian Spork'?", L_obsidian_spork_intro,
-        "Er, never mind...", L_abort;
+        "Er, never mind...", L_Abort;
 
 L_Next2:
     mes "[Rauk the Alchemist]";
@@ -383,17 +383,17 @@ L_obsidian_spork_intro:
 L_pick_colour:
     menu
         "What are the ingredients you need?", L_description,
-        "Red", L_red,
-        "Yellow", L_yellow,
+        "Red", L_Red,
+        "Yellow", L_Yellow,
         "Light blue", L_light_blue,
-        "Green", L_green,
-        "Orange", L_orange,
-        "Pink", L_pink,
+        "Green", L_Green,
+        "Orange", L_Orange,
+        "Pink", L_Pink,
         "Dark blue", L_dark_blue,
         "Black", L_black,
-        "Purple", L_purple,
+        "Purple", L_Purple,
         "Dark Green", L_dark_green,
-        "Nothing, really.", L_abort;
+        "Nothing, really.", L_Abort;
 
 L_description:
     mes "[Rauk the Alchemist]";
@@ -427,7 +427,7 @@ L_NextMenu:
         "Where can I find iron ore?", L_d_ore,
         "Where can I find a pearl?", L_d_pearl,
         "Where can I find maggot slime?", L_d_maggot_slime,
-        "I see. Thank you, and a good day to you!", L_abort;
+        "I see. Thank you, and a good day to you!", L_Abort;
 
 L_d_herbs:
     mes "[Rauk the Alchemist]";
@@ -463,7 +463,7 @@ L_intermediate:
     menu
         "Can you make some dye for me?", L_pick_colour,
         "Can you describe the ingredients?", L_description_quick,
-        "Never mind.", L_abort;
+        "Never mind.", L_Abort;
 
 L_ok:
     mes "[Rauk the Alchemist]";
@@ -471,9 +471,9 @@ L_ok:
     next;
     goto L_pick_colour;
 
-L_red:
+L_Red:
     if (countitemcolor("AlizarinHerb") < 10)
-        goto L_red_fail;
+        goto L_Red_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("AlizarinHerb") > 10)
@@ -482,7 +482,7 @@ L_red:
     getitem "RedDye", 1;
     goto L_ok;
 
-L_red_fail:
+L_Red_fail:
     mes "[Rauk the Alchemist]";
     mes "\"Hmm, sorry, but I do need ten alizarin leaves to make red dye.\"";
     next;
@@ -494,9 +494,9 @@ L_d_red:
     next;
     goto L_intermediate;
 
-L_yellow:
+L_Yellow:
     if (countitemcolor("GambogeHerb") < 10)
-        goto L_yellow_fail;
+        goto L_Yellow_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("GambogeHerb") > 10)
@@ -505,7 +505,7 @@ L_yellow:
     getitem "YellowDye", 1;
     goto L_ok;
 
-L_yellow_fail:
+L_Yellow_fail:
     mes "[Rauk the Alchemist]";
     mes "\"Without enough gamboge leaves – I would need at least ten--, I can't make yellow dye for you.\"";
     next;
@@ -540,25 +540,25 @@ L_d_light_blue:
     next;
     goto L_intermediate;
 
-L_green:
+L_Green:
     if (countitemcolor("CobaltHerb") < 20)
-        goto L_green_fail;
+        goto L_Green_fail;
     if (countitemcolor("GambogeHerb") < 20)
-        goto L_green_fail;
+        goto L_Green_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("CobaltHerb") > 20
         && countitemcolor("GambogeHerb") > 20)
             goto L_TooMany;
     if (Zeny < 1000)
-        goto L_green_fail;
+        goto L_Green_fail;
     delitem "CobaltHerb", 20;
     delitem "GambogeHerb", 20;
     Zeny = Zeny - 1000;
     getitem "GreenDye", 1;
     goto L_ok;
 
-L_green_fail:
+L_Green_fail:
     mes "[Rauk the Alchemist]";
     mes "\"No... I need enough gamboge and cobalt to make your dye.\"";
     mes "\"Twenty gamboge leaves, twenty cobalt leaves, and 1000 GP should be sufficient.\"";
@@ -580,12 +580,12 @@ L_d_no_green:
     mes "\"Come back when you are a little more experienced. I might be able to tell you how to make green dye then.\"";
     close;
 
-L_orange:
+L_Orange:
     if (countitemcolor("AlizarinHerb") < 10)
-        goto L_orange_fail;
+        goto L_Orange_fail;
     if (countitemcolor("GambogeHerb") < 10)
-        goto L_orange_fail;
-    if (countitemcolor("IronOre") < 2) goto L_orange_fail;
+        goto L_Orange_fail;
+    if (countitemcolor("IronOre") < 2) goto L_Orange_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("AlizarinHerb") > 10
@@ -593,7 +593,7 @@ L_orange:
         && countitemcolor("IronOre") > 2)
             goto L_TooMany;
     if (Zeny < 1000)
-        goto L_orange_fail;
+        goto L_Orange_fail;
     delitem "AlizarinHerb", 10;
     delitem "GambogeHerb", 10;
     delitem "IronOre", 2;
@@ -601,7 +601,7 @@ L_orange:
     getitem "OrangeDye", 1;
     goto L_ok;
 
-L_orange_fail:
+L_Orange_fail:
     mes "[Rauk the Alchemist]";
     mes "\"I'm sorry, but I need 1000 GP, two chunks of iron ore, and ten each of gamboge and alizarin leaves.\"";
     next;
@@ -614,13 +614,13 @@ L_d_orange:
     next;
     goto L_intermediate;
 
-L_pink:
+L_Pink:
     if (countitemcolor("AlizarinHerb") < 10)
-        goto L_pink_fail;
+        goto L_Pink_fail;
     if (countitemcolor("PinkPetal") < 6)
-        goto L_pink_fail;
+        goto L_Pink_fail;
     if (Zeny < 1000)
-        goto L_pink_fail;
+        goto L_Pink_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("AlizarinHerb") > 10
@@ -632,7 +632,7 @@ L_pink:
     getitem "PinkDye", 1;
     goto L_ok;
 
-L_pink_fail:
+L_Pink_fail:
     mes "[Rauk the Alchemist]";
     mes "\"No, you don't have all I need, and that would be ten alizarin leaves, six pink flower petals, and 1000 GP.\"";
     next;
@@ -681,15 +681,15 @@ L_d_dark_blue:
     next;
     goto L_intermediate;
 
-L_purple:
+L_Purple:
     if (countitemcolor("CobaltHerb") < 100)
-        goto L_purple_fail;
+        goto L_Purple_fail;
     if (countitemcolor("AlizarinHerb") < 100)
-        goto L_purple_fail;
+        goto L_Purple_fail;
     if (countitemcolor("MauveHerb") < 20)
-        goto L_purple_fail;
+        goto L_Purple_fail;
     if (countitemcolor("Pearl") < 1)
-        goto L_purple_fail;
+        goto L_Purple_fail;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("CobaltHerb") > 100
@@ -698,7 +698,7 @@ L_purple:
         && countitemcolor("Pearl") > 1)
             goto L_TooMany;
     if (Zeny < 40000)
-        goto L_purple_fail;
+        goto L_Purple_fail;
     delitem "CobaltHerb", 100;
     delitem "AlizarinHerb", 100;
     delitem "MauveHerb", 20;
@@ -707,7 +707,7 @@ L_purple:
     getitem "PurpleDye", 1;
     goto L_ok;
 
-L_purple_fail:
+L_Purple_fail:
     mes "[Rauk the Alchemist]";
     mes "\"No... I don't think that you have enough ingredients for this. Let me check my notes.\"";
     mes "\"What I need are 100 cobalt leaves, 100 alizarin leaves, 20 mauve leaves, one pearl, and 40,000 GP.\"";
@@ -987,7 +987,7 @@ L_dark_green_q_again:
     next;
     menu
         "Yes!", L_dark_green_q_guess_0,
-        "No, I've had enough.", L_abort;
+        "No, I've had enough.", L_Abort;
 
 L_dark_green_q_noslime:
     mes "[Rauk the Alchemist]";
@@ -1002,7 +1002,7 @@ L_monster_oil:
     next;
     menu
         "Yes, tell me!", L_Next3,
-        "No, that sounds too dangerous.", L_abort;
+        "No, that sounds too dangerous.", L_Abort;
 
 L_Next3:
     mes "[Rauk the Alchemist]";
@@ -1017,7 +1017,7 @@ L_Next3:
     callsub L_Update_Var;
     close;
 
-L_abort:
+L_Abort:
     close;
 
 L_Update_Var:

@@ -29,7 +29,7 @@ L_Abort:
     end;
 
 OnYetiDeath:
-    @MobID = 1072;
+    @mobId = 1072;
 
     @state = ((QUEST_Barbarians & $@Q_Barbarians_MASK) >> $@Q_Barbarians_SHIFT);
     if (@state != 7)

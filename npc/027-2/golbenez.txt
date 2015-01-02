@@ -429,7 +429,7 @@ S_Reidsmem:
     mes "[Savaric]";
     mes "\"But you came. Shh, don't worry. Let me hold you.\"";
     next;
-    mes "Savaric puts his arms around Reid and leads her to the bed. You feel a rush of sexual desire.";
+    mes "Savaric puts his arms around Reid and leads her to the bed. You feel a rush of Sexual desire.";
     next;
     mes "He starts to caress Reid's face with his lips, as his hands slip the dress from her shoulders.";
     next;

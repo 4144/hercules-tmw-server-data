@@ -8,17 +8,17 @@
     end;
 
 On1007:
-    @mobID = 1007;
+    @mobId = 1007;
     callfunc "MobPoints";
     end;
 
 On1008:
-    @mobID = 1008;
+    @mobId = 1008;
     callfunc "MobPoints";
     end;
 
 On1009:
-    @mobID = 1009;
+    @mobId = 1009;
     callfunc "MobPoints";
     end;
 }

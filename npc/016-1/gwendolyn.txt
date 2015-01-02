@@ -19,10 +19,10 @@
 
     @Q_hawkseye = (QUEST_Forestbow_state & @Q_hawkseye_MASK) >> @Q_hawkseye_SHIFT;
 
-    @Q_forestbow_MASK = NIBBLE_0_MASK;
-    @Q_forestbow_SHIFT = NIBBLE_0_SHIFT;
+    @Q_Forestbow_MASK = NIBBLE_0_MASK;
+    @Q_Forestbow_SHIFT = NIBBLE_0_SHIFT;
 
-    @FORESTBOW = ((QUEST_Forestbow_state) & @Q_forestbow_MASK) >> @Q_forestbow_SHIFT;
+    @FORESTBOW = ((QUEST_Forestbow_state) & @Q_Forestbow_MASK) >> @Q_Forestbow_SHIFT;
 
     if (@Q_hawkseye == 6) goto L_state6;
     if (@Q_hawkseye == 5) goto L_state5;
@@ -54,7 +54,7 @@ L_fee:
 
 L_Next:
     if (Zeny < @SCHOOLFEE)
-        goto L_no_money;
+        goto L_No_Money;
 
     Zeny = Zeny - @SCHOOLFEE;
     @Q_hawkseye = 2;
@@ -133,9 +133,9 @@ L_Next1:
 
 L_state4:
     if (BaseLevel < @BASELEVEL_GAME)
-        goto L_not_ready;
+        goto L_Not_Ready;
     if (!(getskilllv(SKILL_POOL)))
-        goto L_not_ready;
+        goto L_Not_Ready;
     mes "Gwendolyn takes an analyzing look at you. Then she nods.";
     next;
 
@@ -144,9 +144,9 @@ L_state4:
     mes "[Gwendolyn Bowmaker]";
     mes "\"Ok. You have made great progress. I think you are ready for further tasks.\"";
     next;
-    goto L_game_explain;
+    goto L_Game_explain;
 
-L_game_explain:
+L_Game_explain:
     mes "[Gwendolyn Bowmaker]";
     mes "\"As you might have noticed, it depends on many circumstances if your arrow finds its target. Your shot may be too powerful or too weak, so the arrow goes far beyond your target or hits the ground before it reaches its destination.\"";
     next;
@@ -174,11 +174,11 @@ L_state5:
     mes "\"Show me what you can!\"";
     next;
     menu
-        "Can you please explain the task again?",L_game_explain,
-        "I'm ready, let's start!",L_game,
+        "Can you please explain the task again?",L_Game_explain,
+        "I'm ready, let's start!",L_Game,
         "I'm sorry, I will come back later.",L_Close;
 
-L_game:
+L_Game:
     if (countitemcolor("ForestBow") < 1)
         goto L_no_bow;
     if (countitemcolor("Arrow") < 1)
@@ -388,7 +388,7 @@ L_MenuItems:
     next;
     mes "\"That was far "+@target_direction$[@targethit]+".\"";
     next;
-    goto L_game;
+    goto L_Game;
 
 L_target_close:
     mes "[Gwendolyn Bowmaker]";
@@ -396,7 +396,7 @@ L_target_close:
     next;
     mes "\"I suggest some training.\"";
     next;
-    goto L_game;
+    goto L_Game;
 
 L_target_veryclose:
     mes "[Gwendolyn Bowmaker]";
@@ -407,7 +407,7 @@ L_target_veryclose:
     mes "\"But you did not hit... have another try.\"";
     next;
     //like a coin toss: 2 possibilites, the same chance for both:
-    //if(0 == rand(2)) goto L_game;
+    //if(0 == rand(2)) goto L_Game;
     mes "\"Hurry up, before the wind changes.\"";
     next;
     goto L_choose_start_pos;
@@ -437,7 +437,7 @@ L_target_nohit:
     next;
     mes "\"That is quite impressive, but you can perform better with more training.\"";
     next;
-    goto L_game;
+    goto L_Game;
 
 L_state6:
     mes "[Gwendolyn Bowmaker]";
@@ -458,7 +458,7 @@ L_no_student:
     callsub S_Update_Var;
     goto L_Close;
 
-L_no_money:
+L_No_Money:
     mes "\"I am sorry, but it seems that you don't have enough money. Come back when you have reorganized your finances.\"";
     @Q_hawkseye = 1;
     callsub S_Update_Var;
@@ -480,7 +480,7 @@ L_not_enough_eggs:
     mes "\"Maybe I should also give you a lesson in how to count? You haven't enough.\"";
     goto L_Close;
 
-L_not_ready:
+L_Not_Ready:
     mes "\"I am pleased about your progrees, but you are not ready for the next step yet. Go and do some more training, before you come back. Remember also: It is wise to speak with people you meet on your journey, there is always something new to learn.\"";
     goto L_Close;
 
@@ -502,8 +502,8 @@ L_Close:
     @Q_hawkseye_MASK = 0;
     @Q_hawkseye_SHIFT = 0;
     @Q_hawkseye = 0;
-    @Q_forestbow_MASK = 0;
-    @Q_forestbow_SHIFT = 0;
+    @Q_Forestbow_MASK = 0;
+    @Q_Forestbow_SHIFT = 0;
     @FORESTBOW = 0;
 
     @wdX = 0;

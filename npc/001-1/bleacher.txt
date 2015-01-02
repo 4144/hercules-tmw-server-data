@@ -7,7 +7,7 @@
 
     if (countitemcolor("PileOfAsh") < 3) goto L_no_ash;
 
-    if (Zeny < 5000) goto L_no_money;
+    if (Zeny < 5000) goto L_No_Money;
 
     menu
         "I'd like to bleach something.", L_bleach_menu,
@@ -35,7 +35,7 @@ L_bleach_menu:
         "Cotton boots.", L_cotton_boots,
         "Cotton gloves.", L_cotton_gloves,
         "Rabbit ears.", L_rabbit_ears,
-        "Wizard hat.", L_wizard_hat,
+        "Wizard hat.", L_Wizard_Hat,
         "Bowler hat.", L_bowler_hat,
         "Sorcerer robe.", L_sorcerer_robe,
         "Bowler hat (brown).", L_bowler_hat_brown,
@@ -123,7 +123,7 @@ L_rabbit_ears:
     @dyeBase = 2190;
     goto L_choose_color;
 
-L_wizard_hat:
+L_Wizard_Hat:
     @normal = 4028;
     @dyeBase = 2200;
     goto L_choose_color;
@@ -138,25 +138,25 @@ L_sorcerer_robe:
     mes "\"Which one?\"";
     next;
     menu
-        "A red lined one.", L_red_lined_sorcerer_robe,
-        "A green lined one.", L_green_lined_sorcerer_robe,
+        "A red lined one.", L_Red_lined_sorcerer_robe,
+        "A green lined one.", L_Green_lined_sorcerer_robe,
         "A dark blue lined one.", L_dark_blue_lined_sorcerer_robe,
-        "A yellow lined one.", L_yellow_lined_sorcerer_robe,
+        "A yellow lined one.", L_Yellow_lined_sorcerer_robe,
         "A light blue lined one.", L_light_blue_lined_sorcerer_robe,
-        "A pink lined one.", L_pink_lined_sorcerer_robe,
+        "A pink lined one.", L_Pink_lined_sorcerer_robe,
         "A black lined one.", L_black_lined_sorcerer_robe,
-        "An orange lined one.", L_orange_lined_sorcerer_robe,
-        "A purple lined one.", L_purple_lined_sorcerer_robe,
+        "An orange lined one.", L_Orange_lined_sorcerer_robe,
+        "A purple lined one.", L_Purple_lined_sorcerer_robe,
         "A dark green lined one.", L_dark_green_lined_sorcerer_robe,
         "A white lined one.", L_white_lined_sorcerer_robe,
         "Nevermind.", L_Close;
 
-L_red_lined_sorcerer_robe:
+L_Red_lined_sorcerer_robe:
     @normal = 798;
     @dyeBase = 2220;
     goto L_choose_color;
 
-L_green_lined_sorcerer_robe:
+L_Green_lined_sorcerer_robe:
     @normal = 5010;
     @dyeBase = 5000;
     goto L_choose_color;
@@ -166,7 +166,7 @@ L_dark_blue_lined_sorcerer_robe:
     @dyeBase = 5011;
     goto L_choose_color;
 
-L_yellow_lined_sorcerer_robe:
+L_Yellow_lined_sorcerer_robe:
     @normal = 5032;
     @dyeBase = 5022;
     goto L_choose_color;
@@ -176,7 +176,7 @@ L_light_blue_lined_sorcerer_robe:
     @dyeBase = 5033;
     goto L_choose_color;
 
-L_pink_lined_sorcerer_robe:
+L_Pink_lined_sorcerer_robe:
     @normal = 5054;
     @dyeBase = 5044;
     goto L_choose_color;
@@ -186,12 +186,12 @@ L_black_lined_sorcerer_robe:
     @dyeBase = 5055;
     goto L_choose_color;
 
-L_orange_lined_sorcerer_robe:
+L_Orange_lined_sorcerer_robe:
     @normal = 5076;
     @dyeBase = 5066;
     goto L_choose_color;
 
-L_purple_lined_sorcerer_robe:
+L_Purple_lined_sorcerer_robe:
     @normal = 5087;
     @dyeBase = 5077;
     goto L_choose_color;
@@ -245,15 +245,15 @@ L_MenuItems:
 
     if (countitemcolor("PileOfAsh") < 3) goto L_no_ash;
 
-    if (Zeny < 5000) goto L_no_money;
+    if (Zeny < 5000) goto L_No_Money;
 
     delitem @del, 1;
     getitem @normal, 1;
     delitem "PileOfAsh", 3;
     Zeny = Zeny - 5000;
-    goto L_again;
+    goto L_Again;
 
-L_again:
+L_Again:
     mes "[Candide]";
     mes "\"Would you like to bleach something else?\"";
     next;
@@ -267,7 +267,7 @@ L_No_Item:
     mes "\"You don't have one of those.\"";
     next;
 
-    goto L_again;
+    goto L_Again;
 
 L_no_ash:
     mes "[Candide]";
@@ -275,7 +275,7 @@ L_no_ash:
     mes "I need three piles.\"";
     goto L_Close;
 
-L_no_money:
+L_No_Money:
     mes "[Candide]";
     mes "\"You don't have enough gold for me to bleach anything.";
     mes "I need 5,000 GP for supplies.\"";

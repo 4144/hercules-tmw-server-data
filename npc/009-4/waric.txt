@@ -26,7 +26,7 @@
 }
 
 009-4.gat,118,42,0	script	Waric#trap	153,{
-    @EXP_LEARNED_ALOT = 10000;
+    @Exp_LEARNED_ALOT = 10000;
     if (OrumQuest >= 13)
         goto L_Behave;
     mes "Waric looks toward you rubbing his chin...";
@@ -89,12 +89,12 @@ L_Explain:
     OrumQuest = 14;
     misceffect 10;
     warp "008-1", 65, 90;
-    getexp @EXP_LEARNED_ALOT, 0;
+    getexp @Exp_LEARNED_ALOT, 0;
     mes "You awake on your back with a squirrel sitting on top of you arranging it's acorns. It quickly gathers them up and runs off as it sees you looking at it them.";
     monster "008-1", 65, 90, "Squirrel", 1038, 1;
     goto L_Close;
 
 L_Close:
-    @EXP_LEARNED_ALOT = 0;
+    @Exp_LEARNED_ALOT = 0;
     close;
 }

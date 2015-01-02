@@ -22,7 +22,7 @@ L_GiveLockPicks:
     goto L_End;
 
 L_End:
-    @mobID = 1098;
+    @mobId = 1098;
     callfunc "MobPoints";
     end;
 

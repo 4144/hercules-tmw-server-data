@@ -44,7 +44,7 @@ OnInit:
     // how many colorful powders each do you get as reward?
     @BT_REWARDCOUNT = 10;
 
-    @EXP_BREAK_BARRIERS = 5000;
+    @Exp_BREAK_BARRIERS = 5000;
 
     if (OrumQuest > 0) goto L_Started;
 
@@ -528,7 +528,7 @@ L_Ready_Cavern:
     getinventorylist;
     if ((checkweight("CandleHelmet", 1) == 0) || (@inventorylist_count == 100))
         goto L_Inventory;
-    getexp @EXP_BREAK_BARRIERS, 0;
+    getexp @Exp_BREAK_BARRIERS, 0;
     getitem "CandleHelmet", 1;
     OrumQuest = 12;
     mes "You receive the Candle Helmet.";
@@ -563,7 +563,7 @@ L_Close:
 
     @BT_REWARDCOUNT = 0;
 
-    @EXP_BREAK_BARRIERS = 0;
+    @Exp_BREAK_BARRIERS = 0;
 
     @Barrier = 0;
     @BarrierColor = 0;

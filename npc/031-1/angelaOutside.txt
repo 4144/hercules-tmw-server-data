@@ -5,7 +5,7 @@
 
     @rescue_Cindy = ((QUEST_Nivalis_state & @Q_Nivalis_state_MASK) >> @Q_Nivalis_state_SHIFT);
 
-    @minlevel = 70;
+    @minLevel = 70;
 
     if (@rescue_Cindy > 3) goto L_Please_Visit_Again;
     if (@rescue_Cindy > 1) goto L_Please_Visit;
@@ -16,7 +16,7 @@
     next;
     mes "\"It's terrible, oh my dear child!\"";
     next;
-    if (countitemcolor("ConcentrationPotion") > 0 && BaseLevel >= @minlevel)
+    if (countitemcolor("ConcentrationPotion") > 0 && BaseLevel >= @minLevel)
         goto L_Menu_Potion;
 
     menu
@@ -100,7 +100,7 @@ L_Close:
     @Q_Nivalis_state_MASK = 0;
     @Q_Nivalis_state_SHIFT = 0;
     @rescue_Cindy = 0;
-    @minlevel = 0;
+    @minLevel = 0;
     close;
 
 S_Update_Mask:

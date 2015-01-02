@@ -45,26 +45,26 @@
     mes "\"Here, I found a silk cocoon. Now if you can just give me the obsidian salt, we can see whether it works!\"";
     next;
     menu
-        "Whether what works?", L_intro_explain,
-        "What are you talking about?", L_intro_explain,
-        "I don't have any obsidian salt.", L_intro_nopowder,
-        "Do I know you?", L_intro_identity,
+        "Whether what works?", L_Intro_explain,
+        "What are you talking about?", L_Intro_explain,
+        "I don't have any obsidian salt.", L_Intro_nopowder,
+        "Do I know you?", L_Intro_identity,
         "Goodbye.", L_Close;
 
-L_intro_explain:
+L_Intro_explain:
     mes "[Robed Man]";
     mes "He frowns.";
     mes "\"The transmutation experiment, of course!  You can't have forgotten already...?\"";
     next;
-    goto L_intro_identity;
+    goto L_Intro_identity;
 
-L_intro_nopowder:
+L_Intro_nopowder:
     mes "[Robed Man]";
     mes "\"What!?  You traveled all this way without any obsidian...\"";
     next;
-    goto L_intro_identity;
+    goto L_Intro_identity;
 
-L_intro_identity:
+L_Intro_identity:
     mes "[Robed Man]";
     mes "He eyes you more carefully.";
     if (Sex == 0)
@@ -75,40 +75,40 @@ L_intro_identity:
     if (strcharinfo(0) == "Padric")
         @xmsg$ = "Actually, I am, but I don't know you...?";
     menu
-        @xmsg$, L_intro_wrongperson,
-        "You're not very good with faces, are you?", L_intro_nogood,
-        "Who are you?", L_intro_who_are_you,
+        @xmsg$, L_Intro_wrongperson,
+        "You're not very good with faces, are you?", L_Intro_nogood,
+        "Who are you?", L_Intro_who_are_you,
         "Goodbye.", L_Close;
 
-L_intro_wrongperson:
+L_Intro_wrongperson:
     mes "[Robed Man]";
     mes "He laughs.";
     mes "\"Ah, I knew it... you're not the first one today, either. I should apologize, I am horrible with faces. Well, if you don't mind, please hurry along, I should go back to my experiments.\"";
     next;
-    goto L_intro_primary_menu;
+    goto L_Intro_primary_menu;
 
-L_intro_primary_menu:
+L_Intro_primary_menu:
     menu
-        "Who are you?", L_intro_who_are_you,
+        "Who are you?", L_Intro_who_are_you,
         "Goodbye.", L_Close;
 
-L_intro_nogood:
+L_Intro_nogood:
     mes "[Robed Man]";
     mes "He laughs.";
     mes "\"Yes, you could say that. Well, I shall get back to my experiments, then; I think I shall manage something that requires no obsidian salt instead.\"";
     next;
     menu
-        "Who are you?", L_intro_who_are_you,
-        "What is obsidian salt, anyway?", L_intro_obsidian_salt,
+        "Who are you?", L_Intro_who_are_you,
+        "What is obsidian salt, anyway?", L_Intro_obsidian_salt,
         "Goodbye.", L_Close;
 
-L_intro_obsidian_salt:
+L_Intro_obsidian_salt:
     mes "[Robed Man]";
     mes "\"Oh, obsidian salt is a catalyst... or rather a theoretical catalyst. We know that it has to have an application somewhere, and I do have the strong suspicion that it may be linked to natural transmogrification...\"";
     next;
-    goto L_intro_primary_menu;
+    goto L_Intro_primary_menu;
 
-L_intro_who_are_you:
+L_Intro_who_are_you:
     mes "[Robed Man]";
     mes "\"Oh, oh my... of course you wouldn't know me, being from the countryside and all.\"";
     mes "He laughs.";
@@ -138,8 +138,8 @@ L_Main_menu:
         "How does this 'magic' work?", L_about_magic,
         "I want to become a wizard!", L_learn_magic,
         "Where are you from?", L_about_auldsbel,
-        "Do you need help with your experiments?", L_quest,
-        "What do you know about...", L_question,
+        "Do you need help with your experiments?", L_Quest,
+        "What do you know about...", L_Question,
         "Goodbye.", L_Close;
 
 L_Main_menu_magic:
@@ -148,29 +148,29 @@ L_Main_menu_magic:
             "How does magic work?", L_about_magic,
              "Can you teach me a spell?", L_learn_spell,
              "Where are you from?", L_about_auldsbel,
-             "Do you need help with your experiments?", L_quest,
-             "What do you know about...", L_question,
-             "Can you make sulphur powder?", L_sulphur,
-             "Can you make iron powder?", L_ironpowder,
+             "Do you need help with your experiments?", L_Quest,
+             "What do you know about...", L_Question,
+             "Can you make sulphur powder?", L_Sulphur,
+             "Can you make iron powder?", L_Ironpowder,
              "Goodbye.", L_Close;
     if (@wants_sulphur && !@wants_ironpowder)
         menu
             "How does magic work?", L_about_magic,
             "Can you teach me a spell?", L_learn_spell,
             "Where are you from?", L_about_auldsbel,
-            "Do you need help with your experiments?", L_quest,
-            "What do you know about...", L_question,
-            "Can you make sulphur powder?", L_sulphur,
+            "Do you need help with your experiments?", L_Quest,
+            "What do you know about...", L_Question,
+            "Can you make sulphur powder?", L_Sulphur,
             "Goodbye.", L_Close;
     menu
         "How does magic work?", L_about_magic,
         "Can you teach me a spell?", L_learn_spell,
         "Where are you from?", L_about_auldsbel,
-        "Do you need help with your experiments?", L_quest,
-        "What do you know about...", L_question,
+        "Do you need help with your experiments?", L_Quest,
+        "What do you know about...", L_Question,
         "Goodbye.", L_Close;
 
-L_ironpowder:
+L_Ironpowder:
     mes "[Auldsbel the Wizard]";
     mes "\"No, I do not know the spell for this. I expect that it shouldn't be too hard an invocation, but I'm too busy to work it out.\"";
     next;
@@ -179,7 +179,7 @@ L_ironpowder:
     next;
     goto L_Main_menu;
 
-L_sulphur:
+L_Sulphur:
     mes "[Auldsbel the Wizard]";
     @Cost = 400 - (@Q_component_quest * 30);
     mes "\"Sulphur powder?  Ah, so we have picked up a little offensive magic, haven't we?  Good thinking, good thinking. And yes, of course I can transmute volcanic ashes into sulphur powder at a ratio of 1:5, for " + @Cost + " GP.\"";
@@ -188,23 +188,23 @@ L_sulphur:
         menu
             "No, thank you.", L_Close,
             "I will see what I can find.", L_Close,
-            "Can you teach me how to make it myself?", L_sulphur_teach_spell,
-            "Here you are.", L_sulphur_buy;
+            "Can you teach me how to make it myself?", L_Sulphur_teach_spell,
+            "Here you are.", L_Sulphur_buy;
     menu
         "No, thank you.", L_Close,
         "I will see what I can find.", L_Close,
-        "Here you are.", L_sulphur_buy;
+        "Here you are.", L_Sulphur_buy;
 
-L_sulphur_buy:
+L_Sulphur_buy:
     if (Zeny < @Cost)
-        goto L_sulphur_noZeny;
+        goto L_Sulphur_noZeny;
     if (countitemcolor("PileOfAsh") < 1)
-        goto L_sulphur_noash;
+        goto L_Sulphur_noash;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("SulphurPowder") > 1
         && countitemcolor("PileOfAsh") == 0)
-            goto L_sulphur_noroom;
+            goto L_Sulphur_noroom;
 
     Zeny = Zeny - @Cost;
     delitem "PileOfAsh", 1;
@@ -214,27 +214,27 @@ L_sulphur_buy:
     next;
     goto L_Main_menu;
 
-L_sulphur_noZeny:
+L_Sulphur_noZeny:
     mes "[Auldsbel the Wizard]";
     mes "\"No GP, no service.\"";
     next;
     goto L_Main_menu;
 
-L_sulphur_noash:
+L_Sulphur_noash:
     mes "[Auldsbel the Wizard]";
     mes "\"Without volcanic ash, I can't give you any sulphur powder. Try hunting some fire goblins, or somesuch.\"";
     next;
     goto L_Main_menu;
 
-L_sulphur_noroom:
+L_Sulphur_noroom:
     mes "[Auldsbel the Wizard]";
     mes "\"Hmm, you really managed to squeeze something into every little place you had that we could have stored the powder in... you might want to return once you have resolved this matter.\"";
     next;
     goto L_Main_menu;
 
-L_sulphur_teach_spell:
+L_Sulphur_teach_spell:
     if (@Q_component_quest <= 4)
-        goto L_sulphur_teach_spell_no;
+        goto L_Sulphur_teach_spell_no;
     mes "[Auldsbel the Wizard]";
     mes "\"Very well, then. You have been quite helpful with my experiments, after all. As you may have noticed, the spell takes a pile of volcanic ashes. Close your hands around it, then whisper the invocation.\"";
     next;
@@ -246,12 +246,12 @@ L_sulphur_teach_spell:
     next;
     goto L_Main_menu;
 
-L_sulphur_teach_spell_no:
+L_Sulphur_teach_spell_no:
     mes "[Auldsbel the Wizard]";
     mes "\"Hmm... how about this:  you help me with a few of my experiments, and I tell you?\"";
     next;
     menu
-        "Very well, I will help you.", L_quest,
+        "Very well, I will help you.", L_Quest,
         "No.", L_Next;
 
 L_Next:
@@ -475,7 +475,7 @@ L_learn_magic:
     next;
     goto L_Main_menu;
 
-L_question:
+L_Question:
     callfunc "MagicTalkOptionsSetup";
     @ignore = @QQ_AULDSBEL;
     callfunc "MagicTalkMenu";
@@ -727,7 +727,7 @@ L_Q_manaseed_maxedout:
     next;
     goto L_Main_menu;
 
-L_quest:
+L_Quest:
     if (@Q_component_quest == 0)
         goto L_component_quest_0;
     if (@Q_component_quest == 1)

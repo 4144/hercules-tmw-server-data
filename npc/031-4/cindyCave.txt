@@ -3,7 +3,7 @@
     if ($@FIGHT_YETI_STATUS != 0) goto L_Yeti;
 
     @KEYS_AMOUNT = 10;
-    @minlevel = 70;
+    @minLevel = 70;
 
     @Q_Nivalis_state_MASK = NIBBLE_5_MASK;
     @Q_Nivalis_state_SHIFT = NIBBLE_5_SHIFT;
@@ -42,7 +42,7 @@ L_Next:
         "Leave", L_Close;
 
 L_Try_Cage:
-    if (BaseLevel < @minlevel)
+    if (BaseLevel < @minLevel)
         goto L_To_Weak;
     if (countitemcolor("TreasureKey") < @KEYS_AMOUNT)
         goto L_Not_Enough_Keys;
@@ -124,7 +124,7 @@ L_Close:
     @Q_Nivalis_state_SHIFT = 0;
     @rescue_Cindy = 0;
     @title$ = "";
-    @minlevel = 0;
+    @minLevel = 0;
     @inventorylist_count = 0;
     cleararray @wizardhats, 0, 10;
     @reward = 0;

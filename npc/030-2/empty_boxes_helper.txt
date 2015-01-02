@@ -33,19 +33,19 @@ L_Helping:
     if (countitemcolor("RawLog") < $@xmas_log_amount) goto L_Close;
     next;
     mes "\"How many boxes do you need?\"";
-    input @amount;
-    if (@amount <= 0)
+    input @Amount;
+    if (@Amount <= 0)
         goto L_Close;
-    if (countitemcolor("RawLog") < (@amount * $@xmas_log_amount))
+    if (countitemcolor("RawLog") < (@Amount * $@xmas_log_amount))
         goto L_NoItems;
     getinventorylist;
     if (@inventorylist_count > 100)
         goto L_FullInv;
-    delitem "RawLog", (@amount * $@xmas_log_amount);
+    delitem "RawLog", (@Amount * $@xmas_log_amount);
     mes "[Urmas]";
     mes "\"Alright! Good job, kid. I'll start to make some more boxes now.";
     mes "Here, take this in the meanwhile and put some toys in it.\"";
-    getitem "OpenPresentBox", @amount;
+    getitem "OpenPresentBox", @Amount;
     goto L_Close;
 
 L_FullInv:
@@ -58,6 +58,6 @@ L_NoItems:
     goto L_Close;
 
 L_Close:
-    @amount = 0;
+    @Amount = 0;
     close;
 }

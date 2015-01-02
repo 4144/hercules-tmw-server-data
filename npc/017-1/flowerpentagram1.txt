@@ -43,12 +43,12 @@ L_Place:
     end;
 
 OnSquirrelDeath:
-    @mobID = 1105;
+    @mobId = 1105;
     callfunc "MobPoints";
     end;
 
 OnScorpionDeath:
-    @mobID = 1003;
+    @mobId = 1003;
     callfunc "MobPoints";
     end;
 

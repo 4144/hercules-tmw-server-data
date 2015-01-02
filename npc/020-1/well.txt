@@ -37,7 +37,7 @@ L_MenuItems:
         @item_ID = 541;
 
     if(countitemcolor(@item_ID) < 1)
-        goto L_NO_ITEM;
+        goto L_No_Item;
     if(@menu == 3)
         getitem "EmptyBottle", 1;
     delitem @item_ID, 1;
@@ -64,7 +64,7 @@ L_MenuItems1:
     callsub S_Update_Var;
     close;
 
-L_NO_ITEM:
+L_No_Item:
     mes "You don't have such an item... Come back when you have it.";
     close;
 
@@ -93,10 +93,10 @@ S_Update_Var:
     if(@Q_status == 1)
         menu
             "Hello.", L_Close,
-            "Hello, Can you help me?", L_HELP;
+            "Hello, Can you help me?", L_Help;
     goto L_Close;
 
-L_HELP:
+L_Help:
     mes "[Miler]";
     mes "\"What's the problem?\"";
     menu "Someone has fallen in the well.", L_Next;

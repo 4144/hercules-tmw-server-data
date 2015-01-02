@@ -56,7 +56,7 @@ OnInit:
 
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 75;
+    @Exp = 75;
 
     if (@state > 63) goto L_Done;
     if (@state == 63) goto L_Reward;
@@ -95,7 +95,7 @@ L_Doing:
 L_Reward:
     mes "[Ayasha]";
     mes "\"Oh, you found them all! Good job! Now it's my turn with searching again. Go and hide!\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_ended;
     menu
         "I think I need to do other things now.",L_Next2;
@@ -114,7 +114,7 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }
 
@@ -123,7 +123,7 @@ L_Close:
     callfunc "XmasList";
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 15;
+    @Exp = 15;
 
     if (@state > 63) goto L_Done;
     if ((@state > 0) && !(QUEST_NorthTulimshar & $@hideandseekNT_found1)) goto L_Find;
@@ -156,7 +156,7 @@ L_Agree:
 L_Find:
     mes "[Latif]";
     mes "\"Hey! Ah, you found me. Well done. But my hiding place wasn't that difficult this time.\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_found1;
     next;
     mes "\"Here, do you want a candy?\"";
@@ -175,7 +175,7 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }
 
@@ -184,7 +184,7 @@ L_Close:
     callfunc "XmasList";
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 15;
+    @Exp = 15;
 
     if (@state > 63) goto L_Done;
     if ((@state > 0) && !(QUEST_NorthTulimshar & $@hideandseekNT_found2)) goto L_Find;
@@ -199,7 +199,7 @@ L_Close:
 L_Find:
     mes "[Charda]";
     mes "\"Oh! Got me! You're good at this.\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_found2;
     next;
     mes "She takes something out of her pocket.";
@@ -228,7 +228,7 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }
 
@@ -237,7 +237,7 @@ L_Close:
     callfunc "XmasList";
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 25;
+    @Exp = 25;
 
     if (@state > 63) goto L_Done;
     if ((@state > 0) && !(QUEST_NorthTulimshar & $@hideandseekNT_found3)) goto L_Find;
@@ -257,7 +257,7 @@ L_Next:
 L_Find:
     mes "[Faris]";
     mes "\"You found me! Well done. You look a bit thirsty, here.\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     getitem "CactusDrink", 1;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_found3;
     next;
@@ -279,7 +279,7 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }
 
@@ -288,7 +288,7 @@ L_Close:
     callfunc "XmasList";
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 15;
+    @Exp = 15;
 
     if (@state > 63) goto L_Done;
     if ((@state > 0) && !(QUEST_NorthTulimshar & $@hideandseekNT_found4)) goto L_Find;
@@ -302,7 +302,7 @@ L_Close:
 L_Find:
     mes "[Rasin]";
     mes "\"Ah, you found me. I need to find a better place to hide next time.\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_found4;
     goto L_Close;
 
@@ -319,7 +319,7 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }
 
@@ -328,7 +328,7 @@ L_Close:
     callfunc "XmasList";
     @state = ((QUEST_NorthTulimshar & BYTE_0_MASK) >> BYTE_0_SHIFT);
 
-    @EXP = 15;
+    @Exp = 15;
 
     if (@state > 63) goto L_Done;
     if ((@state > 0) && !(QUEST_NorthTulimshar & $@hideandseekNT_found5)) goto L_Find;
@@ -348,7 +348,7 @@ L_Find:
     mes "[Ghada]";
     mes "\"Oh no! You found me! You must be very clever.";
     mes "My friend Sandra is clever too, but she said it's a waste of time to play hide and seek.\"";
-    getexp @EXP, 0;
+    getexp @Exp, 0;
     QUEST_NorthTulimshar = QUEST_NorthTulimshar | $@hideandseekNT_found5;
     goto L_Close;
 
@@ -364,6 +364,6 @@ L_Done:
 
 L_Close:
     @state = 0;
-    @EXP = 0;
+    @Exp = 0;
     close;
 }

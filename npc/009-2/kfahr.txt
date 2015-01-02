@@ -124,7 +124,7 @@ L_real_main_menu:
         "Hero of Tulimshar?", L_tale_hero_tulimshar,
         "Tell me about the desert!", L_tale_desert,
         "I want to become as powerful as you!", L_gain_power,
-        "Here, have a beer!", L_give_beer,
+        "Here, have a beer!", L_Give_beer,
         "Goodbye!", L_End;
 
 L_long_main_menu:
@@ -135,7 +135,7 @@ L_long_main_menu:
         "Tell me about the desert!", L_tale_desert,
         "I want to become as powerful as you!", L_gain_power,
         "Have you fought any Golden Scorpions?", L_golden_scorpion,
-        "Here, have a beer!", L_give_beer,
+        "Here, have a beer!", L_Give_beer,
         "Goodbye!", L_End;
 
 L_tale_desert_worm:
@@ -760,7 +760,7 @@ L_SnakeSkins_TooMany:
     mes "\"You don't have room for this. Come back when you do.\"";
     close;
 
-L_give_beer:
+L_Give_beer:
     if (countitemcolor("Beer") < 1)
         goto L_player_out_of_beer;
     if (@has_beer)

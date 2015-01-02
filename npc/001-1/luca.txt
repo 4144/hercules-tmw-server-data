@@ -1,6 +1,6 @@
 
 001-1.gat,108,55,0	script	Luca	102,{
-    @EXP_BRAWLING = 2000;
+    @Exp_BRAWLING = 2000;
 
     if (BaseLevel >= 35) goto L_Teach;
 
@@ -415,7 +415,7 @@ L_Teach_brawling:
     @SUP_id = SKILL_BRAWLING;
     @SUP_lvl = 1;
     @SUP_name$ = "Brawling";
-    @SUP_xp = @EXP_BRAWLING;
+    @SUP_xp = @Exp_BRAWLING;
     callfunc "SkillUp";
     goto L_Close;
 
@@ -432,7 +432,7 @@ L_Close:
     @SUP_lvl = 0;
     @SUP_name$ = "";
     @SUP_xp = 0;
-    @EXP_BRAWLING = 0;
+    @Exp_BRAWLING = 0;
     @answer$ = "";
     @message$ = "";
     cleararray @choices[0], 0, 4;

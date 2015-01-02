@@ -29,7 +29,7 @@
     if (countitemcolor("TreasureKey") == 0)
         goto L_No_treasure_key;
     if (countitemcolor("PileOfAsh") == 0)
-        goto L_No_ash;
+        goto L_No_Ash;
     if (countitemcolor("MauveHerb") == 0
         || countitemcolor("CobaltHerb") == 0
         || countitemcolor("GambogeHerb") == 0
@@ -48,11 +48,11 @@
     if (countitemcolor("SilkCocoon") == 0)
         goto L_No_silk;
     if (countitemcolor("WhiteFur") == 0)
-        goto L_No_fur;
+        goto L_No_Fur;
     if (countitemcolor("DarkCrystal") == 0)
         goto L_No_dark_crystal;
     if (countitemcolor("BottleOfWater") == 0)
-        goto L_No_water;
+        goto L_No_Water;
     getinventorylist;
     if (@inventorylist_count == 100
         && countitemcolor("MaggotSlime") > 1
@@ -155,7 +155,7 @@ L_No_treasure_key:
     mes "No treasure chest key, no opening ritual.";
     goto L_Close;
 
-L_No_ash:
+L_No_Ash:
     mes "You still need a pile of ash.";
     goto L_Close;
 
@@ -183,7 +183,7 @@ L_No_silk:
     mes "You could not find the womb for a butterfly among your stuff.";
     goto L_Close;
 
-L_No_fur:
+L_No_Fur:
     mes "You wonder how you can carry the \"gentle caress of a creature without blemish.\" But you need it to get this thing open.";
     goto L_Close;
 
@@ -191,7 +191,7 @@ L_No_dark_crystal:
     mes "A piece of darkness is missing.";
     goto L_Close;
 
-L_No_water:
+L_No_Water:
     mes "Just one bottle of water and you can start the ritual.";
     goto L_Close;
 

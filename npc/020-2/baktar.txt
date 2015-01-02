@@ -61,9 +61,9 @@ L_Delivery:
     goto L_Close;
 
 L_Start:
-    if(sex)
+    if(Sex)
         @type$ = "man";
-    if(!sex)
+    if(!Sex)
         @type$ = "woman";
 
     if(@Q_status & (1<<@BIT_KNOWHIM)) goto L_KnowAlready;
@@ -168,7 +168,7 @@ L_MenuItems:
 
 L_DesertHat_Item:
     if(@Q_status & (1<<@BIT_DESERTHAT)) goto L_havealready;
-    if (countitemcolor("DesertHat") < 1) goto L_Noitem;
+    if (countitemcolor("DesertHat") < 1) goto L_NoItem;
     delitem "DesertHat", 1;
     Zeny = Zeny + @MONEY_DESERTHAT;
     getexp @XP_DESERTHAT,0;
@@ -178,7 +178,7 @@ L_DesertHat_Item:
 
 L_DesertShirt_Item:
     if(@Q_status & (1<<@BIT_DESERTSHIRT)) goto L_havealready;
-    if (countitemcolor("DesertShirt") < 1) goto L_Noitem;
+    if (countitemcolor("DesertShirt") < 1) goto L_NoItem;
     delitem "DesertShirt", 1;
     Zeny = Zeny + @MONEY_DESERTSHIRT;
     getexp @XP_DESERTSHIRT,0;
@@ -188,7 +188,7 @@ L_DesertShirt_Item:
 
 L_SerfHat_Item:
     if(@Q_status & (1<<@BIT_SERFHAT)) goto L_havealready;
-    if (countitemcolor("SerfHat") < 1) goto L_Noitem;
+    if (countitemcolor("SerfHat") < 1) goto L_NoItem;
     delitem "SerfHat", 1;
     Zeny = Zeny + @MONEY_SERFHAT;
     getexp @XP_SERFHAT,0;
@@ -198,7 +198,7 @@ L_SerfHat_Item:
 
 L_tongue_Item:
     if(@Q_status & (1<<@BIT_MS_TONGUE)) goto L_havealready;
-    if (countitemcolor("MountainSnakeTongue") < 1) goto L_Noitem;
+    if (countitemcolor("MountainSnakeTongue") < 1) goto L_NoItem;
     delitem "MountainSnakeTongue", 1;
     Zeny = Zeny + @MONEY_MS_TONGUE;
     getexp @XP_MS_TONGUE,0;
@@ -208,7 +208,7 @@ L_tongue_Item:
 
 L_egg_Item:
     if(@Q_status & (1<<@BIT_MS_EGG)) goto L_havealready;
-    if (countitemcolor("MountainSnakeEgg") < 1) goto L_Noitem;
+    if (countitemcolor("MountainSnakeEgg") < 1) goto L_NoItem;
     delitem "MountainSnakeEgg", 1;
     Zeny = Zeny + @MONEY_MS_EGG;
     getexp @XP_MS_EGG,0;
@@ -218,7 +218,7 @@ L_egg_Item:
 
 L_skin_Item:
     if(@Q_status & (1<<@BIT_SNAKESKIN)) goto L_havealready;
-    if (countitemcolor("SnakeSkin") < 1) goto L_Noitem;
+    if (countitemcolor("SnakeSkin") < 1) goto L_NoItem;
     delitem "SnakeSkin", 1;
     Zeny = Zeny + @MONEY_SNAKESKIN;
     getexp @XP_SNAKESKIN,0;
@@ -228,7 +228,7 @@ L_skin_Item:
 
 L_BugLegItem:
     if(@Q_status & (1<<@BIT_BUGLEG)) goto L_havealready;
-    if (countitemcolor("BugLeg") < 1) goto L_Noitem;
+    if (countitemcolor("BugLeg") < 1) goto L_NoItem;
     delitem "BugLeg", 1;
     Zeny = Zeny + @MONEY_BUGLEG;
     getexp @XP_BUGLEG,0;
@@ -236,7 +236,7 @@ L_BugLegItem:
     callsub S_Update_Var;
     close;
 
-L_Noitem:
+L_NoItem:
     mes @npcname$;
     mes "\"Well, if you happen to get items from Tulimshar, see me first before you sell anything.\"";
     close;

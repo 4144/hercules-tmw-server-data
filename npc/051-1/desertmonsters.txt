@@ -6,7 +6,7 @@
 On1096:
     if (rand(4) == 0 && $@illia_progress == 3 && $@illia_level_3_progress == 1)
         getitem "SealedSoul", 1;
-    @mobID = 1010;
+    @mobId = 1010;
     callfunc "MobPoints";
     end;
 

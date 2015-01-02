@@ -36,42 +36,42 @@ OnSummon:
     end;
 
 OnSquirrelDeath:
-    @mobID = 1105;
+    @mobId = 1105;
     callfunc "MobPoints";
     end;
 
 OnMushroomDeath:
-    @mobID = 1106;
+    @mobId = 1106;
     callfunc "MobPoints";
     end;
 
 OnBlueparDeath:
-    @mobID = 1107;
+    @mobId = 1107;
     callfunc "MobPoints";
     end;
 
 OnMoubooDeath:
-    @mobID = 1104;
+    @mobId = 1104;
     callfunc "MobPoints";
     end;
 
 OnScorpionDeath:
-    @mobID = 1003;
+    @mobId = 1003;
     callfunc "MobPoints";
     end;
 
 OnRScorpionDeath:
-    @mobID = 1004;
+    @mobId = 1004;
     callfunc "MobPoints";
     end;
 
 OnAScorpionDeath:
-    @mobID = 1057;
+    @mobId = 1057;
     callfunc "MobPoints";
     end;
 
 OnBScorpionDeath:
-    @mobID = 1009;
+    @mobId = 1009;
     callfunc "MobPoints";
     end;
 

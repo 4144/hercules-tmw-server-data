@@ -11,7 +11,7 @@ function	script	QuestMoubooHeal	{
     @STATE_HEALED_MOUBOO = 3;
 
     if (@Q_status != @STATE_INITIAL)
-        goto L_nothing;
+        goto L_Nothing;
 
     @Q_status = @STATE_HEALED_MOUBOO;
     callsub S_Update_Var;
@@ -29,7 +29,7 @@ function	script	QuestMoubooHeal	{
     callfunc "QuestSagathaHappy";
     close;
 
-L_nothing:
+L_Nothing:
     mes "Your spell has no effect.";
     close;
 
@@ -55,7 +55,7 @@ S_Update_Var:
     @STATE_HEALED_MOUBOO = 3;
 
     if (@Q_status == @STATE_KILLED_MOUBOO)
-        goto L_dead;
+        goto L_Dead;
     if (@Q_status == @STATE_TOOK_KILL_REWARD)
         goto L_took_reward;
     if (@Q_status == @STATE_HEALED_MOUBOO)
@@ -64,13 +64,13 @@ S_Update_Var:
     mes "[Injured Mouboo]";
     mes "You notice a mouboo lying on the ground, groaning, as if in pain.";
     next;
-    goto L_menu;
+    goto L_Menu;
 
-L_menu:
+L_Menu:
     menu
         "Examine the mouboo", L_examine,
-        "Give the mouboo something", L_give,
-        "Kill the mouboo", L_kill,
+        "Give the mouboo something", L_Give,
+        "Kill the mouboo", L_Kill,
         "Leave", L_Close;
 
 L_examine:
@@ -83,20 +83,20 @@ L_examine:
     next;
     menu
         "Yes.", L_pickup_alive,
-        "No.", L_menu;
+        "No.", L_Menu;
 
 L_pickup_alive:
     mes "[Injured Mouboo]";
     mes "The Mouboo groans and pushes your hand away. It seems to be rather fond of the sweater.";
     next;
-    goto L_menu;
+    goto L_Menu;
 
-L_give:
+L_Give:
     @items_nr = 12;
     setarray @items$, "CactusDrink", "CactusPotion", "ChocolateBar", "Milk", "OrangeCupcake", "RedApple", "Beer", "BottleOfWater", "TinyHealingPotion", "SmallHealingPotion", "MediumHealingPotion", "LargeHealingPotion";
     setarray @itemeat, 0,   0,   1,   0,   1,   1,   0,   1,   0,   0,   0,   0;
 
-    setarray @menuItems$, "", "", "", "", "", "", "", "", "", "", "", "", "";
+    setarray @menuitems$, "", "", "", "", "", "", "", "", "", "", "", "", "";
     @choices_nr = 0;
     setarray @menuNames$, "", "", "", "", "", "", "", "", "", "", "", "", "";
     setarray @choice_eat, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
@@ -111,7 +111,7 @@ L_nloop:
         goto L_nloop_skip;
 
     @name$ = getitemname(@k$);
-    @menuItems$[@ct] = @name$;
+    @menuitems$[@ct] = @name$;
     @menuNames$[@ct] = @k$;
     @choice_eat[@ct] = @itemeat[@n];
     @ct = @ct + 1;
@@ -122,34 +122,34 @@ L_nloop_skip:
     if (@n < @items_nr)
         goto L_nloop;
 
-    @menuItems$[@ct] = "Nevermind";
+    @menuitems$[@ct] = "Nevermind";
 
     menu
-        @menuItems$[0], L_MenuItems,
-        @menuItems$[1], L_MenuItems,
-        @menuItems$[2], L_MenuItems,
-        @menuItems$[3], L_MenuItems,
-        @menuItems$[4], L_MenuItems,
-        @menuItems$[5], L_MenuItems,
-        @menuItems$[6], L_MenuItems,
-        @menuItems$[7], L_MenuItems,
-        @menuItems$[8], L_MenuItems,
-        @menuItems$[9], L_MenuItems,
-        @menuItems$[10], L_MenuItems,
-        @menuItems$[11], L_MenuItems,
-        @menuItems$[12], L_MenuItems;
+        @menuitems$[0], L_MenuItems,
+        @menuitems$[1], L_MenuItems,
+        @menuitems$[2], L_MenuItems,
+        @menuitems$[3], L_MenuItems,
+        @menuitems$[4], L_MenuItems,
+        @menuitems$[5], L_MenuItems,
+        @menuitems$[6], L_MenuItems,
+        @menuitems$[7], L_MenuItems,
+        @menuitems$[8], L_MenuItems,
+        @menuitems$[9], L_MenuItems,
+        @menuitems$[10], L_MenuItems,
+        @menuitems$[11], L_MenuItems,
+        @menuitems$[12], L_MenuItems;
 
 L_MenuItems:
     @menu = @menu - 1;
     if (@menu == @ct)
-        goto L_menu;
+        goto L_Menu;
     @choice$ = @menuNames$[@menu];
     @verb$ = "drinks";
     if (@choice_eat[@menu])
         @verb$ = "eats";
     if (@choice$ != "" && countitemcolor(@choice$))
         goto L_consume;
-    goto L_menu;
+    goto L_Menu;
 
 L_consume:
     mes "[Injured Mouboo]";
@@ -161,32 +161,32 @@ L_consume:
     mes "[Injured Mouboo]";
     mes "Unfortunately, it seems to have had no effect.";
     next;
-    goto L_menu;
+    goto L_Menu;
 
 L_do_heal:
     callfunc "QuestMoubooHeal";
-    goto L_kill;
+    goto L_Kill;
 
-L_kill:
+L_Kill:
     mes "[Injured Mouboo]";
     if (BaseLevel > 44)
-        goto L_kill_success;
+        goto L_Kill_success;
     mes "The mouboo deflects your attack and counterattacks!";
     mes "It misses you only barely.";
     mes "Injured though it may be, this mouboo is still more than a match for you!";
     next;
-    goto L_menu;
+    goto L_Menu;
 
-L_kill_success:
+L_Kill_success:
     mes "After some wrestling, the mouboo succumbs to your attacks.";
     mes "[100 experience points]";
     getexp 100, 0;
     @Q_status = @STATE_KILLED_MOUBOO;
     callsub S_Update_Var;
     next;
-    goto L_dead;
+    goto L_Dead;
 
-L_dead:
+L_Dead:
     mes "[Dead Mouboo]";
     mes "The dead mouboo is lying on top of a black T-neck sweater.";
     getinventorylist;

@@ -13,7 +13,7 @@ L_Main:
     menu
         "What exactly do you do?", L_explain_self,
         "How do I get married?", L_explain_marriage,
-        "I would like to get married.", L_get_married,
+        "I would like to get married.", L_Get_married,
         "Goodbye.", L_End;
 
 L_explain_self:
@@ -41,7 +41,7 @@ L_explain_marriage:
     next;
     goto L_Main;
 
-L_get_married:
+L_Get_married:
     if (Zeny < WEDDING_FEE)
         goto L_too_poor;
     if (BaseLevel < WEDDING_MIN_LEVEL)
@@ -136,10 +136,10 @@ L_Main_married:
     mes "\"I hope that you and your partner are doing well?\"";
     next;
     menu
-        "We are very happy, thanks for asking!", L_farewell,
+        "We are very happy, thanks for asking!", L_Farewell,
         "Actually, things aren't so good...", L_talk_divorce;
 
-L_farewell:
+L_Farewell:
     mes "[Wedding Officiator]";
     mes "Wendy is beaming.";
     mes "\"That's wonderful!  Please do say `hi' to your spouse from me!\"";

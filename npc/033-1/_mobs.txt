@@ -9,22 +9,22 @@
     end;
 
 On1038:
-    @mobID = 1038;
+    @mobId = 1038;
     callfunc "MobPoints";
     end;
 
 On1090:
-    @mobID = 1090;
+    @mobId = 1090;
     callfunc "MobPoints";
     end;
 
 On1094:
-    @mobID = 1094;
+    @mobId = 1094;
     callfunc "MobPoints";
     end;
 
 On1095:
-    @mobID = 1095;
+    @mobId = 1095;
     callfunc "MobPoints";
     end;
 }

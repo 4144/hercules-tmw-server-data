@@ -15,42 +15,42 @@
     end;
 
 On1003:
-    @mobID = 1003;
+    @mobId = 1003;
     callfunc "MobPoints";
     end;
 
 On1028:
-    @mobID = 1028;
+    @mobId = 1028;
     callfunc "MobPoints";
     end;
 
 On1029:
-    @mobID = 1029;
+    @mobId = 1029;
     callfunc "MobPoints";
     end;
 
 On1030:
-    @mobID = 1030;
+    @mobId = 1030;
     callfunc "MobPoints";
     end;
 
 On1035:
-    @mobID = 1035;
+    @mobId = 1035;
     callfunc "MobPoints";
     end;
 
 On1037:
-    @mobID = 1037;
+    @mobId = 1037;
     callfunc "MobPoints";
     end;
 
 On1038:
-    @mobID = 1038;
+    @mobId = 1038;
     callfunc "MobPoints";
     end;
 
 On1055:
-    @mobID = 1055;
+    @mobId = 1055;
     callfunc "MobPoints";
     end;
 }

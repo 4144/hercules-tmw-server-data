@@ -21,7 +21,7 @@ On1063:
     if (countitemcolor("PumpkinSeeds") >= $@halloween_num_seeds)
         goto L_EnoughSeeds;
 
-    @mobID = 1063;
+    @mobId = 1063;
     callfunc "MobPoints";
     end;
 

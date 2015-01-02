@@ -8,7 +8,7 @@
     @brodomir_item$ = "";
 
     if ($@BRODOMIR_PVP_STATUS == 2)
-        goto L_Alreadystarted;
+        goto L_AlreadyStarted;
     if ($@BRODOMIR_PVP_STATUS == 1)
         goto L_Wait;
     mes "[Brodomir]";
@@ -159,7 +159,7 @@ L_Warp:
 L_Warpfail:
     mapannounce "009-6", "There are not enough players around to start!", 0;
     if ($@BRODOMIR_ITEM_AMOUNT == 0 || $@BRODOMIR_ITEM$ == "")
-        goto L_Cleanup;
+        goto L_CleanUp;
     if (attachrid($@BRODOMIR_SPONSOR) == 0)
         goto L_SkipItemback;
     // we need this loop because for items that can't be stacked, getitem will stack them nevertheless
@@ -176,7 +176,7 @@ L_SkipItemback:
     $@BRODOMIR_ITEM_AMOUNT = 0;
     $@BRODOMIR_ITEM$ = "";
     $@BRODOMIR_SPONSOR = 0;
-    goto L_Cleanup;
+    goto L_CleanUp;
 
 L_Check:
     if (getareausers("009-5", 20, 20, 80, 80, 1) > 1)
@@ -220,9 +220,9 @@ L_Dead:
 
 L_End:
     mapwarp "009-5", "009-6", 36, 42;
-    goto L_Cleanup;
+    goto L_CleanUp;
 
-L_Alreadystarted:
+L_AlreadyStarted:
     mes "[Brodomir]";
     mes "\"Please wait until the cave is clear again.\"";
     goto L_Close;
@@ -237,7 +237,7 @@ L_TooCheap:
     mes "\"That's too cheap as a prize.\"";
     goto L_Close;
 
-L_Cleanup:
+L_CleanUp:
     pvpoff "009-5";
     $@BRODOMIR_PVP_STATUS  = 0;
     $@BRODOMIR_START_TIME = 0;

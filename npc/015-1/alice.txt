@@ -18,7 +18,7 @@
             "Yes, sure.", L_findmany,
             "Herbs?", L_herbs,
             "Nope, just enjoying the scenery.", L_Close,
-            "There is a monster in that cave!", L_cave;
+            "There is a monster in that cave!", L_Cave;
     menu
         "Yes, sure.", L_findmany,
         "Herbs?", L_herbs,
@@ -53,7 +53,7 @@ L_herbs:
     mes "Now everyone is running around in the woods to harvest the herbs.\"";
     goto L_Close;
 
-L_cave:
+L_Cave:
     mes "[Alice]";
     mes "\"Haha, that is no monster! It's just a sweet little cat.\"";
     next;

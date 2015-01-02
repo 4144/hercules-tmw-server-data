@@ -23,7 +23,7 @@
     @RECOMPENSATION_5 = 80000;
 
     @REWARD_MONEY = 100000;
-    @REWARD_EXP = 100000;
+    @Reward_Exp = 100000;
 
     if (OrumQuest > 31) goto L_Done;
 
@@ -769,7 +769,7 @@ L_PlacedFifthFlower: // 31: Placed fifth flower
     next;
     mes "\"Well done, really. I think you've earned yourself a small reward. Here, take this.\"";
     Zeny = Zeny + @REWARD_MONEY;
-    getexp @REWARD_EXP, 0;
+    getexp @Reward_Exp, 0;
     OrumQuest = 32;
     goto L_Close;
 
@@ -816,6 +816,6 @@ L_Close:
     @AMOUNT_BLACKSTINGER = 0;
     @RECOMPENSATION_5 = 0;
     @REWARD_MONEY = 0;
-    @REWARD_EXP = 0;
+    @Reward_Exp = 0;
     close;
 }

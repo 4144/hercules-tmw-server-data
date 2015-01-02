@@ -63,7 +63,7 @@ L_Next3:
     if (countitem ("Orange") < 1)
         goto L_no_orange;
     if (countitem ("MopoxCurePotion") < 1)
-        goto L_no_potion;
+        goto L_No_Potion;
     if (Zeny < 500)
         goto L_no_Zeny;
 
@@ -108,7 +108,7 @@ L_no_Zeny:
     mes "\"No. I need extra ingredients worth 500 GP, and I expect you to pay for those.\"";
     close;
 
-L_no_potion:
+L_No_Potion:
     mes "[Chef]";
     mes "";
     mes "\"Where did your Mopox potion go?\"";

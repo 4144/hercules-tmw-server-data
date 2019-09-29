@@ -60,7 +60,7 @@ L_NotSeen:
     next;
     mes "\"You appear to have the markings to use magic.\"";
     next;
-    mes "\"Granted you are still to young to cast spells.\"";
+    mes "\"Granted you are still too young to cast spells.\"";
     next;
     mes "\"But we can teach you to use simple magic devices.\"";
     next;
